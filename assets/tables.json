@@ -423,33 +423,5 @@
       "99": "Gedärme bricht Knochen und Arterie. Gegner läuft und stirbt nach zwölf Runden. Initiative.",
       "100": "Treffer am Rücken. Nimmt einen Knochen in wichtige Organe. Gegner geht zu Boden und stirbt in vier Runden. Plus fünfundzwanzig Treffer."
     }
-  },
-  "Schlag": {
-    "audioFile": "schlag.mp3",
-    "A": {
-      "1-5": "Leichter Schlag gegen die Rippen (A).",
-      "6-10": "Prellung am Arm (A), leichter Schmerz.",
-      "40-45": "Harter Schlag an den Kopf (A), drei Runden benommen."
-    },
-    "B": {
-      "1-5": "Mittlerer Schlag gegen die Rippen (B), eine Runde benommen.",
-      "6-10": "Starke Prellung am Arm (B), Minus fünf auf Geschicklichkeit.",
-      "40-45": "Schlag an den Kopf (B), ein W drei Runden benommen, leichter Schwindel."
-    },
-    "C": {
-      "1-5": "Wuchtiger Schlag gegen die Rippen (C), zwei Runden benommen, Schmerz.",
-      "6-10": "Knochenprellung am Arm (C), Minus zehn auf Geschicklichkeit, Waffe fällt.",
-      "40-45": "Massiver Schlag an den Kopf (C), ein W sechs Runden benommen, starke Kopfschmerzen."
-    },
-    "D": {
-      "1-5": "Schwerer Schlag gegen die Rippen (D), drei Runden benommen, Atemnot.",
-      "6-10": "Armbruch (D), Waffe fällt, Minus zwanzig auf Angriff, starker Schock.",
-      "40-45": "Schädelbasisbruch (D), sofortiger Tod."
-    },
-    "E": {
-      "1-5": "Tödlicher Schlag gegen die Rippen (E), sofortiger Tod.",
-      "6-10": "Arm abgetrennt (E), massiver Blutverlust, sofortiger Tod.",
-      "40-45": "Kopf zerschmettert (E), sofortiger Tod."
-    }
   }
 }

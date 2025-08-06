@@ -4,6 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MERP Kritische Treffer</title>
+
+<!-- PWA-Meta-Tags für iOS (iPhone/iPad) -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="MERP Treffer">
+<!-- Optional: Link zu einem Apple Touch Icon (für das Home-Bildschirm-Symbol) -->
+<!-- Du müsstest eine Datei namens apple-touch-icon.png im assets-Ordner ablegen -->
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
+
 <style>
     /* Grundlegende Stile für den Body */
     body {
@@ -194,6 +204,7 @@ function selectTable(table, event) {
     const musicElement = document.getElementById('music');
     if (tables[table] && tables[table].audioFile) {
         musicElement.src = `assets/${tables[table].audioFile}`;
+        musicElement.volume = 0.2; // Setze die Lautstärke auf 20%
         // Versucht, die Musik abzuspielen. Fängt den Fehler ab, falls der Browser dies blockiert
         // (z.B. vor der ersten Benutzerinteraktion).
         musicElement.play().catch(e => console.log("Musikstart blockiert bis Interaktion: ", e));
@@ -300,7 +311,6 @@ function speakText(text) {
 // Initialisierung beim Laden der Seite
 document.addEventListener('DOMContentLoaded', () => {
     // Der direkte relative Pfad ist oft am zuverlässigsten in Umgebungen wie Canvas.
-    // Der vorherige Fehler deutete darauf hin, dass der URL-Konstruktor Probleme mit der Blob-URL hatte.
     fetch('assets/tables.json')
         .then(response => {
             if (!response.ok) {
