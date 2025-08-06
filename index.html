@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MERP Kritische Treffer</title>
+<style>
+    /* Grundlegende Stile für den Body */
+    body {
+        font-family: 'Inter', sans-serif; /* Verwendung von Inter für eine moderne Optik */
+        background: #f0e6d2; /* Heller, pergamentähnlicher Hintergrund */
+        text-align: center;
+        padding: 20px;
+        display: flex; /* Flexbox für Zentrierung */
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh; /* Mindesthöhe des Viewports */
+        box-sizing: border-box; /* Padding in die Breite einbeziehen */
+        color: #3e2723; /* Dunkelbraun für den Text */
+    }
+    /* Überschrift */
+    h1 {
+        margin-bottom: 20px;
+        color: #3e2723; /* Dunkelbraun für die Überschrift */
+    }
+    /* Gemeinsame Stile für Button-Gruppen */
+    .button-group {
+        display: flex; /* Buttons nebeneinander */
+        flex-wrap: wrap; /* Umbruch auf kleinere Bildschirme */
+        justify-content: center;
+        margin-bottom: 20px;
+        width: 100%; /* Volle Breite */
+        max-width: 600px; /* Maximale Breite für Desktop */
+    }
+    .button-group button {
+        padding: 12px 20px; /* Etwas mehr Padding für bessere Touch-Ziele */
+        margin: 8px; /* Mehr Abstand zwischen Buttons */
+        border: none;
+        background: #8b5e3c; /* Mittelbraun */
+        color: white;
+        border-radius: 12px; /* Stärker abgerundete Ecken */
+        cursor: pointer;
+        font-size: 1.1em; /* Etwas größere Schrift */
+        transition: background 0.3s ease, transform 0.1s ease; /* Sanfte Übergänge */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Leichter Schatten */
+    }
+    .button-group button:hover {
+        background: #a6704b; /* Helleres Braun beim Hover */
+        transform: translateY(-2px); /* Leichter "Pop"-Effekt */
+    }
+    /* Aktiver Button-Status */
+    .button-group button.active {
+        background: #5d4037; /* Dunkleres Braun für den aktiven Button */
+        border: 2px solid #3e2723; /* Dunklerer Rand */
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2); /* Stärkerer Schatten */
+    }
+
+    /* Spezifische Stile für die Kategorie-Buttons, falls gewünscht */
+    .category-group button {
+        background: #6d4c41; /* Etwas anderer Braunton für Kategorien */
+    }
+    .category-group button.active {
+        background: #4e342e; /* Dunklerer Ton für aktive Kategorie */
+    }
+
+    /* Eingabebereich */
+    .input-section {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column; /* Elemente untereinander auf kleinen Bildschirmen */
+        align-items: center;
+        width: 100%;
+        max-width: 400px;
+    }
+    #numberInput {
+        padding: 12px;
+        margin-bottom: 15px; /* Abstand zum Button */
+        border: 2px solid #8b5e3c;
+        border-radius: 8px;
+        width: calc(100% - 24px); /* Breite anpassen, Padding abziehen */
+        max-width: 200px; /* Maximale Breite für das Eingabefeld */
+        font-size: 1.1em;
+        text-align: center;
+    }
+    .input-section button {
+        padding: 12px 25px;
+        border: none;
+        background: #4e342e; /* Dunkleres Braun für den Anzeigen-Button */
+        color: white;
+        border-radius: 12px;
+        cursor: pointer;
+        font-size: 1.1em;
+        transition: background 0.3s ease, transform 0.1s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .input-section button:hover {
+        background: #6d4c41; /* Helleres Braun beim Hover */
+        transform: translateY(-2px);
+    }
+    /* Ergebnisbereich */
+    #result {
+        margin-top: 30px; /* Mehr Abstand */
+        padding: 20px;
+        background: #fff3e0; /* Hellerer Hintergrund für das Ergebnis */
+        border-radius: 12px;
+        min-height: 80px; /* Größere Mindesthöhe */
+        display: flex; /* Für vertikale Zentrierung des Textes */
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2em; /* Größere Schrift */
+        color: #3e2723;
+        line-height: 1.5; /* Bessere Lesbarkeit */
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05); /* Leichter innerer Schatten */
+        width: 100%;
+        max-width: 500px;
+        word-wrap: break-word; /* Lange Texte umbrechen */
+    }
+
+    /* Responsive Anpassungen */
+    @media (min-width: 768px) {
+        .input-section {
+            flex-direction: row; /* Elemente nebeneinander auf größeren Bildschirmen */
+            justify-content: center;
+        }
+        #numberInput {
+            margin-right: 15px; /* Abstand zwischen Input und Button */
+            margin-bottom: 0; /* Kein Bodenabstand mehr */
+        }
+    }
+</style>
+</head>
+<body>
+<h1>MERP Kritische Treffer</h1>
+
+<!-- Gruppe der Schadensart-Buttons -->
+<div class="button-group damage-type-group">
+    <button onclick="selectTable('Feuer', event)">🔥 Feuer</button>
+    <button onclick="selectTable('Hieb', event)">⚔️ Hieb</button>
+    <button onclick="selectTable('Stich', event)">🗡 Stich</button>
+    <button onclick="selectTable('Schlag', event)">🛡 Schlag</button>
+    <!-- Füge hier einen Button für "Streich_gegen_Mitspieler" hinzu, falls gewünscht -->
+    <button onclick="selectTable('Streich_gegen_Mitspieler', event)">🤝 Streich gegen Mitspieler</button>
+</div>
+
+<!-- Gruppe der Schadenskategorie-Buttons -->
+<div class="button-group category-group">
+    <button onclick="selectCategory('A', event)">A</button>
+    <button onclick="selectCategory('B', event)">B</button>
+    <button onclick="selectCategory('C', event)">C</button>
+    <button onclick="selectCategory('D', event)">D</button>
+    <button onclick="selectCategory('E', event)">E</button>
+</div>
+
+<div class="input-section">
+    <!-- Eingabefeld für den Würfelwurf -->
+    <input type="number" id="numberInput" placeholder="Wurf (1-100)">
+    <!-- Button zum Anzeigen des Ergebnisses -->
+    <button onclick="showResult()">Anzeigen</button>
+</div>
+
+<!-- Bereich für die Anzeige des Ergebnisses -->
+<div id="result"></div>
+
+<!-- Audio-Element für die Hintergrundmusik -->
+<audio id="music" loop>
+    <!-- Die Quelle wird dynamisch über JavaScript gesetzt -->
+    Dein Browser unterstützt das Audio-Element nicht.
+</audio>
+
+<script>
+// Die 'tables'-Variable wird global deklariert und nach dem Laden der JSON-Datei gefüllt.
+let tables = {};
+let currentTable = null; // Speichert die aktuell ausgewählte Schadensart
+let currentCategory = null; // Speichert die aktuell ausgewählte Schadenskategorie
+
+/**
+ * Wählt eine Schadensart-Tabelle aus und aktualisiert die Benutzeroberfläche.
+ * @param {string} table - Der Name der auszuwählenden Tabelle (z.B. "Feuer").
+ * @param {Event} event - Das Klick-Event des Buttons.
+ */
+function selectTable(table, event) {
+    // Entfernt die 'active'-Klasse von allen Buttons in der Schadensart-Gruppe
+    document.querySelectorAll('.damage-type-group button').forEach(btn => btn.classList.remove('active'));
+
+    // Fügt die 'active'-Klasse dem geklickten Button hinzu
+    if (event && event.currentTarget) {
+        event.currentTarget.classList.add('active');
+    }
+
+    currentTable = table; // Setzt die aktuell ausgewählte Tabelle
+    document.getElementById('result').innerText = `Tabelle für ${table} ausgewählt.`; // Zeigt die Auswahl im Ergebnisbereich an
+
+    // Aktualisiert die Audio-Quelle basierend auf der ausgewählten Tabelle
+    const musicElement = document.getElementById('music');
+    if (tables[table] && tables[table].audioFile) {
+        musicElement.src = `assets/${tables[table].audioFile}`;
+        // Versucht, die Musik abzuspielen. Fängt den Fehler ab, falls der Browser dies blockiert
+        // (z.B. vor der ersten Benutzerinteraktion).
+        musicElement.play().catch(e => console.log("Musikstart blockiert bis Interaktion: ", e));
+    } else {
+        // Stoppt die Musik, wenn keine spezifische Datei für die Tabelle gefunden wird
+        musicElement.pause();
+        musicElement.currentTime = 0; // Setzt die Wiedergabeposition auf den Anfang
+        console.warn(`Keine Audio-Datei für Tabelle '${table}' gefunden.`);
+    }
+}
+
+/**
+ * Wählt eine Schadenskategorie aus und aktualisiert die Benutzeroberfläche.
+ * @param {string} category - Der Name der auszuwählenden Kategorie (z.B. "A").
+ * @param {Event} event - Das Klick-Event des Buttons.
+ */
+function selectCategory(category, event) {
+    // Entfernt die 'active'-Klasse von allen Buttons in der Kategorie-Gruppe
+    document.querySelectorAll('.category-group button').forEach(btn => btn.classList.remove('active'));
+
+    // Fügt die 'active'-Klasse dem geklickten Button hinzu
+    if (event && event.currentTarget) {
+        event.currentTarget.classList.add('active');
+    }
+
+    currentCategory = category; // Setzt die aktuell ausgewählte Kategorie
+    document.getElementById('result').innerText = `Kategorie ${category} ausgewählt.`; // Zeigt die Auswahl im Ergebnisbereich an
+}
+
+/**
+ * Zeigt das Ergebnis des kritischen Treffers basierend auf der Eingabe an.
+ */
+function showResult() {
+    // Prüft, ob die Tabellen geladen sind
+    if (Object.keys(tables).length === 0) {
+        document.getElementById('result').innerText = "Tabellen werden noch geladen. Bitte warten...";
+        return;
+    }
+
+    // Prüft, ob eine Tabelle und eine Kategorie ausgewählt wurde
+    if (!currentTable || !currentCategory) {
+        document.getElementById('result').innerText = "Bitte zuerst eine Schadensart und eine Kategorie auswählen.";
+        return;
+    }
+
+    // Liest den Wert aus dem Eingabefeld und konvertiert ihn in eine ganze Zahl
+    const value = parseInt(document.getElementById('numberInput').value);
+
+    // Prüft, ob der Wert gültig ist (Zahl zwischen 1 und 100)
+    if (isNaN(value) || value < 1 || value > 100) {
+        document.getElementById('result').innerText = "Bitte eine Zahl zwischen 1 und 100 eingeben.";
+        return;
+    }
+
+    // Sucht das passende Ergebnis in der ausgewählten Tabelle und Kategorie
+    let text = findResult(currentTable, currentCategory, value);
+    document.getElementById('result').innerText = text; // Zeigt den Text im Ergebnisbereich an
+    speakText(text); // Spricht den Text vor
+}
+
+/**
+ * Findet die Trefferbeschreibung für einen gegebenen Würfelwert in einer bestimmten Tabelle und Kategorie.
+ * @param {string} table - Der Name der Tabelle (Schadensart).
+ * @param {string} category - Der Name der Kategorie (A-E).
+ * @param {number} value - Der gewürfelte Wert.
+ * @returns {string} Die Trefferbeschreibung oder eine Standardnachricht, wenn kein Eintrag gefunden wird.
+ */
+function findResult(table, category, value) {
+    // Prüft, ob die Tabelle und die Kategorie existieren
+    if (!tables[table] || !tables[table][category]) {
+        return "Fehler: Tabelle oder Kategorie nicht gefunden.";
+    }
+
+    const ranges = Object.keys(tables[table][category]); // Holt alle Bereichsschlüssel der spezifischen Kategorie
+    for (let range of ranges) {
+        // Teilt den Bereich (z.B. "1-5") in Minimum und Maximum auf und konvertiert sie in Zahlen
+        const [min, max] = range.split('-').map(Number);
+        // Prüft, ob der gewürfelte Wert im aktuellen Bereich liegt
+        if (value >= min && value <= max) {
+            return tables[table][category][range]; // Gibt die passende Beschreibung zurück
+        }
+    }
+    // Wenn kein spezifischer kritischer Treffer für diesen Bereich gefunden wurde
+    return "Normaler Treffer. Kein kritischer Schaden für diesen Wurf in dieser Kategorie.";
+}
+
+/**
+ * Liest einen gegebenen Text mittels der Web Speech API vor.
+ * @param {string} text - Der vorzulesende Text.
+ */
+function speakText(text) {
+    // Stoppt eventuell laufende Sprachausgabe, um Überlappungen zu vermeiden
+    if (speechSynthesis.speaking) {
+        speechSynthesis.cancel();
+    }
+    // Erstellt ein neues SpeechSynthesisUtterance-Objekt mit dem Text
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'de-DE'; // Setzt die Sprache auf Deutsch
+    utterance.rate = 1; // Setzt die Sprechgeschwindigkeit (1 ist normal)
+    // Startet das Vorlesen des Textes
+    speechSynthesis.speak(utterance);
+}
+
+// Initialisierung beim Laden der Seite
+document.addEventListener('DOMContentLoaded', () => {
+    // Der direkte relative Pfad ist oft am zuverlässigsten in Umgebungen wie Canvas.
+    // Der vorherige Fehler deutete darauf hin, dass der URL-Konstruktor Probleme mit der Blob-URL hatte.
+    fetch('assets/tables.json')
+        .then(response => {
+            if (!response.ok) {
+                // Wenn die Antwort nicht OK ist (z.B. 404 Not Found), werfe einen Fehler.
+                throw new Error(`HTTP error! Status: ${response.status} - ${response.statusText}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            tables = data; // Weist die geladenen Daten der globalen 'tables'-Variable zu
+            document.getElementById('result').innerText = "Tabellen erfolgreich geladen. Bitte wählen Sie eine Schadensart und Kategorie.";
+
+            // Wählt standardmäßig die erste Schadensart und Kategorie aus, nachdem die Daten geladen sind
+            const firstDamageTypeButton = document.querySelector('.damage-type-group button');
+            if (firstDamageTypeButton) {
+                firstDamageTypeButton.click(); // Simuliert Klick auf den ersten Schadensart-Button
+            }
+
+            const firstCategoryButton = document.querySelector('.category-group button');
+            if (firstCategoryButton) {
+                firstCategoryButton.click(); // Simuliert Klick auf den ersten Kategorie-Button
+            }
+        })
+        .catch(error => {
+            console.error("Fehler beim Laden der Tabellen-JSON-Datei:", error);
+            document.getElementById('result').innerText = `Fehler beim Laden der Tabellen: ${error.message}. Bitte überprüfen Sie die 'assets/tables.json' Datei und den 'assets'-Ordner.`;
+        });
+});
+</script>
+</body>
+</html>
