@@ -3,77 +3,96 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#ffffff" />
+  <meta name="theme-color" content="#3c3c39" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <title>MERS — Angriffs- & Krit-Tabellen (PWA-Prototyp)</title>
   <meta name="description" content="Schnelles Nachschlagen von Angriffen und kritischen Treffern für MERS/MERP." />
 
-  <!-- Aniron Font (lokal) -->
-  <style>
-    @font-face {
-      font-family: 'Aniron';
-      src: url('assets/fonts/Aniron-Regular.ttf') format('truetype'),
-           url('assets/fonts/Aniron.ttf') format('truetype');
-      font-display: swap;
-    }
-  </style>
+ <style>
+  @font-face{
+    font-family: 'Aniron';
+    src: url('assets/fonts/Aniron.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+</style>
 
   <style>
     :root{
-      --bg: #f7f7fb;
-      --panel: #ffffff;
-      --muted: #5b6472;
-      --text: #0f172a;
-      --accent: #2563eb;
-      --ok:#16a34a;
-      --warn:#b45309;
-      --danger:#b91c1c;
-      --cardborder:#e5e7eb;
-      --chip:#eef2ff;
+      /* Herr der Ringe Palette */
+      --bg: #2d2d2a;
+      --panel: #3c3c39;
+      --muted: #a6a6a6;
+      --text: #f5f5f5;
+      --accent: #d4af37;   /* Gold */
+      --accent-2:#8b4513;  /* Dunkelbraun */
+      --ok:#2e8b57;
+      --warn:#ff8c00;
+      --danger:#cc0000;
+      --card:#3c3c39;
+      --chip:#4a4a47;
+      --border: #4d4d4a;
+      --shadow: 0 8px 26px rgba(0,0,0,.3);
     }
     *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font:16px/1.45 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";}
-    .wrap{max-width:980px;margin:0 auto;padding:16px}
-    header{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:12px}
-    h1{font-size:clamp(22px,5vw,32px);margin:0;letter-spacing:.2px;font-family:'Aniron', Georgia, 'Times New Roman', serif}
-    h2{font-size:clamp(16px,3.5vw,20px);margin:0 0 8px 0;font-family:'Aniron', Georgia, 'Times New Roman', serif}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font:16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";}
+    body{
+      background-image: url('assets/map_bg.jpg'); /* Annahme: Du hast ein Hintergrundbild namens 'map_bg.jpg' */
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
+    }
+    .wrap{max-width:900px;margin:0 auto;padding:16px}
+    header{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:10px}
+    h1{font-family: Aniron, Georgia, 'Times New Roman', serif; font-size:clamp(20px,4.8vw,28px);margin:0;letter-spacing:.3px}
     .sub{color:var(--muted);font-size:13px}
 
-    /* Mobile-first: eine Spalte, ab 860px zwei Spalten */
     .grid{display:grid;grid-template-columns:1fr;gap:12px}
-    @media (min-width: 860px){.grid{grid-template-columns:1.05fr .95fr}}
+    /* ab Tablet zwei Spalten */
+    @media (min-width: 960px){.grid{grid-template-columns:1.05fr .95fr}}
 
-    .card{background:var(--panel);border:1px solid var(--cardborder);border-radius:14px;box-shadow:0 6px 16px rgba(15,23,42,.06);padding:14px}
-    .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:8px 0}
-    label{font-size:13px;color:var(--muted)}
-    select,input[type=number]{background:#fff;border:1px solid #d1d5db;border-radius:12px;color:var(--text);padding:10px 12px;font-size:16px;min-width:160px}
-    input[type=number]{width:160px}
-    select:focus,input:focus{outline:3px solid rgba(37,99,235,.25);border-color:#93c5fd}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);padding:14px}
+    .card h2{margin:0 0 8px 0;font-size:17px;font-family: Aniron, Georgia, serif}
+
+    .row{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-start;margin:8px 0}
+    label{font-size:12px;color:var(--muted)}
+
+    select,input[type=number]{appearance:none;background:#fff;border:1px solid var(--border);border-radius:12px;color:var(--text);padding:12px 14px;font-size:16px;min-width:180px;box-shadow:0 1px 0 rgba(0,0,0,.02)}
+    select{background-image: linear-gradient(45deg, transparent 50%, #8a95a1 50%), linear-gradient(135deg, #8a95a1 50%, transparent 50%);background-position: calc(100% - 20px) calc(1em + 2px), calc(100% - 15px) calc(1em + 2px);background-size: 5px 5px, 5px 5px; background-repeat:no-repeat; padding-right:40px; cursor:pointer}
+    select:focus, input:focus{outline:2px solid color-mix(in oklab, var(--accent) 60%, white); outline-offset:2px}
+    input[type=number]{width:180px}
+
+    @media (max-width: 500px) {
+      input[type=number], select { min-width: 100%; }
+    }
 
     .rk{display:flex;flex-wrap:wrap;gap:6px}
-    .rk button{border:1px solid #d1d5db;background:#fff;color:#111827;border-radius:999px;padding:8px 10px;font-size:14px;cursor:pointer}
-    .rk button.active{background:#e0ecff;border-color:#93c5fd;box-shadow:0 0 0 2px rgba(37,99,235,.18) inset}
+    .rk button{border:1px solid var(--border);background:var(--chip);color:var(--text);border-radius:999px;padding:10px 12px;font-size:14px;cursor:pointer}
+    .rk button.active{background:color-mix(in oklab, var(--accent) 25%, var(--chip));border-color:var(--accent);box-shadow:0 0 0 3px rgba(212,175,55,.2) inset;color:var(--accent)}
 
-    .actions{display:flex;gap:10px;flex-wrap:wrap}
-    .btn{background:#f3f4f6;border:1px solid #d1d5db;color:#111827;border-radius:12px;padding:10px 14px;font-weight:600;cursor:pointer}
-    .btn.primary{background:#2563eb;border-color:#1e40af;color:#fff}
+    .actions{display:flex;gap:8px;flex-wrap:wrap}
+    .btn{background:var(--chip);border:1px solid var(--border);color:var(--text);border-radius:12px;padding:12px 14px;font-weight:600;cursor:pointer}
+    .btn.primary{background:linear-gradient(180deg, var(--accent), color-mix(in oklab, var(--accent) 80%, black));border-color:color-mix(in oklab, var(--accent) 60%, black);color:#fff}
     .btn.ghost{background:transparent}
 
-    .out{background:#fbfbfe;border:1px dashed #cbd5e1;border-radius:14px;padding:10px;margin-top:8px}
+    .out{background:var(--chip);border:1px dashed var(--border);border-radius:12px;padding:10px;margin-top:8px}
     .kpi{display:flex;gap:8px;flex-wrap:wrap}
-    .pill{background:var(--chip);border:1px solid #c7d2fe;color:#1f2937;border-radius:999px;padding:6px 10px;font-size:13px}
-    .pill.warn{background:#fff7ed;border-color:#fed7aa;color:#7c2d12}
-    .pill.ok{background:#ecfdf5;border-color:#bbf7d0;color:#065f46}
-    .pill.danger{background:#fef2f2;border-color:#fecaca;color:#7f1d1d}
+    .pill{background:color-mix(in oklab, var(--accent) 10%, black);border:1px solid var(--accent);color:#f5f5f5;border-radius:999px;padding:6px 10px;font-size:12px}
+    .pill.warn{background:color-mix(in oklab, var(--warn) 10%, black);border-color:var(--warn);color:#f5f5f5}
+    .pill.ok{background:color-mix(in oklab, var(--ok) 10%, black);border-color:var(--ok);color:#f5f5f5}
+    .pill.danger{background:color-mix(in oklab, var(--danger) 10%, black);border-color:var(--danger);color:#f5f5f5}
     .result{font-size:15px;margin-top:6px}
     .muted{color:var(--muted)}
+
     details summary{cursor:pointer;user-select:none}
-    hr{border:none;border-top:1px solid #e5e7eb;margin:12px 0}
-    .audio-controls{display:flex;gap:10px;align-items:center}
-    .flex{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-    .badge{font-size:12px;background:#eef2ff;border:1px solid #c7d2fe;border-radius:8px;padding:4px 8px;color:#1f2937}
+    hr{border:none;border-top:1px solid var(--border);margin:10px 0}
+
+    .audio-controls{display:flex;gap:8px;align-items:center}
+    .flex{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .badge{font-size:11px;background:var(--chip);border:1px solid var(--border);border-radius:8px;padding:4px 8px;color:var(--muted)}
     .monospace{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;}
-    .foot{color:#6b7280;margin-top:10px;font-size:12px}
+    .foot{color:#687385;margin-top:10px;font-size:12px}
     .sr{position:absolute;left:-9999px}
   </style>
 </head>
@@ -82,13 +101,12 @@
     <header>
       <div>
         <h1>MERS • Angriffe & Krits</h1>
-        <div class="sub">Prototyp (PWA). Lädt <span class="monospace">assets/treffer_tabellen_strukturiert.json</span> & <span class="monospace">assets/tables.json</span>. Audio unter <span class="monospace">assets/audio/</span>.</div>
+        <div class="sub">Prototyp (PWA). JSON-Dateien <span class="monospace">assets/treffer_tabellen_strukturiert.json</span> & <span class="monospace">assets/tables.json</span> werden dynamisch geladen.</div>
       </div>
       <button class="btn" id="installBtn" hidden>Installieren</button>
     </header>
 
     <div class="grid">
-      <!-- Eingabe -->
       <section class="card">
         <h2>1) Angriff</h2>
         <div class="row">
@@ -115,7 +133,6 @@
         </div>
       </section>
 
-      <!-- Ausgabe + Krit -->
       <section class="card">
         <h2>2) Kritischer Haupttreffer</h2>
         <div class="row">
@@ -187,7 +204,7 @@
         <div class="audio-controls">
           <button class="btn" id="bgPlay">Musik ▶︎/⏸︎</button>
           <label class="sr" for="bgVol">Musik-Lautstärke</label>
-          <input id="bgVol" type="range" min="0" max="1" step="0.01" value="0.18">
+          <input id="bgVol" type="range" min="0" max="1" step="0.01" value="0.20">
           <span class="badge">Hintergrundmusik je Tabelle</span>
         </div>
         <div class="audio-controls">
@@ -196,7 +213,7 @@
           <span class="badge">TTS-Fallback (falls keine MP3 gefunden)</span>
         </div>
       </div>
-      <div class="foot">Bereiche werden als Dateien <span class="monospace">Typ_Kat_Bereich.mp3</span> in <span class="monospace">assets/audio/</span> gesucht (z. B. <span class="monospace">Streich_E_1-5.mp3</span>, <span class="monospace">Hitze_A_67-70.mp3</span>). Für BG-Musik werden nach Typ passende MP3s gemappt.</div>
+      <div class="foot">Audio-Dateien liegen z. B. in <span class="monospace">assets/</span>. Für einzelne Krit-Einträge nutzt die App das Schema <span class="monospace">Typ_Kat_Bereich.mp3</span> (z. B. <span class="monospace">Streich_E_1-5.mp3</span>).</div>
     </section>
 
     <footer class="foot">
@@ -204,15 +221,15 @@
     </footer>
   </div>
 
-  <!-- Hintergrundmusik (loop) -->
   <audio id="bgAudio" loop></audio>
-  <!-- Kritische Treffer Audio (pro Eintrag, nicht loopend) -->
   <audio id="sfxAudio"></audio>
 
   <script>
-    // --- Datenquellen (angepasste Pfade in assets/) ---
+    // --- Datenquellen (Pfad in assets/) ---
     const TREFFER_URL = 'assets/treffer_tabellen_strukturiert.json';
     const TABLES_URL  = 'assets/tables.json';
+    const AUDIO_BASE_PATH = 'assets/audio/';
+    const FONT_BASE_PATH = 'assets/fonts/';
 
     // --- Globaler Zustand ---
     let treffer = null;
@@ -236,21 +253,21 @@
       rkWrap.appendChild(b);
     }
 
-    // Daten laden und UI befüllen
+    // Waffenliste + Nebentreffer-Tabellen füllen
     async function loadData(){
       const [t1, t2] = await Promise.all([fetch(TREFFER_URL), fetch(TABLES_URL)]);
       treffer = await t1.json();
       tables  = await t2.json();
 
-      // Waffen aus den Angriffstabellen lesen
+      // Waffen aus treffer.Angriffstabellen (Schlüssel)
       const wSel = $('#weapon');
       const waffen = Object.keys(treffer?.Angriffstabellen || {}).sort();
       wSel.innerHTML = '';
       waffen.forEach(k => {
         const opt = document.createElement('option');
-        opt.value = k; // benutze Schlüssel exakt wie in JSON (z. B. HANDAXT)
-        // Anzeige für Menschen hübscher machen
-        opt.textContent = k.replace(/_/g,' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+        opt.value = k; // Original-Key (z. B. HANDAXT)
+        const label = k.replace(/_/g,' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+        opt.textContent = label;
         wSel.appendChild(opt);
       });
       if(waffen.length) wSel.value = waffen[0];
@@ -258,7 +275,7 @@
       // Nebentreffer-Typen aus tables.json
       const sideSel = $('#sideType');
       sideSel.innerHTML = '<option value="">(eine wählen)</option>';
-      Object.keys(tables).forEach(key => {
+      Object.keys(tables||{}).forEach(key => {
         const opt = document.createElement('option');
         opt.value = key;
         opt.textContent = key;
@@ -276,7 +293,7 @@
 
     // Angriff berechnen
     $('#calcAttack').addEventListener('click', () => {
-      const weapon = $('#weapon').value;
+      const weaponKey = $('#weapon').value; // z. B. HANDAXT
       const rk = parseInt($('.rk button.active')?.dataset.rk || '3', 10);
       const attack = parseInt($('#attack').value, 10);
       const out = $('#attackOut'); const kpi = $('#attackKpi'); const res = out.querySelector('.result');
@@ -284,7 +301,8 @@
       kpi.innerHTML='';
       res.classList.remove('muted');
 
-      if(!weapon || !treffer?.Angriffstabellen?.[weapon]?.RK){
+      const weaponBlock = treffer?.Angriffstabellen?.[weaponKey];
+      if(!weaponKey || !weaponBlock?.RK){
         res.textContent = '⚠️ Keine Angriffsdaten gefunden.';
         return;
       }
@@ -293,7 +311,7 @@
         return;
       }
 
-      const rkBlock = treffer.Angriffstabellen[weapon].RK[String(rk)];
+      const rkBlock = weaponBlock.RK[String(rk)];
       if(!rkBlock){ res.textContent = `Keine Daten für RK ${rk}.`; return; }
 
       const fk = floorKey(rkBlock, attack);
@@ -307,7 +325,8 @@
       autoCrit.typ = mapCritName(kt) || '';
       autoCrit.kat = kk || '';
 
-      kpi.append(chip(`Waffe: ${weapon}`));
+      const label = weaponKey.replace(/_/g,' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+      kpi.append(chip(`Waffe: ${label}`));
       kpi.append(chip(`RK: ${rk}`));
       kpi.append(chip(`Tabelleneintrag: ${fk}`));
 
@@ -324,10 +343,8 @@
       res.innerHTML = '';
       res.append(pillz);
 
-      // Hintergrundmusik je nach Krit-Typ vorbereiten
       if(autoCrit.typ){
-        const bgKey = autoCrit.typ;
-        tryStartBgAudio(bgKey);
+        tryStartBgAudio(autoCrit.typ);
       }
     });
 
@@ -354,7 +371,6 @@
       if(key) kpi.append(chip(`Bereich: ${key}`));
       res.textContent = text;
 
-      // Audio: erst MP3 versuchen, sonst TTS
       playCritAudio(typSel, katSel, key, text);
       tryStartBgAudio(typSel);
     });
@@ -385,23 +401,22 @@
       tryStartBgAudio(typ);
     });
 
-    // Utilities: UI Chips/Pills
+    // UI Helpers
     function chip(t){ const s=document.createElement('span'); s.className='pill'; s.textContent=t; return s; }
     function pill(label, value, tone){ const w=document.createElement('div'); w.className='pill '+(tone||''); w.innerHTML = '<strong>'+label+':</strong> '+value; return w; }
 
-    // Krit-Namen von Kürzel zu Tabellen-Key abbilden
+    // Kürzel → Tabellen-Key
     function mapCritName(kurz){
       if(!kurz) return '';
       const map = { 'P':'Stich', 'S':'Streich', 'K':'Hieb' };
       const base = map[kurz] || kurz;
-      // Fallback auf vorhandene Tabellen-Schlüssel
       const keys = Object.keys(tables||{});
       if(keys.includes(base)) return base;
       const alt = keys.find(k => k.toLowerCase().startsWith(base.toLowerCase()));
       return alt || '';
     }
 
-    // Bereichs-Parser: "1-5", "66", "≤5", "01-05"
+    // Bereichs-Parser & MP3-Dateiname
     function matchRange(range, roll){
       range = String(range).trim();
       const z = (s)=>parseInt(String(s).replace(/^0+/,'')||'0',10);
@@ -410,131 +425,85 @@
       if(range.startsWith('≥')){ return roll >= z(range.slice(1)); }
       return roll === z(range);
     }
-
     function sanitizeRangeForFile(rangeKey){
       let s = String(rangeKey).trim();
-      s = s.replace(/[–—]/g,'-');
-      s = s.replace(/\s+/g,'');
-      if(s.includes('-')){
-        const [a,b] = s.split('-');
-        const nz = (x)=> String(parseInt(x,10));
-        return nz(a) + '-' + nz(b);
-      }
-      s = s.replace(/[≤≥]/g,'');
-      return String(parseInt(s,10));
+      s = s.replace(/[–—]/g,'-').replace(/\s+/g,'');
+      if(s.includes('-')){ const [a,b] = s.split('-'); const nz=(x)=>String(parseInt(x,10)); return nz(a)+'-'+nz(b); }
+      s = s.replace(/[≤≥]/g,''); return String(parseInt(s,10));
     }
-
+    
     function buildCritAudioFilename(typ, kat, rangeKey){
-      if(!typ || !kat || !rangeKey) return null;
-      const safeTyp = String(typ).replace(/\s+/g,'_');
-      const safeKat = String(kat).toUpperCase();
-      const safeRange = sanitizeRangeForFile(rangeKey);
-      // Dateien liegen unter assets/audio/
-      return `assets/audio/${safeTyp}_${safeKat}_${safeRange}.mp3`;
+        if(!typ || !kat || !rangeKey) return null;
+        const safeTyp = String(typ).replace(/\s+/g,'_');
+        const safeKat = String(kat).toUpperCase();
+        const safeRange = sanitizeRangeForFile(rangeKey);
+        // Anstatt den kompletten Pfad zu generieren, verwenden wir die Konstante
+        return `${AUDIO_BASE_PATH}${safeTyp}_${safeKat}_${safeRange}.mp3`;
     }
-
+    
     function lookupCritEntry(typ, kat, roll){
-      const block = tables?.[typ];
-      if(!block){ return null; }
-      const cat = block?.[kat];
-      if(!cat){ return null; }
-      for(const key of Object.keys(cat)){
-        if(matchRange(key, roll)){
-          return { text: cat[key], key };
-        }
-      }
+      const block = tables?.[typ]; if(!block) return null;
+      const cat = block?.[kat]; if(!cat) return null;
+      for(const key of Object.keys(cat)){ if(matchRange(key, roll)) return { text: cat[key], key }; }
       return null;
     }
 
-    // --- Audio ---
-    const bgAudio = $('#bgAudio');
-    const sfxAudio = $('#sfxAudio');
-
+    // Audio
+    const bgAudio = $('#bgAudio'); const sfxAudio = $('#sfxAudio');
     $('#bgVol').addEventListener('input', e => { 
-      bgAudio.volume = parseFloat(e.target.value || '0.18'); 
-      sfxAudio.volume = Math.min(1, parseFloat(e.target.value || '0.18') + 0.07); // SFX leicht lauter
+      bgAudio.volume = parseFloat(e.target.value || '0.15'); 
+      sfxAudio.volume = Math.min(1, parseFloat(e.target.value || '0.15') + 0.05);
     });
-    $('#bgPlay').addEventListener('click', ()=>{
-      if(bgAudio.paused) bgAudio.play().catch(()=>{}); else bgAudio.pause();
-    });
-
-    // Mappe Tabellen/Typen -> passende BG-Musik-Datei unter assets/audio/
-    function bgMusicFor(tableKey){
-      const map = {
-        'Streich': 'Helden_streich.mp3',
-        'Hieb': 'hieb.mp3',
-        'Stich': 'stich.mp3',
-        'Schlag': 'schlag.mp3',
-        'Hitze': 'feuer.mp3'
-      };
-      return map[tableKey] || 'fantasy-medieval-epic-music-239599.mp3';
-    }
+    $('#bgPlay').addEventListener('click', ()=>{ if(bgAudio.paused) bgAudio.play().catch(()=>{}); else bgAudio.pause(); });
 
     function tryStartBgAudio(tableKey){
-      // bevorzugt audioFile aus tables.json, sonst Mapping
-      let file = tables?.[tableKey]?.audioFile || bgMusicFor(tableKey);
+      if(!tables) return;
+      const t = tables[tableKey];
+      const file = t?.audioFile; // z. B. "assets/audio/stich.mp3"
       if(!file) return;
-      if(!file.startsWith('assets/')) file = 'assets/audio/' + file; // robust: relative Namen ergänzen
-      if(currentBgKey === tableKey && !bgAudio.paused) return; // schon spielend
+      if(currentBgKey === tableKey && !bgAudio.paused) return;
       currentBgKey = tableKey;
-      bgAudio.src = file;
-      bgAudio.volume = parseFloat($('#bgVol').value || '0.18');
+      bgAudio.src = AUDIO_BASE_PATH + file;
+      bgAudio.volume = parseFloat($('#bgVol').value || '0.2');
       bgAudio.play().catch(()=>{});
     }
 
     function playCritAudio(typ, kat, rangeKey, fallbackText){
       const mp3 = buildCritAudioFilename(typ, kat, rangeKey);
       if(!mp3){ speak(fallbackText); return; }
-      sfxAudio.pause();
-      sfxAudio.currentTime = 0;
-      sfxAudio.src = mp3;
+      sfxAudio.pause(); sfxAudio.currentTime = 0; sfxAudio.src = mp3;
       const onError = ()=>{ sfxAudio.removeEventListener('error', onError); speak(fallbackText); };
       sfxAudio.addEventListener('error', onError, { once:true });
       sfxAudio.play().catch(()=>{ speak(fallbackText); });
     }
 
-    // --- TTS ---
+    // TTS
     function speak(text){
       const enabled = $('#ttsToggle').checked;
       if(!enabled) return;
       if(!('speechSynthesis' in window)) return;
       window.speechSynthesis.cancel();
       const utter = new SpeechSynthesisUtterance(text);
-      utter.lang = 'de-DE';
-      utter.rate = 1.02;
+      utter.lang = 'de-DE'; utter.rate = 1.02;
       window.speechSynthesis.speak(utter);
     }
 
-    // --- Reset ---
+    // Reset
     $('#resetBtn').addEventListener('click', ()=>{
-      $('#attack').value='';
-      $('#critRoll').value='';
+      $('#attack').value=''; $('#critRoll').value='';
       $('#critOut .result').textContent='Noch kein Ergebnis.';
       $('#attackOut .result').textContent='Noch kein Ergebnis.';
       $('#sideOut .result').textContent='Noch kein Ergebnis.';
       $('#critKpi').innerHTML=''; $('#attackKpi').innerHTML=''; $('#sideKpi').innerHTML='';
-      $('#critType').value=''; $('#critCat').value='';
-      autoCrit={typ:'',kat:''};
-      try{ bgAudio.pause(); }catch(_){ }
-      try{ sfxAudio.pause(); }catch(_){ }
+      $('#critType').value=''; $('#critCat').value=''; autoCrit={typ:'',kat:''};
     });
 
-    // --- PWA Basics ---
+    // PWA Basics
     let deferredPrompt=null;
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      $('#installBtn').hidden = false;
-    });
+    window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; $('#installBtn').hidden = false; });
     $('#installBtn').addEventListener('click', async () => {
-      if(!deferredPrompt) return;
-      deferredPrompt.prompt();
-      await deferredPrompt.userChoice;
-      deferredPrompt = null;
-      $('#installBtn').hidden = true;
+      if(!deferredPrompt) return; deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt = null; $('#installBtn').hidden = true;
     });
-
-    // Service Worker (optional, nur für PWA-Shell)
     if('serviceWorker' in navigator){
       const sw = `
         const CORE = self.location.href;
@@ -550,7 +519,7 @@
     // Init
     loadData().catch(err=>{
       console.error(err);
-      alert('Fehler beim Laden der JSON-Dateien. Prüfe Pfade in assets/.');
+      alert('Fehler beim Laden der JSON-Dateien. Bitte sicherstellen, dass sich assets/tables.json und assets/treffer_tabellen_strukturiert.json im gleichen Repo befinden.');
     });
   </script>
 </body>
