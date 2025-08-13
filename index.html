@@ -89,7 +89,15 @@
     details summary{cursor:pointer;user-select:none}
     hr{border:none;border-top:1px solid var(--border);margin:10px 0}
 
-    .audio-controls{display:flex;gap:8px;align-items:center}
+    .audio-controls {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    .audio-controls input[type="range"] {
+        max-width: 120px;
+    }
     .flex{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
     .badge{font-size:11px;background:var(--chip);border:1px solid var(--border);border-radius:8px;padding:4px 8px;color:var(--muted)}
     .monospace{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;}
@@ -206,11 +214,14 @@
           <button class="btn" id="bgPlay">Musik ▶︎/⏸︎</button>
           <label class="sr" for="bgVol">Musik-Lautstärke</label>
           <input id="bgVol" type="range" min="0" max="1" step="0.01" value="0.20">
+          <label><input type="checkbox" id="bgToggle" checked> Musik an</label>
           <span class="badge">Hintergrundmusik je Tabelle</span>
         </div>
         <div class="audio-controls">
           <label class="sr" for="ttsToggle">Vorlesen</label>
           <input id="ttsToggle" type="checkbox" checked>
+          <label for="ttsVol">Lautstärke</label>
+          <input id="ttsVol" type="range" min="0" max="1" step="0.01" value="1.00">
           <span class="badge">TTS-Fallback (falls keine MP3 gefunden)</span>
         </div>
       </div>
@@ -450,23 +461,30 @@
     }
 
     // Audio
-    const bgAudio = $('#bgAudio'); const sfxAudio = $('#sfxAudio');
-    $('#bgVol').addEventListener('input', e => { 
-      bgAudio.volume = parseFloat(e.target.value || '0.15'); 
-      sfxAudio.volume = Math.min(1, parseFloat(e.target.value || '0.15') + 0.05);
-    });
-    $('#bgPlay').addEventListener('click', ()=>{ if(bgAudio.paused) bgAudio.play().catch(()=>{}); else bgAudio.pause(); });
+    const bgAudio = $('#bgAudio');
 
-    function tryStartBgAudio(tableKey){
-      if(!tables) return;
+    $('#bgVol').addEventListener('input', e => {
+      bgAudio.volume = parseFloat(e.target.value || '0.2');
+    });
+
+    $('#bgToggle').addEventListener('change', () => {
+      if (!$('#bgToggle').checked) {
+        bgAudio.pause();
+      } else if (currentBgKey) {
+        tryStartBgAudio(currentBgKey);
+    }
+    });
+
+    function tryStartBgAudio(tableKey) {
+      if (!tables || !$('#bgToggle').checked) return;
       const t = tables[tableKey];
-      const file = t?.audioFile; // z. B. "assets/audio/stich.mp3"
-      if(!file) return;
-      if(currentBgKey === tableKey && !bgAudio.paused) return;
+      const file = t?.audioFile;
+      if (!file) return;
+      if (currentBgKey === tableKey && !bgAudio.paused) return;
       currentBgKey = tableKey;
       bgAudio.src = AUDIO_BASE_PATH + file;
       bgAudio.volume = parseFloat($('#bgVol').value || '0.2');
-      bgAudio.play().catch(()=>{});
+      bgAudio.play().catch(() => {});
     }
 
     function playCritAudio(typ, kat, rangeKey, fallbackText){
@@ -480,13 +498,20 @@
     }
 
     // TTS
-    function speak(text){
+    $('#ttsVol').addEventListener('input', () => {
+      // nichts nötig – wird erst beim Sprechen verwendet
+    });
+
+    function speak(text) {
       const enabled = $('#ttsToggle').checked;
-      if(!enabled) return;
-      if(!('speechSynthesis' in window)) return;
+      if (!enabled || !('speechSynthesis' in window)) return;
+
       window.speechSynthesis.cancel();
+
       const utter = new SpeechSynthesisUtterance(text);
-      utter.lang = 'de-DE'; utter.rate = 1.02;
+      utter.lang = 'de-DE';
+      utter.rate = 1.02;
+      utter.volume = parseFloat($('#ttsVol').value || '1.0'); // hier!
       window.speechSynthesis.speak(utter);
     }
 
