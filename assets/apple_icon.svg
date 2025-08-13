@@ -1,0 +1,29 @@
+<svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Hintergrund: Ein tiefbrauner, abgerundeter Kasten, der den Retro-Stil aufgreift -->
+  <rect x="5" y="5" width="170" height="170" rx="20" fill="#3E2723"/>
+
+  <!-- Ein goldener Schild, der leicht erhaben wirkt -->
+  <path d="M90 10L160 50V130L90 170L20 130V50L90 10Z" fill="#B38B4B" stroke="#7A5A35" stroke-width="4"/>
+
+  <!-- Gekreuzte Waffen im Hintergrund (ein Dolch und eine Handaxt) -->
+  <!-- Dolch -->
+  <g transform="rotate(-30 90 90)">
+    <path d="M85 85L90 120L95 85C95 85 92 80 90 80C88 80 85 85 85 85Z" fill="#E8E8E8" stroke="#4F4F4F" stroke-width="2"/>
+    <rect x="87" y="70" width="6" height="15" rx="2" fill="#8B5E3C"/>
+  </g>
+  <!-- Handaxt -->
+  <g transform="rotate(30 90 90)">
+    <path d="M80 80L85 110L95 110L100 80Z" fill="#C0C0C0" stroke="#4F4F4F" stroke-width="2"/>
+    <path d="M75 95L80 100L85 95L80 90L75 95Z" fill="#8B5E3C" stroke="#4F4F4F" stroke-width="2"/>
+  </g>
+
+  <!-- Haupt-Icon: Ein 20-seitiger Würfel (d20) in der Mitte -->
+  <g transform="translate(90, 90) scale(0.6) translate(-90, -90)">
+    <path d="M90 60L120 75L120 105L90 120L60 105L60 75L90 60Z" fill="#A6704B" stroke="#4F4F4F" stroke-width="2"/>
+    <path d="M90 60L120 75" stroke="#4F4F4F" stroke-width="2"/>
+    <path d="M90 60L60 75" stroke="#4F4F4F" stroke-width="2"/>
+    <path d="M90 120L60 105" stroke="#4F4F4F" stroke-width="2"/>
+    <path d="M90 120L120 105" stroke="#4F4F4F" stroke-width="2"/>
+    <text x="83" y="100" font-family="Arial, sans-serif" font-size="24" fill="#E8E8E8" font-weight="bold">20</text>
+  </g>
+</svg>

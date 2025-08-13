@@ -1,344 +1,531 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MERP Kritische Treffer</title>
-
-<!-- PWA-Meta-Tags für iOS (iPhone/iPad) -->
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="MERP Treffer">
-<!-- Optional: Link zu einem Apple Touch Icon (für das Home-Bildschirm-Symbol) -->
-<!-- Du müsstest eine Datei namens apple-touch-icon.png im assets-Ordner ablegen -->
-<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-
-
-<style>
-    /* Grundlegende Stile für den Body */
-    body {
-        font-family: 'Inter', sans-serif; /* Verwendung von Inter für eine moderne Optik */
-        background: #f0e6d2; /* Heller, pergamentähnlicher Hintergrund */
-        text-align: center;
-        padding: 20px;
-        display: flex; /* Flexbox für Zentrierung */
-        flex-direction: column;
-        align-items: center;
-        min-height: 100vh; /* Mindesthöhe des Viewports */
-        box-sizing: border-box; /* Padding in die Breite einbeziehen */
-        color: #3e2723; /* Dunkelbraun für den Text */
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0f172a" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <title>MERS — Angriffs- & Krit-Tabellen (PWA-Prototyp)</title>
+  <meta name="description" content="Schnelles Nachschlagen von Angriffen und kritischen Treffern für MERS/MERP." />
+  <style>
+    :root{
+      --bg: #0b1020;
+      --panel: #111826;
+      --muted: #93a3b8;
+      --text: #e6eefc;
+      --accent: #60a5fa;
+      --accent-2:#a78bfa;
+      --ok:#34d399;
+      --warn:#f59e0b;
+      --danger:#ef4444;
+      --card:#0f172a;
+      --chip:#1f2937;
     }
-    /* Überschrift */
-    h1 {
-        margin-bottom: 20px;
-        color: #3e2723; /* Dunkelbraun für die Überschrift */
-    }
-    /* Gemeinsame Stile für Button-Gruppen */
-    .button-group {
-        display: flex; /* Buttons nebeneinander */
-        flex-wrap: wrap; /* Umbruch auf kleinere Bildschirme */
-        justify-content: center;
-        margin-bottom: 20px;
-        width: 100%; /* Volle Breite */
-        max-width: 600px; /* Maximale Breite für Desktop */
-    }
-    .button-group button {
-        padding: 12px 20px; /* Etwas mehr Padding für bessere Touch-Ziele */
-        margin: 8px; /* Mehr Abstand zwischen Buttons */
-        border: none;
-        background: #8b5e3c; /* Mittelbraun */
-        color: white;
-        border-radius: 12px; /* Stärker abgerundete Ecken */
-        cursor: pointer;
-        font-size: 1.1em; /* Etwas größere Schrift */
-        transition: background 0.3s ease, transform 0.1s ease; /* Sanfte Übergänge */
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Leichter Schatten */
-    }
-    .button-group button:hover {
-        background: #a6704b; /* Helleres Braun beim Hover */
-        transform: translateY(-2px); /* Leichter "Pop"-Effekt */
-    }
-    /* Aktiver Button-Status */
-    .button-group button.active {
-        background: #5d4037; /* Dunkleres Braun für den aktiven Button */
-        border: 2px solid #3e2723; /* Dunklerer Rand */
-        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2); /* Stärkerer Schatten */
-    }
-
-    /* Spezifische Stile für die Kategorie-Buttons, falls gewünscht */
-    .category-group button {
-        background: #6d4c41; /* Etwas anderer Braunton für Kategorien */
-    }
-    .category-group button.active {
-        background: #4e342e; /* Dunklerer Ton für aktive Kategorie */
-    }
-
-    /* Eingabebereich */
-    .input-section {
-        margin-top: 20px;
-        display: flex;
-        flex-direction: column; /* Elemente untereinander auf kleinen Bildschirmen */
-        align-items: center;
-        width: 100%;
-        max-width: 400px;
-    }
-    #numberInput {
-        padding: 12px;
-        margin-bottom: 15px; /* Abstand zum Button */
-        border: 2px solid #8b5e3c;
-        border-radius: 8px;
-        width: calc(100% - 24px); /* Breite anpassen, Padding abziehen */
-        max-width: 200px; /* Maximale Breite für das Eingabefeld */
-        font-size: 1.1em;
-        text-align: center;
-    }
-    .input-section button {
-        padding: 12px 25px;
-        border: none;
-        background: #4e342e; /* Dunkleres Braun für den Anzeigen-Button */
-        color: white;
-        border-radius: 12px;
-        cursor: pointer;
-        font-size: 1.1em;
-        transition: background 0.3s ease, transform 0.1s ease;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-    .input-section button:hover {
-        background: #6d4c41; /* Helleres Braun beim Hover */
-        transform: translateY(-2px);
-    }
-    /* Ergebnisbereich */
-    #result {
-        margin-top: 30px; /* Mehr Abstand */
-        padding: 20px;
-        background: #fff3e0; /* Hellerer Hintergrund für das Ergebnis */
-        border-radius: 12px;
-        min-height: 80px; /* Größere Mindesthöhe */
-        display: flex; /* Für vertikale Zentrierung des Textes */
-        align-items: center;
-        justify-content: center;
-        font-size: 1.2em; /* Größere Schrift */
-        color: #3e2723;
-        line-height: 1.5; /* Bessere Lesbarkeit */
-        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05); /* Leichter innerer Schatten */
-        width: 100%;
-        max-width: 500px;
-        word-wrap: break-word; /* Lange Texte umbrechen */
-    }
-
-    /* Responsive Anpassungen */
-    @media (min-width: 768px) {
-        .input-section {
-            flex-direction: row; /* Elemente nebeneinander auf größeren Bildschirmen */
-            justify-content: center;
-        }
-        #numberInput {
-            margin-right: 15px; /* Abstand zwischen Input und Button */
-            margin-bottom: 0; /* Kein Bodenabstand mehr */
-        }
-    }
-</style>
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:linear-gradient(180deg,#0b1020,#0b1020 40%,#0e1326 100%);color:var(--text);font:16px/1.4 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";}
+    .wrap{max-width:1100px;margin:0 auto;padding:24px}
+    header{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:16px}
+    h1{font-size:clamp(20px,3.2vw,28px);margin:0;letter-spacing:.3px}
+    .sub{color:var(--muted);font-size:14px}
+    .grid{display:grid;grid-template-columns:1.1fr 1fr;gap:16px}
+    @media (max-width: 960px){.grid{grid-template-columns:1fr}}
+    .card{background:radial-gradient(1200px 300px at 10% -20%,rgba(96,165,250,.08),transparent),var(--card);border:1px solid rgba(148,163,184,.18);border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.25);padding:16px}
+    .card h2{margin:0 0 10px 0;font-size:18px}
+    .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:10px 0}
+    label{font-size:13px;color:var(--muted)}
+    select,input[type=number]{appearance:none;background:#0c1221;border:1px solid rgba(148,163,184,.25);border-radius:12px;color:var(--text);padding:10px 12px;font-size:15px;min-width:160px}
+    input[type=number]{width:140px}
+    .rk{display:flex;flex-wrap:wrap;gap:6px}
+    .rk button{border:1px solid rgba(148,163,184,.25);background:var(--chip);color:#dbe6ff;border-radius:999px;padding:8px 10px;font-size:13px;cursor:pointer}
+    .rk button.active{background:linear-gradient(180deg,#1b2b46,#17233a);border-color:var(--accent);box-shadow:0 0 0 2px rgba(96,165,250,.25) inset;color:#fff}
+    .actions{display:flex;gap:10px;flex-wrap:wrap}
+    .btn{background:linear-gradient(180deg,#1f2a44,#19233b);border:1px solid rgba(148,163,184,.24);color:#e9f2ff;border-radius:12px;padding:10px 14px;font-weight:600;cursor:pointer}
+    .btn.primary{background:linear-gradient(180deg,#2563eb,#1d4ed8);border-color:#1e40af}
+    .btn.ghost{background:transparent}
+    .out{background:linear-gradient(180deg,#0d1528,#0a1020);border:1px dashed rgba(148,163,184,.3);border-radius:16px;padding:12px;margin-top:8px}
+    .kpi{display:flex;gap:10px;flex-wrap:wrap}
+    .pill{background:rgba(96,165,250,.12);border:1px solid rgba(96,165,250,.3);color:#dbeafe;border-radius:999px;padding:6px 10px;font-size:12px}
+    .pill.warn{background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.4);color:#fde68a}
+    .pill.ok{background:rgba(52,211,153,.12);border-color:rgba(52,211,153,.35);color:#bbf7d0}
+    .pill.danger{background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.35);color:#fecaca}
+    .result{font-size:15px;margin-top:6px}
+    .muted{color:var(--muted)}
+    details summary{cursor:pointer;user-select:none}
+    hr{border:none;border-top:1px solid rgba(148,163,184,.18);margin:12px 0}
+    .audio-controls{display:flex;gap:10px;align-items:center}
+    .flex{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .badge{font-size:12px;background:#0b1222;border:1px solid rgba(148,163,184,.25);border-radius:8px;padding:4px 8px;color:#cbd5e1}
+    .monospace{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;}
+    .foot{color:#a3b4cf;margin-top:10px;font-size:12px}
+    .sr{position:absolute;left:-9999px}
+  </style>
 </head>
 <body>
-<h1>MERP Kritische Treffer</h1>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>MERS • Angriffe & Krits</h1>
+        <div class="sub">Prototyp (PWA-tauglich). JSON-Dateien <span class="monospace">treffer_tabellen_strukturiert.json</span> & <span class="monospace">tables.json</span> werden dynamisch geladen.</div>
+      </div>
+      <button class="btn" id="installBtn" hidden>Installieren</button>
+    </header>
 
-<!-- Gruppe der Schadensart-Buttons -->
-<div class="button-group damage-type-group">
-    <button onclick="selectTable('Feuer', event)">🔥 Feuer</button>
-    <button onclick="selectTable('Hieb', event)">⚔️ Hieb</button>
-    <button onclick="selectTable('Stich', event)">🗡 Stich</button>
-    <button onclick="selectTable('Schlag', event)">🛡 Schlag</button>
-    <!-- Füge hier einen Button für "Streich_gegen_Mitspieler" hinzu, falls gewünscht -->
-    <button onclick="selectTable('Streich_gegen_Mitspieler', event)">🤝 Streich gegen Mitspieler</button>
-</div>
+    <div class="grid">
+      <!-- Eingabe -->
+      <section class="card">
+        <h2>1) Angriff</h2>
+        <div class="row">
+          <div>
+            <label for="weapon">Waffenart</label><br>
+            <select id="weapon"></select>
+          </div>
+          <div>
+            <label>Rüstungsklasse (RK)</label><br>
+            <div class="rk" id="rk"></div>
+          </div>
+          <div>
+            <label for="attack">Angriffswert (berechnet)</label><br>
+            <input id="attack" type="number" inputmode="numeric" placeholder="z. B. 126" />
+          </div>
+        </div>
+        <div class="actions">
+          <button class="btn primary" id="calcAttack">Treffer ermitteln</button>
+          <button class="btn ghost" id="resetBtn">Zurücksetzen</button>
+        </div>
+        <div class="out" id="attackOut">
+          <div class="kpi" id="attackKpi"></div>
+          <div class="result muted">Noch kein Ergebnis.</div>
+        </div>
+      </section>
 
-<!-- Gruppe der Schadenskategorie-Buttons -->
-<div class="button-group category-group">
-    <button onclick="selectCategory('A', event)">A</button>
-    <button onclick="selectCategory('B', event)">B</button>
-    <button onclick="selectCategory('C', event)">C</button>
-    <button onclick="selectCategory('D', event)">D</button>
-    <button onclick="selectCategory('E', event)">E</button>
-</div>
+      <!-- Ausgabe + Krit -->
+      <section class="card">
+        <h2>2) Kritischer Haupttreffer</h2>
+        <div class="row">
+          <div>
+            <label for="critRoll">Wurf 1–100</label><br>
+            <input id="critRoll" type="number" min="1" max="100" placeholder="z. B. 66" />
+          </div>
+          <div>
+            <label for="critType">Krit-Typ</label><br>
+            <select id="critType">
+              <option value="">(auto aus Schritt 1)</option>
+              <option value="Stich">Stich (P)</option>
+              <option value="Streich">Streich (S)</option>
+              <option value="Hieb">Hieb (K)</option>
+              <option value="Schlag">Schlag (alternativ)</option>
+              <option value="Hitze">Hitze</option>
+            </select>
+          </div>
+          <div>
+            <label for="critCat">Kategorie</label><br>
+            <select id="critCat">
+              <option value="">(auto)</option>
+              <option>A</option><option>B</option><option>C</option><option>D</option><option>E</option>
+            </select>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="btn" id="calcCrit">Krit suchen</button>
+        </div>
+        <div class="out" id="critOut">
+          <div class="kpi" id="critKpi"></div>
+          <div class="result muted">Noch kein Ergebnis.</div>
+        </div>
+        <hr>
+        <details>
+          <summary>3) Nebentreffer (optional)</summary>
+          <div class="row">
+            <div>
+              <label for="sideType">Nebentreffer-Tabelle</label><br>
+              <select id="sideType">
+                <option value="">(eine wählen)</option>
+              </select>
+            </div>
+            <div>
+              <label for="sideCat">Kategorie</label><br>
+              <select id="sideCat">
+                <option>A</option><option>B</option><option>C</option><option>D</option><option>E</option>
+              </select>
+            </div>
+            <div>
+              <label for="sideRoll">Wurf 1–100</label><br>
+              <input id="sideRoll" type="number" min="1" max="100" placeholder="z. B. 87"/>
+            </div>
+          </div>
+          <div class="actions">
+            <button class="btn" id="calcSide">Nebentreffer suchen</button>
+          </div>
+          <div class="out" id="sideOut">
+            <div class="kpi" id="sideKpi"></div>
+            <div class="result muted">Noch kein Ergebnis.</div>
+          </div>
+        </details>
+      </section>
+    </div>
 
-<div class="input-section">
-    <!-- Eingabefeld für den Würfelwurf -->
-    <input type="number" id="numberInput" placeholder="Wurf (1-100)">
-    <!-- Button zum Anzeigen des Ergebnisses -->
-    <button onclick="showResult()">Anzeigen</button>
-</div>
+    <section class="card" style="margin-top:16px">
+      <h2>Audio & Sprache</h2>
+      <div class="flex">
+        <div class="audio-controls">
+          <button class="btn" id="bgPlay">Musik ▶︎/⏸︎</button>
+          <label class="sr" for="bgVol">Musik-Lautstärke</label>
+          <input id="bgVol" type="range" min="0" max="1" step="0.01" value="0.15">
+          <span class="badge">Hintergrundmusik je Tabelle</span>
+        </div>
+        <div class="audio-controls">
+          <label class="sr" for="ttsToggle">Vorlesen</label>
+          <input id="ttsToggle" type="checkbox" checked>
+          <span class="badge">TTS-Fallback (falls keine MP3 gefunden)</span>
+        </div>
+      </div>
+      <div class="foot">Wenn eine passende Datei wie <span class="monospace">Streich_E_1-5.mp3</span> bzw. <span class="monospace">Hitze_A_67-70.mp3</span> vorhanden ist, wird diese abgespielt. Sonst liest TTS vor.</div>
+    </section>
 
-<!-- Bereich für die Anzeige des Ergebnisses -->
-<div id="result"></div>
+    <footer class="foot">
+      © 2025 • Prototyp. Läuft als PWA (Installieren-Button erscheint in unterstützten Browsern).
+    </footer>
+  </div>
 
-<!-- Audio-Element für die Hintergrundmusik -->
-<audio id="music" loop>
-    <!-- Die Quelle wird dynamisch über JavaScript gesetzt -->
-    Dein Browser unterstützt das Audio-Element nicht.
-</audio>
+  <!-- Hintergrundmusik (loop) -->
+  <audio id="bgAudio" loop></audio>
+  <!-- Kritische Treffer Audio (pro Eintrag, nicht loopend) -->
+  <audio id="sfxAudio"></audio>
 
-<script>
-// Die 'tables'-Variable wird global deklariert und nach dem Laden der JSON-Datei gefüllt.
-let tables = {};
-let currentTable = null; // Speichert die aktuell ausgewählte Schadensart
-let currentCategory = null; // Speichert die aktuell ausgewählte Schadenskategorie
+  <script>
+    // --- Datenquellen ---
+    const TREFFER_URL = 'treffer_tabellen_strukturiert.json';
+    const TABLES_URL  = 'tables.json';
 
-/**
- * Wählt eine Schadensart-Tabelle aus und aktualisiert die Benutzeroberfläche.
- * @param {string} table - Der Name der auszuwählenden Tabelle (z.B. "Feuer").
- * @param {Event} event - Das Klick-Event des Buttons.
- */
-function selectTable(table, event) {
-    // Entfernt die 'active'-Klasse von allen Buttons in der Schadensart-Gruppe
-    document.querySelectorAll('.damage-type-group button').forEach(btn => btn.classList.remove('active'));
+    // --- Globaler Zustand ---
+    let treffer = null;
+    let tables = null;
+    let autoCrit = { typ:'', kat:'' };
+    let currentBgKey = null;
 
-    // Fügt die 'active'-Klasse dem geklickten Button hinzu
-    if (event && event.currentTarget) {
-        event.currentTarget.classList.add('active');
+    const $ = sel => document.querySelector(sel);
+    const $$ = sel => Array.from(document.querySelectorAll(sel));
+
+    // RK Buttons erzeugen
+    const rkWrap = $('#rk');
+    for(let i=1;i<=20;i++){
+      const b = document.createElement('button');
+      b.type='button'; b.textContent = i;
+      b.dataset.rk = i;
+      b.addEventListener('click', () => {
+        $$('.rk button').forEach(x => x.classList.toggle('active', x===b));
+      });
+      if(i===3) b.classList.add('active'); // Default RK 3
+      rkWrap.appendChild(b);
     }
 
-    currentTable = table; // Setzt die aktuell ausgewählte Tabelle
-    document.getElementById('result').innerText = `Tabelle für ${table} ausgewählt.`; // Zeigt die Auswahl im Ergebnisbereich an
+    // Waffenliste befüllen
+    async function loadData(){
+      const [t1, t2] = await Promise.all([fetch(TREFFER_URL), fetch(TABLES_URL)]);
+      treffer = await t1.json();
+      tables  = await t2.json();
 
-    // Aktualisiert die Audio-Quelle basierend auf der ausgewählten Tabelle
-    const musicElement = document.getElementById('music');
-    if (tables[table] && tables[table].audioFile) {
-        musicElement.src = `assets/${tables[table].audioFile}`;
-        musicElement.volume = 0.2; // Setze die Lautstärke auf 20%
-        // Versucht, die Musik abzuspielen. Fängt den Fehler ab, falls der Browser dies blockiert
-        // (z.B. vor der ersten Benutzerinteraktion).
-        musicElement.play().catch(e => console.log("Musikstart blockiert bis Interaktion: ", e));
-    } else {
-        // Stoppt die Musik, wenn keine spezifische Datei für die Tabelle gefunden wird
-        musicElement.pause();
-        musicElement.currentTime = 0; // Setzt die Wiedergabeposition auf den Anfang
-        console.warn(`Keine Audio-Datei für Tabelle '${table}' gefunden.`);
-    }
-}
+      // Waffen
+      const wSel = $('#weapon');
+      const waffen = Object.keys(treffer?.Angriffstabellen || {}).sort();
+      waffen.forEach(k => {
+        const opt = document.createElement('option');
+        opt.value = k;
+        opt.textContent = k.replace(/_/g,' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+        wSel.appendChild(opt);
+      });
+      if(waffen.length) wSel.value = waffen[0];
 
-/**
- * Wählt eine Schadenskategorie aus und aktualisiert die Benutzeroberfläche.
- * @param {string} category - Der Name der auszuwählenden Kategorie (z.B. "A").
- * @param {Event} event - Das Klick-Event des Buttons.
- */
-function selectCategory(category, event) {
-    // Entfernt die 'active'-Klasse von allen Buttons in der Kategorie-Gruppe
-    document.querySelectorAll('.category-group button').forEach(btn => btn.classList.remove('active'));
-
-    // Fügt die 'active'-Klasse dem geklickten Button hinzu
-    if (event && event.currentTarget) {
-        event.currentTarget.classList.add('active');
+      // Nebentreffer-Typen
+      const sideSel = $('#sideType');
+      Object.keys(tables).forEach(key => {
+        const opt = document.createElement('option');
+        opt.value = key;
+        opt.textContent = key;
+        sideSel.appendChild(opt);
+      });
     }
 
-    currentCategory = category; // Setzt die aktuell ausgewählte Kategorie
-    document.getElementById('result').innerText = `Kategorie ${category} ausgewählt.`; // Zeigt die Auswahl im Ergebnisbereich an
-}
+    // Utility: nächstniedrigerer Key im Objekt (number keys)
+    function floorKey(obj, target){
+      const keys = Object.keys(obj).map(k => parseInt(k,10)).filter(n=>!Number.isNaN(n)).sort((a,b)=>a-b);
+      let best = null;
+      for(const k of keys){ if(k<=target) best = k; else break; }
+      return best;
+    }
 
-/**
- * Zeigt das Ergebnis des kritischen Treffers basierend auf der Eingabe an.
- */
-function showResult() {
-    // Prüft, ob die Tabellen geladen sind
-    if (Object.keys(tables).length === 0) {
-        document.getElementById('result').innerText = "Tabellen werden noch geladen. Bitte warten...";
+    // Angriff berechnen
+    $('#calcAttack').addEventListener('click', () => {
+      const weapon = $('#weapon').value;
+      const rk = parseInt($('.rk button.active')?.dataset.rk || '3', 10);
+      const attack = parseInt($('#attack').value, 10);
+      const out = $('#attackOut'); const kpi = $('#attackKpi'); const res = out.querySelector('.result');
+
+      kpi.innerHTML='';
+      res.classList.remove('muted');
+
+      if(!weapon || !treffer?.Angriffstabellen?.[weapon]?.RK){
+        res.textContent = '⚠️ Keine Angriffsdaten gefunden.';
         return;
-    }
-
-    // Prüft, ob eine Tabelle und eine Kategorie ausgewählt wurde
-    if (!currentTable || !currentCategory) {
-        document.getElementById('result').innerText = "Bitte zuerst eine Schadensart und eine Kategorie auswählen.";
+      }
+      if(Number.isNaN(attack)){
+        res.textContent = 'Bitte einen Angriffswert eingeben.';
         return;
+      }
+
+      const rkBlock = treffer.Angriffstabellen[weapon].RK[String(rk)];
+      if(!rkBlock){ res.textContent = `Keine Daten für RK ${rk}.`; return; }
+
+      const fk = floorKey(rkBlock, attack);
+      if(fk===null){ res.textContent = 'Kein passender Eintrag (Wert zu niedrig).'; return; }
+
+      const entry = rkBlock[String(fk)];
+      const tp = entry.trefferpunkte ?? '—';
+      const kt = entry.krit_typ || '';
+      const kk = entry.krit_kat || '';
+
+      autoCrit.typ = mapCritName(kt) || '';
+      autoCrit.kat = kk || '';
+
+      kpi.append(chip(`Waffe: ${weapon}`));
+      kpi.append(chip(`RK: ${rk}`));
+      kpi.append(chip(`Tabelleneintrag: ${fk}`));
+
+      const pillz = document.createElement('div');
+      pillz.className='kpi';
+      pillz.append(pill('Trefferpunkte', String(tp), 'ok'));
+      if(kt && kk){
+        pillz.append(pill('Krit', `${kt}-${kk}`, 'warn'));
+        $('#critType').value = autoCrit.typ || '';
+        $('#critCat').value  = autoCrit.kat  || '';
+      } else {
+        pillz.append(pill('Krit', '—', ''));
+      }
+      res.innerHTML = '';
+      res.append(pillz);
+
+      // Hintergrundmusik je nach Krit-Typ vorbereiten
+      if(autoCrit.typ){
+        const bgKey = autoCrit.typ;
+        tryStartBgAudio(bgKey);
+      }
+    });
+
+    // Kritischen Haupttreffer nachschlagen
+    $('#calcCrit').addEventListener('click', () => {
+      const roll = parseInt($('#critRoll').value,10);
+      const typSel = $('#critType').value || autoCrit.typ;
+      const katSel = $('#critCat').value || autoCrit.kat;
+
+      const out = $('#critOut'); const kpi = $('#critKpi'); const res = out.querySelector('.result');
+      kpi.innerHTML=''; res.classList.remove('muted');
+
+      if(!roll || roll<1 || roll>100){ res.textContent = 'Bitte Wurf (1–100) eingeben.'; return; }
+      if(!typSel || !katSel){ res.textContent = 'Krit-Typ und -Kategorie festlegen (oder Schritt 1 ausführen).'; return; }
+
+      const found = lookupCritEntry(typSel, katSel, roll);
+      if(!found){ res.textContent = `Kein Eintrag gefunden für ${typSel} ${katSel} (${roll}).`; return; }
+
+      const { text, key } = found;
+
+      kpi.append(chip(`Typ: ${typSel}`));
+      kpi.append(chip(`Kat: ${katSel}`));
+      kpi.append(chip(`Wurf: ${roll}`));
+      if(key) kpi.append(chip(`Bereich: ${key}`));
+      res.textContent = text;
+
+      // Audio: erst MP3 versuchen, sonst TTS
+      playCritAudio(typSel, katSel, key, text);
+      tryStartBgAudio(typSel);
+    });
+
+    // Nebentreffer
+    $('#calcSide').addEventListener('click', () => {
+      const typ = $('#sideType').value;
+      const kat = $('#sideCat').value;
+      const roll = parseInt($('#sideRoll').value,10);
+
+      const out = $('#sideOut'); const kpi = $('#sideKpi'); const res = out.querySelector('.result');
+      kpi.innerHTML=''; res.classList.remove('muted');
+
+      if(!typ){ res.textContent = 'Bitte eine Nebentreffer-Tabelle wählen.'; return; }
+      if(!roll || roll<1 || roll>100){ res.textContent = 'Bitte Wurf (1–100) eingeben.'; return; }
+
+      const found = lookupCritEntry(typ, kat, roll);
+      if(!found){ res.textContent = `Kein Eintrag gefunden für ${typ} ${kat} (${roll}).`; return; }
+      const { text, key } = found;
+
+      kpi.append(chip(`Nebentyp: ${typ}`));
+      kpi.append(chip(`Kat: ${kat}`));
+      kpi.append(chip(`Wurf: ${roll}`));
+      if(key) kpi.append(chip(`Bereich: ${key}`));
+      res.textContent = text;
+
+      playCritAudio(typ, kat, key, text);
+      tryStartBgAudio(typ);
+    });
+
+    // Utilities: UI Chips/Pills
+    function chip(t){ const s=document.createElement('span'); s.className='pill'; s.textContent=t; return s; }
+    function pill(label, value, tone){ const w=document.createElement('div'); w.className='pill '+(tone||''); w.innerHTML = '<strong>'+label+':</strong> '+value; return w; }
+
+    // Krit-Namen von Kürzel zu Tabellen-Key abbilden
+    function mapCritName(kurz){
+      if(!kurz) return '';
+      const map = { 'P':'Stich', 'S':'Streich', 'K':'Hieb' };
+      const base = map[kurz] || kurz;
+      // Fallback auf vorhandene Tabellen-Schlüssel
+      const keys = Object.keys(tables||{});
+      if(keys.includes(base)) return base;
+      // alternative Schreibweisen (z. B. Schlag)
+      const alt = keys.find(k => k.toLowerCase().startsWith(base.toLowerCase()));
+      return alt || '';
     }
 
-    // Liest den Wert aus dem Eingabefeld und konvertiert ihn in eine ganze Zahl
-    const value = parseInt(document.getElementById('numberInput').value);
-
-    // Prüft, ob der Wert gültig ist (Zahl zwischen 1 und 100)
-    if (isNaN(value) || value < 1 || value > 100) {
-        document.getElementById('result').innerText = "Bitte eine Zahl zwischen 1 und 100 eingeben.";
-        return;
+    // Bereichs-Parser: "1-5", "66", "≤5", "01-05"
+    function matchRange(range, roll){
+      range = String(range).trim();
+      const z = (s)=>parseInt(String(s).replace(/^0+/,'')||'0',10);
+      if(range.includes('-')){
+        const [a,b] = range.split('-'); return roll>=z(a)&&roll<=z(b);
+      }
+      if(range.startsWith('≤')){ return roll <= z(range.slice(1)); }
+      if(range.startsWith('≥')){ return roll >= z(range.slice(1)); }
+      return roll === z(range);
     }
 
-    // Sucht das passende Ergebnis in der ausgewählten Tabelle und Kategorie
-    let text = findResult(currentTable, currentCategory, value);
-    document.getElementById('result').innerText = text; // Zeigt den Text im Ergebnisbereich an
-    speakText(text); // Spricht den Text vor
-}
-
-/**
- * Findet die Trefferbeschreibung für einen gegebenen Würfelwert in einer bestimmten Tabelle und Kategorie.
- * @param {string} table - Der Name der Tabelle (Schadensart).
- * @param {string} category - Der Name der Kategorie (A-E).
- * @param {number} value - Der gewürfelte Wert.
- * @returns {string} Die Trefferbeschreibung oder eine Standardnachricht, wenn kein Eintrag gefunden wird.
- */
-function findResult(table, category, value) {
-    // Prüft, ob die Tabelle und die Kategorie existieren
-    if (!tables[table] || !tables[table][category]) {
-        return "Fehler: Tabelle oder Kategorie nicht gefunden.";
+    function sanitizeRangeForFile(rangeKey){
+      // Normalize 01-05 -> 1-5; keep digits and single dash
+      let s = String(rangeKey).trim();
+      s = s.replace(/[–—]/g,'-');           // long dashes -> '-'
+      s = s.replace(/\s+/g,'');             // remove whitespace
+      // Collapse leading zeros in both ends of a-b or single number
+      if(s.includes('-')){
+        const [a,b] = s.split('-');
+        const nz = (x)=> String(parseInt(x,10));
+        return nz(a) + '-' + nz(b);
+      }
+      // handle ≤ / ≥ by stripping symbol (filename like "5" or "95")
+      s = s.replace(/[≤≥]/g,'');
+      return String(parseInt(s,10));
     }
 
-    const ranges = Object.keys(tables[table][category]); // Holt alle Bereichsschlüssel der spezifischen Kategorie
-    for (let range of ranges) {
-        // Teilt den Bereich (z.B. "1-5") in Minimum und Maximum auf und konvertiert sie in Zahlen
-        const [min, max] = range.split('-').map(Number);
-        // Prüft, ob der gewürfelte Wert im aktuellen Bereich liegt
-        if (value >= min && value <= max) {
-            return tables[table][category][range]; // Gibt die passende Beschreibung zurück
+    function buildCritAudioFilename(typ, kat, rangeKey){
+      if(!typ || !kat || !rangeKey) return null;
+      const safeTyp = String(typ).replace(/\s+/g,'_');
+      const safeKat = String(kat).toUpperCase();
+      const safeRange = sanitizeRangeForFile(rangeKey);
+      // Optional: in Unterordner ablegen -> z. B. `assets/audio/`
+      // return `assets/audio/${safeTyp}_${safeKat}_${safeRange}.mp3`;
+      return `${safeTyp}_${safeKat}_${safeRange}.mp3`;
+    }
+
+    function lookupCritEntry(typ, kat, roll){
+      const block = tables?.[typ];
+      if(!block){ return null; }
+      const cat = block?.[kat];
+      if(!cat){ return null; }
+      for(const key of Object.keys(cat)){
+        if(matchRange(key, roll)){
+          return { text: cat[key], key };
         }
+      }
+      return null;
     }
-    // Wenn kein spezifischer kritischer Treffer für diesen Bereich gefunden wurde
-    return "Normaler Treffer. Kein kritischer Schaden für diesen Wurf in dieser Kategorie.";
-}
 
-/**
- * Liest einen gegebenen Text mittels der Web Speech API vor.
- * @param {string} text - Der vorzulesende Text.
- */
-function speakText(text) {
-    // Stoppt eventuell laufende Sprachausgabe, um Überlappungen zu vermeiden
-    if (speechSynthesis.speaking) {
-        speechSynthesis.cancel();
+    // --- Audio ---
+    const bgAudio = $('#bgAudio');
+    const sfxAudio = $('#sfxAudio');
+
+    $('#bgVol').addEventListener('input', e => { 
+      bgAudio.volume = parseFloat(e.target.value || '0.15'); 
+      sfxAudio.volume = Math.min(1, parseFloat(e.target.value || '0.15') + 0.05); // SFX leicht lauter
+    });
+    $('#bgPlay').addEventListener('click', ()=>{
+      if(bgAudio.paused) bgAudio.play().catch(()=>{}); else bgAudio.pause();
+    });
+
+    function tryStartBgAudio(tableKey){
+      if(!tables) return;
+      const t = tables[tableKey];
+      const file = t?.audioFile;
+      if(!file){ return; } // nichts zu spielen
+      if(currentBgKey === tableKey && !bgAudio.paused) return; // bereits spielend
+      currentBgKey = tableKey;
+      bgAudio.src = file;
+      bgAudio.volume = parseFloat($('#bgVol').value || '0.15');
+      bgAudio.play().catch(()=>{});
     }
-    // Erstellt ein neues SpeechSynthesisUtterance-Objekt mit dem Text
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'de-DE'; // Setzt die Sprache auf Deutsch
-    utterance.rate = 1; // Setzt die Sprechgeschwindigkeit (1 ist normal)
-    // Startet das Vorlesen des Textes
-    speechSynthesis.speak(utterance);
-}
 
-// Initialisierung beim Laden der Seite
-document.addEventListener('DOMContentLoaded', () => {
-    // Der direkte relative Pfad ist oft am zuverlässigsten in Umgebungen wie Canvas.
-    fetch('assets/tables.json')
-        .then(response => {
-            if (!response.ok) {
-                // Wenn die Antwort nicht OK ist (z.B. 404 Not Found), werfe einen Fehler.
-                throw new Error(`HTTP error! Status: ${response.status} - ${response.statusText}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            tables = data; // Weist die geladenen Daten der globalen 'tables'-Variable zu
-            document.getElementById('result').innerText = "Tabellen erfolgreich geladen. Bitte wählen Sie eine Schadensart und Kategorie.";
+    function playCritAudio(typ, kat, rangeKey, fallbackText){
+      const mp3 = buildCritAudioFilename(typ, kat, rangeKey);
+      if(!mp3){ speak(fallbackText); return; }
+      sfxAudio.pause();
+      sfxAudio.currentTime = 0;
+      sfxAudio.src = mp3;
+      // Erst versuchen, MP3 zu spielen. Falls Fehler: TTS.
+      const onError = ()=>{ sfxAudio.removeEventListener('error', onError); speak(fallbackText); };
+      sfxAudio.addEventListener('error', onError, { once:true });
+      sfxAudio.play().catch(()=>{ speak(fallbackText); });
+    }
 
-            // Wählt standardmäßig die erste Schadensart und Kategorie aus, nachdem die Daten geladen sind
-            const firstDamageTypeButton = document.querySelector('.damage-type-group button');
-            if (firstDamageTypeButton) {
-                firstDamageTypeButton.click(); // Simuliert Klick auf den ersten Schadensart-Button
-            }
+    // --- TTS ---
+    function speak(text){
+      const enabled = $('#ttsToggle').checked;
+      if(!enabled) return;
+      if(!('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = 'de-DE';
+      utter.rate = 1.02;
+      window.speechSynthesis.speak(utter);
+    }
 
-            const firstCategoryButton = document.querySelector('.category-group button');
-            if (firstCategoryButton) {
-                firstCategoryButton.click(); // Simuliert Klick auf den ersten Kategorie-Button
-            }
-        })
-        .catch(error => {
-            console.error("Fehler beim Laden der Tabellen-JSON-Datei:", error);
-            document.getElementById('result').innerText = `Fehler beim Laden der Tabellen: ${error.message}. Bitte überprüfen Sie die 'assets/tables.json' Datei und den 'assets'-Ordner.`;
-        });
-});
-</script>
+    // --- Reset ---
+    $('#resetBtn').addEventListener('click', ()=>{
+      $('#attack').value='';
+      $('#critRoll').value='';
+      $('#critOut .result').textContent='Noch kein Ergebnis.';
+      $('#attackOut .result').textContent='Noch kein Ergebnis.';
+      $('#sideOut .result').textContent='Noch kein Ergebnis.';
+      $('#critKpi').innerHTML=''; $('#attackKpi').innerHTML=''; $('#sideKpi').innerHTML='';
+      $('#critType').value=''; $('#critCat').value='';
+      autoCrit={typ:'',kat:''};
+    });
+
+    // --- PWA Basics ---
+    let deferredPrompt=null;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      $('#installBtn').hidden = false;
+    });
+    $('#installBtn').addEventListener('click', async () => {
+      if(!deferredPrompt) return;
+      deferredPrompt.prompt();
+      await deferredPrompt.userChoice;
+      deferredPrompt = null;
+      $('#installBtn').hidden = true;
+    });
+
+    // Service Worker (optional, nur für PWA-Shell)
+    if('serviceWorker' in navigator){
+      const sw = `
+        const CORE = self.location.href;
+        self.addEventListener('install', e=>{self.skipWaiting()});
+        self.addEventListener('activate', e=>{clients.claim()});
+        self.addEventListener('fetch', e=>{});
+      `;
+      const blob = new Blob([sw], {type:'text/javascript'});
+      const url = URL.createObjectURL(blob);
+      navigator.serviceWorker.register(url).catch(()=>{});
+    }
+
+    // Init
+    loadData().catch(err=>{
+      console.error(err);
+      alert('Fehler beim Laden der JSON-Dateien. Bitte sicherstellen, dass sich tables.json und treffer_tabellen_strukturiert.json im gleichen Ordner wie diese index.html befinden.');
+    });
+  </script>
 </body>
 </html>
