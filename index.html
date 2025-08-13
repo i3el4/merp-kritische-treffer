@@ -433,12 +433,12 @@
     }
     
     function buildCritAudioFilename(typ, kat, rangeKey){
-        if(!typ || !kat || !rangeKey) return null;
-        const safeTyp = String(typ).replace(/\s+/g,'_');
-        const safeKat = String(kat).toUpperCase();
-        const safeRange = sanitizeRangeForFile(rangeKey);
-        // Anstatt den kompletten Pfad zu generieren, verwenden wir die Konstante
-        return `${AUDIO_BASE_PATH}${safeTyp}_${safeKat}_${safeRange}.mp3`;
+      if(!typ || !kat || !rangeKey) return null;
+      const safeTyp = String(typ).trim().toLowerCase(); // Kleinschreibung
+      const capitalTyp = safeTyp.charAt(0).toUpperCase() + safeTyp.slice(1); // Streich, nicht streich
+      const safeKat = String(kat).trim().toUpperCase();
+      const safeRange = sanitizeRangeForFile(rangeKey);
+      return `${AUDIO_BASE_PATH}${capitalTyp}_${safeKat}_${safeRange}.mp3`;
     }
     
     function lookupCritEntry(typ, kat, roll){
@@ -470,6 +470,7 @@
 
     function playCritAudio(typ, kat, rangeKey, fallbackText){
       const mp3 = buildCritAudioFilename(typ, kat, rangeKey);
+      console.log('Versuche MP3 abzuspielen:', mp3); // Debug-Ausgabe
       if(!mp3){ speak(fallbackText); return; }
       sfxAudio.pause(); sfxAudio.currentTime = 0; sfxAudio.src = mp3;
       const onError = ()=>{ sfxAudio.removeEventListener('error', onError); speak(fallbackText); };
