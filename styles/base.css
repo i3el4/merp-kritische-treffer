@@ -1,22 +1,21 @@
 @font-face {
   font-family: 'Aniron';
   src: url('../assets/fonts/Aniron.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
   font-display: swap;
 }
-
-:root {
-  --bg: #dfdcc7;
-  --panel: #f1efe4;
-  --text: #2c2b28;
-  --accent: #e0c087;
-  --accent-2: #3a342d;
-  --ok: #2e8b57;
-  --warn: #ff8c00;
-  --danger: #cc0000;
-  --card: #f8f6ec;
-  --chip: #d7d3bf;
-  --border: #c7c4b3;
-  --shadow: 0 8px 26px rgba(0,0,0,.3);
+body {
+  margin: 0;
+  font-family: 'Aniron', serif;
+  background-color: #2d2d2a;
+  background-image: url('../assets/img/map_bg.jpeg');
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  color: #7c7a7a;
+}
+.rk button.active {
+  background-color: #d4af37;
+  border-color: #d4af37;
+  color: black;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2) inset;
 }
