@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#3c3c39" />
   <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+  <link rel="icon" href="assets/apple-touch-icon.png" />
   <title>MERS — Angriffs- & Krit-Tabellen (PWA-Prototyp)</title>
   <meta name="description" content="Schnelles Nachschlagen von Angriffen und kritischen Treffern für MERS/MERP." />
 
@@ -13,6 +15,7 @@
   <link rel="stylesheet" href="styles/overrides.css">
 
 </head>
+
 <body>
   <div class="wrap">
     <header>
@@ -75,7 +78,11 @@
             <label for="critCat">Kategorie</label><br>
             <select id="critCat">
               <option value="">(auto)</option>
-              <option>A</option><option>B</option><option>C</option><option>D</option><option>E</option>
+              <option>A</option>
+              <option>B</option>
+              <option>C</option>
+              <option>D</option>
+              <option>E</option>
             </select>
           </div>
         </div>
@@ -99,12 +106,16 @@
             <div>
               <label for="sideCat">Kategorie</label><br>
               <select id="sideCat">
-                <option>A</option><option>B</option><option>C</option><option>D</option><option>E</option>
+                <option>A</option>
+                <option>B</option>
+                <option>C</option>
+                <option>D</option>
+                <option>E</option>
               </select>
             </div>
             <div>
               <label for="sideRoll">Würfelwurf</label><br>
-              <input id="sideRoll" type="number" min="1" max="100" placeholder="z. B. 87"/>
+              <input id="sideRoll" type="number" min="1" max="100" placeholder="z. B. 87" />
             </div>
           </div>
           <div class="actions">
@@ -129,23 +140,23 @@
           <span class="badge">Hintergrundmusik je Tabelle</span>
         </div>
         <div class="audio-controls">
-          <label class="sr" for="ttsToggle">Vorlesen</label>
-          <input id="ttsToggle" type="checkbox" checked>
+          <!--<label class="sr" for="ttsToggle">Vorlesen</label>
+          <input id="ttsToggle" type="checkbox" checked>-->
           <label for="ttsVol">Lautstärke</label>
           <input id="ttsVol" type="range" min="0" max="1" step="0.01" value="1.00">
           <span class="badge">TTS-Fallback (falls keine MP3 gefunden)</span>
         </div>
       </div>
-      <!-- 
+      <!--
       <div class="foot">Audio-Dateien liegen z. B. in <span class="monospace">assets/</span>. Für einzelne Krit-Einträge nutzt die App das Schema <span class="monospace">Typ_Kat_Bereich.mp3</span> (z. B. <span class="monospace">Streich_E_1-5.mp3</span>).</div>
       -->
     </section>
-   <!-- 
+    <!--
     <footer class="foot">
       © 2025 • Prototyp. Läuft als PWA (Installieren-Button erscheint in unterstützten Browsern).
     </footer>
   -->
-    
+
   </div>
 
   <audio id="bgAudio" loop></audio>
@@ -154,4 +165,5 @@
   <!-- Verweis auf die ausgelagerte JavaScript-Datei -->
   <script src="scripts/app.js"></script>
 </body>
+
 </html>

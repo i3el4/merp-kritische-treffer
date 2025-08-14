@@ -326,7 +326,7 @@ $('#bgToggleBtn').addEventListener('click', () => {
     $('#bgToggleBtn').textContent = 'Musik ⏸︎';
     if (currentBgKey) {
       // Setze die Musik fort, falls sie nur pausiert war
-      bgAudio.play().catch(() => {});
+      bgAudio.play().catch(() => { });
     } else {
       // Versuche die Musik basierend auf dem aktuellen Zustand zu starten
       const currentCrit = $('#critType').value || autoCrit.typ;
@@ -355,46 +355,54 @@ function tryStartBgAudio(tableKey) {
   currentBgKey = tableKey;
   bgAudio.src = AUDIO_BASE_PATH + `musik/${file}`;
   bgAudio.volume = parseFloat($('#bgVol').value || '0.2');
-  bgAudio.play().catch(() => {});
+  bgAudio.play().catch(() => { });
 }
 
 function playCritAudio(typ, kat, rangeKey, fallbackText) {
   const mp3 = buildCritAudioFilename(typ, kat, rangeKey);
   console.log('Versuche MP3 abzuspielen:', mp3); // Debug-Ausgabe
+
   if (!mp3) {
     speak(fallbackText);
     return;
   }
+
+  const sfxAudio = $('#sfxAudio');
+
   sfxAudio.pause();
   sfxAudio.currentTime = 0;
   sfxAudio.src = mp3;
+
+  // 💡 Hier Lautstärke setzen – basierend auf dem TTS-Volume-Slider
+  sfxAudio.volume = parseFloat($('#ttsVol').value);
+
   const onError = () => {
     sfxAudio.removeEventListener('error', onError);
     speak(fallbackText);
   };
-  sfxAudio.addEventListener('error', onError, {
-    once: true
-  });
+
+  sfxAudio.addEventListener('error', onError, { once: true });
+
   sfxAudio.play().catch(() => {
     speak(fallbackText);
   });
 }
 
 // TTS
-$('#ttsVol').addEventListener('input', () => {
-  // nichts nötig – wird erst beim Sprechen verwendet
-});
-
 function speak(text) {
-  const enabled = $('#ttsToggle').checked;
-  if (!enabled || !('speechSynthesis' in window)) return;
+  if (!('speechSynthesis' in window)) return;
 
+  const volume = parseFloat($('#ttsVol')?.value ?? '1.0');
+  if (volume === 0) return; // Bei Lautstärke 0: Kein Vorlesen
+
+  // Aktuelle Ausgaben stoppen
   window.speechSynthesis.cancel();
 
   const utter = new SpeechSynthesisUtterance(text);
   utter.lang = 'de-DE';
   utter.rate = 1.02;
-  utter.volume = parseFloat($('#ttsVol').value || '1.0'); // hier!
+  utter.volume = volume;
+
   window.speechSynthesis.speak(utter);
 }
 
@@ -444,7 +452,7 @@ if ('serviceWorker' in navigator) {
     type: 'text/javascript'
   });
   const url = URL.createObjectURL(blob);
-  navigator.serviceWorker.register(url).catch(() => {});
+  navigator.serviceWorker.register(url).catch(() => { });
 }
 
 // Init

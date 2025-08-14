@@ -6,6 +6,14 @@ body {
 }
 
 /*
+  Verbesserung der Lesbarkeit des Haupttitels und der Krit-Treffer.
+*/
+h1 {
+  /* Schatten verstärkt, um den Titel besser hervorzuheben */
+  text-shadow: 1px 1px 2px #000, 2px 2px 4px var(--bg);
+}
+
+/*
   1. Änderungen am Hintergrundmusik-Button
   Der Button zum Ein- und Ausschalten der Musik wird nun direkt per JavaScript
   mit dem Play- oder Pause-Emoji aktualisiert, das separate Toggle-Feld ist nicht mehr nötig.
@@ -25,10 +33,13 @@ body {
   wenn ein kritischer Treffer ermittelt wird.
 */
 .result.crit-prominent {
-  font-size: 1.25em; /* Grössere Schrift */
+  font-size: 1.25em;
+  /* Grössere Schrift */
   font-weight: bold;
-  color: var(--accent-2); /* Betont mit der neuen Akzentfarbe (Drachenrot) */
-  text-shadow: 0 0 5px rgba(229, 91, 65, 0.5); /* Schimmer passend zum Rot */
+  color: var(--accent);
+  /* Betont mit der neuen Akzentfarbe (Drachenrot) */
+  /* Schärferer Schatten und ein leichter goldener Schimmer */
+  text-shadow: 1px 1px 3px var(--bg), 0 0 8px rgba(2, 2, 2, 0.8), 0 0 12px rgba(229, 91, 65, 0.5);
 }
 
 /*
@@ -43,7 +54,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0; /* Padding entfernen, um Grösse zu kontrollieren */
+  padding: 0;
+  /* Padding entfernen, um Grösse zu kontrollieren */
   font-family: 'Aniron', Georgia, serif;
   font-size: 18px;
   transition: all 0.2s ease;
@@ -51,12 +63,14 @@ body {
 }
 
 .rk button:hover {
-  transform: translateY(-2px); /* Kleiner "Schwebe-Effekt" beim Hover */
+  transform: translateY(-2px);
+  /* Kleiner "Schwebe-Effekt" beim Hover */
   box-shadow: var(--shadow);
 }
 
 .rk button.active {
-  transform: translateY(0); /* Aktiver Knopf bleibt an Ort und Stelle */
-  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.4) inset, var(--shadow); /* Weicherer Schatten und innerer Akzent */
+  transform: translateY(0);
+  /* Aktiver Knopf bleibt an Ort und Stelle */
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.4) inset, var(--shadow);
+  /* Weicherer Schatten und innerer Akzent */
 }
-

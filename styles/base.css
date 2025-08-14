@@ -8,19 +8,26 @@
 
 :root {
   /* Farbpalette angepasst an das Hintergrundbild */
-  --bg: #302621;         /* Dunkelbraun */
-  --panel: #4a382d;      /* Etwas helleres Braun für Panels */
-  --muted: #a6a6a6;      /* Gedämpftes Grau */
-  --text: #c2bdbb;       /* Helles, warmes Grau */
-  --accent: #d4af37;     /* Gold aus dem Bild */
-  --accent-2: #e55b41;   /* Rot-Orange vom Drachen */
+  --bg: #302621;
+  /* Dunkelbraun */
+  --panel: rgba(74, 56, 45, 0.85);
+  /* Etwas helleres Braun für Panels */
+  --muted: #a6a6a6;
+  /* Gedämpftes Grau */
+  --text: #c2bdbb;
+  /* Helles, warmes Grau */
+  --accent: #d4af37;
+  /* Gold aus dem Bild */
+  --accent-2: #e55b41;
+  /* Rot-Orange vom Drachen */
   --ok: #2e8b57;
   --warn: #ff8c00;
   --danger: #cc0000;
   --card: var(--panel);
-  --chip: #5c4d44;       /* Dunklerer Ton für Chips */
+  --chip: #5c4d44;
+  /* Dunklerer Ton für Chips */
   --border: #6d5b51;
-  --shadow: 0 8px 26px rgba(0,0,0,.3);
+  --shadow: 0 8px 26px rgba(0, 0, 0, .3);
   --formtext: #333;
 }
 
@@ -28,7 +35,8 @@
   box-sizing: border-box
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   background: var(--bg);
@@ -37,7 +45,7 @@ html, body {
 }
 
 body {
-  background-image: url('../assets/img/map_bg.jpg'); /* Pfad aktualisiert */
+  background-image: url('../assets/img/map_bg.jpg');
   background-size: cover;
   background-attachment: fixed;
   background-position: center;
@@ -61,7 +69,9 @@ h1 {
   font-family: Aniron, Georgia, 'Times New Roman', serif;
   font-size: clamp(20px, 4.8vw, 28px);
   margin: 0;
-  letter-spacing: .3px
+  letter-spacing: .3px;
+  color: var(--accent);
+  /* Farbe des Titels leicht angepasst */
 }
 
 .sub {
@@ -109,7 +119,8 @@ label {
   color: var(--muted)
 }
 
-select, input[type=number] {
+select,
+input[type=number] {
   appearance: none;
   background: #fff;
   border: 1px solid var(--border);
@@ -118,7 +129,7 @@ select, input[type=number] {
   padding: 12px 14px;
   font-size: 16px;
   min-width: 180px;
-  box-shadow: 0 1px 0 rgba(0,0,0,.02);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, .02);
   color: var(--formtext);
 }
 
@@ -131,7 +142,8 @@ select {
   cursor: pointer;
 }
 
-select:focus, input:focus {
+select:focus,
+input:focus {
   outline: 2px solid color-mix(in oklab, var(--accent) 60%, white);
   outline-offset: 2px
 }
@@ -141,7 +153,9 @@ input[type=number] {
 }
 
 @media (max-width: 500px) {
-  input[type=number], select {
+
+  input[type=number],
+  select {
     min-width: 100%;
   }
 }
@@ -165,7 +179,7 @@ input[type=number] {
 .rk button.active {
   background: color-mix(in oklab, var(--accent) 25%, var(--chip));
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(212,175,55,.2) inset;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, .2) inset;
   color: var(--accent);
 }
 
@@ -303,4 +317,3 @@ hr {
   position: absolute;
   left: -9999px
 }
-
