@@ -1,21 +1,306 @@
 @font-face {
   font-family: 'Aniron';
   src: url('../assets/fonts/Aniron.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
   font-display: swap;
 }
-body {
+
+:root {
+  /* Herr der Ringe Palette */
+  --bg: #2d2d2a;
+  --panel: #3c3c39;
+  --muted: #a6a6a6;
+  --text: #7c7a7a;
+  --accent: #d4af37;   /* Gold */
+  --accent-2: #8b4513;  /* Dunkelbraun */
+  --ok: #2e8b57;
+  --warn: #ff8c00;
+  --danger: #cc0000;
+  --card: #3c3c39;
+  --chip: #4a4a47;
+  --border: #4d4d4a;
+  --shadow: 0 8px 26px rgba(0,0,0,.3);
+  --formtext: #333;
+}
+
+* {
+  box-sizing: border-box
+}
+
+html, body {
   margin: 0;
-  font-family: 'Aniron', serif;
-  background-color: #2d2d2a;
-  background-image: url('../assets/img/map_bg.jpeg');
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+body {
+  background-image: url('../assets/img/map_bg.jpg');
   background-size: cover;
   background-attachment: fixed;
   background-position: center;
-  color: #7c7a7a;
 }
+
+.wrap {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 16px
+}
+
+header {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px
+}
+
+h1 {
+  font-family: Aniron, Georgia, 'Times New Roman', serif;
+  font-size: clamp(20px, 4.8vw, 28px);
+  margin: 0;
+  letter-spacing: .3px
+}
+
+.sub {
+  color: var(--muted);
+  font-size: 13px
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px
+}
+
+/* ab Tablet zwei Spalten */
+@media (min-width: 960px) {
+  .grid {
+    grid-template-columns: 1.05fr .95fr
+  }
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  padding: 14px
+}
+
+.card h2 {
+  margin: 0 0 8px 0;
+  font-size: 17px;
+  font-family: Aniron, Georgia, serif
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: flex-start;
+  margin: 8px 0
+}
+
+label {
+  font-size: 12px;
+  color: var(--muted)
+}
+
+select, input[type=number] {
+  appearance: none;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--text);
+  padding: 12px 14px;
+  font-size: 16px;
+  min-width: 180px;
+  box-shadow: 0 1px 0 rgba(0,0,0,.02);
+  color: var(--formtext);
+}
+
+select {
+  background-image: linear-gradient(45deg, transparent 50%, #8a95a1 50%), linear-gradient(135deg, #8a95a1 50%, transparent 50%);
+  background-position: calc(100% - 20px) calc(1em + 2px), calc(100% - 15px) calc(1em + 2px);
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  padding-right: 40px;
+  cursor: pointer;
+}
+
+select:focus, input:focus {
+  outline: 2px solid color-mix(in oklab, var(--accent) 60%, white);
+  outline-offset: 2px
+}
+
+input[type=number] {
+  width: 180px
+}
+
+@media (max-width: 500px) {
+  input[type=number], select {
+    min-width: 100%;
+  }
+}
+
+.rk {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px
+}
+
+.rk button {
+  border: 1px solid var(--border);
+  background: var(--chip);
+  color: var(--text);
+  border-radius: 999px;
+  padding: 10px 12px;
+  font-size: 14px;
+  cursor: pointer
+}
+
 .rk button.active {
-  background-color: #d4af37;
-  border-color: #d4af37;
-  color: black;
-  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2) inset;
+  background: color-mix(in oklab, var(--accent) 25%, var(--chip));
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(212,175,55,.2) inset;
+  color: var(--accent);
 }
+
+.actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap
+}
+
+.btn {
+  background: var(--chip);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-weight: 600;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-width: 1px;
+}
+
+.btn.primary {
+  background: linear-gradient(180deg, var(--accent), color-mix(in oklab, var(--accent) 80%, black));
+  border-color: color-mix(in oklab, var(--accent) 60%, black);
+  color: #fff
+}
+
+.btn.ghost {
+  background: transparent;
+  color: var(--text);
+}
+
+.out {
+  background: var(--chip);
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  padding: 10px;
+  margin-top: 8px
+}
+
+.kpi {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap
+}
+
+.pill {
+  background: color-mix(in oklab, var(--accent) 10%, black);
+  border: 1px solid var(--accent);
+  color: #f5f5f5;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.pill.warn {
+  background: color-mix(in oklab, var(--warn) 10%, black);
+  border-color: var(--warn);
+  color: #f5f5f5
+}
+
+.pill.ok {
+  background: color-mix(in oklab, var(--ok) 10%, black);
+  border-color: var(--ok);
+  color: #f5f5f5
+}
+
+.pill.danger {
+  background: color-mix(in oklab, var(--danger) 10%, black);
+  border-color: var(--danger);
+  color: #f5f5f5
+}
+
+.result {
+  font-size: 15px;
+  margin-top: 6px
+}
+
+.muted {
+  color: var(--muted)
+}
+
+details summary {
+  cursor: pointer;
+  user-select: none
+}
+
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 10px 0
+}
+
+.audio-controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.audio-controls input[type="range"] {
+  max-width: 120px;
+}
+
+.flex {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center
+}
+
+.badge {
+  font-size: 11px;
+  background: var(--chip);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 4px 8px;
+  color: var(--muted)
+}
+
+.monospace {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+}
+
+.foot {
+  color: #687385;
+  margin-top: 10px;
+  font-size: 12px
+}
+
+.sr {
+  position: absolute;
+  left: -9999px
+}
+
