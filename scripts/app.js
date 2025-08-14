@@ -13,6 +13,7 @@ let autoCrit = {
   kat: ''
 };
 let currentBgKey = null;
+let isBgMusicPlaying = false; // Neue Variable für den Zustand der Musik
 
 const $ = sel => document.querySelector(sel);
 const $$ = sel => Array.from(document.querySelectorAll(sel));
@@ -83,6 +84,7 @@ $('#calcAttack').addEventListener('click', () => {
 
   kpi.innerHTML = '';
   res.classList.remove('muted');
+  res.classList.remove('crit-prominent'); // CSS-Klasse entfernen, falls vorhanden
 
   const weaponBlock = treffer?.Angriffstabellen?.[weaponKey];
   if (!weaponKey || !weaponBlock?.RK) {
@@ -132,7 +134,7 @@ $('#calcAttack').addEventListener('click', () => {
   res.innerHTML = '';
   res.append(pillz);
 
-  if (autoCrit.typ) {
+  if (isBgMusicPlaying && autoCrit.typ) {
     tryStartBgAudio(autoCrit.typ);
   }
 });
@@ -174,9 +176,12 @@ $('#calcCrit').addEventListener('click', () => {
   kpi.append(chip(`Wurf: ${roll}`));
   if (key) kpi.append(chip(`Bereich: ${key}`));
   res.textContent = text;
+  res.classList.add('crit-prominent'); // CSS-Klasse für Prominenz hinzufügen
 
   playCritAudio(typSel, katSel, key, text);
-  tryStartBgAudio(typSel);
+  if (isBgMusicPlaying) {
+    tryStartBgAudio(typSel);
+  }
 });
 
 // Nebentreffer
@@ -215,9 +220,12 @@ $('#calcSide').addEventListener('click', () => {
   kpi.append(chip(`Wurf: ${roll}`));
   if (key) kpi.append(chip(`Bereich: ${key}`));
   res.textContent = text;
+  res.classList.add('crit-prominent'); // CSS-Klasse für Prominenz hinzufügen
 
   playCritAudio(typ, kat, key, text);
-  tryStartBgAudio(typ);
+  if (isBgMusicPlaying) {
+    tryStartBgAudio(typ);
+  }
 });
 
 // UI Helpers
@@ -306,23 +314,43 @@ function lookupCritEntry(typ, kat, roll) {
 const bgAudio = $('#bgAudio');
 const sfxAudio = $('#sfxAudio');
 
+// Hintergrundmusik-Toggle-Button
+$('#bgToggleBtn').addEventListener('click', () => {
+  if (isBgMusicPlaying) {
+    bgAudio.pause();
+    isBgMusicPlaying = false;
+    $('#bgToggleBtn').textContent = 'Musik ▶︎';
+  } else {
+    // Wenn die Musik das erste Mal gestartet wird oder sie gestoppt war
+    isBgMusicPlaying = true;
+    $('#bgToggleBtn').textContent = 'Musik ⏸︎';
+    if (currentBgKey) {
+      // Setze die Musik fort, falls sie nur pausiert war
+      bgAudio.play().catch(() => {});
+    } else {
+      // Versuche die Musik basierend auf dem aktuellen Zustand zu starten
+      const currentCrit = $('#critType').value || autoCrit.typ;
+      if (currentCrit) {
+        tryStartBgAudio(currentCrit);
+      }
+    }
+  }
+});
+
 $('#bgVol').addEventListener('input', e => {
   bgAudio.volume = parseFloat(e.target.value || '0.2');
 });
 
-$('#bgToggle').addEventListener('change', () => {
-  if (!$('#bgToggle').checked) {
-    bgAudio.pause();
-  } else if (currentBgKey) {
-    tryStartBgAudio(currentBgKey);
-  }
-});
 
 function tryStartBgAudio(tableKey) {
-  if (!tables || !$('#bgToggle').checked) return;
+  if (!tables || !isBgMusicPlaying) return;
   const t = tables[tableKey];
   const file = t?.audioFile;
-  if (!file) return;
+  if (!file) {
+    bgAudio.pause();
+    currentBgKey = null;
+    return;
+  }
   if (currentBgKey === tableKey && !bgAudio.paused) return;
   currentBgKey = tableKey;
   bgAudio.src = AUDIO_BASE_PATH + `musik/${file}`;
@@ -386,6 +414,9 @@ $('#resetBtn').addEventListener('click', () => {
     typ: '',
     kat: ''
   };
+  // CSS-Klasse für Prominenz entfernen
+  $('#critOut .result').classList.remove('crit-prominent');
+  $('#sideOut .result').classList.remove('crit-prominent');
 });
 
 // PWA Basics

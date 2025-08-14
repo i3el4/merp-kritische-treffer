@@ -33,6 +33,7 @@
           </div>
           <div>
             <label>Rüstungsklasse (RK)</label><br>
+            <!-- Die RK-Buttons werden dynamisch von app.js erzeugt -->
             <div class="rk" id="rk"></div>
           </div>
           <div>
@@ -119,10 +120,10 @@
       <h2>Audio & Sprache</h2>
       <div class="flex">
         <div class="audio-controls">
-          <button class="btn" id="bgPlay">Musik ▶︎/⏸︎</button>
+          <!-- Ein einziger Knopf zum Ein-/Ausschalten der Musik -->
+          <button class="btn" id="bgToggleBtn">Musik ▶︎</button>
           <label class="sr" for="bgVol">Musik-Lautstärke</label>
           <input id="bgVol" type="range" min="0" max="1" step="0.01" value="0.20">
-          <label><input type="checkbox" id="bgToggle" checked> Musik an</label>
           <span class="badge">Hintergrundmusik je Tabelle</span>
         </div>
         <div class="audio-controls">

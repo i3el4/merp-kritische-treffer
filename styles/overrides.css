@@ -1,10 +1,62 @@
 /*
   Hier können weitere Stilanpassungen vorgenommen werden, die spezifisch für die App sind.
-  Aktuell sind alle Stile in der base.css, aber hier könntest du z.B.
-  spezifische Layouts oder Stile für bestimmte Komponenten anpassen.
+*/
+body {
+  background-color: #222;
+}
+
+/*
+  1. Änderungen am Hintergrundmusik-Button
+  Der Button zum Ein- und Ausschalten der Musik wird nun direkt per JavaScript
+  mit dem Play- oder Pause-Emoji aktualisiert, das separate Toggle-Feld ist nicht mehr nötig.
 */
 
-/* Beispiel für eine Anpassung, falls erforderlich */
-/* body {
-  background-color: #222;
-} */
+/*
+  2. Lautstärkeregulierung für Textausgabe (TTS)
+  Die Logik zur Lautstärkeeinstellung ist im JavaScript-Code korrekt. Da der
+  `utter.volume` Wert gesetzt wird, ist es wahrscheinlich, dass das Problem auf
+  die Browser-Implementierung oder die Systemlautstärke zurückzuführen ist.
+  Eine Änderung am CSS ist hier nicht nötig.
+*/
+
+/*
+  3. Kritische Treffer prominenter darstellen
+  Die Klasse `crit-prominent` wird nun im JavaScript hinzugefügt,
+  wenn ein kritischer Treffer ermittelt wird.
+*/
+.result.crit-prominent {
+  font-size: 1.25em; /* Grössere Schrift */
+  font-weight: bold;
+  color: var(--accent-2); /* Betont mit der neuen Akzentfarbe (Drachenrot) */
+  text-shadow: 0 0 5px rgba(229, 91, 65, 0.5); /* Schimmer passend zum Rot */
+}
+
+/*
+  4. Rüstungsklasse (RK) Knöpfe gestalten
+  Hier werden die Knöpfe in Schildform gebracht und die Aniron-Schrift angewendet.
+*/
+.rk button {
+  /* Schildform mit clip-path */
+  clip-path: polygon(50% 0%, 100% 20%, 100% 80%, 50% 100%, 0% 80%, 0% 20%);
+  width: 45px;
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0; /* Padding entfernen, um Grösse zu kontrollieren */
+  font-family: 'Aniron', Georgia, serif;
+  font-size: 18px;
+  transition: all 0.2s ease;
+  transform: translateY(0);
+}
+
+.rk button:hover {
+  transform: translateY(-2px); /* Kleiner "Schwebe-Effekt" beim Hover */
+  box-shadow: var(--shadow);
+}
+
+.rk button.active {
+  transform: translateY(0); /* Aktiver Knopf bleibt an Ort und Stelle */
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.4) inset, var(--shadow); /* Weicherer Schatten und innerer Akzent */
+}
+

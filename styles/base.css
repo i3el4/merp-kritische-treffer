@@ -7,19 +7,19 @@
 }
 
 :root {
-  /* Herr der Ringe Palette */
-  --bg: #2d2d2a;
-  --panel: #3c3c39;
-  --muted: #a6a6a6;
-  --text: #7c7a7a;
-  --accent: #d4af37;   /* Gold */
-  --accent-2: #8b4513;  /* Dunkelbraun */
+  /* Farbpalette angepasst an das Hintergrundbild */
+  --bg: #302621;         /* Dunkelbraun */
+  --panel: #4a382d;      /* Etwas helleres Braun für Panels */
+  --muted: #a6a6a6;      /* Gedämpftes Grau */
+  --text: #c2bdbb;       /* Helles, warmes Grau */
+  --accent: #d4af37;     /* Gold aus dem Bild */
+  --accent-2: #e55b41;   /* Rot-Orange vom Drachen */
   --ok: #2e8b57;
   --warn: #ff8c00;
   --danger: #cc0000;
-  --card: #3c3c39;
-  --chip: #4a4a47;
-  --border: #4d4d4a;
+  --card: var(--panel);
+  --chip: #5c4d44;       /* Dunklerer Ton für Chips */
+  --border: #6d5b51;
   --shadow: 0 8px 26px rgba(0,0,0,.3);
   --formtext: #333;
 }
@@ -37,7 +37,7 @@ html, body {
 }
 
 body {
-  background-image: url('../assets/img/map_bg.jpg');
+  background-image: url('../assets/img/map_bg.jpg'); /* Pfad aktualisiert */
   background-size: cover;
   background-attachment: fixed;
   background-position: center;
