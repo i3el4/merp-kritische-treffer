@@ -1,0 +1,44 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+}
+
+body {
+  background-image: url('../assets/img/map_bg.jpeg');
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+.wrap {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+h1 {
+  font-family: Aniron, Georgia, serif;
+  font-size: clamp(20px, 4.8vw, 28px);
+  margin: 0;
+  letter-spacing: 0.3px;
+}
+
+.card h2 {
+  font-family: Aniron, Georgia, serif;
+}
+
+.rk button {
+  font-family: Aniron, serif;
+}
+
+#critOut .result,
+#sideOut .result {
+  background: #fffef8;
+  color: #2c2b28;
+  padding: 12px;
+  border-radius: 10px;
+  font-family: Aniron, serif;
+}

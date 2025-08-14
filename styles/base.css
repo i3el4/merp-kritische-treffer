@@ -1,0 +1,22 @@
+@font-face {
+  font-family: 'Aniron';
+  src: url('../assets/fonts/Aniron.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --bg: #dfdcc7;
+  --panel: #f1efe4;
+  --text: #2c2b28;
+  --accent: #e0c087;
+  --accent-2: #3a342d;
+  --ok: #2e8b57;
+  --warn: #ff8c00;
+  --danger: #cc0000;
+  --card: #f8f6ec;
+  --chip: #d7d3bf;
+  --border: #c7c4b3;
+  --shadow: 0 8px 26px rgba(0,0,0,.3);
+}
