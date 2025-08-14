@@ -17,8 +17,10 @@
   <div class="wrap">
     <header>
       <div>
-        <h1>MERS • Angriffe & Krits</h1>
+        <h1>MERS • Angriffe & Kritsche Treffer</h1>
+        <!--
         <div class="sub">Prototyp (PWA). JSON-Dateien <span class="monospace">assets/data/treffer_tabellen_strukturiert.json</span> & <span class="monospace">assets/data/tables.json</span> werden dynamisch geladen.</div>
+        -->
       </div>
       <button class="btn" id="installBtn" hidden>Installieren</button>
     </header>
@@ -32,7 +34,7 @@
             <select id="weapon" aria-label="Waffenart"></select>
           </div>
           <div>
-            <label>Rüstungsklasse (RK)</label><br>
+            <label>Rüstungsklasse</label><br>
             <!-- Die RK-Buttons werden dynamisch von app.js erzeugt -->
             <div class="rk" id="rk"></div>
           </div>
@@ -55,13 +57,13 @@
         <h2>2) Kritischer Haupttreffer</h2>
         <div class="row">
           <div>
-            <label for="critRoll">Wurf 1–100</label><br>
+            <label for="critRoll">Würfelwurf</label><br>
             <input id="critRoll" type="number" min="1" max="100" placeholder="z. B. 66" />
           </div>
           <div>
             <label for="critType">Krit-Typ</label><br>
             <select id="critType">
-              <option value="">(auto aus Schritt 1)</option>
+              <option value="">(automatisch aus Schritt 1 übernommen)</option>
               <option value="Stich">Stich (P)</option>
               <option value="Streich">Streich (S)</option>
               <option value="Hieb">Hieb (K)</option>
@@ -78,7 +80,7 @@
           </div>
         </div>
         <div class="actions">
-          <button class="btn" id="calcCrit">Krit suchen</button>
+          <button class="btn" id="calcCrit">Kritischer Treffer ermitteln</button>
         </div>
         <div class="out" id="critOut">
           <div class="kpi" id="critKpi"></div>
@@ -101,12 +103,12 @@
               </select>
             </div>
             <div>
-              <label for="sideRoll">Wurf 1–100</label><br>
+              <label for="sideRoll">Würfelwurf</label><br>
               <input id="sideRoll" type="number" min="1" max="100" placeholder="z. B. 87"/>
             </div>
           </div>
           <div class="actions">
-            <button class="btn" id="calcSide">Nebentreffer suchen</button>
+            <button class="btn" id="calcSide">Nebentreffer ermitteln</button>
           </div>
           <div class="out" id="sideOut">
             <div class="kpi" id="sideKpi"></div>
@@ -134,12 +136,16 @@
           <span class="badge">TTS-Fallback (falls keine MP3 gefunden)</span>
         </div>
       </div>
+      <!-- 
       <div class="foot">Audio-Dateien liegen z. B. in <span class="monospace">assets/</span>. Für einzelne Krit-Einträge nutzt die App das Schema <span class="monospace">Typ_Kat_Bereich.mp3</span> (z. B. <span class="monospace">Streich_E_1-5.mp3</span>).</div>
+      -->
     </section>
-
+   <!-- 
     <footer class="foot">
       © 2025 • Prototyp. Läuft als PWA (Installieren-Button erscheint in unterstützten Browsern).
     </footer>
+  -->
+    
   </div>
 
   <audio id="bgAudio" loop></audio>
