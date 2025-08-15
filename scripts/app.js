@@ -8,12 +8,13 @@ const IMG_BASE_PATH = 'assets/img/';
 // --- Globaler Zustand ---
 let treffer = null;
 let tables = null;
+let selectedWeapon = null; // Hinzugefügt: um die ausgewählte Waffe zu speichern
 let autoCrit = {
   typ: '',
   kat: ''
 };
 let currentBgKey = null;
-let isBgMusicPlaying = false; // Neue Variable für den Zustand der Musik
+let isBgMusicPlaying = false;
 
 const $ = sel => document.querySelector(sel);
 const $$ = sel => Array.from(document.querySelectorAll(sel));
@@ -23,10 +24,15 @@ const rkWrap = $('#rk');
 for (let i = 1; i <= 20; i++) {
   const b = document.createElement('button');
   b.type = 'button';
-  b.textContent = i;
   b.dataset.rk = i;
+
+  // KORREKTUR: Zahl in ein <span>-Element verpacken, damit CSS sie gezielt stylen kann
+  const span = document.createElement('span');
+  span.textContent = i;
+  b.appendChild(span);
+
   b.addEventListener('click', () => {
-    $$('.rk button').forEach(x => x.classList.toggle('active', x === b));
+    $$('#rk button').forEach(x => x.classList.toggle('active', x === b));
   });
   if (i === 3) b.classList.add('active'); // Default RK 3
   rkWrap.appendChild(b);
@@ -38,18 +44,37 @@ async function loadData() {
   treffer = await t1.json();
   tables = await t2.json();
 
-  // Waffen aus treffer.Angriffstabellen (Schlüssel)
-  const wSel = $('#weapon');
+  // KORREKTUR: Waffen-Buttons analog zu RK-Buttons erstellen
+  const wSelWrap = $('#weaponWrap');
   const waffen = Object.keys(treffer?.Angriffstabellen || {}).sort();
-  wSel.innerHTML = '';
+  wSelWrap.innerHTML = '';
+
   waffen.forEach(k => {
-    const opt = document.createElement('option');
-    opt.value = k; // Original-Key (z. B. HANDAXT)
-    const label = k.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
-    opt.textContent = label;
-    wSel.appendChild(opt);
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'weapon-button'; // Generische Klasse für Styling
+    btn.dataset.weapon = k; // Korrektes data-Attribut für CSS
+
+    // Text in ein <span>-Element, um ihn über dem Hintergrundbild zu positionieren
+    const label = document.createElement('span');
+    label.textContent = k.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+    btn.appendChild(label);
+
+    // Klick-Listener für die Auswahl
+    btn.addEventListener('click', () => {
+      selectedWeapon = k; // Ausgewählte Waffe im globalen Zustand speichern
+      $$('#weaponWrap button').forEach(x => x.classList.remove('active'));
+      btn.classList.add('active');
+    });
+
+    wSelWrap.appendChild(btn);
   });
-  if (waffen.length) wSel.value = waffen[0];
+
+  // Standard-Waffe auswählen
+  if (waffen.length) {
+    selectedWeapon = waffen[0];
+    $(`button[data-weapon="${selectedWeapon}"]`)?.classList.add('active');
+  }
 
   // Nebentreffer-Typen aus tables.json
   const sideSel = $('#sideType');
@@ -75,8 +100,9 @@ function floorKey(obj, target) {
 
 // Angriff berechnen
 $('#calcAttack').addEventListener('click', () => {
-  const weaponKey = $('#weapon').value; // z. B. HANDAXT
-  const rk = parseInt($('.rk button.active')?.dataset.rk || '3', 10);
+  // KORREKTUR: Ausgewählte Waffe aus globalem Zustand lesen
+  const weaponKey = selectedWeapon;
+  const rk = parseInt($('#rk button.active')?.dataset.rk || '3', 10);
   const attack = parseInt($('#attack').value, 10);
   const out = $('#attackOut');
   const kpi = $('#attackKpi');
@@ -84,7 +110,7 @@ $('#calcAttack').addEventListener('click', () => {
 
   kpi.innerHTML = '';
   res.classList.remove('muted');
-  res.classList.remove('crit-prominent'); // CSS-Klasse entfernen, falls vorhanden
+  res.classList.remove('crit-prominent');
 
   const weaponBlock = treffer?.Angriffstabellen?.[weaponKey];
   if (!weaponKey || !weaponBlock?.RK) {
@@ -176,7 +202,7 @@ $('#calcCrit').addEventListener('click', () => {
   kpi.append(chip(`Wurf: ${roll}`));
   if (key) kpi.append(chip(`Bereich: ${key}`));
   res.textContent = text;
-  res.classList.add('crit-prominent'); // CSS-Klasse für Prominenz hinzufügen
+  res.classList.add('crit-prominent');
 
   playCritAudio(typSel, katSel, key, text);
   if (isBgMusicPlaying) {
@@ -220,7 +246,7 @@ $('#calcSide').addEventListener('click', () => {
   kpi.append(chip(`Wurf: ${roll}`));
   if (key) kpi.append(chip(`Bereich: ${key}`));
   res.textContent = text;
-  res.classList.add('crit-prominent'); // CSS-Klasse für Prominenz hinzufügen
+  res.classList.add('crit-prominent');
 
   playCritAudio(typ, kat, key, text);
   if (isBgMusicPlaying) {
@@ -289,8 +315,8 @@ function sanitizeRangeForFile(rangeKey) {
 
 function buildCritAudioFilename(typ, kat, rangeKey) {
   if (!typ || !kat || !rangeKey) return null;
-  const safeTyp = String(typ).trim().toLowerCase(); // Kleinschreibung
-  const capitalTyp = safeTyp.charAt(0).toUpperCase() + safeTyp.slice(1); // Streich, nicht streich
+  const safeTyp = String(typ).trim().toLowerCase();
+  const capitalTyp = safeTyp.charAt(0).toUpperCase() + safeTyp.slice(1);
   const safeKat = String(kat).trim().toUpperCase();
   const safeRange = sanitizeRangeForFile(rangeKey);
   return `${AUDIO_BASE_PATH}krit/${capitalTyp}_${safeKat}_${safeRange}.mp3`;
@@ -314,21 +340,17 @@ function lookupCritEntry(typ, kat, roll) {
 const bgAudio = $('#bgAudio');
 const sfxAudio = $('#sfxAudio');
 
-// Hintergrundmusik-Toggle-Button
 $('#bgToggleBtn').addEventListener('click', () => {
   if (isBgMusicPlaying) {
     bgAudio.pause();
     isBgMusicPlaying = false;
     $('#bgToggleBtn').textContent = 'Musik ▶︎';
   } else {
-    // Wenn die Musik das erste Mal gestartet wird oder sie gestoppt war
     isBgMusicPlaying = true;
     $('#bgToggleBtn').textContent = 'Musik ⏸︎';
     if (currentBgKey) {
-      // Setze die Musik fort, falls sie nur pausiert war
       bgAudio.play().catch(() => { });
     } else {
-      // Versuche die Musik basierend auf dem aktuellen Zustand zu starten
       const currentCrit = $('#critType').value || autoCrit.typ;
       if (currentCrit) {
         tryStartBgAudio(currentCrit);
@@ -360,29 +382,21 @@ function tryStartBgAudio(tableKey) {
 
 function playCritAudio(typ, kat, rangeKey, fallbackText) {
   const mp3 = buildCritAudioFilename(typ, kat, rangeKey);
-  console.log('Versuche MP3 abzuspielen:', mp3); // Debug-Ausgabe
-
   if (!mp3) {
     speak(fallbackText);
     return;
   }
-
-  const sfxAudio = $('#sfxAudio');
-
   sfxAudio.pause();
   sfxAudio.currentTime = 0;
   sfxAudio.src = mp3;
-
-  // 💡 Hier Lautstärke setzen – basierend auf dem TTS-Volume-Slider
   sfxAudio.volume = parseFloat($('#ttsVol').value);
-
   const onError = () => {
     sfxAudio.removeEventListener('error', onError);
     speak(fallbackText);
   };
-
-  sfxAudio.addEventListener('error', onError, { once: true });
-
+  sfxAudio.addEventListener('error', onError, {
+    once: true
+  });
   sfxAudio.play().catch(() => {
     speak(fallbackText);
   });
@@ -391,18 +405,13 @@ function playCritAudio(typ, kat, rangeKey, fallbackText) {
 // TTS
 function speak(text) {
   if (!('speechSynthesis' in window)) return;
-
   const volume = parseFloat($('#ttsVol')?.value ?? '1.0');
-  if (volume === 0) return; // Bei Lautstärke 0: Kein Vorlesen
-
-  // Aktuelle Ausgaben stoppen
+  if (volume === 0) return;
   window.speechSynthesis.cancel();
-
   const utter = new SpeechSynthesisUtterance(text);
   utter.lang = 'de-DE';
   utter.rate = 1.02;
   utter.volume = volume;
-
   window.speechSynthesis.speak(utter);
 }
 
@@ -422,7 +431,6 @@ $('#resetBtn').addEventListener('click', () => {
     typ: '',
     kat: ''
   };
-  // CSS-Klasse für Prominenz entfernen
   $('#critOut .result').classList.remove('crit-prominent');
   $('#sideOut .result').classList.remove('crit-prominent');
 });

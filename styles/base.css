@@ -1,3 +1,9 @@
+/*
+  ========================================
+  GRUNDLAGEN & ALLGEMEINE STILE
+  ========================================
+*/
+
 @font-face {
   font-family: 'Aniron';
   src: url('../assets/fonts/Aniron.ttf') format('truetype');
@@ -6,33 +12,35 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'MonkeyIsland';
+  src: url('../assets/fonts/MonkeyIsland-1991-refined.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
-  /* Farbpalette angepasst an das Hintergrundbild */
+  /* Farbpalette */
   --bg: #302621;
-  /* Dunkelbraun */
   --panel: rgba(74, 56, 45, 0.85);
-  /* Etwas helleres Braun für Panels */
   --muted: #a6a6a6;
-  /* Gedämpftes Grau */
   --text: #c2bdbb;
-  /* Helles, warmes Grau */
   --accent: #d4af37;
-  /* Gold aus dem Bild */
   --accent-2: #e55b41;
-  /* Rot-Orange vom Drachen */
   --ok: #2e8b57;
   --warn: #ff8c00;
   --danger: #cc0000;
   --card: var(--panel);
   --chip: #5c4d44;
-  /* Dunklerer Ton für Chips */
   --border: #6d5b51;
   --shadow: 0 8px 26px rgba(0, 0, 0, .3);
   --formtext: #333;
+  --buttontext: black;
 }
 
 * {
-  box-sizing: border-box
+  box-sizing: border-box;
 }
 
 html,
@@ -51,10 +59,16 @@ body {
   background-position: center;
 }
 
+/*
+  ========================================
+  LAYOUT & STRUKTUR
+  ========================================
+*/
+
 .wrap {
   max-width: 900px;
   margin: 0 auto;
-  padding: 16px
+  padding: 16px;
 }
 
 header {
@@ -62,33 +76,18 @@ header {
   gap: 12px;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 10px
-}
-
-h1 {
-  font-family: Aniron, Georgia, 'Times New Roman', serif;
-  font-size: clamp(20px, 4.8vw, 28px);
-  margin: 0;
-  letter-spacing: .3px;
-  color: var(--accent);
-  /* Farbe des Titels leicht angepasst */
-}
-
-.sub {
-  color: var(--muted);
-  font-size: 13px
+  margin-bottom: 10px;
 }
 
 .grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 12px
+  gap: 12px;
 }
 
-/* ab Tablet zwei Spalten */
 @media (min-width: 960px) {
   .grid {
-    grid-template-columns: 1.05fr .95fr
+    grid-template-columns: 1.05fr .95fr;
   }
 }
 
@@ -97,13 +96,7 @@ h1 {
   border: 1px solid var(--border);
   border-radius: 14px;
   box-shadow: var(--shadow);
-  padding: 14px
-}
-
-.card h2 {
-  margin: 0 0 8px 0;
-  font-size: 17px;
-  font-family: Aniron, Georgia, serif
+  padding: 14px;
 }
 
 .row {
@@ -111,23 +104,56 @@ h1 {
   flex-wrap: wrap;
   gap: 10px;
   align-items: flex-start;
-  margin: 8px 0
+  margin: 8px 0;
+}
+
+/*
+  ========================================
+  TYPOGRAPHIE
+  ========================================
+*/
+
+h1 {
+  font-family: Aniron, Georgia, 'Times New Roman', serif;
+  font-size: clamp(20px, 4.8vw, 28px);
+  margin: 0;
+  letter-spacing: .3px;
+  color: var(--accent);
+}
+
+.card h2 {
+  margin: 0 0 8px 0;
+  font-size: 17px;
+  font-family: Aniron, Georgia, serif;
 }
 
 label {
+  font-family: Aniron, Georgia, serif;
   font-size: 12px;
-  color: var(--muted)
+  color: var(--accent);
 }
+
+details summary {
+  font-family: 'Aniron', serif;
+  cursor: pointer;
+  user-select: none;
+}
+
+/*
+  ========================================
+  FORMULARELEMENTE
+  ========================================
+*/
 
 select,
 input[type=number] {
+  font-family: MonkeyIsland, Georgia, serif;
   appearance: none;
   background: #fff;
   border: 1px solid var(--border);
   border-radius: 12px;
-  color: var(--text);
   padding: 12px 14px;
-  font-size: 16px;
+  font-size: 10px;
   min-width: 180px;
   box-shadow: 0 1px 0 rgba(0, 0, 0, .02);
   color: var(--formtext);
@@ -145,11 +171,11 @@ select {
 select:focus,
 input:focus {
   outline: 2px solid color-mix(in oklab, var(--accent) 60%, white);
-  outline-offset: 2px
+  outline-offset: 2px;
 }
 
 input[type=number] {
-  width: 180px
+  width: 180px;
 }
 
 @media (max-width: 500px) {
@@ -160,36 +186,21 @@ input[type=number] {
   }
 }
 
-.rk {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px
-}
-
-.rk button {
-  border: 1px solid var(--border);
-  background: var(--chip);
-  color: var(--text);
-  border-radius: 999px;
-  padding: 10px 12px;
-  font-size: 14px;
-  cursor: pointer
-}
-
-.rk button.active {
-  background: color-mix(in oklab, var(--accent) 25%, var(--chip));
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(212, 175, 55, .2) inset;
-  color: var(--accent);
-}
+/*
+  ========================================
+  BUTTONS (ALLGEMEIN)
+  ========================================
+*/
 
 .actions {
   display: flex;
   gap: 8px;
-  flex-wrap: wrap
+  flex-wrap: wrap;
 }
 
 .btn {
+  font-family: MonkeyIsland, Georgia, serif;
+  font-size: 10px;
   background: var(--chip);
   border: 1px solid var(--border);
   color: var(--text);
@@ -197,16 +208,13 @@ input[type=number] {
   padding: 12px 14px;
   font-weight: 600;
   cursor: pointer;
-  -webkit-appearance: none;
-  -moz-appearance: none;
   appearance: none;
-  border-width: 1px;
 }
 
 .btn.primary {
   background: linear-gradient(180deg, var(--accent), color-mix(in oklab, var(--accent) 80%, black));
   border-color: color-mix(in oklab, var(--accent) 60%, black);
-  color: #fff
+  color: #fff;
 }
 
 .btn.ghost {
@@ -214,18 +222,26 @@ input[type=number] {
   color: var(--text);
 }
 
+/*
+  ========================================
+  ERGEBNIS-ANZEIGE & KPIs
+  ========================================
+*/
+
 .out {
+  font-family: MonkeyIsland, Georgia, serif;
+  font-size: 12px;
   background: var(--chip);
   border: 1px dashed var(--border);
   border-radius: 12px;
   padding: 10px;
-  margin-top: 8px
+  margin-top: 8px;
 }
 
 .kpi {
   display: flex;
   gap: 8px;
-  flex-wrap: wrap
+  flex-wrap: wrap;
 }
 
 .pill {
@@ -234,46 +250,44 @@ input[type=number] {
   color: #f5f5f5;
   border-radius: 999px;
   padding: 6px 10px;
-  font-size: 12px;
+  font-size: 9px;
   white-space: nowrap;
 }
 
 .pill.warn {
   background: color-mix(in oklab, var(--warn) 10%, black);
   border-color: var(--warn);
-  color: #f5f5f5
 }
 
 .pill.ok {
   background: color-mix(in oklab, var(--ok) 10%, black);
   border-color: var(--ok);
-  color: #f5f5f5
 }
 
 .pill.danger {
   background: color-mix(in oklab, var(--danger) 10%, black);
   border-color: var(--danger);
-  color: #f5f5f5
 }
 
 .result {
   font-size: 15px;
-  margin-top: 6px
+  margin-top: 6px;
 }
 
 .muted {
-  color: var(--muted)
+  color: var(--accent-2);
 }
 
-details summary {
-  cursor: pointer;
-  user-select: none
-}
+/*
+  ========================================
+  SONSTIGES
+  ========================================
+*/
 
 hr {
   border: none;
   border-top: 1px solid var(--border);
-  margin: 10px 0
+  margin: 10px 0;
 }
 
 .audio-controls {
@@ -287,33 +301,11 @@ hr {
   max-width: 120px;
 }
 
-.flex {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  align-items: center
-}
-
 .badge {
   font-size: 11px;
   background: var(--chip);
   border: 1px solid var(--border);
   border-radius: 8px;
   padding: 4px 8px;
-  color: var(--muted)
-}
-
-.monospace {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-}
-
-.foot {
-  color: #687385;
-  margin-top: 10px;
-  font-size: 12px
-}
-
-.sr {
-  position: absolute;
-  left: -9999px
+  color: var(--muted);
 }

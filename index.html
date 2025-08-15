@@ -20,10 +20,7 @@
   <div class="wrap">
     <header>
       <div>
-        <h1>MERS • Angriffe & Kritsche Treffer</h1>
-        <!--
-        <div class="sub">Prototyp (PWA). JSON-Dateien <span class="monospace">assets/data/treffer_tabellen_strukturiert.json</span> & <span class="monospace">assets/data/tables.json</span> werden dynamisch geladen.</div>
-        -->
+        <h1>MERS • Angriffe & Kritische Treffer</h1>
       </div>
       <button class="btn" id="installBtn" hidden>Installieren</button>
     </header>
@@ -31,21 +28,39 @@
     <div class="grid">
       <section class="card">
         <h2>1) Angriff</h2>
-        <div class="row">
+
+        <!-- NEUE STRUKTUR FÜR WAFFEN- UND RÜSTUNGS-AUSWAHL 
+        <div class="battle-selection">
           <div>
-            <label for="weapon">Waffenart</label><br>
-            <select id="weapon" aria-label="Waffenart"></select>
+            <label>Waffenart</label>
+            <div id="weaponWrap" class="weapon-grid"></div>
           </div>
+          <div class="vs-text">vs.</div>
           <div>
-            <label>Rüstungsklasse</label><br>
-            <!-- Die RK-Buttons werden dynamisch von app.js erzeugt -->
+            <label>Rüstungsklasse</label>
             <div class="rk" id="rk"></div>
           </div>
+        </div>-->
+
+        <!-- VEREINFACHTE STRUKTUR FÜR WAFFEN- UND RÜSTUNGS-AUSWAHL -->
+        <div class="selection-container">
+          <div>
+            <label>Waffenart</label>
+            <div id="weaponWrap" class="weapon-grid"></div>
+          </div>
+          <div>
+            <label>Rüstungsklasse</label>
+            <div class="rk" id="rk"></div>
+          </div>
+        </div>
+
+        <div class="row">
           <div>
             <label for="attack">Angriffswert (berechnet)</label><br>
             <input id="attack" type="number" inputmode="numeric" placeholder="z. B. 126" />
           </div>
         </div>
+
         <div class="actions">
           <button class="btn primary" id="calcAttack">Treffer ermitteln</button>
           <button class="btn ghost" id="resetBtn">Zurücksetzen</button>
@@ -87,7 +102,7 @@
           </div>
         </div>
         <div class="actions">
-          <button class="btn" id="calcCrit">Kritischer Treffer ermitteln</button>
+          <button class="btn primary" id="calcCrit">Kritischer Treffer ermitteln</button>
         </div>
         <div class="out" id="critOut">
           <div class="kpi" id="critKpi"></div>
@@ -119,7 +134,7 @@
             </div>
           </div>
           <div class="actions">
-            <button class="btn" id="calcSide">Nebentreffer ermitteln</button>
+            <button class="btn primary" id="calcSide">Nebentreffer ermitteln</button>
           </div>
           <div class="out" id="sideOut">
             <div class="kpi" id="sideKpi"></div>
@@ -133,36 +148,23 @@
       <h2>Audio & Sprache</h2>
       <div class="flex">
         <div class="audio-controls">
-          <!-- Ein einziger Knopf zum Ein-/Ausschalten der Musik -->
           <button class="btn" id="bgToggleBtn">Musik ▶︎</button>
           <label class="sr" for="bgVol">Musik-Lautstärke</label>
           <input id="bgVol" type="range" min="0" max="1" step="0.01" value="0.20">
           <span class="badge">Hintergrundmusik je Tabelle</span>
         </div>
         <div class="audio-controls">
-          <!--<label class="sr" for="ttsToggle">Vorlesen</label>
-          <input id="ttsToggle" type="checkbox" checked>-->
           <label for="ttsVol">Lautstärke</label>
           <input id="ttsVol" type="range" min="0" max="1" step="0.01" value="1.00">
           <span class="badge">TTS-Fallback (falls keine MP3 gefunden)</span>
         </div>
       </div>
-      <!--
-      <div class="foot">Audio-Dateien liegen z. B. in <span class="monospace">assets/</span>. Für einzelne Krit-Einträge nutzt die App das Schema <span class="monospace">Typ_Kat_Bereich.mp3</span> (z. B. <span class="monospace">Streich_E_1-5.mp3</span>).</div>
-      -->
     </section>
-    <!--
-    <footer class="foot">
-      © 2025 • Prototyp. Läuft als PWA (Installieren-Button erscheint in unterstützten Browsern).
-    </footer>
-  -->
-
   </div>
 
   <audio id="bgAudio" loop></audio>
   <audio id="sfxAudio"></audio>
 
-  <!-- Verweis auf die ausgelagerte JavaScript-Datei -->
   <script src="scripts/app.js"></script>
 </body>
 

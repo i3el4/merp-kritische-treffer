@@ -1,76 +1,178 @@
 /*
-  Hier können weitere Stilanpassungen vorgenommen werden, die spezifisch für die App sind.
+  ========================================
+  SPEZIFISCHE STILE & LAYOUT-ANPASSUNGEN
+  ========================================
 */
-body {
-  background-color: #222;
-}
 
-/*
-  Verbesserung der Lesbarkeit des Haupttitels und der Krit-Treffer.
-*/
 h1 {
-  /* Schatten verstärkt, um den Titel besser hervorzuheben */
-  text-shadow: 1px 1px 2px #000, 2px 2px 4px var(--bg);
+  text-shadow: 1px 1px 2px #000;
 }
 
-/*
-  1. Änderungen am Hintergrundmusik-Button
-  Der Button zum Ein- und Ausschalten der Musik wird nun direkt per JavaScript
-  mit dem Play- oder Pause-Emoji aktualisiert, das separate Toggle-Feld ist nicht mehr nötig.
-*/
-
-/*
-  2. Lautstärkeregulierung für Textausgabe (TTS)
-  Die Logik zur Lautstärkeeinstellung ist im JavaScript-Code korrekt. Da der
-  `utter.volume` Wert gesetzt wird, ist es wahrscheinlich, dass das Problem auf
-  die Browser-Implementierung oder die Systemlautstärke zurückzuführen ist.
-  Eine Änderung am CSS ist hier nicht nötig.
-*/
-
-/*
-  3. Kritische Treffer prominenter darstellen
-  Die Klasse `crit-prominent` wird nun im JavaScript hinzugefügt,
-  wenn ein kritischer Treffer ermittelt wird.
-*/
 .result.crit-prominent {
   font-size: 1.25em;
-  /* Grössere Schrift */
   font-weight: bold;
-  color: var(--accent);
-  /* Betont mit der neuen Akzentfarbe (Drachenrot) */
-  /* Schärferer Schatten und ein leichter goldener Schimmer */
-  text-shadow: 1px 1px 3px var(--bg), 0 0 8px rgba(2, 2, 2, 0.8), 0 0 12px rgba(229, 91, 65, 0.5);
+  color: var(--accent-2);
+  text-shadow: 1px 1px 3px var(--bg), 0 0 8px rgba(229, 91, 65, 0.8), 0 0 12px rgba(229, 91, 65, 0.5);
 }
 
 /*
-  4. Rüstungsklasse (RK) Knöpfe gestalten
-  Hier werden die Knöpfe in Schildform gebracht und die Aniron-Schrift angewendet.
+  ========================================
+  LAYOUT FÜR AUSWAHL-SEKTION
+  ========================================
 */
+
+.selection-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  margin: 16px 0 24px 0;
+}
+
+.selection-container>div {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/*
+  ========================================
+  WAFFEN- & RÜSTUNGS-AUSWAHL
+  ========================================
+*/
+
+/* Basis-Stil für alle Auswahl-Buttons (Waffe & RK) */
+.weapon-grid button,
 .rk button {
-  /* Schildform mit clip-path */
-  clip-path: polygon(50% 0%, 100% 20%, 100% 80%, 50% 100%, 0% 80%, 0% 20%);
-  width: 45px;
-  height: 45px;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0;
-  /* Padding entfernen, um Grösse zu kontrollieren */
-  font-family: 'Aniron', Georgia, serif;
-  font-size: 18px;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
   transition: all 0.2s ease;
-  transform: translateY(0);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: var(--chip);
+  /* KORREKTUR: Hintergrundfarbe für inaktive Buttons hinzugefügt */
 }
 
+/* Hover-Effekt für alle Auswahl-Buttons */
+.weapon-grid button:hover,
 .rk button:hover {
   transform: translateY(-2px);
-  /* Kleiner "Schwebe-Effekt" beim Hover */
   box-shadow: var(--shadow);
 }
 
+/* Aktiver Zustand für alle Auswahl-Buttons */
+.weapon-grid button.active,
 .rk button.active {
-  transform: translateY(0);
-  /* Aktiver Knopf bleibt an Ort und Stelle */
-  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.4) inset, var(--shadow);
-  /* Weicherer Schatten und innerer Akzent */
+  box-shadow: 0 0 10px 3px var(--accent);
+  border-color: var(--accent);
+  background-color: transparent;
+}
+
+/* Text im aktiven Zustand */
+.weapon-grid button.active span,
+.rk button.active span {
+  color: var(--accent-2);
+  text-shadow: 2px 2px 5px var(--bg), 0 0 5px var(--accent-2);
+}
+
+/* Spezifische Layouts */
+.weapon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 8px;
+  width: 100%;
+  max-width: 350px;
+}
+
+.rk {
+  display: grid;
+  grid-template-rows: repeat(4, 45px);
+  grid-template-columns: repeat(5, 45px);
+  grid-auto-flow: column;
+  gap: 8px;
+}
+
+/* Spezifische Button-Größen & Typo */
+.weapon-grid button {
+  height: 45px;
+  padding: 4px;
+}
+
+.rk button {
+  width: 45px;
+  height: 45px;
+  padding: 0;
+}
+
+.weapon-grid button span,
+.rk button span {
+  position: relative;
+  z-index: 1;
+  font-family: 'Aniron', Georgia, serif;
+  color: var(--accent);
+  text-shadow: 1px 1px 3px var(--bg);
+  text-align: center;
+}
+
+.weapon-grid button span {
+  font-size: 14px;
+}
+
+.rk button span {
+  font-size: 20px;
+}
+
+/* Hintergrundbilder für Waffen */
+.weapon-grid button[data-weapon="DOLCH"] {
+  background-image: url('../assets/icons/dolch.png');
+}
+
+.weapon-grid button[data-weapon="HANDAXT"] {
+  background-image: url('../assets/icons/handaxt.png');
+}
+
+/* ... weitere Waffen-Icons hier einfügen */
+
+/* Hintergrundbilder für Rüstungen */
+div.rk button[data-rk="1"],
+div.rk button[data-rk="2"],
+div.rk button[data-rk="3"],
+div.rk button[data-rk="4"] {
+  background-image: url('../assets/icons/none.png');
+}
+
+div.rk button[data-rk="5"],
+div.rk button[data-rk="6"],
+div.rk button[data-rk="7"],
+div.rk button[data-rk="8"] {
+  background-image: url('../assets/icons/leather.png');
+}
+
+div.rk button[data-rk="9"],
+div.rk button[data-rk="10"],
+div.rk button[data-rk="11"],
+div.rk button[data-rk="12"] {
+  background-image: url('../assets/icons/heavy_leather.png');
+}
+
+div.rk button[data-rk="13"],
+div.rk button[data-rk="14"],
+div.rk button[data-rk="15"],
+div.rk button[data-rk="16"] {
+  background-image: url('../assets/icons/chainmail.png');
+}
+
+div.rk button[data-rk="17"],
+div.rk button[data-rk="18"],
+div.rk button[data-rk="19"],
+div.rk button[data-rk="20"] {
+  background-image: url('../assets/icons/heavy_armor.png');
 }
