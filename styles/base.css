@@ -37,6 +37,7 @@
   --shadow: 0 8px 26px rgba(0, 0, 0, .3);
   --formtext: #333;
   --buttontext: black;
+  --WAtext: #dcd0c1;
 }
 
 * {

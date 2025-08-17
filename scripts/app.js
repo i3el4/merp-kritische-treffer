@@ -8,7 +8,7 @@ const IMG_BASE_PATH = 'assets/img/';
 // --- Globaler Zustand ---
 let treffer = null;
 let tables = null;
-let selectedWeapon = null; // Hinzugefügt: um die ausgewählte Waffe zu speichern
+let selectedWeapon = null;
 let autoCrit = {
   typ: '',
   kat: ''
@@ -26,7 +26,6 @@ for (let i = 1; i <= 20; i++) {
   b.type = 'button';
   b.dataset.rk = i;
 
-  // KORREKTUR: Zahl in ein <span>-Element verpacken, damit CSS sie gezielt stylen kann
   const span = document.createElement('span');
   span.textContent = i;
   b.appendChild(span);
@@ -34,8 +33,36 @@ for (let i = 1; i <= 20; i++) {
   b.addEventListener('click', () => {
     $$('#rk button').forEach(x => x.classList.toggle('active', x === b));
   });
-  if (i === 3) b.classList.add('active'); // Default RK 3
+  if (i === 3) b.classList.add('active');
   rkWrap.appendChild(b);
+}
+
+// NEUE FUNKTION: Passt die Schriftgrösse der Waffen-Buttons an
+function adjustWeaponFontSizes() {
+  const weaponButtons = $$('#weaponWrap button');
+  weaponButtons.forEach(button => {
+    const span = button.querySelector('span');
+    if (!span) return;
+
+    // Setzt die Schriftgrösse zurück, falls sie vorher schon mal angepasst wurde
+    span.style.fontSize = '';
+    span.style.lineHeight = '';
+
+    const style = window.getComputedStyle(button);
+    const padding = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
+    const availableWidth = button.clientWidth - padding;
+
+    // Prüft, ob der Text breiter als der verfügbare Platz ist
+    if (span.scrollWidth > availableWidth) {
+      let currentFontSize = parseFloat(window.getComputedStyle(span).fontSize);
+      // Verringert die Schriftgrösse schrittweise, bis der Text passt
+      while (span.scrollWidth > availableWidth && currentFontSize > 8) { // Minimalgrösse 8px
+        currentFontSize -= 0.5;
+        span.style.fontSize = `${currentFontSize}px`;
+        span.style.lineHeight = `${currentFontSize * 1.1}px`; // Passende Zeilenhöhe
+      }
+    }
+  });
 }
 
 // Waffenliste + Nebentreffer-Tabellen füllen
@@ -44,7 +71,6 @@ async function loadData() {
   treffer = await t1.json();
   tables = await t2.json();
 
-  // KORREKTUR: Waffen-Buttons analog zu RK-Buttons erstellen
   const wSelWrap = $('#weaponWrap');
   const waffen = Object.keys(treffer?.Angriffstabellen || {}).sort();
   wSelWrap.innerHTML = '';
@@ -52,17 +78,15 @@ async function loadData() {
   waffen.forEach(k => {
     const btn = document.createElement('button');
     btn.type = 'button';
-    btn.className = 'weapon-button'; // Generische Klasse für Styling
-    btn.dataset.weapon = k; // Korrektes data-Attribut für CSS
+    btn.className = 'weapon-button';
+    btn.dataset.weapon = k;
 
-    // Text in ein <span>-Element, um ihn über dem Hintergrundbild zu positionieren
     const label = document.createElement('span');
     label.textContent = k.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
     btn.appendChild(label);
 
-    // Klick-Listener für die Auswahl
     btn.addEventListener('click', () => {
-      selectedWeapon = k; // Ausgewählte Waffe im globalen Zustand speichern
+      selectedWeapon = k;
       $$('#weaponWrap button').forEach(x => x.classList.remove('active'));
       btn.classList.add('active');
     });
@@ -75,6 +99,9 @@ async function loadData() {
     selectedWeapon = waffen[0];
     $(`button[data-weapon="${selectedWeapon}"]`)?.classList.add('active');
   }
+
+  // NEUER AUFRUF: Passt die Schriftgrössen an, nachdem die Buttons erstellt wurden
+  adjustWeaponFontSizes();
 
   // Nebentreffer-Typen aus tables.json
   const sideSel = $('#sideType');
@@ -100,7 +127,6 @@ function floorKey(obj, target) {
 
 // Angriff berechnen
 $('#calcAttack').addEventListener('click', () => {
-  // KORREKTUR: Ausgewählte Waffe aus globalem Zustand lesen
   const weaponKey = selectedWeapon;
   const rk = parseInt($('#rk button.active')?.dataset.rk || '3', 10);
   const attack = parseInt($('#attack').value, 10);

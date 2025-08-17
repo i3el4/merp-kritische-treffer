@@ -112,13 +112,22 @@ h1 {
   padding: 0;
 }
 
-.weapon-grid button span,
-.rk button span {
+.weapon-grid button span {
   position: relative;
   z-index: 1;
   font-family: 'Aniron', Georgia, serif;
-  color: var(--accent);
-  text-shadow: 1px 1px 3px var(--bg);
+  color: var(--WAtext);
+  font-size: 12px;
+  text-shadow: 3px 3px 5px var(--bg);
+  text-align: center;
+}
+
+.rk button span {
+  color: var(--WAtext);
+  position: relative;
+  z-index: 1;
+  font-family: 'Aniron', Georgia, serif;
+  text-shadow: 3px 3px 5px var(--bg);
   text-align: center;
 }
 
@@ -137,6 +146,55 @@ h1 {
 
 .weapon-grid button[data-weapon="HANDAXT"] {
   background-image: url('../assets/icons/handaxt.png');
+}
+
+.weapon-grid button[data-weapon="Schwert"] {
+  background-image: url('../assets/icons/schwert.png');
+}
+
+.weapon-grid button[data-weapon="Kurzbogen"] {
+  background-image: url('../assets/icons/kurzbogen.png');
+}
+
+.weapon-grid button[data-weapon="Schleuder"] {
+  background-image: url('../assets/icons/schleuder.png');
+}
+
+
+.weapon-grid button[data-weapon="Axt (2H)"] {
+  background-image: url('../assets/icons/axt\ \(2h\).png');
+}
+
+.weapon-grid button[data-weapon="Stab"] {
+  background-image: url('../assets/icons/stab.png');
+}
+
+.weapon-grid button[data-weapon="Speer"] {
+  background-image: url('../assets/icons/speer.png');
+}
+
+.weapon-grid button[data-weapon="Kurzschwert"] {
+  background-image: url('../assets/icons/kurzschwert.png');
+}
+
+.weapon-grid button[data-weapon="Gep.Faust"] {
+  background-image: url('../assets/icons/gep.\ faust.png');
+}
+
+.weapon-grid button[data-weapon="Knüppel"] {
+  background-image: url('../assets/icons/knüppel.png');
+}
+
+.weapon-grid button[data-weapon="Hammer"] {
+  background-image: url('../assets/icons/hammer.png');
+}
+
+.weapon-grid button[data-weapon="Komp. Bogen"] {
+  background-image: url('../assets/icons/komp.\ bogen.png');
+}
+
+.weapon-grid button[data-weapon="Langbogen"] {
+  background-image: url('../assets/icons/langbogen.png');
 }
 
 /* ... weitere Waffen-Icons hier einfügen */
