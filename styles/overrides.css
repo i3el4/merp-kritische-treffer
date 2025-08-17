@@ -182,7 +182,7 @@ h1 {
 }
 
 .weapon-grid button[data-weapon="Knüppel"] {
-  background-image: url('../assets/icons/knüppel.png');
+  background-image: url('../assets/icons/knueppel.png');
 }
 
 .weapon-grid button[data-weapon="Hammer"] {
@@ -233,4 +233,40 @@ div.rk button[data-rk="18"],
 div.rk button[data-rk="19"],
 div.rk button[data-rk="20"] {
   background-image: url('../assets/icons/heavy_armor.png');
+}
+
+/* Schriftfarbe für RK 1-4 auf Schwarz setzen */
+.rk button[data-rk="1"] span,
+.rk button[data-rk="2"] span,
+.rk button[data-rk="3"] span,
+.rk button[data-rk="4"] span {
+  color: #9c3232;
+  /* Optional: Heller Schatten für Lesbarkeit */
+}
+
+/* Schriftfarbe für RK 1-4 auf Schwarz setzen */
+.rk button[data-rk="5"] span,
+.rk button[data-rk="6"] span,
+.rk button[data-rk="7"] span,
+.rk button[data-rk="8"] span {
+  color: #768ccd;
+  /* Optional: Heller Schatten für Lesbarkeit */
+}
+
+/* Schriftfarbe für RK 1-4 auf Schwarz setzen */
+.rk button[data-rk="9"] span,
+.rk button[data-rk="10"] span,
+.rk button[data-rk="11"] span,
+.rk button[data-rk="12"] span {
+  color: #ec8932;
+  /* Optional: Heller Schatten für Lesbarkeit */
+}
+
+/* Schriftfarbe für RK 1-4 auf Schwarz setzen */
+.rk button[data-rk="13"] span,
+.rk button[data-rk="14"] span,
+.rk button[data-rk="15"] span,
+.rk button[data-rk="16"] span {
+  color: #d5daea;
+  /* Optional: Heller Schatten für Lesbarkeit */
 }
