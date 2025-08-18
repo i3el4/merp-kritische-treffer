@@ -32,7 +32,7 @@
   --warn: #ff8c00;
   --danger: #cc0000;
   --card: var(--panel);
-  --chip: #5c4d44;
+  --chip: #fe0000;
   --border: #6d5b51;
   --shadow: 0 8px 26px rgba(0, 0, 0, .3);
   --formtext: #333;
@@ -309,16 +309,4 @@ hr {
   border-radius: 8px;
   padding: 4px 8px;
   color: var(--muted);
-}
-
-/*
-  ========================================
-  KORREKTUR FÜR MOBILE ANSICHT
-  ========================================
-*/
-@media (max-width: 480px) {
-  .wrap {
-    padding: 8px;
-    /* Reduziert den Abstand auf kleinen Bildschirmen */
-  }
 }
