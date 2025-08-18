@@ -297,3 +297,27 @@ div.rk button[data-rk="20"] {
   color: var(--accent-2);
   /* Setzt die aktive Farbe */
 }
+
+/*
+  ========================================
+  KORREKTUR FÜR MOBILE ANSICHT
+  ========================================
+*/
+@media (max-width: 360px) {
+  .rk {
+    /* Kleinere Buttons und Abstände für sehr schmale Bildschirme */
+    grid-template-rows: repeat(4, 40px);
+    grid-template-columns: repeat(5, 40px);
+    gap: 4px;
+  }
+
+  .rk button {
+    width: 40px;
+    height: 40px;
+  }
+
+  .rk button span {
+    font-size: 16px;
+    /* Kleinere Schrift für die Zahlen */
+  }
+}
