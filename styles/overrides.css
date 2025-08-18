@@ -300,25 +300,37 @@ div.rk button[data-rk="20"] {
 
 /*
   ========================================
-  KORREKTUR FÜR MOBILE ANSICHT
+  KORREKTUR FÜR KLEINE BILDSCHIRME (z. B. iPhone SE)
   ========================================
 */
-@media (max-width: 360px) {
-  .rk {
-    /* Kleinere Buttons und Abstände für sehr schmale Bildschirme */
-    grid-template-rows: repeat(4, 40px);
-    grid-template-columns: repeat(5, 40px);
-    gap: 4px;
+@media (max-width: 420px) {
+
+  html,
+  body {
+    overflow-x: hidden;
   }
 
-  .rk button {
-    width: 40px;
+  .wrap {
+    padding: 4px;
+  }
+
+  .card {
+    padding: 1px;
+  }
+
+  .weapon-grid {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    max-width: 100%;
+    /* volle Breite erlauben */
+  }
+
+  .weapon-grid button {
     height: 40px;
+    padding: 0 4px;
   }
 
-  .rk button span {
-    font-size: 16px;
-    /* Kleinere Schrift für die Zahlen */
+  .weapon-grid button span {
+    font-size: 12px;
   }
 }
 
