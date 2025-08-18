@@ -62,7 +62,9 @@ h1 {
 /* KORREKTUR 1: Bildausschnitt vergrössern */
 .weapon-grid button {
   background-size: contain;
-  /* Zeigt das ganze Bild, statt es zu beschneiden */
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
 }
 
 .rk button {
@@ -96,7 +98,7 @@ h1 {
 /* Spezifische Layouts */
 .weapon-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
   gap: 8px;
   width: 100%;
   max-width: 350px;
@@ -305,12 +307,13 @@ div.rk button[data-rk="20"] {
   KORREKTUR FÜR MOBILE ANSICHT
   ========================================
 */
-@media (max-width: 360px) {
-  .rk {
-    /* Kleinere Buttons und Abstände für sehr schmale Bildschirme */
-    grid-template-rows: repeat(4, 40px);
-    grid-template-columns: repeat(5, 40px);
-    gap: 4px;
+@media (max-width: 480px) {
+  .rk button {
+    width: 100%;
+    /* Füllt die Grid-Zelle */
+    height: auto;
+    aspect-ratio: 1/1;
+    /* Optional, um quadratisch zu bleiben */
   }
 
   .rk button {

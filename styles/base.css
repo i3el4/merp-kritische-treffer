@@ -310,3 +310,9 @@ hr {
   padding: 4px 8px;
   color: var(--muted);
 }
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
