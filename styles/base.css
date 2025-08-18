@@ -310,3 +310,15 @@ hr {
   padding: 4px 8px;
   color: var(--muted);
 }
+
+/*
+  ========================================
+  KORREKTUR FÜR MOBILE ANSICHT
+  ========================================
+*/
+@media (max-width: 480px) {
+  .wrap {
+    padding: 8px;
+    /* Reduziert den Abstand auf kleinen Bildschirmen */
+  }
+}

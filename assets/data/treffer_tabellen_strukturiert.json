@@ -1,6 +1,6 @@
 {
   "Angriffstabellen": {
-    "HANDAXT": {
+    "Axt (1H)": {
       "RK": {
         "20": {
           "150": {
@@ -22088,14 +22088,14 @@
         }
       }
     },
-    "Schwert": {},
-    "Kurzschwert": {},
-    "Gep.Faust": {},
+    "Schwert (normal)": {},
+    "Schwert (kurz)": {},
+    "Faust (gepanzert)": {},
     "Knüppel": {},
     "Hammer": {},
-    "Komp. Bogen": {},
-    "Langbogen": {},
-    "Kurzbogen": {},
+    "Bogen (komp.)": {},
+    "Bogen (lang)": {},
+    "Bogen (kurz)": {},
     "Schleuder": {},
     "Axt (2H)": {},
     "Stab": {},

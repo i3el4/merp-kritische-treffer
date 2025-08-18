@@ -54,17 +54,27 @@ h1 {
   position: relative;
   overflow: hidden;
   transition: all 0.2s ease;
-  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   background-color: var(--chip);
-  /* KORREKTUR: Hintergrundfarbe für inaktive Buttons hinzugefügt */
 }
+
+/* KORREKTUR 1: Bildausschnitt vergrössern */
+.weapon-grid button {
+  background-size: contain;
+  /* Zeigt das ganze Bild, statt es zu beschneiden */
+}
+
+.rk button {
+  background-size: cover;
+  /* Behält den Zoom-Effekt für Rüstungen bei */
+}
+
 
 /* Hover-Effekt für alle Auswahl-Buttons */
 .weapon-grid button:hover,
 .rk button:hover {
-  transform: translateY(-2px);
+  transform: translateY(-px);
   box-shadow: var(--shadow);
 }
 
@@ -103,7 +113,8 @@ h1 {
 /* Spezifische Button-Größen & Typo */
 .weapon-grid button {
   height: 45px;
-  padding: 4px;
+  /* KORREKTUR 2: Padding angepasst, um Abschneiden zu verhindern */
+  padding: 0 8px;
 }
 
 .rk button {
@@ -112,31 +123,25 @@ h1 {
   padding: 0;
 }
 
-.weapon-grid button span {
-  position: relative;
-  z-index: 1;
-  font-family: 'Aniron', Georgia, serif;
-  color: var(--WAtext);
-  font-size: 12px;
-  text-shadow: 3px 3px 5px var(--bg);
-  text-align: center;
-}
-
+.weapon-grid button span,
 .rk button span {
-  color: var(--WAtext);
   position: relative;
   z-index: 1;
   font-family: 'Aniron', Georgia, serif;
-  text-shadow: 3px 3px 5px var(--bg);
+  text-shadow: 1px 1px 3px var(--bg);
   text-align: center;
+  line-height: 1.2;
+  /* Zeilenhöhe leicht erhöht */
 }
 
 .weapon-grid button span {
   font-size: 14px;
+  color: var(--text);
 }
 
 .rk button span {
   font-size: 20px;
+  color: var(--accent);
 }
 
 /* Hintergrundbilder für Waffen */
@@ -144,22 +149,21 @@ h1 {
   background-image: url('../assets/icons/dolch.png');
 }
 
-.weapon-grid button[data-weapon="HANDAXT"] {
+.weapon-grid button[data-weapon="Axt (1H)"] {
   background-image: url('../assets/icons/handaxt.png');
 }
 
-.weapon-grid button[data-weapon="Schwert"] {
+.weapon-grid button[data-weapon="Schwert (normal)"] {
   background-image: url('../assets/icons/schwert.png');
 }
 
-.weapon-grid button[data-weapon="Kurzbogen"] {
+.weapon-grid button[data-weapon="Bogen (kurz)"] {
   background-image: url('../assets/icons/kurzbogen.png');
 }
 
 .weapon-grid button[data-weapon="Schleuder"] {
   background-image: url('../assets/icons/schleuder.png');
 }
-
 
 .weapon-grid button[data-weapon="Axt (2H)"] {
   background-image: url('../assets/icons/axt\ \(2h\).png');
@@ -173,11 +177,11 @@ h1 {
   background-image: url('../assets/icons/speer.png');
 }
 
-.weapon-grid button[data-weapon="Kurzschwert"] {
+.weapon-grid button[data-weapon="Schwert (kurz)"] {
   background-image: url('../assets/icons/kurzschwert.png');
 }
 
-.weapon-grid button[data-weapon="Gep.Faust"] {
+.weapon-grid button[data-weapon="Faust (gepanzert)"] {
   background-image: url('../assets/icons/gep.\ faust.png');
 }
 
@@ -189,11 +193,11 @@ h1 {
   background-image: url('../assets/icons/hammer.png');
 }
 
-.weapon-grid button[data-weapon="Komp. Bogen"] {
+.weapon-grid button[data-weapon="Bogen (komp.)"] {
   background-image: url('../assets/icons/komp.\ bogen.png');
 }
 
-.weapon-grid button[data-weapon="Langbogen"] {
+.weapon-grid button[data-weapon="Bogen (lang)"] {
   background-image: url('../assets/icons/langbogen.png');
 }
 
@@ -235,38 +239,61 @@ div.rk button[data-rk="20"] {
   background-image: url('../assets/icons/heavy_armor.png');
 }
 
-/* Schriftfarbe für RK 1-4 auf Schwarz setzen */
+/*
+  ========================================
+  SPEZIFISCHE ANPASSUNGEN
+  ========================================
+*/
+
+/* Schriftfarbe für RK 1-4 */
 .rk button[data-rk="1"] span,
 .rk button[data-rk="2"] span,
 .rk button[data-rk="3"] span,
 .rk button[data-rk="4"] span {
   color: #9c3232;
-  /* Optional: Heller Schatten für Lesbarkeit */
 }
 
-/* Schriftfarbe für RK 1-4 auf Schwarz setzen */
+/* Schriftfarbe für RK 5-8 */
 .rk button[data-rk="5"] span,
 .rk button[data-rk="6"] span,
 .rk button[data-rk="7"] span,
 .rk button[data-rk="8"] span {
   color: #768ccd;
-  /* Optional: Heller Schatten für Lesbarkeit */
 }
 
-/* Schriftfarbe für RK 1-4 auf Schwarz setzen */
+/* Schriftfarbe für RK 9-12 */
 .rk button[data-rk="9"] span,
 .rk button[data-rk="10"] span,
 .rk button[data-rk="11"] span,
 .rk button[data-rk="12"] span {
   color: #ec8932;
-  /* Optional: Heller Schatten für Lesbarkeit */
 }
 
-/* Schriftfarbe für RK 1-4 auf Schwarz setzen */
+/* Schriftfarbe für RK 13-16 */
 .rk button[data-rk="13"] span,
 .rk button[data-rk="14"] span,
 .rk button[data-rk="15"] span,
 .rk button[data-rk="16"] span {
   color: #d5daea;
-  /* Optional: Heller Schatten für Lesbarkeit */
+}
+
+/* KORREKTUR 3: Spezifische Regeln für den aktiven Zustand, um die Farbänderung zu erzwingen */
+.rk button[data-rk="1"].active span,
+.rk button[data-rk="2"].active span,
+.rk button[data-rk="3"].active span,
+.rk button[data-rk="4"].active span,
+.rk button[data-rk="5"].active span,
+.rk button[data-rk="6"].active span,
+.rk button[data-rk="7"].active span,
+.rk button[data-rk="8"].active span,
+.rk button[data-rk="9"].active span,
+.rk button[data-rk="10"].active span,
+.rk button[data-rk="11"].active span,
+.rk button[data-rk="12"].active span,
+.rk button[data-rk="13"].active span,
+.rk button[data-rk="14"].active span,
+.rk button[data-rk="15"].active span,
+.rk button[data-rk="16"].active span {
+  color: var(--accent-2);
+  /* Setzt die aktive Farbe */
 }
