@@ -105,8 +105,10 @@ h1 {
 .rk {
   display: grid;
   grid-template-rows: repeat(4, 45px);
-  grid-template-columns: repeat(5, 45px);
-  grid-auto-flow: column;
+  /* Von festen Pixeln... */
+  grid-template-columns: repeat(5, 1fr);
+  /* ...zu flexiblen Einheiten. */
+  /* grid-auto-flow: column; <-- Diese Zeile am besten entfernen oder auskommentieren */
   gap: 8px;
 }
 
