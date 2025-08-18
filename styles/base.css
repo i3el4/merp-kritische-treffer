@@ -74,9 +74,8 @@ body {
 
 header {
   display: flex;
-  gap: 12px;
+  justify-content: center;
   align-items: center;
-  justify-content: space-between;
   margin-bottom: 10px;
 }
 

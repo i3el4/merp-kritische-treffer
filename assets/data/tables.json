@@ -1,112 +1,112 @@
 {
-    "Hitze": {
-      "audioFile": "hitze.mp3",
-      "A": {
-        "1-5": "Heiße Luft. Null Treffer.",
-        "6-10": "Ein Treffer.",
-        "11-15": "Zwei Treffer. Eine Runde Initiativeverlust.",
-        "16-20": "Drei Treffer. Eine Runde Initiativeverlust.",
-        "21-35": "Gleichgewicht verloren. Vier Treffer, zwei Runden Initiativeverlust.",
-        "36-45": "Sechs Treffer. Eine Runde muss pariert werden.",
-        "46-50": "Leichte Verbrennungen. Sieben Treffer. Ein Treffer pro Runde. Eine Runde muss pariert werden.",
-        "51-55": "Leichte Verbrennungen. Acht Treffer. Ein Treffer pro Runde. Zwei Runden muss pariert werden.",
-        "56-60": "Neun Treffer. Plus zwei Treffer pro Runde. Und Eine Runde benommen.",
-        "61-65": "Brusttreffer. Gehaltenes wird fallengelassen. Neun Treffer. Zwei Runden benommen, keine Parade. Minus fünfzehn auf Kampfwürfe.",
-        "66": "Leichte Verbrennungen. Acht Treffer. Ein Treffer pro Runde. Zwei Runden muss pariert werden.",
-        "67-70": "Rückentreffer. Acht Treffer. Zwei Treffer pro Runde. Zwei Runden benommen. Minus fünf auf Kampfwürfe.",
-        "71-75": "Durch heißen Rauch geblendet. Zwölf Treffer. Eine Runde benommen und kann nicht parieren.",
-        "76-80": "Seitenwunde. Zehn Treffer. Zwei Treffer pro Runde. Zwei Runden benommen, kann eine Runde nicht parieren.",
-        "81-85": "Armtreffer. Kleidung am Waffenarm verbrannt, alles Gehaltene wird fallengelassen. Zwei Treffer pro Runde. Zwei Runden benommen.",
-        "86-90": "Niedergeschlagen. Fuß- und Wadenbekleidung verbrannt. Zehn Treffer.",
-        "91-95": "Hüfte verbrannt. zwölf Treffer. Zwei Runden benommen und keine Parade möglich. Minus Dreißig auf Kampfwürfe.",
-        "96-99": "Halstreffer. Mit Halsschutz: drei Runden benommen und kann nicht parieren. Sonst: Niedergestreckt, acht Treffer pro Runde.",
-        "100": "Kopftreffer. Fünfzehn Treffer. Mit Helm: bewusstlos, sieben Treffer pro Runde. Sonst: ein Monat Koma, fünfzig Prozent Verlust bei Auftreten."
-      },
-      "B": {
-        "1-5": "Heiße Luft. Null Treffer.",
-        "6-10": "Zwei Treffer.",
-        "11-15": "Zwei Treffer. Eine Runde Initiativeverlust.",
-        "16-20": "Gleichgewicht verloren. Zwei Runden Initiativeverlust.",
-        "21-35": "Sechs Treffer, zwei Runden Initiativeverlust. Störender Rauch.",
-        "36-45": "Leichte Verbrennungen. Sieben Treffer. Ein Treffer pro Runde. Eine Runde muss pariert werden.",
-        "46-50": "Leichte Verbrennungen. Sieben Treffer. Ein Treffer pro Runde. Eine Runde muss pariert werden.",
-        "51-55": "Acht Treffer. Plus zwei Treffer pro Runde. Eine Runde benommen, zwei Runden Initiativeverlust.",
-        "56-60": "Zwei Runden benommen. Mit Metallpanzer und Beinschutz: acht Treffer. Sonst: neun Treffer. Drei Treffer pro Runde.",
-        "61-65": "Bruststoß. Organische Panzerung ist vernichtet. Zehn Treffer. Vier Treffer pro Runde. Zwei Runden benommen.",
-        "66": "Einen Meter zurückgeschleudert. Dreizehn Treffer. Drei Treffer pro Runde. Eine Runde benommen, keine Parade.",
-        "67-70": "Rückentreffer. Sieben Treffer. Zwei Treffer pro Runde. Zwei Runden benommen, kann eine Runde nicht parieren. Minus zehn auf Kampfwürfe.",
-        "71-75": "Brusttreffer. Neun Treffer. Zwei Runden benommen und kann nicht parieren. Fünfzehn auf Kampfwürfe. Gegner hat zehn auf nächsten Schlag.",
-        "76-80": "Brusttreffer. Dreizehn Treffer. Drei Treffer pro Runde. Vier Runden benommen. Minus fünfzehn auf Kampfwürfe.",
-        "81-85": "Rückentreffer. Kleidung auf dem Rücken verbrennt. Niedergeschlagen. Zwei Treffer pro Runde. Eine Runde benommen.",
-        "86-90": "Beintreffer. Zehn Treffer. Organische Beinkleidung entflammt. Bis zur Löschung (dauert eine Runde): sechs Treffer pro Runde. drei Runden benommen.",
-        "91-95": "Kopftreffer. Sechs Runden geblendet und Minus fünfundneunzig auf Kampfwürfe. Organische Helme zerstört. Ohne Helm: acht Treffer pro Runde, Verlust von fünfzig Prozent Haar.",
-        "96-99": "Halstreffer zerstört Kehle. zwanzig Treffer. zwölf Treffer pro Runde. neun Runden handlungsunfähig, stirbt danach.",
-        "100": "Hitzeschwall beschädigt Rückenmark, fünfundzwanzig Treffer. Dauerhaft gelähmt."
-      },
-      "C": {
-        "1-5": "Ein Treffer.",
-        "6-10": "Drei Treffer.",
-        "11-15": "Gleichgewicht verloren. Drei Treffer. Eine Runde Initiativeverlust.",
-        "16-20": "Gleichgewicht verloren. Fünf Treffer, zwei Runden Initiativeverlust.",
-        "21-35": "Leichte Verbrennungen. Sieben Treffer. Ein Treffer pro Runde. Eine Runde muss pariert werden.",
-        "36-45": "Leichte Verbrennungen. Acht Treffer. Ein Treffer pro Runde. Zwei Runden muss pariert werden.",
-        "46-50": "Neun Treffer. Zwei Treffer pro Runde. Eine Runde benommen, zwei Runden Initiativeverlust.",
-        "51-55": "Neun Treffer. Plus zwei Treffer pro Runde. Eine Runde benommen. Minus zehn auf Kampfwürfe.",
-        "56-60": "Zehn Treffer. Zwei Treffer pro Runde. Zwei Runden benommen. Kleidung auf dem Rücken verbrannt.",
-        "61-65": "Bruststoß. Niedergestreckt. zwölf Treffer. Mit Armpanzer: zwei Treffer pro Runde. Sonst: Waffenarm gelähmt, vier Treffer pro Runde.",
-        "66": "Fünfzehn Treffer. Drei Treffer pro Runde. Zwei Runden benommen. Eine Runde keine Parade.",
-        "67-70": "Brusttreffer. Mit Metallpanzer an Armen und Brust: schmilzt zusammen, Arme unbeweglich. Sonst: neun Treffer, sechs Stunden bewusstlos.",
-        "71-75": "Bruststoß. Drei Runden benommen. Organischer Panzer ist vernichtet. Ohne Panzer: sechs Treffer pro Runde, Minus fünfundzwanzig auf Kampfwürfe.",
-        "76-80": "Brustschlag. Vier Treffer pro Runde. Mit Brustpanzer: drei Runden benommen. Sonst: niedergestreckt. Minus fünfundzwanzig auf Kampfwürfe.",
-        "81-85": "Schildarmtreffer. Mit Schild: wird fallengelassen. Sonst: sechs Runden benommen, Arm gelähmt, Minus fünfzig auf Kampfwürfe. Organischer Schild zerstört.",
-        "86-90": "Fuß vollständig verbrannt. Bauchtreffer. Mit Panzer: fünfzehn Treffer. Drei Treffer pro Runde. sechs Runden benommen und kann nicht parieren. Fünfundachtzig auf Kampfwürfe.",
-        "91-95": "Oberschenkelverbrennung. Bein gelähmt. achtzehn Treffer. vier Treffer pro Runde. sechs Runden benommen und kann nicht parieren. Minus neunzig auf Kampfwürfe.",
-        "96-99": "Brusttreffer. Mit Brustpanzer: wird zerstört; tödlich in neun Runden. Sonst: Brust vollständig verbrannt, sofort tödlich.",
-        "100": "Kopf vollständig verbrannt. Sofort tödlich."
-      },
-      "D": {
-        "1-5": "Zwei Treffer.",
-        "6-10": "Vier Treffer.",
-        "11-15": "Zwei Treffer. Eine Runde Initiativeverlust.",
-        "16-20": "Gleichgewicht verloren. Sechs Treffer. Eine Runde muss pariert werden.",
-        "21-35": "Leichte Verbrennungen. Acht Treffer. Ein Treffer pro Runde. Eine Runde muss pariert werden.",
-        "36-45": "Neun Treffer. Zwei Treffer pro Runde. Eine Runde benommen.",
-        "46-50": "Zwei Runden benommen. Mit Beinschutz: sieben Treffer. Ein Treffer pro Runde. Sonst: zehn Treffer. Drei Treffer pro Runde.",
-        "51-55": "Zehn Treffer. Drei Treffer pro Runde. Eine Runde benommen. Nichtmetallischer Bogen zerstört.",
-        "56-60": "Zwei Runden benommen. Zwei Treffer pro Runde. Mit Helm: acht Treffer. Sonst: elf Treffer. Plus vier Treffer pro Runde. Kleidung brennt.",
-        "61-65": "Halstreffer. Mit Halsschutz: drei Treffer pro Runde, Minus zehn auf Kampfwürfe. Sonst: zehn Treffer pro Runde; bewusstlos.",
-        "66": "Kopftreffer. Mit Helm: bewusstlos, fünf Treffer pro Runde. Sonst: sofort tödlich.",
-        "67-70": "Schildarmtreffer. Mit Armpanzerung: vier Treffer pro Runde, fünfzehn auf Kampfwürfe. Sonst: Armverlust, fünf Treffer pro Runde.",
-        "71-75": "Schildarmtreffer. Mit Schild: wird fallengelassen, Holzschild zerstört. Sonst: Arm gelähmt, sechs Runden benommen, fünfzig auf Kampfwürfe.",
-        "76-80": "Bruststoß. Gehaltenes wird fallengelassen. Niedergestreckt. zwölf Runden benommen. Minus dreißig auf Kampfwürfe.",
-        "81-85": "Kehle und Lunge verbrannt. zwanzig Treffer, in zwölf Runden tödlich.",
-        "86-90": "Unterleib verbrannt. zwanzig Treffer. In neun Runden tödlich.",
-        "91-95": "Kopftreffer. zwanzig Treffer. Mit Vollhelm Augen zerstört und zwei Tage im Koma. Sonst: in sechs Runden tödlich.",
-        "96-99": "Seite verbrannt. zwanzig Treffer. In sechs Runden tödlich.",
-        "100": "Mittlerer Körperbereich, Kleidung und Ausrüstung verbrannt. Sofort tödlich."
-      },
-      "E": {
-        "1-5": "Drei Treffer.",
-        "6-10": "Vier Treffer. Eine Runde Initiativeverlust.",
-        "11-15": "Fünf Treffer. Eine Runde Initiativeverlust; ohne Rüstung zwei Runden.",
-        "16-20": "Gleichgewicht verloren. Sieben Treffer. Eine Runde muss pariert werden.",
-        "21-35": "Leichte Verbrennungen. Neun Treffer. Zwei Treffer pro Runde. Zwei Runden muss pariert werden.",
-        "36-45": "Zehn Treffer. Drei Treffer pro Runde. Eine Runde benommen. Mantel wird zerstört.",
-        "46-50": "dreizehn Treffer. Mit Metallpanzer: zwei Runden benommen und keine Parade möglich. Sonst: zwei Runden benommen.",
-        "51-55": "dreizehn Treffer. vier Runden benommen. sechs Runden Initiativeverlust.",
-        "56-60": "Bein verbrannt. Neun Treffer. Zwei Treffer pro Runde. Eine Runde benommen und kann nicht parieren. Minus fünf auf Kampfwürfe.",
-        "61-65": "dreizehn Treffer. vier Runden benommen. sechs Runden Initiativeverlust.",
-        "66": "Kopftreffer. Mit Helm: bewusstlos, fünf Treffer pro Runde. Sonst: sofort tödlich.",
-        "67-70": "Rückentreffer. fünfzehn Treffer, vier Runden benommen. Minus fünfundzwanzig auf Kampfwürfe.",
-        "71-75": "Brusttreffer: Mit Brustpanzer: wird zerstört, zwölf Treffer, drei Runden benommen. Sonst: Niedergestreckt, sechs Treffer pro Runde, Minus sechzig auf Kampfwürfe.",
-        "76-80": "Kopftreffer bricht Schädel. fünfzehn Treffer. Niedergestreckt und tödlich in neun Runden.",
-        "81-85": "Brusttreffer zerstört Lunge und Herz. Metallpanzer schmilzt zusammen, in sechs Runden tödlich. Ohne Panzer sofort tödlich.",
-        "86-90": "Brusttreffer. Alle organischen Materialien am Körper zerstört. fünfundzwanzig Treffer. In sechs Runden tödlich.",
-        "91-95": "Brusttreffer. Alle organischen Materialien am Körper zerstört. fünfundzwanzig Treffer. In sechs Runden tödlich.",
-        "96-99": "Zu Asche verbrannt.",
-        "100": "Zu Asche verbrannt."
-      }
+  "Hitze": {
+    "audioFile": "hitze.mp3",
+    "A": {
+      "1-5": "Heiße Luft. Null Treffer.",
+      "6-10": "Ein Treffer.",
+      "11-15": "Zwei Treffer. Eine Runde Initiativeverlust.",
+      "16-20": "Drei Treffer. Eine Runde Initiativeverlust.",
+      "21-35": "Gleichgewicht verloren. Vier Treffer, zwei Runden Initiativeverlust.",
+      "36-45": "Sechs Treffer. Eine Runde muss pariert werden.",
+      "46-50": "Leichte Verbrennungen. Sieben Treffer. Ein Treffer pro Runde. Eine Runde muss pariert werden.",
+      "51-55": "Leichte Verbrennungen. Acht Treffer. Ein Treffer pro Runde. Zwei Runden muss pariert werden.",
+      "56-60": "Neun Treffer. Plus zwei Treffer pro Runde. Und Eine Runde benommen.",
+      "61-65": "Brusttreffer. Gehaltenes wird fallengelassen. Neun Treffer. Zwei Runden benommen, keine Parade. Minus fünfzehn auf Kampfwürfe.",
+      "66-66": "Leichte Verbrennungen. Acht Treffer. Ein Treffer pro Runde. Zwei Runden muss pariert werden.",
+      "67-70": "Rückentreffer. Acht Treffer. Zwei Treffer pro Runde. Zwei Runden benommen. Minus fünf auf Kampfwürfe.",
+      "71-75": "Durch heißen Rauch geblendet. Zwölf Treffer. Eine Runde benommen und kann nicht parieren.",
+      "76-80": "Seitenwunde. Zehn Treffer. Zwei Treffer pro Runde. Zwei Runden benommen, kann eine Runde nicht parieren.",
+      "81-85": "Armtreffer. Kleidung am Waffenarm verbrannt, alles Gehaltene wird fallengelassen. Zwei Treffer pro Runde. Zwei Runden benommen.",
+      "86-90": "Niedergeschlagen. Fuß- und Wadenbekleidung verbrannt. Zehn Treffer.",
+      "91-95": "Hüfte verbrannt. zwölf Treffer. Zwei Runden benommen und keine Parade möglich. Minus Dreißig auf Kampfwürfe.",
+      "96-99": "Halstreffer. Mit Halsschutz: drei Runden benommen und kann nicht parieren. Sonst: Niedergestreckt, acht Treffer pro Runde.",
+      "100-100": "Kopftreffer. Fünfzehn Treffer. Mit Helm: bewusstlos, sieben Treffer pro Runde. Sonst: ein Monat Koma, fünfzig Prozent Verlust bei Auftreten."
     },
+    "B": {
+      "1-5": "Heiße Luft. Null Treffer.",
+      "6-10": "Zwei Treffer.",
+      "11-15": "Zwei Treffer. Eine Runde Initiativeverlust.",
+      "16-20": "Gleichgewicht verloren. Zwei Runden Initiativeverlust.",
+      "21-35": "Sechs Treffer, zwei Runden Initiativeverlust. Störender Rauch.",
+      "36-45": "Leichte Verbrennungen. Sieben Treffer. Ein Treffer pro Runde. Eine Runde muss pariert werden.",
+      "46-50": "Leichte Verbrennungen. Sieben Treffer. Ein Treffer pro Runde. Eine Runde muss pariert werden.",
+      "51-55": "Acht Treffer. Plus zwei Treffer pro Runde. Eine Runde benommen, zwei Runden Initiativeverlust.",
+      "56-60": "Zwei Runden benommen. Mit Metallpanzer und Beinschutz: acht Treffer. Sonst: neun Treffer. Drei Treffer pro Runde.",
+      "61-65": "Bruststoß. Organische Panzerung ist vernichtet. Zehn Treffer. Vier Treffer pro Runde. Zwei Runden benommen.",
+      "66-66": "Einen Meter zurückgeschleudert. Dreizehn Treffer. Drei Treffer pro Runde. Eine Runde benommen, keine Parade.",
+      "67-70": "Rückentreffer. Sieben Treffer. Zwei Treffer pro Runde. Zwei Runden benommen, kann eine Runde nicht parieren. Minus zehn auf Kampfwürfe.",
+      "71-75": "Brusttreffer. Neun Treffer. Zwei Runden benommen und kann nicht parieren. Fünfzehn auf Kampfwürfe. Gegner hat zehn auf nächsten Schlag.",
+      "76-80": "Brusttreffer. Dreizehn Treffer. Drei Treffer pro Runde. Vier Runden benommen. Minus fünfzehn auf Kampfwürfe.",
+      "81-85": "Rückentreffer. Kleidung auf dem Rücken verbrennt. Niedergeschlagen. Zwei Treffer pro Runde. Eine Runde benommen.",
+      "86-90": "Beintreffer. Zehn Treffer. Organische Beinkleidung entflammt. Bis zur Löschung (dauert eine Runde): sechs Treffer pro Runde. drei Runden benommen.",
+      "91-95": "Kopftreffer. Sechs Runden geblendet und Minus fünfundneunzig auf Kampfwürfe. Organische Helme zerstört. Ohne Helm: acht Treffer pro Runde, Verlust von fünfzig Prozent Haar.",
+      "96-99": "Halstreffer zerstört Kehle. zwanzig Treffer. zwölf Treffer pro Runde. neun Runden handlungsunfähig, stirbt danach.",
+      "100-100": "Hitzeschwall beschädigt Rückenmark, fünfundzwanzig Treffer. Dauerhaft gelähmt."
+    },
+    "C": {
+      "1-5": "Ein Treffer.",
+      "6-10": "Drei Treffer.",
+      "11-15": "Gleichgewicht verloren. Drei Treffer. Eine Runde Initiativeverlust.",
+      "16-20": "Gleichgewicht verloren. Fünf Treffer, zwei Runden Initiativeverlust.",
+      "21-35": "Leichte Verbrennungen. Sieben Treffer. Ein Treffer pro Runde. Eine Runde muss pariert werden.",
+      "36-45": "Leichte Verbrennungen. Acht Treffer. Ein Treffer pro Runde. Zwei Runden muss pariert werden.",
+      "46-50": "Neun Treffer. Zwei Treffer pro Runde. Eine Runde benommen, zwei Runden Initiativeverlust.",
+      "51-55": "Neun Treffer. Plus zwei Treffer pro Runde. Eine Runde benommen. Minus zehn auf Kampfwürfe.",
+      "56-60": "Zehn Treffer. Zwei Treffer pro Runde. Zwei Runden benommen. Kleidung auf dem Rücken verbrannt.",
+      "61-65": "Bruststoß. Niedergestreckt. zwölf Treffer. Mit Armpanzer: zwei Treffer pro Runde. Sonst: Waffenarm gelähmt, vier Treffer pro Runde.",
+      "66-66": "Fünfzehn Treffer. Drei Treffer pro Runde. Zwei Runden benommen. Eine Runde keine Parade.",
+      "67-70": "Brusttreffer. Mit Metallpanzer an Armen und Brust: schmilzt zusammen, Arme unbeweglich. Sonst: neun Treffer, sechs Stunden bewusstlos.",
+      "71-75": "Bruststoß. Drei Runden benommen. Organischer Panzer ist vernichtet. Ohne Panzer: sechs Treffer pro Runde, Minus fünfundzwanzig auf Kampfwürfe.",
+      "76-80": "Brustschlag. Vier Treffer pro Runde. Mit Brustpanzer: drei Runden benommen. Sonst: niedergestreckt. Minus fünfundzwanzig auf Kampfwürfe.",
+      "81-85": "Schildarmtreffer. Mit Schild: wird fallengelassen. Sonst: sechs Runden benommen, Arm gelähmt, Minus fünfzig auf Kampfwürfe. Organischer Schild zerstört.",
+      "86-90": "Fuß vollständig verbrannt. Bauchtreffer. Mit Panzer: fünfzehn Treffer. Drei Treffer pro Runde. sechs Runden benommen und kann nicht parieren. Fünfundachtzig auf Kampfwürfe.",
+      "91-95": "Oberschenkelverbrennung. Bein gelähmt. achtzehn Treffer. vier Treffer pro Runde. sechs Runden benommen und kann nicht parieren. Minus neunzig auf Kampfwürfe.",
+      "96-99": "Brusttreffer. Mit Brustpanzer: wird zerstört; tödlich in neun Runden. Sonst: Brust vollständig verbrannt, sofort tödlich.",
+      "100-100": "Kopf vollständig verbrannt. Sofort tödlich."
+    },
+    "D": {
+      "1-5": "Zwei Treffer.",
+      "6-10": "Vier Treffer.",
+      "11-15": "Zwei Treffer. Eine Runde Initiativeverlust.",
+      "16-20": "Gleichgewicht verloren. Sechs Treffer. Eine Runde muss pariert werden.",
+      "21-35": "Leichte Verbrennungen. Acht Treffer. Ein Treffer pro Runde. Eine Runde muss pariert werden.",
+      "36-45": "Neun Treffer. Zwei Treffer pro Runde. Eine Runde benommen.",
+      "46-50": "Zwei Runden benommen. Mit Beinschutz: sieben Treffer. Ein Treffer pro Runde. Sonst: zehn Treffer. Drei Treffer pro Runde.",
+      "51-55": "Zehn Treffer. Drei Treffer pro Runde. Eine Runde benommen. Nichtmetallischer Bogen zerstört.",
+      "56-60": "Zwei Runden benommen. Zwei Treffer pro Runde. Mit Helm: acht Treffer. Sonst: elf Treffer. Plus vier Treffer pro Runde. Kleidung brennt.",
+      "61-65": "Halstreffer. Mit Halsschutz: drei Treffer pro Runde, Minus zehn auf Kampfwürfe. Sonst: zehn Treffer pro Runde; bewusstlos.",
+      "66-66": "Kopftreffer. Mit Helm: bewusstlos, fünf Treffer pro Runde. Sonst: sofort tödlich.",
+      "67-70": "Schildarmtreffer. Mit Armpanzerung: vier Treffer pro Runde, fünfzehn auf Kampfwürfe. Sonst: Armverlust, fünf Treffer pro Runde.",
+      "71-75": "Schildarmtreffer. Mit Schild: wird fallengelassen, Holzschild zerstört. Sonst: Arm gelähmt, sechs Runden benommen, fünfzig auf Kampfwürfe.",
+      "76-80": "Bruststoß. Gehaltenes wird fallengelassen. Niedergestreckt. zwölf Runden benommen. Minus dreißig auf Kampfwürfe.",
+      "81-85": "Kehle und Lunge verbrannt. zwanzig Treffer, in zwölf Runden tödlich.",
+      "86-90": "Unterleib verbrannt. zwanzig Treffer. In neun Runden tödlich.",
+      "91-95": "Kopftreffer. zwanzig Treffer. Mit Vollhelm Augen zerstört und zwei Tage im Koma. Sonst: in sechs Runden tödlich.",
+      "96-99": "Seite verbrannt. zwanzig Treffer. In sechs Runden tödlich.",
+      "100-100": "Mittlerer Körperbereich, Kleidung und Ausrüstung verbrannt. Sofort tödlich."
+    },
+    "E": {
+      "1-5": "Drei Treffer.",
+      "6-10": "Vier Treffer. Eine Runde Initiativeverlust.",
+      "11-15": "Fünf Treffer. Eine Runde Initiativeverlust; ohne Rüstung zwei Runden.",
+      "16-20": "Gleichgewicht verloren. Sieben Treffer. Eine Runde muss pariert werden.",
+      "21-35": "Leichte Verbrennungen. Neun Treffer. Zwei Treffer pro Runde. Zwei Runden muss pariert werden.",
+      "36-45": "Zehn Treffer. Drei Treffer pro Runde. Eine Runde benommen. Mantel wird zerstört.",
+      "46-50": "dreizehn Treffer. Mit Metallpanzer: zwei Runden benommen und keine Parade möglich. Sonst: zwei Runden benommen.",
+      "51-55": "dreizehn Treffer. vier Runden benommen. sechs Runden Initiativeverlust.",
+      "56-60": "Bein verbrannt. Neun Treffer. Zwei Treffer pro Runde. Eine Runde benommen und kann nicht parieren. Minus fünf auf Kampfwürfe.",
+      "61-65": "dreizehn Treffer. vier Runden benommen. sechs Runden Initiativeverlust.",
+      "66-66": "Kopftreffer. Mit Helm: bewusstlos, fünf Treffer pro Runde. Sonst: sofort tödlich.",
+      "67-70": "Rückentreffer. fünfzehn Treffer, vier Runden benommen. Minus fünfundzwanzig auf Kampfwürfe.",
+      "71-75": "Brusttreffer: Mit Brustpanzer: wird zerstört, zwölf Treffer, drei Runden benommen. Sonst: Niedergestreckt, sechs Treffer pro Runde, Minus sechzig auf Kampfwürfe.",
+      "76-80": "Kopftreffer bricht Schädel. fünfzehn Treffer. Niedergestreckt und tödlich in neun Runden.",
+      "81-85": "Brusttreffer zerstört Lunge und Herz. Metallpanzer schmilzt zusammen, in sechs Runden tödlich. Ohne Panzer sofort tödlich.",
+      "86-90": "Brusttreffer. Alle organischen Materialien am Körper zerstört. fünfundzwanzig Treffer. In sechs Runden tödlich.",
+      "91-95": "Brusttreffer. Alle organischen Materialien am Körper zerstört. fünfundzwanzig Treffer. In sechs Runden tödlich.",
+      "96-99": "Zu Asche verbrannt.",
+      "100-100": "Zu Asche verbrannt."
+    }
+  },
   "Kälte": {
     "audioFile": "kaelte.mp3",
     "A": {
@@ -120,7 +120,7 @@
       "51-55": "Aus dem Gleichgewicht gebracht. Plus sieben Treffer. Eine Runde benommen.",
       "56-60": "Stärkerer Kältestoß. Plus acht Treffer. Plus drei Treffer pro Runde. Zwei Runden benommen.",
       "61-65": "Beintreffer, Erfrierung. Plus neun Treffer. Plus drei Treffer pro Runde. Eine Runde benommen. Minus fünf auf Kampfwürfe.",
-      "66": "Brusttreffer, Frosthauch reißt Gehaltenes fort. Plus zehn Treffer. Drei Runden benommen, keine Parade möglich. Minus fünfundzwanzig auf Kampfwürfe.",
+      "66-66": "Brusttreffer, Frosthauch reißt Gehaltenes fort. Plus zehn Treffer. Drei Runden benommen, keine Parade möglich. Minus fünfundzwanzig auf Kampfwürfe.",
       "67-70": "Rückentreffer, Erfrierung. Plus zehn Treffer. Eine Runde benommen, keine Parade möglich. Minus fünf auf Kampfwürfe.",
       "71-75": "Seitenhieb aus Eis. Schock! Plus drei Treffer. Zwei Runden benommen. Minus zehn auf Kampfwürfe.",
       "76-80": "Brusttreffer. Plus zwölf Treffer. Zwei Runden benommen, eine Runde keine Parade möglich.",
@@ -128,7 +128,7 @@
       "86-90": "Beinschaden durch Kälte. Mit Beinschutz: zwei Runden benommen. Ohne: Füße erfroren; Minus siebzig auf Kampfwürfe.",
       "91-95": "Kopftreffer. Mit Helm: drei Runden benommen. Ohne Helm: sechs Runden benommen. Auftreten Minus fünfzig.",
       "96-99": "Nackentreffer. Mit Halsschutz: niedergeschlagen. Ohne: Nacken gefroren und gelähmt; handlungsunfähig.",
-      "100": "Mors im Kopf und Eiszapfen an der Nase. Plus einundzwanzig Treffer. Hals abwärts gelähmt. Sofort tödlich nach kurzer Zeit."
+      "100-100": "Mors im Kopf und Eiszapfen an der Nase. Plus einundzwanzig Treffer. Hals abwärts gelähmt. Sofort tödlich nach kurzer Zeit."
     },
     "B": {
       "1-5": "Kühler Hauch. Null Treffer.",
@@ -141,7 +141,7 @@
       "51-55": "Gusttreffer. Plus acht Treffer. Plus drei Treffer pro Runde. Eine Runde benommen. Holz wird spröde.",
       "56-60": "Stärkerer Kältestoß. Plus acht Treffer. Plus zwei Treffer pro Runde. Zwei Runden benommen.",
       "61-65": "Rückentreffer. Plus neun Treffer. Zwei Runden benommen, keine Parade möglich. Minus fünfzehn auf Kampfwürfe.",
-      "66": "Nackentreffer. Mit Halsschutz: plus vier Treffer pro Runde, sechs Runden benommen. Ohne: plus fünf Treffer pro Runde, Panzerung friert fest.",
+      "66-66": "Nackentreffer. Mit Halsschutz: plus vier Treffer pro Runde, sechs Runden benommen. Ohne: plus fünf Treffer pro Runde, Panzerung friert fest.",
       "67-70": "Rückentreffer. Plus elf Treffer. Zwei Runden benommen, keine Parade möglich. Minus zehn auf Kampfwürfe.",
       "71-75": "Schulter kalt erwischt. Plus elf Treffer. Plus drei Treffer pro Runde. Zwei Runden benommen. Minus zwanzig auf Kampfwürfe.",
       "76-80": "Brusttreffer. Plus dreizehn Treffer. Plus drei Treffer pro Runde. Vier Runden benommen. Minus fünfzehn auf Kampfwürfe.",
@@ -149,7 +149,7 @@
       "86-90": "Beintreffer. Plus zehn Treffer. Organische Beinkleidung fängt an zu frieren: bis zum Auftauen plus sechs Treffer pro Runde. Drei Runden benommen.",
       "91-95": "Kopftreffer. Sechs Runden geblendet. Minus fünfundneunzig auf Kampfwürfe. Ohne Helm: plus acht Treffer pro Runde, Haarausfall fünfzig Prozent.",
       "96-99": "Halstreffer zerfetzt Kehle. Plus zwanzig Treffer. Plus zwölf Treffer pro Runde. Neun Runden handlungsunfähig, stirbt danach.",
-      "100": "Kälteschock am Rückenmark. Plus fünfundzwanzig Treffer. Dauerhafte Lähmung."
+      "100-100": "Kälteschock am Rückenmark. Plus fünfundzwanzig Treffer. Dauerhafte Lähmung."
     },
     "C": {
       "1-5": "Plus ein Treffer.",
@@ -162,7 +162,7 @@
       "51-55": "Stärkerer Kältestoß. Plus neun Treffer. Plus zwei Treffer pro Runde. Eine Runde benommen. Minus zehn auf Kampfwürfe.",
       "56-60": "Rückentreffer. Plus neun Treffer. Eine Runde benommen; keine Parade möglich.",
       "61-65": "Oberschenkel leicht erfroren. Plus zwei Treffer. Zwei Treffer pro Runde. Initiativeverlust.",
-      "66": "Kälteschock. Plus fünfzehn Treffer. Plus drei Treffer pro Runde. Zwei Runden benommen. Eine Runde keine Parade.",
+      "66-66": "Kälteschock. Plus fünfzehn Treffer. Plus drei Treffer pro Runde. Zwei Runden benommen. Eine Runde keine Parade.",
       "67-70": "Brusttreffer. Metallpanzer an Armen/Brust friert zusammen; Arme unbeweglich. Sonst: plus neun Treffer, sechs Stunden bewusstlos.",
       "71-75": "Bruststoß. Drei Runden benommen. Organischer Panzer vernichtet. Ohne Panzer: plus sechs Treffer pro Runde, Minus fünfundzwanzig auf Kampfwürfe.",
       "76-80": "Brustschlag. Plus vier Treffer pro Runde. Mit Brustpanzer: drei Runden benommen. Sonst: niedergestreckt. Minus fünfundzwanzig auf Kampfwürfe.",
@@ -170,7 +170,7 @@
       "86-90": "Fuß komplett erfroren. Bauchtreffer: mit Panzer plus fünfzehn Treffer, plus drei Treffer pro Runde, sechs Runden benommen, keine Parade. Minus fünfundachtzig auf Kampfwürfe.",
       "91-95": "Oberschenkelverbrennung durch Kälte. Bein gelähmt. Plus achtzehn Treffer. Plus vier Treffer pro Runde. Sechs Runden benommen und keine Parade. Minus neunzig auf Kampfwürfe.",
       "96-99": "Brusttreffer. Mit Brustpanzer: zerstört; in neun Runden tödlich. Ohne: Brust vollständig erfroren, sofort tödlich.",
-      "100": "Kopf vollständig erfroren. Sofort tödlich."
+      "100-100": "Kopf vollständig erfroren. Sofort tödlich."
     },
     "D": {
       "1-5": "Plus zwei Treffer.",
@@ -183,7 +183,7 @@
       "51-55": "Schildhandgelenk erfroren. Plus zehn Treffer. Plus drei Treffer pro Runde. Zwei Runden benommen.",
       "56-60": "Rückentreffer. Plus neun Treffer. Eine Runde benommen, keine Parade möglich. Alles Organische trocknet aus.",
       "61-65": "Beintreffer, Erfrierung. Plus zehn Treffer. Plus drei Treffer pro Runde. Eine Runde benommen, keine Parade möglich.",
-      "66": "Nackentreffer. Mit Halsschutz: plus vier Treffer pro Runde, sechs Runden benommen. Ohne: plus sechs Treffer pro Runde und ein Tag bewusstlos.",
+      "66-66": "Nackentreffer. Mit Halsschutz: plus vier Treffer pro Runde, sechs Runden benommen. Ohne: plus sechs Treffer pro Runde und ein Tag bewusstlos.",
       "67-70": "Rückentreffer, Erfrierung. Plus elf bis zwölf Treffer. Zwei Runden benommen. Keine Parade möglich. Minus fünfzehn bis zwanzig auf Kampfwürfe.",
       "71-75": "Schulterseite gefroren. Plus elf bis zwölf Treffer. Plus drei Treffer pro Runde. Zwei Runden benommen. Keine Parade möglich.",
       "76-80": "Brusttreffer. Plus dreizehn Treffer. Plus drei Treffer pro Runde. Vier Runden benommen. Minus fünfundzwanzig auf Kampfwürfe.",
@@ -191,7 +191,7 @@
       "86-90": "Unterschenkelknochen zerstoßen, Zehen gefroren. Plus sechs Treffer pro Runde. Neun Runden benommen. Minus achtzig auf Kampfwürfe.",
       "91-95": "Bauchpanzer gefroren und geborsten. Plus siebzehn Treffer. Keine Parade möglich. Tödlich in neun Runden ohne Panzer.",
       "96-99": "Hände und Lunge erfroren. Plus siebzehn Treffer. In sechs Runden tödlich.",
-      "100": "Völlig durchgefroren, Körperflüssigkeiten erstarrt. Sieben Meter weggeschleudert; zerbricht beim Aufprall. Sofort tot."
+      "100-100": "Völlig durchgefroren, Körperflüssigkeiten erstarrt. Sieben Meter weggeschleudert; zerbricht beim Aufprall. Sofort tot."
     },
     "E": {
       "1-5": "Plus drei Treffer.",
@@ -204,7 +204,7 @@
       "51-55": "Seitenschlag: zwei Meter weggeschleudert. Plus fünfzehn Treffer. Zwei Runden muss pariert werden.",
       "56-60": "Brusttreffer. Gehaltenes fällt zu Boden. Niedergestreckt. Zwölf Runden benommen. Minus dreißig auf Kampfwürfe.",
       "61-65": "Schildarmtreffer. Mit Schild: plus zwanzig Treffer. Ohne Schild: Arm gelähmt, fünf Runden benommen. Minus dreißig auf Kampfwürfe.",
-      "66": "Schulter/Nacken erfrieren. Mit Panzer: plus vier Treffer pro Runde, sechs Runden benommen. Ohne: plus sechs Treffer pro Runde, drei Runden benommen und ein Tag bewusstlos.",
+      "66-66": "Schulter/Nacken erfrieren. Mit Panzer: plus vier Treffer pro Runde, sechs Runden benommen. Ohne: plus sechs Treffer pro Runde, drei Runden benommen und ein Tag bewusstlos.",
       "67-70": "Rückentreffer. Plus dreizehn Treffer. Drei Runden benommen. Keine Parade möglich. Minus zwanzig auf Kampfwürfe.",
       "71-75": "Schildschulter durchgefroren, Arm gelähmt. Plus vierzehn bis fünfzehn Treffer. Zwei bis drei Runden benommen.",
       "76-80": "Bruststoß. Gehaltenes fällt. Niedergestreckt. Zwölf Runden benommen. Minus dreißig auf Kampfwürfe.",
@@ -212,10 +212,9 @@
       "86-90": "Unterleib gefroren. Plus zwanzig Treffer. Tödlich in neun Runden.",
       "91-95": "Blut gefroren. Plus achtzehn Treffer. Nach neun Runden handlungsunfähig, kurz darauf tödlich.",
       "96-99": "Vollständiger Kälteschock. Plus zwanzig Treffer. In zwei bis sechs Runden tödlich.",
-      "100": "Vollständig gefroren und zersplittert. Sofort tödlich."
+      "100-100": "Vollständig gefroren und zersplittert. Sofort tödlich."
     }
   },
-
   "Schlag": {
     "audioFile": "schlag.mp3",
     "A": {
@@ -229,7 +228,7 @@
       "51-55": "Aus dem Gleichgewicht gebracht. Zehn Treffer. Eine Runde benommen.",
       "56-60": "Aus dem Gleichgewicht gerissen, zehn Treffer, zwei Runden benommen.",
       "61-65": "Aus dem Gleichgewicht gebracht. zwölf Treffer. Eine Runde benommen.",
-      "66": "Waffenschulter gebrochen. Arm gelähmt. fünfzehn Treffer. Eine Runde benommen.",
+      "66-66": "Waffenschulter gebrochen. Arm gelähmt. fünfzehn Treffer. Eine Runde benommen.",
       "67-70": "Im Rücken getroffen. Sieben Treffer. Eine Runde benommen und keine Parade möglich.",
       "71-75": "Harter Schlag. zwanzig Treffer. Zwei Runden benommen. Eine Runde keine Parade möglich.",
       "76-80": "Niedergeschlagen. Zehn Treffer. Zwei Runden handlungsunfähig.",
@@ -237,7 +236,7 @@
       "86-90": "Schlag gegen Kehle zerstört Luftröhre. Atmen und Kämpfen unmöglich. fünfundzwanzig Treffer. Stirbt in zwölf Runden.",
       "91-95": "Hüfte gebrochen. zwanzig Treffer. Minus fünfzig auf Kampfwürfe. Drei Runden benommen und keine Parade möglich.",
       "96-99": "Schlag ins Genick. Lähmung von den Schultern abwärts. dreißig Treffer.",
-      "100": "Kopftreffer zerschmettert Schädel. Tod tritt sofort ein."
+      "100-100": "Kopftreffer zerschmettert Schädel. Tod tritt sofort ein."
     },
     "B": {
       "1-5": "Ein Treffer.",
@@ -250,7 +249,7 @@
       "51-55": "Um zwei Meter rückwärts geschleudert. fünfzehn Treffer. Zwei Runden muss pariert werden.",
       "56-60": "Harter Schlagtreffer. zwölf Treffer. Zwei Runden benommen.",
       "61-65": "Eine Runde benommen und keine Parade möglich. zehn Treffer.",
-      "66": "Beide Arme gebrochen. Niedergeschlagen. Minus neunzig auf alle Handlungen. Drei Runden bewusstlos.",
+      "66-66": "Beide Arme gebrochen. Niedergeschlagen. Minus neunzig auf alle Handlungen. Drei Runden bewusstlos.",
       "67-70": "Im Rücken getroffen. Zwei Runden benommen und keine Parade möglich.",
       "71-75": "Aus dem Gleichgewicht gerissen, zehn Treffer, zwei Runden benommen.",
       "76-80": "Schlüsselbein gebrochen. fünfzehn Treffer. Minus fünfundzwanzig auf alle Handlungen. Eine Runde benommen.",
@@ -258,7 +257,7 @@
       "86-90": "Hüfte gebrochen. zwanzig Treffer. Minus sechzig auf Kampfwürfe. Zwei Runden benommen und keine Parade möglich.",
       "91-95": "Knie zerschmettert. zwanzig Treffer. Humpeln; fünfundsiebzig auf alle Handlungen, neun Runden benommen; keine Parade möglich.",
       "96-99": "Schwerer Brusttreffer. fünfzig Treffer. Tod tritt nach plötzlichem Hirnschlag sofort ein.",
-      "100": "Kopftreffer zerschmettert Schädel. Tod tritt sofort ein."
+      "100-100": "Kopftreffer zerschmettert Schädel. Tod tritt sofort ein."
     },
     "C": {
       "1-5": "Zwei Treffer.",
@@ -271,7 +270,7 @@
       "51-55": "Um zwei Meter rückwärts geschleudert. Zwei Runden muss pariert werden.",
       "56-60": "Ins Wanken gebracht. zehn Treffer. Eine Runde benommen und keine Parade möglich.",
       "61-65": "Ins Wanken gebracht. zehn Treffer. Eine Runde benommen und keine Parade möglich.",
-      "66": "Kopftreffer. Ohne Helm: tödlich. Mit Helm: drei Stunden bewusstlos.",
+      "66-66": "Kopftreffer. Ohne Helm: tödlich. Mit Helm: drei Stunden bewusstlos.",
       "67-70": "Schildarm gebrochen. Arm gelähmt. zehn Treffer, eine Runde benommen.",
       "71-75": "Waffenarm gebrochen, Arm gelähmt. zehn Treffer, eine Runde benommen.",
       "76-80": "Beide Arme gebrochen und gelähmt. Niedergeschlagen. zwanzig Treffer. drei Runden handlungsunfähig.",
@@ -279,7 +278,7 @@
       "86-90": "Kieferbruch mit schweren Zerstörungen im Schädel. fünfzig Treffer. Nach drei Runden Handlungsunfähigkeit tödlich.",
       "91-95": "Schlag in die Seite. fünfundzwanzig Treffer. Knochensplitter zerstören Niere. Nach einer Runde Schock tödlich.",
       "96-99": "Schwerer Brusttreffer. Herz und Lunge zerstört. Sofort tödlich.",
-      "100": "Brusttreffer bricht mehrere Rippen. zwanzig Treffer. sechs Runden benommen. Plus fünfundzwanzig auf alle Handlungen."
+      "100-100": "Brusttreffer bricht mehrere Rippen. zwanzig Treffer. sechs Runden benommen. Plus fünfundzwanzig auf alle Handlungen."
     },
     "D": {
       "1-5": "Zwei Treffer.",
@@ -292,7 +291,7 @@
       "51-55": "Ins Wanken gebracht. zwanzig Treffer. Zwei Runden benommen und keine Parade möglich.",
       "56-60": "Niedergeschlagen. zwanzig Treffer. Zwei Runden handlungsunfähig.",
       "61-65": "Niedergeschlagen. zwanzig Treffer. Drei Runden handlungsunfähig.",
-      "66": "Kopftreffer. Ohne Helm: tödlich. Mit Helm: drei Stunden bewusstlos.",
+      "66-66": "Kopftreffer. Ohne Helm: tödlich. Mit Helm: drei Stunden bewusstlos.",
       "67-70": "Niedergeschlagen. fünfzehn Treffer. Zwei Runden handlungsunfähig.",
       "71-75": "Im Rücken getroffen. zehn Treffer. Rippenbruch und Knorpelschaden. Zwei Runden benommen; Minus fünfundzwanzig auf Kampfwürfe.",
       "76-80": "Schwerer Treffer bricht Schlüsselbein und beide Schultern. Arme gelähmt. fünfundzwanzig Treffer.",
@@ -300,7 +299,7 @@
       "86-90": "Beckenbruch. fünfzig Treffer, in drei Runden tödlich.",
       "91-95": "Schlag treibt Knochen in Lunge. dreißig Treffer. In sechs Runden tödlich.",
       "96-99": "Schädel zerschmettert. Sofort tödlich.",
-      "100": "Massive Knochenbrüche im ganzen Körper. Sofort tödlich."
+      "100-100": "Massive Knochenbrüche im ganzen Körper. Sofort tödlich."
     },
     "E": {
       "1-5": "Drei Treffer.",
@@ -313,7 +312,7 @@
       "51-55": "Um zwei Meter rückwärts geschleudert. Zwei Runden muss pariert werden.",
       "56-60": "Niedergeschlagen. zwanzig Treffer. Zwei Runden handlungsunfähig.",
       "61-65": "Niedergeschlagen. zwanzig Treffer. Drei Runden handlungsunfähig.",
-      "66": "Schädel zerschmettert. Sofort tödlich.",
+      "66-66": "Schädel zerschmettert. Sofort tödlich.",
       "67-70": "Im Rücken getroffen. zwölf Treffer. Eine Runde benommen und keine Parade möglich.",
       "71-75": "Harter Schlag. fünfzehn Treffer. Zwei Runden benommen. Eine Runde keine Parade möglich.",
       "76-80": "Schlag auf Wade. zwanzig Treffer. Wegen Knochen- und Sehnenschaden Minus fünfzig auf Kampfwürfe; drei Runden benommen.",
@@ -321,205 +320,205 @@
       "86-90": "Kopftreffer. fünfundzwanzig Treffer. Ohne Helm: Schädelbruch; Tod in drei Runden. Mit Helm: Helm zerbrochen; ein Tag bewusstlos.",
       "91-95": "Schlag gegen Kehle zerstört Luftröhre. Atmen und Kämpfen unmöglich. fünfundzwanzig Treffer. Stirbt in zwölf Runden.",
       "96-99": "Kopftreffer zerschmettert Schädel. Tod tritt sofort ein.",
-      "100": "Massive Knochenbrüche im ganzen Körper. Sofort tödlich."
+      "100-100": "Massive Knochenbrüche im ganzen Körper. Sofort tödlich."
     }
   },
-  "Patzer": {
+  "Allgemeine Patzer": {
     "audioFile": "patzer.mp3",
     "Nahkampf": {
-      "≤5": "Sie haben sich nicht ganz in der Gewalt und können in dieser Runde keine weiteren Handlungen vornehmen.",
+      "-100-5": "Sie haben sich nicht ganz in der Gewalt und können in dieser Runde keine weiteren Handlungen vornehmen.",
       "5-20": "Sie rutschen aus. Führen Sie eine nichtmagische Handwaffe, zerbricht sie. Diese Runde keine weiteren Handlungen.",
       "21-35": "Schlechte Ausführung. Gelegenheit verpasst. In der nächsten Runde −30 auf alle Handlungen.",
       "36-50": "Die Waffe rutscht aus der Hand. 1 Runde zum Ziehen einer neuen oder 2 Runden, um die alte aufzuheben.",
       "51-60": "Außer Atem. In den nächsten 2 Runden −40 auf alle Handlungen.",
       "61-79": "Ungeschickt gestolpert. 2 Runden benommen.",
-      "80": "Durch Ungeschick selbst verletzt: Kritischer Hieb B1 (oder +5 Treffer; bei Klingenwaffen zersplittert Ihre eigene).",
+      "80-80": "Durch Ungeschick selbst verletzt: Kritischer Hieb B1 (oder +5 Treffer; bei Klingenwaffen zersplittert Ihre eigene).",
       "81-86": "Sie beißen sich auf die Zunge. 2 Runden benommen.",
       "87-89": "Waffe verloren und Realitätsdraht weg: 3 Runden benommen.",
-      "90": "Waffe zerbricht und trifft Sie: Kritischer Hieb C.",
+      "90-90": "Waffe zerbricht und trifft Sie: Kritischer Hieb C.",
       "91-96": "Besonders ungeschickt: Kritischer Hieb B für jeden befreundeten Charakter im Umkreis.",
       "97-99": "Sie stolpern über etwas (unsichtbare Schildkröte). 3 Runden benommen.",
-      "100": "Prellung der Rippe: −? auf Handlungen; Gegner 2 Runden vor Lachen benommen.",
+      "100-100": "Prellung der Rippe: −? auf Handlungen; Gegner 2 Runden vor Lachen benommen.",
       "101-106": "Sie stolpern und spießen sich fast selbst auf. 3 Runden benommen (Stangenwaffe: Schaft zerbricht).",
       "107-109": "Waffe zerbricht aus Unfähigkeit. 4 Runden benommen.",
-      "110": "Sie stolpern, 5 Runden benommen. Beritten: 10 m Flug, bei Landung zusätzlicher Schaden (Stich A auf Objekt).",
+      "110-110": "Sie stolpern, 5 Runden benommen. Beritten: 10 m Flug, bei Landung zusätzlicher Schaden (Stich A auf Objekt).",
       "111-116": "Reittier bäumt sich auf. 3 Runden benommen, fangen sich dann wieder.",
-      "117-118": "Uneins mit dem Reittier: 3 Runden −90 auf alle Handlungen.",
-      "120": "Vom Ross gefallen: Kritischer Hieb D hinnehmen."
+      "117-119": "Uneins mit dem Reittier: 3 Runden −90 auf alle Handlungen.",
+      "120-999": "Vom Ross gefallen: Kritischer Hieb D hinnehmen."
     },
     "Fernkampf": {
-      "≤5": "Sie zögern zu lange und lassen Gelegenheiten verstreichen. Diese Runde keine Aktion.",
+      "-100-5": "Sie zögern zu lange und lassen Gelegenheiten verstreichen. Diese Runde keine Aktion.",
       "5-20": "Zu nervös zum Laden. Diese Runde nichts mehr möglich.",
       "21-35": "Sie lassen Ihr Geschoß fallen. Diese Runde nichts mehr, in der nächsten −30 auf alle Handlungen.",
       "36-50": "Sie zerbrechen Ihr Geschoß und verlieren die Fassung: in den nächsten 3 Runden −30 auf alle Handlungen.",
       "51-60": "Sie lassen das Geschoß fallen und sind benommen; nächste Runde immer noch benommen.",
       "61-79": "Sie misshandeln Ihre Waffe: 2 Runden benommen.",
-      "80": "Daneben gezielt, sich selbst getroffen: +5 Treffer (Armbrust feuert, reißt dabei aber am Ohr; 2 Treffer/Runde).",
+      "80-80": "Daneben gezielt, sich selbst getroffen: +5 Treffer (Armbrust feuert, reißt dabei aber am Ohr; 2 Treffer/Runde).",
       "81-86": "Bogensaite reißt. 2 Runden, um eine andere Waffe zu ziehen.",
       "87-89": "Zu starkes Zittern beim Nachladen; Sie verstreuen alle Geschosse in 3 m Umkreis.",
-      "90": "Ihre Waffe zersplittert. 4 Runden benommen.",
+      "90-90": "Ihre Waffe zersplittert. 4 Runden benommen.",
       "91-96": "Sie lassen zu früh los, der Pfeil verfehlt über 5 m. In den nächsten 3 Runden −30 auf alle Handlungen.",
       "97-99": "Sie halten den Bogen wie einen Knüppel; beim Aufheben treten Sie ihn 1,5 m weg. 3 Runden benommen.",
-      "100": "Sie verreißen die Waffe; das Projektil streift die Hand: +8 Treffer +2 Treffer/Runde, 6 Runden benommen.",
+      "100-100": "Sie verreißen die Waffe; das Projektil streift die Hand: +8 Treffer +2 Treffer/Runde, 6 Runden benommen.",
       "101-106": "Sie rutschen aus und fallen hin; der Schuss geht völlig ins Blaue. 5 Runden benommen.",
       "107-109": "Ein Projektilteil streift beim Schuss Ihr Auge: +5 Treffer, −20 auf alle Handlungen, 2 Runden benommen.",
-      "110": "Spitze verhakt sich und bricht ab; Objekt erhält Kritischen Stichschaden (A), falls möglich.",
+      "110-110": "Spitze verhakt sich und bricht ab; Objekt erhält Kritischen Stichschaden (A), falls möglich.",
       "111-116": "Beim Zielen löst sich der Schuss. Würfeln Sie einen unmodifizierten Angriff auf den nächsten zufälligen Kämpfer.",
-      "117-118": "Mitten im Kampf legen Sie den Finger vor den Bolzen: Finger ab, +4 Treffer und +2 Treffer/Runde.",
-      "120": "Sie nageln Ihren Fuß mit einem Bolzen am Boden fest: +10 Treffer, +2 Treffer/Runde, −30 auf Handlungen."
+      "117-119": "Mitten im Kampf legen Sie den Finger vor den Bolzen: Finger ab, +4 Treffer und +2 Treffer/Runde.",
+      "120-999": "Sie nageln Ihren Fuß mit einem Bolzen am Boden fest: +10 Treffer, +2 Treffer/Runde, −30 auf Handlungen."
     },
     "Zauber": {
-      "≤5": "Überanstrengung stört die Konzentration. In dieser Runde kein Zauber, aber keine Magiepunkte verloren.",
+      "-100-5": "Überanstrengung stört die Konzentration. In dieser Runde kein Zauber, aber keine Magiepunkte verloren.",
       "5-20": "Zweifel: Nächste Runde keinen Zauber vorbereiten oder aussprechen.",
       "21-35": "Bei der Vorbereitung kleiner Fehler: Zauber verzögert sich um 1 Runde. In den nächsten 2 Runden −20 auf Manöver.",
       "36-50": "Fehler: In dieser Runde nicht mehr zaubern, keine Magiepunkte verloren.",
       "51-60": "Überlastet: Zauber verpufft wirkungslos; eingesetzte Magiepunkte verloren. 1 Runde benommen.",
       "61-79": "Unbewusste Angst hebt die Wirkung auf; Magiepunkte verloren. 2 Runden benommen.",
-      "80": "Zauber richtet sich gegen Sie selbst: +15 Treffer. Zu Boden geworfen, 1 Stunde benommen.",
+      "80-80": "Zauber richtet sich gegen Sie selbst: +15 Treffer. Zu Boden geworfen, 1 Stunde benommen.",
       "81-86": "Ernstlich überlastet: Diese Runde nicht zaubern, keine Magiepunkte verloren.",
       "87-89": "Spruch entlädt sich gegen Sie und überlastet die Sinne: +20 Treffer. 10 Minuten taub und blind.",
-      "90": "Leichter Schlaganfall durch Überlastung: +20 Treffer. 12 Stunden ohnmächtig.",
+      "90-90": "Leichter Schlaganfall durch Überlastung: +20 Treffer. 12 Stunden ohnmächtig.",
       "91-96": "Zauberspruch geht vollkommen daneben: +5 Treffer. 3 Runden benommen.",
       "97-99": "Essenz des Ziels wirft den Zauber auf Sie zurück. Ziel wird Angreifer; Sie sind das Ziel. 4 Runden benommen.",
-      "100": "Identitätskrise: Zwei Wochen lang nicht zauberfähig.",
+      "100-100": "Identitätskrise: Zwei Wochen lang nicht zauberfähig.",
       "101-106": "Geistige Überbeanspruchung: Zauber entlädt sich unkontrolliert. +10 Treffer, zu Boden geworfen, 6 Runden benommen.",
       "107-109": "Zauber entlädt sich gegen Sie selbst. 3 Wochen lang nicht zaubern. +25 Treffer, 3 h bewusstlos.",
-      "110": "Schwerer Schlaganfall: von der Hüfte abwärts gelähmt.",
+      "110-110": "Schwerer Schlaganfall: von der Hüfte abwärts gelähmt.",
       "111-116": "Außer Kontrolle: wirkt 5 m rechts vom Ziel; alle dazwischen unmodifiziert angegriffen. 3 Runden benommen.",
-      "117-118": "Außer Kontrolle: wirkt 5 m links vom Ziel; alle dazwischen unmodifiziert angegriffen. 3 Runden benommen.",
-      "120": "Nervenzusammenbruch: Zauber wirkt in entgegengesetzter Richtung."
+      "117-119": "Außer Kontrolle: wirkt 5 m links vom Ziel; alle dazwischen unmodifiziert angegriffen. 3 Runden benommen.",
+      "120-999": "Nervenzusammenbruch: Zauber wirkt in entgegengesetzter Richtung."
     },
     "Manöver": {
-      "≤5": "Sie haben Zweifel und warten eine Runde ab.",
+      "-100-5": "Sie haben Zweifel und warten eine Runde ab.",
       "5-20": "Sie rutschen aus und stürzen mit 30 % Wahrscheinlichkeit zu Boden. In den nächsten 2 Runden −20 auf Manöver.",
       "21-35": "Sie stolpern und stürzen mit 45 % Wahrscheinlichkeit. In den nächsten 2 Runden −30 auf Manöver.",
       "36-50": "Sie stoßen sich den Zeh und fallen mit 60 % Wahrscheinlichkeit hin, +3 Treffer. −10 auf alle Handlungen.",
       "51-60": "Sie rutschen aus und stürzen mit 75 % Wahrscheinlichkeit. 2 Runden benommen.",
       "61-79": "Der Zauber (bzw. Manöverversuch) richtet sich gegen Sie selbst: −10 auf alle Handlungen.",
-      "80": "Sie werden zu Boden geworfen und sind 1 Stunde benommen.",
+      "80-80": "Sie werden zu Boden geworfen und sind 1 Stunde benommen.",
       "81-86": "Sie stürzen zu Boden, +3 Treffer. 3 Runden −20 auf alle Handlungen.",
       "87-89": "Knöchel verstaucht / Sehnenzerrung: +7 Treffer. −20 auf alle Handlungen, 1 Runde benommen.",
-      "90": "Sturz mit Beinbruch: +8 Treffer. −30 auf alle Handlungen, 3 Runden benommen.",
+      "90-90": "Sturz mit Beinbruch: +8 Treffer. −30 auf alle Handlungen, 3 Runden benommen.",
       "91-96": "Sturz mit Schädelprellung: +12 Treffer. −20 auf alle Handlungen, 3 Runden benommen.",
       "97-99": "Unglücklicher Sturz, Armbruch: +14 Treffer. −30 auf alle Handlungen, 4 Runden benommen.",
-      "100": "Sie brechen sich beide Arme beim Abfangen: +30 Treffer, +2 Treffer/Runde, 6 Runden benommen.",
+      "100-100": "Sie brechen sich beide Arme beim Abfangen: +30 Treffer, +2 Treffer/Runde, 6 Runden benommen.",
       "101-106": "Beim Fallen Beinbruch: +15 Treffer. −50 auf alle Handlungen, 3 Runden benommen.",
       "107-109": "Kniescheibe splittert beim Sturz: +10 Treffer. −50 auf alle Handlungen, 4 Runden benommen.",
-      "110": "Kopf zuerst aufgeprallt: einjähriges Koma.",
+      "110-110": "Kopf zuerst aufgeprallt: einjähriges Koma.",
       "111-116": "Sie prallen unglücklich auf die Wirbelsäule: von der Hüfte abwärts gelähmt. +30 Treffer.",
-      "117-118": "Schwerer Sturz: Lähmung vom Kopf abwärts. +20 Treffer.",
-      "120": "Beim Aufschlag Schädelbasisbruch: sofort tödlich."
+      "117-119": "Schwerer Sturz: Lähmung vom Kopf abwärts. +20 Treffer.",
+      "120-999": "Beim Aufschlag Schädelbasisbruch: sofort tödlich."
     }
   },
   "Elektro": {
-  "audioFile": "elektro.mp3",
-  "A": {
-    "1-5": "Haar sträubt sich. Null Treffer.",
-    "6-10": "Ein Treffer.",
-    "11-15": "Zwei Treffer und eine Runde Initiativeverlust.",
-    "16-20": "Gleichgewicht verloren. Drei Treffer und eine Runden Initiativeverlust.",
-    "21-35": "Gleichgewicht verloren. Vier Treffer und zwei Runden Initiativeverlust.",
-    "36-45": "Durch Licht abgelenkt. Fünf Treffer und eine Runde muss pariert werden.",
-    "46-50": "Leichte Verbrennung. Zwei Treffer und Ein Treffer pro Runde. Eine Runde muss pariert werden.",
-    "51-55": "Stark geblendet, mit leichten Schäden an Retina. Sechs Treffer und eine Runde benommen.",
-    "56-60": "Gleichgewichtsverlust. Sieben Treffer und drei Runden initiativeverlust.",
-    "61-65": "Brusttreffer. Mit Metallpanzer: zwei Runden benommen. Sonst: drei Runden benommen.",
-    "66": "Niedergestreckt: drei Runden benommen. Strahl aus Licht und Rauch macht alles im Umkreis von 1 Komma 5 Metern für eine Runde benommen.",
-    "67-70": "Rückentreffer. Sieben Treffer und eine Runde keine Parade möglich.",
-    "71-75": "Acht Treffer und drei Runden benommen. Sechs Runden Minus fünf auf Kampfwürfe",
-    "76-80": "Brusttreffer. Neun Treffer. Zwei Runden benommen ohne die Möglichkeit zur Parade.",
-    "81-85": "Treffer in den Rücken. Plus zwölf Treffer. Zwei Runden benommen, keine Parade möglich.",
-    "86-90": "Niedergestreckt. Mit Metallbeinschutz: gelähmtes Bein durch Nervenschäden. Sonst: Fünfzehn Treffer, zwei Runden benommen und keine Parade möglich.",
-    "91-95": "Hüfttreffer. Mit gepanzerter Hüfte: Zehn Treffer und sechs Runden benommen. Sonst: drei Runden benommen. Minus Fünfzig auf Kampfwürfe.",
-    "96-99": "Hals- und Schultertreffer. Mit Halsschutz: Sechs Runden benommen, ohne die Möglichkeit zur Parade. Sonst: Zehn Treffer, Bewustlosigkeit und Verlust der Sprache.",
-    "100": "Kopftreffer: Zwanzig Treffer. Bewustlosigkeit und in sechs Runden tödlich."
+    "audioFile": "elektro.mp3",
+    "A": {
+      "1-5": "Haar sträubt sich. Null Treffer.",
+      "6-10": "Ein Treffer.",
+      "11-15": "Zwei Treffer und eine Runde Initiativeverlust.",
+      "16-20": "Gleichgewicht verloren. Drei Treffer und eine Runden Initiativeverlust.",
+      "21-35": "Gleichgewicht verloren. Vier Treffer und zwei Runden Initiativeverlust.",
+      "36-45": "Durch Licht abgelenkt. Fünf Treffer und eine Runde muss pariert werden.",
+      "46-50": "Leichte Verbrennung. Zwei Treffer und Ein Treffer pro Runde. Eine Runde muss pariert werden.",
+      "51-55": "Stark geblendet, mit leichten Schäden an Retina. Sechs Treffer und eine Runde benommen.",
+      "56-60": "Gleichgewichtsverlust. Sieben Treffer und drei Runden initiativeverlust.",
+      "61-65": "Brusttreffer. Mit Metallpanzer: zwei Runden benommen. Sonst: drei Runden benommen.",
+      "66-66": "Niedergestreckt: drei Runden benommen. Strahl aus Licht und Rauch macht alles im Umkreis von 1 Komma 5 Metern für eine Runde benommen.",
+      "67-70": "Rückentreffer. Sieben Treffer und eine Runde keine Parade möglich.",
+      "71-75": "Acht Treffer und drei Runden benommen. Sechs Runden Minus fünf auf Kampfwürfe",
+      "76-80": "Brusttreffer. Neun Treffer. Zwei Runden benommen ohne die Möglichkeit zur Parade.",
+      "81-85": "Treffer in den Rücken. Plus zwölf Treffer. Zwei Runden benommen, keine Parade möglich.",
+      "86-90": "Niedergestreckt. Mit Metallbeinschutz: gelähmtes Bein durch Nervenschäden. Sonst: Fünfzehn Treffer, zwei Runden benommen und keine Parade möglich.",
+      "91-95": "Hüfttreffer. Mit gepanzerter Hüfte: Zehn Treffer und sechs Runden benommen. Sonst: drei Runden benommen. Minus Fünfzig auf Kampfwürfe.",
+      "96-99": "Hals- und Schultertreffer. Mit Halsschutz: Sechs Runden benommen, ohne die Möglichkeit zur Parade. Sonst: Zehn Treffer, Bewustlosigkeit und Verlust der Sprache.",
+      "100-100": "Kopftreffer: Zwanzig Treffer. Bewustlosigkeit und in sechs Runden tödlich."
+    },
+    "B": {
+      "1-5": "Haar sträubt sich. Null Treffer.",
+      "6-10": "Zwei Treffer.",
+      "11-15": "Zwei Treffer und eine Runde Initiativeverlust.",
+      "16-20": "Lichtexplosion. Vier Treffer und eine Runde Initiativeverlust.",
+      "21-35": "Fünf Treffer und zwei Runden Initiativeverlust.",
+      "36-45": "Leichte Verbrennungen. Zwei Treffer und ein Treffer pro Runde. Eine Runde muss pariert werden.",
+      "46-50": "Sechs Treffer und zwei Runden muss pariert werden.",
+      "51-55": "Leichte Verbrennung am Fuss. Sieben Treffer und zwei Treffer pro Runde. Eine Runde benommen.",
+      "56-60": "Acht Treffer und zwei Runden benommen. Mit Metallpanzer: eine Runde keine Parade möglich.",
+      "61-65": "Oberschenkeltreffer. Neun Treffer. Eine Runde benommen und keine Parade möglich.",
+      "66-66": "Brusttreffer. Fünfzehn Treffer und drei Treffer pro Runde. Drei Runden benommen und keine Parade möglich. Minus 20 auf Kampfwürfe.",
+      "67-70": "Rückentreffer. Zehn Treffer. Zwei Runden benommen. Eine Runde keine Parade möglich.",
+      "71-75": "Schildarmtreffer. Mit Schild: vier Runden benommen. Sonst: Arm gelähmt, zwei Runden benommen und keine Parade möglich.",
+      "76-80": "Brusttreffer. Elf Treffer und zwei Treffer pro Runde. Niedergestreckt.",
+      "81-85": "Rückentreffer. Dreizehn Treffer. Drei Runden benommen und keine Parade möglich. Minus zehn auf Kampfwürfe.",
+      "86-90": "Beintreffer. Mit Beinschutz: Sechs Runden benommen und keine Parade möglich. Sonst: Bein gebrochen, sechs Runden benommen, Minus Fünfzig auf Kampfwürfe.",
+      "91-95": "Kopftreffer. Mit Helm: Nasenverlust und zwei Wochen blind. Minus 95 auf Kampfwürfe während der Blindheit. Neun Runden benommen. Sonst: Niedergestreckt und tödlich in 30 Runden.",
+      "96-99": "Kopftreffer bricht Schädel. Fünfzehn Treffer. Niedergestreckt und tödlich in neun Runden.",
+      "100-100": "Nackentreffer durchtrennt Hals. Sofort tödlich."
+    },
+    "C": {
+      "1-5": "Ein Treffer.",
+      "6-10": "Drei Treffer.",
+      "11-15": "Drei Treffer. Eine Runde Inititativeverlust.",
+      "16-20": "Drei Treffer. Zwei Runden Initiativeverlust.",
+      "21-35": "Sechs Treffer. Eine Runde muss pariert werden.",
+      "36-45": "Sieben Treffer. Zwei Runden müssen pariert werden.",
+      "46-50": "Sieben Treffer. Mit Metallpanzer: Zwei Runden benommen. Sonst: Eine Runde benommen.",
+      "51-55": "Beintreffer. Mit Beinschutz: Eine Runde benommen. Sonst: Drei Treffer pro Runde, eine Runde benommen und keine Parade möglich.",
+      "56-60": "Beintreffer. Neun Treffer. Zwei Runden benpmmen und eine Runde keine Parade möglich.",
+      "61-65": "Zehn Treffer, zwei Runden benpmmen und keine Parade möglich.",
+      "66-66": "Brusttreffer. Mit Metallpanzer an Arm und Brust: schmiltz zusammen, Arme werden unbeweglich. Sonst: Neun Treffer und sechs Stunden bewusstlos.",
+      "67-70": "Rückentreffer. elf Treffer, zwei Runden benommen und keine Parade möglich. Minus zehn auf Kampfwürfe.",
+      "71-75": "Schildarmtreffer. Mit Metallschild: zwölf Treffer, sechs Runden benommen. Sonst: 13 Treffer und Arm gelähmt. Niedergestreckt.",
+      "76-80": "Brusttreffer. Mit Brustpanzer: zwei Treffer pro Runde und sechs Runden benommen. Minus fünf auf Kampfwürfe. Sonst: drei Tage bewusstlos.",
+      "81-85": "Schenkelbruch. Zwei Treffer pro Runde, vier Runden benommen. Minus vierzig auf Kampfwürfe.",
+      "86-90": "Knie zerschmettert. Zwei Runden benommen und keine Parade möglich. Minus sechzig auf Kampfwürfe.",
+      "91-95": "Unterbauchtreffer: Mit Panzer: fünf Treffer pro Runde, Minus 75 auf Kampfwürfe. Sonst: handlungsunfähig und in sechs Runden tödlich.",
+      "96-99": "Brusttreffer zersört Lunge und Herz. Mit Metallpanzer: schmilzt zusammen. In sechs runden tödlich. Sonst: sofort tödlich.",
+      "100-100": "Kopf vollständig verbrannt. Sofort tödlich."
+    },
+    "D": {
+      "1-5": "Zwei Treffer.",
+      "6-10": "Vier Treffer.",
+      "11-15": "Vier Treffer. Eine Runde Initiativeverlust.",
+      "16-20": "Gleichgewichtsverlust. Vier Treffer. Eine Runde muss pariert werden.",
+      "21-35": "Leichte Verbrennungen. Fünf Treffer. Ein Treffer pro Runde. Zwei Runden muss pariert werden.",
+      "36-45": "Sieben Treffer. Eine Runde benommen. Zwei Runden minus zehn auf Kampfwürfe.",
+      "46-50": "Sieben Treffer. Zwei Runden benommen. Zwei Runden minus zehn auf Kampfwürfe.",
+      "51-55": "zehn Treffer. Zwei Runden benommen. Eine Runde keine Parade möglich.",
+      "56-60": "Schildarmtreffer. Fünfzehn Treffer. Mit Metallpanzer aber ohne Schild: ein Tag bewusstlos.",
+      "61-65": "Unterleibstreffer. Mit Bauchpanzer: zwei Treffer pro Runde. Zwei Runden benommen. Sonst: Drei Treffer pro Runde und sechs Runden benommen.",
+      "66-66": "Halstreffer. Bewusstlos. Zwanzig Treffer und vier Treffer pro Runde. Kann zwei Monate nicht sprechen.",
+      "67-70": "Rückentreffer. Zwölf Treffer. Eine Runde bewusstlos. Minus zwanzig auf Kampfwürfe.",
+      "71-75": "Durch Nervenschäden Waffenarm gelähmt. Dreizehn Treffer und drei Runden benommen.",
+      "76-80": "Brusttreffer. Mit Metallpanzer: Fünfundzwanzig treffer und bewusstlos. Sonst: Fünfzehn Treffer, sechs Runden benommen und keine Parade möglich.",
+      "81-85": "Rückentreffer mit Nervenschaden. Fünfzehn Treffer und drei Treffer pro Runde. 30 Runden benommen.",
+      "86-90": "Bauchtreffer. Mit Panzer: sechs Treffer pro Runde und neun Runden benommen. Sonst: in zwölf Runden tödlich.",
+      "91-95": "Seitentreffer zerstört Nevernsystem. Dreissig Treffer. Permanentes Koma.",
+      "96-99": "Durch Brusttreffer zurückgeschleudert. Massiver Neverenschaden. Zwanzig Treffer. In drei Runden tödlich.",
+      "100-100": "Schlagartiger tödlicher Zusammenbruch des Nevernsystems."
+    },
+    "E": {
+      "1-5": "Drei Treffer.",
+      "6-10": "Vier Treffer. Eine Runde Initiativeverlust.",
+      "11-15": "Fünf Treffer. Mit Metallpanzer: zwei Runden Initiativeverlust. Sonst: eine Runde benommen.",
+      "16-20": "Sechs Treffer. Eine Runde benommen.",
+      "21-35": "Zehn Treffer. Zwei Runden benommen.",
+      "36-45": "Zwölf Treffer. Zwei Runden benommen. Zwei Runden lang Minus 10 auf Kampfwürfe.",
+      "46-50": "dreizehn Treffer. Mit Metallpanzer: zwei Runden benommen und keine Parade möglich. Sonst: zwei Runden benommen.",
+      "51-55": "dreizehn Treffer. vier Runden benommen. sechs Runden Initiativeverlust.",
+      "56-60": "Waffenarmtreffer. Getragenes wird fallengelassen. Zwei Treffer pro Runde. Zwei Runden benommen. Eine Runde keine Parade möglich.",
+      "61-65": "Beintreffer. Niedergestreckt. Vierzehn Treffer. Zwei Runden benommen. Eine Runde keine Parade möglich.",
+      "66-66": "Kopftreffer. Mit Lederhelm: zerstört. Zwei Monate Koma. Sonst: sofort tödlicher Gehirnschaden.",
+      "67-70": "Rückentreffer. fünfzehn Treffer, vier Runden benommen. Minus fünfundzwanzig auf Kampfwürfe.",
+      "71-75": "Knochenbruch lähmt Waffenarm. Drei Treffer pro Runde. Sechs Runden benommen.",
+      "76-80": "Brusttreffer. Bewusstlos. Achtzehn treffer und drei Treffer pro Runde.",
+      "81-85": "Nervensystem bricht zusammen. Bewusstlos. in zwölf Runden tödlich.",
+      "86-90": "Becken und Rückgrad zerstört. Bewusstlos. In zwölf Runden tödlich.",
+      "91-95": "Seitentreffer vernichtet Teile des Skeletts und der Organe. Fünfundzwanzig Treffer. Handlungsunfähig. Tödlich in neun Runden.",
+      "96-99": "Brusttreffer vernichtet Lungen. Sofort tödlich. Strahl schiesst noch drei Meter weiter. (OB beim nächsten Einschlag minus 20).",
+      "100-100": "Zu Asche verbrannt."
+    }
   },
-  "B": {
-    "1-5": "Haar sträubt sich. Null Treffer.",
-    "6-10": "Zwei Treffer.",
-    "11-15": "Zwei Treffer und eine Runde Initiativeverlust.",
-    "16-20": "Lichtexplosion. Vier Treffer und eine Runde Initiativeverlust.",
-    "21-35": "Fünf Treffer und zwei Runden Initiativeverlust.",
-    "36-45": "Leichte Verbrennungen. Zwei Treffer und ein Treffer pro Runde. Eine Runde muss pariert werden.",
-    "46-50": "Sechs Treffer und zwei Runden muss pariert werden.",
-    "51-55": "Leichte Verbrennung am Fuss. Sieben Treffer und zwei Treffer pro Runde. Eine Runde benommen.",
-    "56-60": "Acht Treffer und zwei Runden benommen. Mit Metallpanzer: eine Runde keine Parade möglich.",
-    "61-65": "Oberschenkeltreffer. Neun Treffer. Eine Runde benommen und keine Parade möglich.",
-    "66": "Brusttreffer. Fünfzehn Treffer und drei Treffer pro Runde. Drei Runden benommen und keine Parade möglich. Minus 20 auf Kampfwürfe.",
-    "67-70": "Rückentreffer. Zehn Treffer. Zwei Runden benommen. Eine Runde keine Parade möglich.",
-    "71-75": "Schildarmtreffer. Mit Schild: vier Runden benommen. Sonst: Arm gelähmt, zwei Runden benommen und keine Parade möglich.",
-    "76-80": "Brusttreffer. Elf Treffer und zwei Treffer pro Runde. Niedergestreckt.",
-    "81-85": "Rückentreffer. Dreizehn Treffer. Drei Runden benommen und keine Parade möglich. Minus zehn auf Kampfwürfe.",
-    "86-90": "Beintreffer. Mit Beinschutz: Sechs Runden benommen und keine Parade möglich. Sonst: Bein gebrochen, sechs Runden benommen, Minus Fünfzig auf Kampfwürfe.",
-    "91-95": "Kopftreffer. Mit Helm: Nasenverlust und zwei Wochen blind. Minus 95 auf Kampfwürfe während der Blindheit. Neun Runden benommen. Sonst: Niedergestreckt und tödlich in 30 Runden.",
-    "96-99": "Kopftreffer bricht Schädel. Fünfzehn Treffer. Niedergestreckt und tödlich in neun Runden.",
-    "100": "Nackentreffer durchtrennt Hals. Sofort tödlich."
-  },
-  "C": {
-    "1-5": "Ein Treffer.",
-    "6-10": "Drei Treffer.",
-    "11-15": "Drei Treffer. Eine Runde Inititativeverlust.",
-    "16-20": "Drei Treffer. Zwei Runden Initiativeverlust.",
-    "21-35": "Sechs Treffer. Eine Runde muss pariert werden.",
-    "36-45": "Sieben Treffer. Zwei Runden müssen pariert werden.",
-    "46-50": "Sieben Treffer. Mit Metallpanzer: Zwei Runden benommen. Sonst: Eine Runde benommen.",
-    "51-55": "Beintreffer. Mit Beinschutz: Eine Runde benommen. Sonst: Drei Treffer pro Runde, eine Runde benommen und keine Parade möglich.",
-    "56-60": "Beintreffer. Neun Treffer. Zwei Runden benpmmen und eine Runde keine Parade möglich.",
-    "61-65": "Zehn Treffer, zwei Runden benpmmen und keine Parade möglich.",
-    "66": "Brusttreffer. Mit Metallpanzer an Arm und Brust: schmiltz zusammen, Arme werden unbeweglich. Sonst: Neun Treffer und sechs Stunden bewusstlos.",
-    "67-70": "Rückentreffer. elf Treffer, zwei Runden benommen und keine Parade möglich. Minus zehn auf Kampfwürfe.",
-    "71-75": "Schildarmtreffer. Mit Metallschild: zwölf Treffer, sechs Runden benommen. Sonst: 13 Treffer und Arm gelähmt. Niedergestreckt.",
-    "76-80": "Brusttreffer. Mit Brustpanzer: zwei Treffer pro Runde und sechs Runden benommen. Minus fünf auf Kampfwürfe. Sonst: drei Tage bewusstlos.",
-    "81-85": "Schenkelbruch. Zwei Treffer pro Runde, vier Runden benommen. Minus vierzig auf Kampfwürfe.",
-    "86-90": "Knie zerschmettert. Zwei Runden benommen und keine Parade möglich. Minus sechzig auf Kampfwürfe.",
-    "91-95": "Unterbauchtreffer: Mit Panzer: fünf Treffer pro Runde, Minus 75 auf Kampfwürfe. Sonst: handlungsunfähig und in sechs Runden tödlich.",
-    "96-99": "Brusttreffer zersört Lunge und Herz. Mit Metallpanzer: schmilzt zusammen. In sechs runden tödlich. Sonst: sofort tödlich.",
-    "100": "Kopf vollständig verbrannt. Sofort tödlich."
-  },
-  "D": {
-    "1-5": "Zwei Treffer.",
-    "6-10": "Vier Treffer.",
-    "11-15": "Vier Treffer. Eine Runde Initiativeverlust.",
-    "16-20": "Gleichgewichtsverlust. Vier Treffer. Eine Runde muss pariert werden.",
-    "21-35": "Leichte Verbrennungen. Fünf Treffer. Ein Treffer pro Runde. Zwei Runden muss pariert werden.",
-    "36-45": "Sieben Treffer. Eine Runde benommen. Zwei Runden minus zehn auf Kampfwürfe.",
-    "46-50": "Sieben Treffer. Zwei Runden benommen. Zwei Runden minus zehn auf Kampfwürfe.",
-    "51-55": "zehn Treffer. Zwei Runden benommen. Eine Runde keine Parade möglich.",
-    "56-60": "Schildarmtreffer. Fünfzehn Treffer. Mit Metallpanzer aber ohne Schild: ein Tag bewusstlos.",
-    "61-65": "Unterleibstreffer. Mit Bauchpanzer: zwei Treffer pro Runde. Zwei Runden benommen. Sonst: Drei Treffer pro Runde und sechs Runden benommen.",
-    "66": "Halstreffer. Bewusstlos. Zwanzig Treffer und vier Treffer pro Runde. Kann zwei Monate nicht sprechen.",
-    "67-70": "Rückentreffer. Zwölf Treffer. Eine Runde bewusstlos. Minus zwanzig auf Kampfwürfe.",
-    "71-75": "Durch Nervenschäden Waffenarm gelähmt. Dreizehn Treffer und drei Runden benommen.",
-    "76-80": "Brusttreffer. Mit Metallpanzer: Fünfundzwanzig treffer und bewusstlos. Sonst: Fünfzehn Treffer, sechs Runden benommen und keine Parade möglich.",
-    "81-85": "Rückentreffer mit Nervenschaden. Fünfzehn Treffer und drei Treffer pro Runde. 30 Runden benommen.",
-    "86-90": "Bauchtreffer. Mit Panzer: sechs Treffer pro Runde und neun Runden benommen. Sonst: in zwölf Runden tödlich.",
-    "91-95": "Seitentreffer zerstört Nevernsystem. Dreissig Treffer. Permanentes Koma.",
-    "96-99": "Durch Brusttreffer zurückgeschleudert. Massiver Neverenschaden. Zwanzig Treffer. In drei Runden tödlich.",
-    "100": "Schlagartiger tödlicher Zusammenbruch des Nevernsystems."
-  },
-  "E": {
-    "1-5": "Drei Treffer.",
-    "6-10": "Vier Treffer. Eine Runde Initiativeverlust.",
-    "11-15": "Fünf Treffer. Mit Metallpanzer: zwei Runden Initiativeverlust. Sonst: eine Runde benommen.",
-    "16-20": "Sechs Treffer. Eine Runde benommen.",
-    "21-35": "Zehn Treffer. Zwei Runden benommen.",
-    "36-45": "Zwölf Treffer. Zwei Runden benommen. Zwei Runden lang Minus 10 auf Kampfwürfe.",
-    "46-50": "dreizehn Treffer. Mit Metallpanzer: zwei Runden benommen und keine Parade möglich. Sonst: zwei Runden benommen.",
-    "51-55": "dreizehn Treffer. vier Runden benommen. sechs Runden Initiativeverlust.",
-    "56-60": "Waffenarmtreffer. Getragenes wird fallengelassen. Zwei Treffer pro Runde. Zwei Runden benommen. Eine Runde keine Parade möglich.",
-    "61-65": "Beintreffer. Niedergestreckt. Vierzehn Treffer. Zwei Runden benommen. Eine Runde keine Parade möglich.",
-    "66": "Kopftreffer. Mit Lederhelm: zerstört. Zwei Monate Koma. Sonst: sofort tödlicher Gehirnschaden.",
-    "67-70": "Rückentreffer. fünfzehn Treffer, vier Runden benommen. Minus fünfundzwanzig auf Kampfwürfe.",
-    "71-75": "Knochenbruch lähmt Waffenarm. Drei Treffer pro Runde. Sechs Runden benommen.",
-    "76-80": "Brusttreffer. Bewusstlos. Achtzehn treffer und drei Treffer pro Runde.",
-    "81-85": "Nervensystem bricht zusammen. Bewusstlos. in zwölf Runden tödlich.",
-    "86-90": "Becken und Rückgrad zerstört. Bewusstlos. In zwölf Runden tödlich.",
-    "91-95": "Seitentreffer vernichtet Teile des Skeletts und der Organe. Fünfundzwanzig Treffer. Handlungsunfähig. Tödlich in neun Runden.",
-    "96-99": "Brusttreffer vernichtet Lungen. Sofort tödlich. Strahl schiesst noch drei Meter weiter. (OB beim nächsten Einschlag minus 20).",
-    "100": "Zu Asche verbrannt."
-  }
-},
-  "Streich_Held": {
+  "Streich (Held)": {
     "audioFile": "streich_held.mp3",
     "A": {
       "01-05": "Schwacher Schlag. +0T",
@@ -532,18 +531,18 @@
       "36-50": "Leichter Oberschenkeltreffer. 1T/rd",
       "51-60": "Schlag auf den Rücken. Gegner versucht Dich mit wilden Schlägen auf Distanz zu halten. +2T, 1par-30",
       "61-65": "Treffer an der Brust lässt Gegner zurück taumeln und eine Schwache Verteidigung aufbauen. +2T, 1par-25, 1T/rd",
-      "66": "Gegner blockt Deinen Angriff mit dem Schildarm. Dabei bricht die Schulter und der Arm ist nutzlos. Du hast Initiative. +9T, 3ben, +10",
+      "66-66": "Gegner blockt Deinen Angriff mit dem Schildarm. Dabei bricht die Schulter und der Arm ist nutzlos. Du hast Initiative. +9T, 3ben, +10",
       "67-70": "Treffer an der Brust lässt Gegner zurück taumeln und eine Schwache Verteidigung aufbauen. +2T, 1par-25, 1T/rd",
       "71-75": "Du änderst Deinen ursprünglichen Schlag und ziehst nun die Schneide über das Bein des Gegners. Drei Treffer. Eine Runde muss pariert werden, 2T/rd",
       "76-80": "Eine Finte nach oben und nach unten geschlagen. Rückseite des Oberschenkels aufgeschlitzt. +3T, 2T/rd, -10",
       "81-85": "Schlag landet nah beim Hals, was den Gegner doch sehr erschreckt. Sechs Treffer. 3ben, 1opar",
       "86-90": "Schlag auf den Unterschenkel schlitzt Sehnen an. Armer Teufel. +4T, Zwei Runden benommen. 2T/rd, -30",
       "91-95": "Gegner duckt sich, Du triffst aber dennoch seinen Oberarm. Das scheint einen Bluter zu sein. Fünf Treffer. 2benopar, Drei Treffer pro Runde. -25",
-      "96": "Gegner läuft gerade in Deinen Schlag und nutzt das voll aus. Sechs Treffer. 5ben, 6T/rd, +20",
-      "97": "Gegner dreht sich um Deinem Schlag zu entgehen. Dabei erwischst Du ihn an der Seite. +8T, 2benopar, 2T/rd, -10",
-      "98": "Kopftreffer. Mit Helm: +3T, 2benopar Ohne Helm: Ohr abgeschnitten (-50 auf Hören), +3T, 3ben, 1opar, Drei Treffer pro Runde.",
-      "99": "Die Spitze Deiner Waffe schlitzt seine Nase an. Leichte Wunde und bleibende Narbe. +2T, Sechs Runden benommen. 2T/rd, -30",
-      "100": "Halsschlagader durchtrennt und Hals gebrochen. Gegner stirbt nach 6 Rd Unbeweglichkeit."
+      "96-96": "Gegner läuft gerade in Deinen Schlag und nutzt das voll aus. Sechs Treffer. 5ben, 6T/rd, +20",
+      "97-97": "Gegner dreht sich um Deinem Schlag zu entgehen. Dabei erwischst Du ihn an der Seite. +8T, 2benopar, 2T/rd, -10",
+      "98-98": "Kopftreffer. Mit Helm: +3T, 2benopar Ohne Helm: Ohr abgeschnitten (-50 auf Hören), +3T, 3ben, 1opar, Drei Treffer pro Runde.",
+      "99-99": "Die Spitze Deiner Waffe schlitzt seine Nase an. Leichte Wunde und bleibende Narbe. +2T, Sechs Runden benommen. 2T/rd, -30",
+      "100-100": "Halsschlagader durchtrennt und Hals gebrochen. Gegner stirbt nach 6 Rd Unbeweglichkeit."
     },
     "B": {
       "01-05": "Schwächlicher Schlag und erst noch daneben. +0T",
@@ -556,18 +555,18 @@
       "36-50": "Schienbeintreffer. Mit Beinschienen: +2T, 1par Ohne: +2T, 1T/rd",
       "51-60": "Gegner springt merkwürdig in der Gegend rum um Deinem Schlag zu entgehen. Dabei triffst Du ihn am Rücken. +4T, 1par-30",
       "61-65": "Qualitätsarbeit. Treffer an der Brust. Mit Panzer: +4T, 1par Ohne: +3T, 2par, 1T/rd, -5",
-      "66": "Dein Schlag verfehlt den Oberkörper, landet aber im Waffenarm, der nun nutzlos ist. Er lässt seine Waffe fallen. +8T, 4ben, 2opar",
+      "66-66": "Dein Schlag verfehlt den Oberkörper, landet aber im Waffenarm, der nun nutzlos ist. Er lässt seine Waffe fallen. +8T, 4ben, 2opar",
       "67-70": "Qualitätsarbeit. Treffer an der Brust. Mit Panzer: +4T, 1par Ohne: +3T, 2par, 1T/rd, -5",
       "71-75": "Schneide knüpft recht gute Kontakte zum Gegner. Leichte Oberschenkelwunde. +4T, 2par, 2T/rd",
       "76-80": "Streiftreffer am Unterarm. Das blutet erstaunlich stark. +4T, 1ben, 2T/rd, -10",
       "81-85": "Dein Versuch dem Gegner den Kopf abzuschlagen wäre fast gelungen. Halstreffer macht ihn auch nicht viel glücklicher. +7T, Zwei Runden benommen. Drei Treffer pro Runde. -5",
       "86-90": "Muskeln in der Wade aufgeschlitzt. Er hat zu grosse Schmerzen um sich schnell genug zu rächen. Sechs Treffer. 3ben, 1opar, -40",
       "91-95": "Gegner ist mir seinem Schild zu langsam, weshalb Du ihn am Arm triffst. Sechs Treffer. 2benopar, Drei Treffer pro Runde. -30",
-      "96": "Deine Klinge dringt bis zur Hälfte ein und hinterlässt eine schreckliche Wunde. Überall spritzt das Blut. +7T, 2benopar, 6T/rd",
-      "97": "Schlag auf den Rücken. Gegner geht zu Boden um auszuweichen, steht aber mit dem Gesicht zur falschen Seite wieder auf. Zehn Treffer. Drei Runden benommen ohne Parade. Drei Treffer pro Runde.",
-      "98": "Schlag in die Hüfte. Zwar nicht mit der Schneide, aber mit viel Wucht. Du bringst ihn ins Wanken. +7T, 3ben, 1opar, -20, +10",
-      "99": "Kopftreffer bricht Schädelknochen und richtet schwere Hirnschäden an. Gegner fällt und um und stirbt nach 6 Rd. +20T",
-      "100": "Alles hat ein Ende, für den Gegner ist es jetzt gekommen. Sofort tödlicher Treffer. 25% Chance, dass Deine Waffe 1 Rd feststeckt."
+      "96-96": "Deine Klinge dringt bis zur Hälfte ein und hinterlässt eine schreckliche Wunde. Überall spritzt das Blut. +7T, 2benopar, 6T/rd",
+      "97-97": "Schlag auf den Rücken. Gegner geht zu Boden um auszuweichen, steht aber mit dem Gesicht zur falschen Seite wieder auf. Zehn Treffer. Drei Runden benommen ohne Parade. Drei Treffer pro Runde.",
+      "98-98": "Schlag in die Hüfte. Zwar nicht mit der Schneide, aber mit viel Wucht. Du bringst ihn ins Wanken. +7T, 3ben, 1opar, -20, +10",
+      "99-99": "Kopftreffer bricht Schädelknochen und richtet schwere Hirnschäden an. Gegner fällt und um und stirbt nach 6 Rd. +20T",
+      "100-100": "Alles hat ein Ende, für den Gegner ist es jetzt gekommen. Sofort tödlicher Treffer. 25% Chance, dass Deine Waffe 1 Rd feststeckt."
     },
     "C": {
       "01-05": "Fester Schlag, aber gut pariert. Versuch's noch mal. +1T",
@@ -580,18 +579,18 @@
       "36-50": "Dein Schlag hinterlässt nichts ausser einer \"klaffenden\" Wunde im Gegner. +2T, 2T/rd",
       "51-60": "Treffer am Rücken. Gegner versucht los zu kommen und drehst Deine Waffe um die Wunde zu verschönern, was ihn zum Schreien bringt. +3T, Eine Runde benommen ohne Parade. 1T/rd",
       "61-65": "Schlag landet hart auf der Brust. Du schnippelst ein bisschen an ihm rum, aber tödlich ist wohl nicht. +4T, 1par, 2T/rd, -10",
-      "66": "Dein Schlag ist zu kurz, weil Gegner sich nach hinten beugt. So zerschmetterst Du ihm eben das Knie und er geht zu Boden. Sechs Treffer. 3opar, -90",
+      "66-66": "Dein Schlag ist zu kurz, weil Gegner sich nach hinten beugt. So zerschmetterst Du ihm eben das Knie und er geht zu Boden. Sechs Treffer. 3opar, -90",
       "67-70": "Schlag landet hart auf der Brust. Du schnippelst ein bisschen an ihm rum, aber tödlich ist wohl nicht. +4T, 1par, 2T/rd, -10",
       "71-75": "Schlag rutscht von der Seite runter zum Oberschenkel und hinterlässt eine wirksame Wunde. Fünf Treffer. 1ben, 2T/rd",
       "76-80": "Am Unterarm erwischt und nach oben hin aufgeschlitzt. +4T, 1ben, Drei Treffer pro Runde. -10",
       "81-85": "Hals angeschlitzt. Kleidung und eventuelle Panzerung weggefetzt. +8T, 4ben, 2opar, +10",
       "86-90": "Muskeln und Sehnen im Unterschenkel angeschlitzt. Gegner taumelt ohne Verteidigung auf Dich zu. +7T, 2benopar, -45",
       "91-95": "Du erwischst ihn schnell und von oben her am Schildarm, wodurch Sehnen und Muskeln aufgeschlitzt werden und der Schildarm nutzlos wird. +9T, Sechs Runden benommen. 4T/rd",
-      "96": "Du machst es genauso wie im Training und holst ganz weit aus um ihn die Seite zu hauen. +8T, 2benopar, 4T/rd, -20",
-      "97": "Volltreffer am Rücken bricht einen Knochen. Er torkelt ein bisschen vorwärts und kann sich kaum halten. +9T, 4benopar, -10",
-      "98": "Oberschenkel zerhackt und Bein abgehauen. Er fällt sofort um und stirbt nach 6 Rd Schock und Blutverlust. +20T",
-      "99": "Du hackst den Schild und seinen Arm in zwei Teile. Er versucht seinen Arm aufzufangen. Er hat einen Schock und stirbt nach zwölf Runden. +18T, 12benopar",
-      "100": "Aufgezogen und im Gesicht erwischt. Augen zerstört. Er fällt vor Schmerz auf den Rücken. Fünf Treffer. 30benopar"
+      "96-96": "Du machst es genauso wie im Training und holst ganz weit aus um ihn die Seite zu hauen. +8T, 2benopar, 4T/rd, -20",
+      "97-97": "Volltreffer am Rücken bricht einen Knochen. Er torkelt ein bisschen vorwärts und kann sich kaum halten. +9T, 4benopar, -10",
+      "98-98": "Oberschenkel zerhackt und Bein abgehauen. Er fällt sofort um und stirbt nach 6 Rd Schock und Blutverlust. +20T",
+      "99-99": "Du hackst den Schild und seinen Arm in zwei Teile. Er versucht seinen Arm aufzufangen. Er hat einen Schock und stirbt nach zwölf Runden. +18T, 12benopar",
+      "100-100": "Aufgezogen und im Gesicht erwischt. Augen zerstört. Er fällt vor Schmerz auf den Rücken. Fünf Treffer. 30benopar"
     },
     "D": {
       "01-05": "Dieser Treffer war ja erbärmlich. +2T",
@@ -604,18 +603,18 @@
       "36-50": "Gegner fängt Deinen Schlag mit der Brust ab. Du schneidest ihn ihm oberen Bereich. +3T, 2T/rd",
       "51-60": "Langgezogener Schlag über die Schulter trifft am Rücken. Gegner kommt los, ist aber auch aus Gleichgewicht gebracht. +3T, Eine Runde benommen ohne Parade. 2T/rd",
       "61-65": "Schwerer Treffer am oberen Rücken. Offene Wunde bereitet sichtbar Schmerzen, trotzdem kann Gegner seine Verteidigung aufrecht erhalten. Erstaunlich. Fünf Treffer. 1par, Drei Treffer pro Runde. -15",
-      "66": "Mit einem seitlichen Kopftreffer schickst Du den Gegner 6 Std. ins Land der Träume. Wenn er keinen Halm an hat, ist dieser Schlag sofort tödlich. +15T",
+      "66-66": "Mit einem seitlichen Kopftreffer schickst Du den Gegner 6 Std. ins Land der Träume. Wenn er keinen Halm an hat, ist dieser Schlag sofort tödlich. +15T",
       "67-70": "Schwerer Treffer am oberen Rücken. Offene Wunde bereitet sichtbar Schmerzen, trotzdem kann Gegner seine Verteidigung aufrecht erhalten. Erstaunlich. Fünf Treffer. 1par, Drei Treffer pro Runde. -15",
       "71-75": "Die Spitze Deiner Klinge bohrt sich in den Oberschenkel. Du bohrst noch ein bisschen weiter. Sechs Treffer. Zwei Runden benommen. 2T/rd",
       "76-80": "Du hast Glück und triffst ihn am Unterarm, als er sich nach einem Ausfallschritt wieder aufstellt. +4T, Zwei Runden benommen. Drei Treffer pro Runde. -10",
       "81-85": "Schultertreffer, der Muskeln anschlitzt. +8T, 4ben, 2opar, +10",
       "86-90": "Muskeln im Unterschenkel aufgeschlitzt und Sehnen durchtrennt. Er kann nicht mehr lange stehen. 3ben, 2opar, -50",
       "91-95": "Gegner versucht fälschlicherweise Deinen Schlag mit seinem Waffenarm zu blocken. Sehnen durchtrennt und der Arm ist schlaff und nutzlos. Zehn Treffer. 4ben, 2opar",
-      "96": "Du bohrst Deine Waffe dem Gegner in den Bauch, was grosse Unterleibswunden verursacht. Gegner wird vom Blutverlust sofort bleich. Zehn Treffer. 4ben, 2opar, 8T/rd, -10",
-      "97": "Dein Versuch den Gegner zu entwaffnen ist mehr als geglückt, den nun ist auch gleich die Hand ab. Gegner stirbt nach 6 Rd Schock. Sechs Treffer. 6benopar",
-      "98": "Waffenarm abgetrennt und Dein Schwert in seiner Seite parkiert. Er geht zu Boden und stirbt nach 12 Rd Schock. +15T, 9benopar",
-      "99": "Dem Gegner die ganze Seite aufgeschlitzt. Er stirbt nach 3 Rd an inneren Schäden. Er fällt um und ist sofort bewusstlos. +20T",
-      "100": "Herz durchstossen. Sofort tödlich. 25% Chance, dass Deine Waffe 2 Rd feststeckt. +12T"
+      "96-96": "Du bohrst Deine Waffe dem Gegner in den Bauch, was grosse Unterleibswunden verursacht. Gegner wird vom Blutverlust sofort bleich. Zehn Treffer. 4ben, 2opar, 8T/rd, -10",
+      "97-97": "Dein Versuch den Gegner zu entwaffnen ist mehr als geglückt, den nun ist auch gleich die Hand ab. Gegner stirbt nach 6 Rd Schock. Sechs Treffer. 6benopar",
+      "98-98": "Waffenarm abgetrennt und Dein Schwert in seiner Seite parkiert. Er geht zu Boden und stirbt nach 12 Rd Schock. +15T, 9benopar",
+      "99-99": "Dem Gegner die ganze Seite aufgeschlitzt. Er stirbt nach 3 Rd an inneren Schäden. Er fällt um und ist sofort bewusstlos. +20T",
+      "100-100": "Herz durchstossen. Sofort tödlich. 25% Chance, dass Deine Waffe 2 Rd feststeckt. +12T"
     },
     "E": {
       "01-05": "Schwache Attacke. Drei Treffer",
@@ -628,21 +627,21 @@
       "36-50": "Treffer am Oberschenkel. Beinpanzerung hilft den Schlag abzuschwächen. Mit Beinschienen: Fünf Treffer. Ohne: Drei Treffer und drei Treffer pro Runde.",
       "51-60": "Bauchtreffer. Gegner beugt sich nach vorne und mit einem weiteren Stoss bringst Du Deine Waffe wieder raus. Vier Treffer und drei Treffer pro Runde. Eine Runde Benommen ohne Parade.",
       "61-65": "Graziös den Gegner aufgeschnitten. Du bist Dir über den Erfolg nicht ganz im Klaren, bis Du all das Blut rausströmen siehst. Sechs Treffer und vier Treffer pro Runde. Zwei Runden benommen. Minus zehn auf alle Kampfwürfe.",
-      "66": "Erst den Waffenarm abgeblockt und dann abgehauen. Gegner geht sofort zu Boden und stirbt in zwölf Runden. Sauber gemacht! 12 Treffer, Plus 10 auf den nächsten Angriff.",
+      "66-66": "Erst den Waffenarm abgeblockt und dann abgehauen. Gegner geht sofort zu Boden und stirbt in zwölf Runden. Sauber gemacht! 12 Treffer, Plus 10 auf den nächsten Angriff.",
       "67-70": "Graziös den Gegner aufgeschnitten. Du bist Dir über den Erfolg nicht ganz im Klaren, bis Du all das Blut rausströmen siehst. Sechs Treffer und vier Treffer pro Runde. Zwei Runden benommen. Minus zehn auf alle Kampfwürfe.",
       "71-75": "Schenkeltreffer der tiefen und ernsten Art verletzt auch eine wichtige Vene. Acht Treffer und fünf Treffer pro Runde. Zwei Runden benommen., Zwei Runden benommen. Fünf Treffer pro Runde.",
       "76-80": "Gegner bezahlt den Versuch Dich zu entwaffnen mit einer tiefen Wunde am Unterarm. Sechs Treffer. Zwei Runden benommen. Drei Treffer pro Runde. -15",
       "81-85": "Treffer an der Schulter, bei dem Sehnen durchtrennt und der Knochen gebrochen wird, machen den Schildarm nutzlos. 4ben, 2T/rd",
       "86-90": "Schlag auf den Unterschenkel durchtrennt Muskeln und Sehnen. Wenn er sich nirgends anlehnen kann, fällt er um. +8T, Sechs Runden benommen. -70",
       "91-95": "Gegner streckt die Hände aus um Deinen Schlag abzuwehren. Nun hat er zwei Finger weniger und der Schildarm ist gebrochen und unbrauchbar. +12T, Drei Runden benommen ohne Parade.",
-      "96": "Die Hand abgehauen. Schade, schade. Gegner ist am Boden und stirbt nach 12 Rd Schock. Fünf Treffer. 12 benopar",
-      "97": "Bein wie in einer Metzgerei abgehauen. Gegner fällt um und wird bewusstlos. In 9 Rd tödlich. +15T, +10",
-      "98": "Rückgrat durchtrennt. Gegner bricht zusammen und ist vom Hals abwärts gelähmt. +20T",
-      "99": "Kopftreffer macht dem armen Teufel das Leben schwer. Er haucht sein Leben auf einen Schlag aus. Sofort tödlich.",
-      "100": "Das war knapp! Treffer in der Leistengegend, der alle wichtige Organe zerstört. Gegner stirbt nach 24 qualvollen Stunden. Zehn Treffer. 12 benopar"
+      "96-96": "Die Hand abgehauen. Schade, schade. Gegner ist am Boden und stirbt nach 12 Rd Schock. Fünf Treffer. 12 benopar",
+      "97-97": "Bein wie in einer Metzgerei abgehauen. Gegner fällt um und wird bewusstlos. In 9 Rd tödlich. +15T, +10",
+      "98-98": "Rückgrat durchtrennt. Gegner bricht zusammen und ist vom Hals abwärts gelähmt. +20T",
+      "99-99": "Kopftreffer macht dem armen Teufel das Leben schwer. Er haucht sein Leben auf einen Schlag aus. Sofort tödlich.",
+      "100-100": "Das war knapp! Treffer in der Leistengegend, der alle wichtige Organe zerstört. Gegner stirbt nach 24 qualvollen Stunden. Zehn Treffer. 12 benopar"
     }
   },
-  "Hieb_Held": {
+  "Hieb (Held)": {
     "audioFile": "hieb_held.mp3",
     "A": {
       "01-05": "Nicht sehr beeindruckend. +0T",
@@ -655,18 +654,18 @@
       "36-50": "Ans Schienbein gehauen. Mit Beinschienen: +9T Ohne: Sechs Treffer. -5",
       "51-60": "Gegner duckt sich unter Deinem Schlag hindurch, aber Du triffst ihn am Rücken. +4T, 1par-25",
       "61-65": "Brusttreffer. Gegner biegt sich zur Seite vor Schmerz. Fünf Treffer. 1par-25",
-      "66": "Schildschulter zerschmettert und Arm recht nutzlos gemacht. Wenn Gegner einen Schild hat, lässt er ihn fallen. +8T, 3ben, 1opar",
+      "66-66": "Schildschulter zerschmettert und Arm recht nutzlos gemacht. Wenn Gegner einen Schild hat, lässt er ihn fallen. +8T, 3ben, 1opar",
       "67-70": "Brusttreffer. Gegner biegt sich zur Seite vor Schmerz. Fünf Treffer. 1par-25",
       "71-75": "Hüfttreffer lässt ein Ausrüstungsteil durch die Luft fliegen. Gegner weicht zurück. Fünf Treffer. 1par-25",
       "76-80": "Treffer am unteren Waffenarm. Mit Armschienen: +8T, 1par Ohne: Fünf Treffer. 1ben",
       "81-85": "Solider Brusttreffer lässt Gegner die Puste ausgehen. +8T, 3ben, 1opar",
       "86-90": "Schlag nach Unterschenkel. Versuch drüber zu springen schlägt fehl. Fünf Treffer. 2benopar, -20",
       "91-95": "Schildarmtreffer. Mit Schild: Jetzt ohne Schild (zerborsten) Ohne: Arm gebrochen.",
-      "96": "Schlag in die Seite lässt Gegner 1,5m nach rechts torkeln. Zehn Treffer. 2benopar, -20",
-      "97": "Treffer am unteren Rücken. Muskel- u. Knorpelschäden. +12T, Drei Runden benommen ohne Parade. -25",
-      "98": "Nase gebrochen. Mit Nasenschutz: Zehn Treffer. 2benopar Ohne: +15T, Drei Runden benommen ohne Parade.",
-      "99": "Kopftreffer. Ohne Helm: tot Mit Helm: Niedergehauen. +20T, 6ben",
-      "100": "Kiefer zerhauen. Knochen ins Hirn getrieben. Sofort tödlich. +50T, +20"
+      "96-96": "Schlag in die Seite lässt Gegner 1,5m nach rechts torkeln. Zehn Treffer. 2benopar, -20",
+      "97-97": "Treffer am unteren Rücken. Muskel- u. Knorpelschäden. +12T, Drei Runden benommen ohne Parade. -25",
+      "98-98": "Nase gebrochen. Mit Nasenschutz: Zehn Treffer. 2benopar Ohne: +15T, Drei Runden benommen ohne Parade.",
+      "99-99": "Kopftreffer. Ohne Helm: tot Mit Helm: Niedergehauen. +20T, 6ben",
+      "100-100": "Kiefer zerhauen. Knochen ins Hirn getrieben. Sofort tödlich. +50T, +20"
     },
     "B": {
       "01-05": "Du hast nicht richtig hingelangt. +0T",
@@ -679,18 +678,18 @@
       "36-50": "Auf die linke Wade gehauen. Du hast Initiative. Mit Beinschienen: +9T, 2par Ohne: Sechs Treffer. 2-20",
       "51-60": "Solider Rückentreffer. Gegner will eine Wiederholung vermeiden. Du hast in aus dem Konzept gebracht. Sechs Treffer. 1par-25",
       "61-65": "Gegner entkommt, bevor Dein Angriff einschlägt. Er geht 1,5m zurück um sich zu verteidigen. Sechs Treffer. 2par",
-      "66": "Ellbogen nach hinten gedrückt und gebrochen. Arm ist unbrauchbar. Gegner lässt die Waffe, beugt sich vor und schreit laut. Drei Runden benommen ohne Parade.",
+      "66-66": "Ellbogen nach hinten gedrückt und gebrochen. Arm ist unbrauchbar. Gegner lässt die Waffe, beugt sich vor und schreit laut. Drei Runden benommen ohne Parade.",
       "67-70": "Gegner entkommt, bevor Dein Angriff einschlägt. Er geht 1,5m zurück um sich zu verteidigen. Sechs Treffer. 2par",
       "71-75": "Schlag geht unter dem Schildarm durch und landet auf dem Oberschenkel. Grosser Bluterguss. Sechs Treffer. 1par, -5",
       "76-80": "Solider Schlag auf den Unterarm schmerzt ganz sicher. +9T, 1ben, -10",
       "81-85": "Bloom! Volltreffer im oberen Bereich des Brustkastens. Gegner taumelt. Zehn Treffer. 2benopar, -10",
       "86-90": "Treffer an der rechten Achillessehne. Oh, Du weisst doch, dass das schmerzt! Zehn Treffer. Zwei Runden benommen. 1opar, -35",
       "91-95": "Treffer am Schildarm bricht das Handgelenk. Hand nutzlos, Gegner lässt Schild fallen. Sechs Treffer. 1ben",
-      "96": "Berggewitter: Dein Schlag donnert beim Aufprall und die brechenden Rippen sind das Echo. Das ist schmerzhaft. +12T, 2benopar, -25",
-      "97": "Gegner macht einen Fehler und bezahlt dafür. Du schickst ihn mit einem fällenden Schlag zu Boden. Sehnen reissen. 4benopar, -30",
-      "98": "Kopftreffer. Ohne Helm: 3 Monate Koma. In jedem Fall +20T, 12ben",
-      "99": "Volltreffer am Brustkasten treibt Rippen ins Herz. Gegner geht zu Boden und stirbt in 6 Rd. +20",
-      "100": "Treffer bricht das Genick. Gegner ist vom Hals abwärts gelähmt. +25T, 15ben"
+      "96-96": "Berggewitter: Dein Schlag donnert beim Aufprall und die brechenden Rippen sind das Echo. Das ist schmerzhaft. +12T, 2benopar, -25",
+      "97-97": "Gegner macht einen Fehler und bezahlt dafür. Du schickst ihn mit einem fällenden Schlag zu Boden. Sehnen reissen. 4benopar, -30",
+      "98-98": "Kopftreffer. Ohne Helm: 3 Monate Koma. In jedem Fall +20T, 12ben",
+      "99-99": "Volltreffer am Brustkasten treibt Rippen ins Herz. Gegner geht zu Boden und stirbt in 6 Rd. +20",
+      "100-100": "Treffer bricht das Genick. Gegner ist vom Hals abwärts gelähmt. +25T, 15ben"
     },
     "C": {
       "01-05": "Das üben wir aber noch mal. +1T",
@@ -703,18 +702,18 @@
       "36-50": "Bein weggezogen. Du hast Initiative, während er sich wieder aufrappelt. +9T, 2-20",
       "51-60": "Er lehnt sich an Deine Schildseite, Du schlägst über ihn und triffst ihn am Rücken. Du hast 2 Rd Initiative. Fünf Treffer. 1benopar",
       "61-65": "Harter Brusttreffer. Da hilft auch Panzerung nicht. Fünf Treffer. 1ben, -10",
-      "66": "Duthaler-Tomate auf den Oberschenkel gesetzt... mehr braucht man nicht zu sagen. +9T, Drei Runden benommen ohne Parade. -90",
+      "66-66": "Duthaler-Tomate auf den Oberschenkel gesetzt... mehr braucht man nicht zu sagen. +9T, Drei Runden benommen ohne Parade. -90",
       "67-70": "Harter Brusttreffer. Da hilft auch Panzerung nicht. Fünf Treffer. 1ben, -10",
       "71-75": "Schwung schrammt über den linken Oberschenkel und schlägt im rechten ein. Sechs Treffer. 1par, -5, +10",
       "76-80": "Gegner beim Aufziehen erwischt und entwaffnet. Seine Waffe fällt hinter Dir zu Boden. +8T, 1ben",
       "81-85": "Brusttreffer verursacht eine Unzahl von Beschwerden. Zehn Treffer. 3ben, 2opar, -10",
       "86-90": "Treffer verdreht das Knie. Zehn Treffer. 2benopar, -40",
       "91-95": "Schlag auf den Waffenarm. Ein metallener Armschutz ist verbogen und macht Arm nutzlos, bis das Teil abgenommen wird. +9T, Eine Runde benommen ohne Parade. -50",
-      "96": "Gegner schreit schon bevor Du ihn triffst, wird dann aber still, als einige Rippen brechen. +12T, Drei Runden benommen ohne Parade. -40",
-      "97": "Kraftvoller Schlag kehrt Gegner auf den Rücken. Knochen brechen und Muskeln reissen. +20T, Sechs Runden benommen. -50",
-      "98": "Schwerer Beintreffer zertrümmert Knochen und verletzt Arterie. Gegner geht hart zu Boden und stirbt in zwölf Runden. +9T",
-      "99": "Unterleibstreffer zerstört alle möglichen Organe. Der arme Tropf haucht nach 6 Rd Inaktivität sein Leben aus.",
-      "100": "Treffer im Gesicht. Augen zerstört und Helm weggeschlagen. Gegner wirbelt durch die Gegend. +30T, 24benopar"
+      "96-96": "Gegner schreit schon bevor Du ihn triffst, wird dann aber still, als einige Rippen brechen. +12T, Drei Runden benommen ohne Parade. -40",
+      "97-97": "Kraftvoller Schlag kehrt Gegner auf den Rücken. Knochen brechen und Muskeln reissen. +20T, Sechs Runden benommen. -50",
+      "98-98": "Schwerer Beintreffer zertrümmert Knochen und verletzt Arterie. Gegner geht hart zu Boden und stirbt in zwölf Runden. +9T",
+      "99-99": "Unterleibstreffer zerstört alle möglichen Organe. Der arme Tropf haucht nach 6 Rd Inaktivität sein Leben aus.",
+      "100-100": "Treffer im Gesicht. Augen zerstört und Helm weggeschlagen. Gegner wirbelt durch die Gegend. +30T, 24benopar"
     },
     "D": {
       "01-05": "Schlag durch Kleidung abgeschwächt. +2T",
@@ -727,18 +726,18 @@
       "36-50": "Leichter Schlag aufs Bein lässt Wade blau werden. Du hast Initiative. Zehn Treffer. -10",
       "51-60": "Treffer am Schulterblatt. Gegner nimmt die Verteidigung runter und schwankt. Zehn Treffer. 1benopar",
       "61-65": "Schlag auf die Rippen. Gegner hebt den Arm vor Schmerz. Er kann sich nicht nach vorne beugen. Zehn Treffer. -15",
-      "66": "Meisterhafter Kopftreffer. Ohne Helm: tot Mit Helm: 4 Stunden bewusstlos. +20T",
+      "66-66": "Meisterhafter Kopftreffer. Ohne Helm: tot Mit Helm: 4 Stunden bewusstlos. +20T",
       "67-70": "Schlag auf die Rippen. Gegner hebt den Arm vor Schmerz. Er kann sich nicht nach vorne beugen. Zehn Treffer. -15",
       "71-75": "Schlag verfehlt den Arm, landet aber auf dem Bein. Er taumelt und lässt etwas fallen. Sechs Treffer. 1ben, -10",
       "76-80": "Schlag auf den Unterarm zerreisst Kleidung aber keine Haut. Dafür ist jetzt der Arm blau. Zehn Treffer. Eine Runde benommen ohne Parade. -10",
       "81-85": "Schultertreffer. Mit Schulterpanzer: Sechs Treffer. 1benopar Ohne: 2benopar., -20",
       "86-90": "Ein Schlag mit dem gewissen Crack! Bein gebrochen und schwerer Knorpelschaden. +12T, 2benopar, -50",
       "91-95": "Treffer bricht Waffenarm und schleudert Waffe 1,5m nach rechts. Arm nutzlos, Sehnenschaden. +8t, 1benopar",
-      "96": "Treffer an der Seite. Gegner geht hart zu Boden. Der Sieg ist nah. +15T, Drei Runden benommen ohne Parade. +10",
-      "97": "Schlag auf den Hals. Mit Halsschutz: Vom Hals abwärts gelähmt Ohne: In 2 Rd tödlich. In jedem Fall +25T",
-      "98": "Treffer erwischt die Schildschulter mit voller Wucht. Arm zerhauen. Gegner stirbt nach 9 Rd an Schock und Blutverlust.",
-      "99": "Brustkasten zerhauen. Gegner packt Deinen Arm, schaut Dir fest in die Augen (Kleines) und geht zu Boden. In 3 Rd tödlich. +25",
-      "100": "Volltreffer ins Herz. Es pocht nicht mehr, er stirbt. Du hältst Dich für tödlich. Gute Arbeit. Auf zum nächsten. +25T"
+      "96-96": "Treffer an der Seite. Gegner geht hart zu Boden. Der Sieg ist nah. +15T, Drei Runden benommen ohne Parade. +10",
+      "97-97": "Schlag auf den Hals. Mit Halsschutz: Vom Hals abwärts gelähmt Ohne: In 2 Rd tödlich. In jedem Fall +25T",
+      "98-98": "Treffer erwischt die Schildschulter mit voller Wucht. Arm zerhauen. Gegner stirbt nach 9 Rd an Schock und Blutverlust.",
+      "99-99": "Brustkasten zerhauen. Gegner packt Deinen Arm, schaut Dir fest in die Augen (Kleines) und geht zu Boden. In 3 Rd tödlich. +25",
+      "100-100": "Volltreffer ins Herz. Es pocht nicht mehr, er stirbt. Du hältst Dich für tödlich. Gute Arbeit. Auf zum nächsten. +25T"
     },
     "E": {
       "01-05": "Dem Gegner eine dieser blöden Dekoration abgehauen. +3T",
@@ -751,21 +750,21 @@
       "36-50": "Oberschenkeltreffer verursacht einen leichten Bruch. Du hast Initiative. +12T, -10",
       "51-60": "Streifschlag am unteren Rücken. Gegner dreht sich weg um dem Schlag zu entgehen. Er braucht seine Waffe um sich abzustützen. +15T, 1benopar",
       "61-65": "Brusttreffer. Er versucht wieder Luft zu bekommen und Deinen heftigen Angriff zu überleben. +15T, Zwei Runden benommen. -15",
-      "66": "Das zerschmettert, was mal der Kopf war. Wenn Gegner einen Halm hat, ist der auch zerstört. Du bist ganz mit Blut bespritzt. +15T, +10",
+      "66-66": "Das zerschmettert, was mal der Kopf war. Wenn Gegner einen Halm hat, ist der auch zerstört. Du bist ganz mit Blut bespritzt. +15T, +10",
       "67-70": "Brusttreffer. Er versucht wieder Luft zu bekommen und Deinen heftigen Angriff zu überleben. +15T, Zwei Runden benommen. -15",
       "71-75": "Treffer am rechten Oberschenkel lässt das Bein etwas schwanken. Zehn Treffer. Eine Runde benommen ohne Parade. -10",
       "76-80": "Schwung mit gigantischem Einschlag am Waffenarm. Gegner lässt Waffe fallen und taumelt. Zehn Treffer. 1ben, -15",
       "81-85": "Schildarmtreffer. Mit Schild: Jetzt ohne Schild (zerborsten) Ohne: Arm gebrochen.",
       "86-90": "Schlag bricht die Hüfte. Hilfe, der Gegner ist umgefallen und kommt nicht alleine hoch. +15T, 3ben, -75",
       "91-95": "Arm wie eine Feder zusammengedrückt. Gelenk zerschmettert. Der Arm ist nutzlos. Der Gegner wäre heute wohl besser im Bett geblieben. +9T, 2benopar",
-      "96": "Schlag unter die Achsel bricht Rippen und zerstört Organe. In 3 Rd tödlich. +30T",
-      "97": "Genicktreffer bricht Knochen und verletzt eine Arterie. Gegner bekommt keine Luft und erstickt nach 12 Rd Inaktivität.",
-      "98": "Volltreffer am Rücken treibt einen Knochen in lebenswichtige Organe. Gegner geht zu Boden und Stirbt in 6 Rd. +25T",
-      "99": "Schlag ins Gesicht. Mit Visierhelm: Visier ins Gesicht getrieben und in 10 Rd tödlich. Ohne: Sofort tödlich. Du kannst noch eine Halbe Runde handeln. +30T, +20",
-      "100": "Schlag zerbröselt Hüfte. Gegner fällt um, versucht aufzustehen und fällt wieder um. In 6 Rd tödlich. +35T, Zwei Runden benommen. 6-30"
+      "96-96": "Schlag unter die Achsel bricht Rippen und zerstört Organe. In 3 Rd tödlich. +30T",
+      "97-97": "Genicktreffer bricht Knochen und verletzt eine Arterie. Gegner bekommt keine Luft und erstickt nach 12 Rd Inaktivität.",
+      "98-98": "Volltreffer am Rücken treibt einen Knochen in lebenswichtige Organe. Gegner geht zu Boden und Stirbt in 6 Rd. +25T",
+      "99-99": "Schlag ins Gesicht. Mit Visierhelm: Visier ins Gesicht getrieben und in 10 Rd tödlich. Ohne: Sofort tödlich. Du kannst noch eine Halbe Runde handeln. +30T, +20",
+      "100-100": "Schlag zerbröselt Hüfte. Gegner fällt um, versucht aufzustehen und fällt wieder um. In 6 Rd tödlich. +35T, Zwei Runden benommen. 6-30"
     }
   },
-  "Stich_Held": {
+  "Stich (Held)": {
     "audioFile": "stich_held.mp3",
     "A": {
       "01-05": "Gegner kann ausweichen.",
@@ -778,18 +777,18 @@
       "36-50": "Gegnerische Wade gestreift. 1T/rd",
       "51-60": "Gegnerischer Fluchtversuch gibt Dir freie Bahn für einen Schuss in den Rücken. +2T, 1par-30",
       "61-65": "Treffer am Brustkasten scheint Gegner zu beeindrucken. 1par-25, 2T/rd",
-      "66": "Treffer an der Schildschulter macht Arm unbrauchbar. Das muss sehr schmerzen! 3ben, +10",
+      "66-66": "Treffer an der Schildschulter macht Arm unbrauchbar. Das muss sehr schmerzen! 3ben, +10",
       "67-70": "Treffer am Brustkasten scheint Gegner zu beeindrucken. 1par-25, 2T/rd",
       "71-75": "Kleinere Oberschenkelwunde. Hätte auch besser sein dürfen. +2T, 1ben, 2T/rd",
       "76-80": "Leichter Unterarmtreffer lässt Hand gefühllos werden. +2T, 2T/rd, -10",
       "81-85": "Nackentreffer. Fünf Treffer. 3ben, 1opar",
       "86-90": "Unterschenkeltreffer. Mit Schienen: Fünf Treffer. 3par, -10. Ohne: +3T, Eine Runde benommen ohne Parade. -25",
       "91-95": "Mit einem Treffer am Oberarm zerreisst Du seine schöne Kleidung. +3T, Zwei Runden benommen. Drei Treffer pro Runde. -25",
-      "96": "Schwerer Treffer an der Seite. Nun ja, zumindest hat es wie ein tödlicher Treffer ausgesehen. Sechs Runden benommen. Fünf Treffer pro Runde., +20",
-      "97": "Treffer am Rücken lässt Gegner ohne Verteidigung vorwärtstaumeln. 2benopar, 2T/rd, -20",
-      "98": "Treffer am Ohr. -50 auf hören. Mit Helm: Fünf Treffer. 4ben, 1opar. Ohne: +3T, 2T/rd, 2benopar",
-      "99": "Nasentreffer hinterlässt bleibende Narbe. Gegner schielt einen Moment lang. Drei Runden benommen ohne Parade.. Drei Treffer pro Runde.",
-      "100": "Nackentreffer durchtrennt Vene und Arterie. Gegner kann nicht atmen. Er fällt um und stirbt an Herzversagen."
+      "96-96": "Schwerer Treffer an der Seite. Nun ja, zumindest hat es wie ein tödlicher Treffer ausgesehen. Sechs Runden benommen. Fünf Treffer pro Runde., +20",
+      "97-97": "Treffer am Rücken lässt Gegner ohne Verteidigung vorwärtstaumeln. 2benopar, 2T/rd, -20",
+      "98-98": "Treffer am Ohr. -50 auf hören. Mit Helm: Fünf Treffer. 4ben, 1opar. Ohne: +3T, 2T/rd, 2benopar",
+      "99-99": "Nasentreffer hinterlässt bleibende Narbe. Gegner schielt einen Moment lang. Drei Runden benommen ohne Parade.. Drei Treffer pro Runde.",
+      "100-100": "Nackentreffer durchtrennt Vene und Arterie. Gegner kann nicht atmen. Er fällt um und stirbt an Herzversagen."
     },
     "B": {
       "01-05": "Streifschuss, sonst nichts.",
@@ -802,18 +801,18 @@
       "36-50": "Schwacher Schienbeintreffer. Mit Schienen: Fünf Treffer. 1par. Ohne: +2T, 1T/rd",
       "51-60": "Rückentreffer beschädigt alles dort Getragene. 1ben, 1T/rd",
       "61-65": "Solider Brusttreffer. Blut ruiniert die schönen Kleider. +3T, 2T/rd, 2par",
-      "66": "Gegner wehrt den Schuss mit seinem Ellbogen ab...Ist zerschmettert und Schildarm ist unbrauchbar. +3T, 4ben, 2par",
+      "66-66": "Gegner wehrt den Schuss mit seinem Ellbogen ab...Ist zerschmettert und Schildarm ist unbrauchbar. +3T, 4ben, 2par",
       "67-70": "Solider Brusttreffer. Blut ruiniert die schönen Kleider. +3T, 2T/rd, 2par",
       "71-75": "Oberschenkeltreffer beschädigt ihn ein bisschen. +3T, Eine Runde benommen ohne Parade. 2T/rd",
       "76-80": "Unterarmtreffer schreckt Gegner auf. +2T, 1ben, 2T/rd, -10",
       "81-85": "Nackentreffer, allerdings nicht tödlich. Zwei Runden benommen. Drei Treffer pro Runde. -5",
       "86-90": "Wadentreffer zerreisst Muskeln und lässt Gegner beinahe stürzen. +3T, 2benopar, -40",
       "91-95": "Treffer an der Schildseite. Wenn der Gegner einen Schild hat, Steckt Deine Waffe 1rd fest. 3ben, Drei Treffer pro Runde. -30",
-      "96": "Seite des Gegners mit einer anschaulichen Studie von Gewalt aufgeschossen. Sechs Treffer. Drei Runden benommen ohne Parade. Fünf Treffer pro Runde., -25",
-      "97": "Kopftreffer, der ohne Helm tödlich ist, sonst fällt er auf die Knie. Sechs Treffer. 2benopar",
-      "98": "Hüfttreffer. Mit Panzer: +7T, 1ben, -10. Ohne: Fünf Treffer. 1ben, Drei Treffer pro Runde. -25",
-      "99": "Treffer durchschlägt Wange und Gurgel. Gegner stirbt nach 9 Rd des Nichtstuns. +20",
-      "100": "Treffer durchbohrt Auge und tötet den Gegner sofort. Er bleibt einen Moment stehen, bis er begriffen hat, was los ist. Alle Verbündeten 1+10"
+      "96-96": "Seite des Gegners mit einer anschaulichen Studie von Gewalt aufgeschossen. Sechs Treffer. Drei Runden benommen ohne Parade. Fünf Treffer pro Runde., -25",
+      "97-97": "Kopftreffer, der ohne Helm tödlich ist, sonst fällt er auf die Knie. Sechs Treffer. 2benopar",
+      "98-98": "Hüfttreffer. Mit Panzer: +7T, 1ben, -10. Ohne: Fünf Treffer. 1ben, Drei Treffer pro Runde. -25",
+      "99-99": "Treffer durchschlägt Wange und Gurgel. Gegner stirbt nach 9 Rd des Nichtstuns. +20",
+      "100-100": "Treffer durchbohrt Auge und tötet den Gegner sofort. Er bleibt einen Moment stehen, bis er begriffen hat, was los ist. Alle Verbündeten 1+10"
     },
     "C": {
       "01-05": "Gegner kann noch zur Seite springen. +1T",
@@ -826,18 +825,18 @@
       "36-50": "Treffer entlang der Wade. Es dauert ein Zeitchen bis es sich bemerkbar macht. +2T/rd",
       "51-60": "Treffer am unteren Rücken bringt Gegner ins Wanken. Zwei Runden benommen. 1T/rd",
       "61-65": "Brusttreffer. Falls Schild: Für den Rest der Runde nicht einsetzbar. +3T, Zwei Runden benommen. 2T/rd",
-      "66": "Treffer zerschmettert Knie. Gegner ist 3 Rd unten. 2benopar, -90",
+      "66-66": "Treffer zerschmettert Knie. Gegner ist 3 Rd unten. 2benopar, -90",
       "67-70": "Brusttreffer. Falls Schild: Für den Rest der Runde nicht einsetzbar. +3T, Zwei Runden benommen. 2T/rd",
       "71-75": "Oberschenkeltreffer. Mit Beinpanzer: +8T, Eine Runde benommen ohne Parade. 1T/rd. Ohne: Fünf Treffer. Zwei Runden benommen. 2T/rd, -10",
       "76-80": "Guter Unterarmtreffer rechts. Mit Schienen: Fünf Treffer. 2benopar. Ohne: +3T, Zwei Runden benommen. 2T/rd, -10",
       "81-85": "Nackentreffer. Gegner versucht verzweifelt dem Tod zu entrinnen. 4ben, 2opar, +15",
       "86-90": "Zerstörerischer Unterschenkeltreffer. Panzerung wird zerfetzt. Fünf Treffer. 2benopar, -50",
       "91-95": "Treffer zerfetzt Schildarmmuskulatur. Mit Schild: Lässt ihn fallen. Sechs Runden benommen. Drei Treffer pro Runde. -25",
-      "96": "Treffer setzt sich in den Rippen fest. Das klang wirklich schrecklich. Sechs Treffer. Drei Runden benommen ohne Parade. Fünf Treffer pro Runde., -25",
-      "97": "Treffer am Kopf. Mit Helm: Jetzt ohne Helm (zerstört), Sechs Treffer. 2benopar. Ohne: tot.",
-      "98": "Treffer am Brustkasten. Mit Plattenpanzer: Gegner zu Boden gebracht und in 9 Rd tödlich. Ohne: sofort tödlich.",
-      "99": "Nackentreffer bricht Rückgrat. Gegner vom Hals abwärts gelähmt.",
-      "100": "Treffer, der beide Ohren durchschlägt erweist sich als recht effektiv. Das ist sofort tödlich und übrigens ein schöner Schuss. 6+20"
+      "96-96": "Treffer setzt sich in den Rippen fest. Das klang wirklich schrecklich. Sechs Treffer. Drei Runden benommen ohne Parade. Fünf Treffer pro Runde., -25",
+      "97-97": "Treffer am Kopf. Mit Helm: Jetzt ohne Helm (zerstört), Sechs Treffer. 2benopar. Ohne: tot.",
+      "98-98": "Treffer am Brustkasten. Mit Plattenpanzer: Gegner zu Boden gebracht und in 9 Rd tödlich. Ohne: sofort tödlich.",
+      "99-99": "Nackentreffer bricht Rückgrat. Gegner vom Hals abwärts gelähmt.",
+      "100-100": "Treffer, der beide Ohren durchschlägt erweist sich als recht effektiv. Das ist sofort tödlich und übrigens ein schöner Schuss. 6+20"
     },
     "D": {
       "01-05": "Treffer prallt ab. +2T",
@@ -850,18 +849,18 @@
       "36-50": "Einschlag nahe bei der Leiste. Mit Panzerung: +4T, 1ben. Ohne: Drei Treffer pro Runde.",
       "51-60": "Leichter Treffer heftet Waffenarm an der Brustseite fest. Sechs Treffer. 1benopar",
       "61-65": "Solider Brusttreffer hinterlässt blaue Flecken und Blut. Fünf Treffer. 1par, Drei Treffer pro Runde. -15",
-      "66": "Kopftreffer. Mit Helm: 6 Stunden bewusstlos. Ohne: tot. In jedem Fall: +10",
+      "66-66": "Kopftreffer. Mit Helm: 6 Stunden bewusstlos. Ohne: tot. In jedem Fall: +10",
       "67-70": "Solider Brusttreffer hinterlässt blaue Flecken und Blut. Fünf Treffer. 1par, Drei Treffer pro Runde. -15",
       "71-75": "Unterleibstreffer. Mit Panzer: Fünf Treffer. 2opar. Ohne: +3T, Eine Runde benommen ohne Parade. Drei Treffer pro Runde.",
       "76-80": "Treffer lässt Waffenarm gefühllos werden. +3T, Zwei Runden benommen. Drei Treffer pro Runde. -10",
       "81-85": "Treffer an beiden Armen lässt dem Gegner keine Paradechance. +3T, 2benopar, -20",
       "86-90": "Exzellenter Unterschenkeltreffer zerstört Muskeln und Knorpel. Gegner fällt auf den Boden. Sechs Treffer. 2benopar, -50",
       "91-95": "Schildarmtreffer macht Arm unbrauchbar. +12T, Sechs Runden benommen. Drei Treffer pro Runde.",
-      "96": "Grosser Unterleibstreffer. Das Blut strömt in beängstigenden Massen. Zehn Treffer. Drei Runden benommen ohne Parade. 6T/rd, -20",
-      "97": "Treffer durchschlägt Nieren. Gegner während 2 Stunden unbeweglich am Boden. Danach tödlich. +9T",
-      "98": "Seitentreffer verspritzt Gedärme auf dem Boden. Gegner kämpft während 6 Rd normal weiter. Dann stirbt er.",
-      "99": "Treffer schlägt im Brustkasten ein kommt auf der anderen Seite teilweise wieder raus. Gegner geht zu Boden und stirbt in 6 Rd.",
-      "100": "Hirntreffer macht dem Gegner das Leben schwer. Du hast noch eine halbe Runde für weitere Handlungen. +20"
+      "96-96": "Grosser Unterleibstreffer. Das Blut strömt in beängstigenden Massen. Zehn Treffer. Drei Runden benommen ohne Parade. 6T/rd, -20",
+      "97-97": "Treffer durchschlägt Nieren. Gegner während 2 Stunden unbeweglich am Boden. Danach tödlich. +9T",
+      "98-98": "Seitentreffer verspritzt Gedärme auf dem Boden. Gegner kämpft während 6 Rd normal weiter. Dann stirbt er.",
+      "99-99": "Treffer schlägt im Brustkasten ein kommt auf der anderen Seite teilweise wieder raus. Gegner geht zu Boden und stirbt in 6 Rd.",
+      "100-100": "Hirntreffer macht dem Gegner das Leben schwer. Du hast noch eine halbe Runde für weitere Handlungen. +20"
     },
     "E": {
       "01-05": "Treffer ist etwas schwach. +3T",
@@ -874,21 +873,21 @@
       "36-50": "Oberschenkeltreffer ruiniert Beinkleid. Mit Beinpanzer: Drei Treffer. Eine Runde muss pariert werden. Ohne: Zwei Treffer und drei Treffer pro Runde.",
       "51-60": "Seitentreffer. Panzerung dort aufgeschossen und Haut sichtbar gemacht. Mit Unterleibspanzer: Drei Treffer. Eine Runde muss pariert werden. Ohne: Vier Treffer und vier Treffer pro Runde. Eine Runde benommen ohne Parade.",
       "61-65": "Gegner duckt sich um auszuweichen. Treffer zwingt ihn in die Knie. Mach ihn fertig. Fünf Treffer. Eine Runde benommen ohne Parade. -10",
-      "66": "Treffer durchschlägt beide Lungenflügel. Gegner geht zu Boden und stirbt in 6 Rd. +10",
+      "66-66": "Treffer durchschlägt beide Lungenflügel. Gegner geht zu Boden und stirbt in 6 Rd. +10",
       "67-70": "Gegner duckt sich um auszuweichen. Treffer zwingt ihn in die Knie. Mach ihn fertig. Fünf Treffer. Eine Runde benommen ohne Parade. -10",
       "71-75": "Seitentreffer. Gegner taumelt drei Meter nach rechts. Sechs Treffer. Eine Runde benommen ohne Parade. Fünf Treffer pro Runde.",
       "76-80": "Am Unterarm erwischt. Das beginnt gleich zu bluten. Gegner hat Angst. Fünf Treffer. Zwei Runden benommen. Drei Treffer pro Runde. -15",
       "81-85": "Treffer reisst Arm in die Höhe und zerreisst mehrere Muskeln und Sehnen. Sechs Runden benommen. Drei Treffer pro Runde.",
       "86-90": "Treffer schlägt sauber im Bein ein. Gegner hält sein Bein und fällt zu Boden. Drei Runden benommen ohne Parade. -75",
       "91-95": "Mit einem Treffer am Waffenarm den Knochen gebrochen und Arm unbrauchbar gemacht. Zehn Treffer. Drei Runden benommen ohne Parade.",
-      "96": "Rückentreffer durchschlägt eine Vene. Gegner geht in die Knie und stirbt in zwölf Runden.",
-      "97": "Treffer schlägt genau unterhalb des Schlüsselbeins ein. Gegner geht zu Boden und stirbt in zwölf Runden.",
-      "98": "Treffer am Arm schlägt bis auf die andere Seite durch. Nach 12ben tödlich.",
-      "99": "Treffer ins Herz lässt Gegner drei Meter rückwärtstaumeln, wo ein passender Ort zum Sterben ist. Deine Waffe bleibt stecken.",
-      "100": "Augentreffer wirkt sich sofort tödlich aus. Weiter so. +25"
+      "96-96": "Rückentreffer durchschlägt eine Vene. Gegner geht in die Knie und stirbt in zwölf Runden.",
+      "97-97": "Treffer schlägt genau unterhalb des Schlüsselbeins ein. Gegner geht zu Boden und stirbt in zwölf Runden.",
+      "98-98": "Treffer am Arm schlägt bis auf die andere Seite durch. Nach 12ben tödlich.",
+      "99-99": "Treffer ins Herz lässt Gegner drei Meter rückwärtstaumeln, wo ein passender Ort zum Sterben ist. Deine Waffe bleibt stecken.",
+      "100-100": "Augentreffer wirkt sich sofort tödlich aus. Weiter so. +25"
     }
   },
-  "Stoss_Held": {
+  "Stoss (Held)": {
     "audioFile": "stoss_held.mp3",
     "A": {
       "01-05": "Ihr kommt beide ins Wanken. +0T",
@@ -901,18 +900,18 @@
       "36-50": "Leichter Schlag bringt Gegner etwas aus dem Konzept. Du hast Initiative. +4T",
       "51-60": "Versuch den Gegner herumzuwirbeln wäre fast gelungen, aber zu schwacher Griff in die Seite. Fünf Treffer. 1par-10",
       "61-65": "Fester Druck auf die Brust. Er geht zurück. Fünf Treffer. 1par-20",
-      "66": "Schultertreffer mit anschliessender ganzer Schraube. Gut plazierter Schlag. +7T, 2benopar",
+      "66-66": "Schultertreffer mit anschliessender ganzer Schraube. Gut plazierter Schlag. +7T, 2benopar",
       "67-70": "Fester Druck auf die Brust. Er geht zurück. Fünf Treffer. 1par-20",
       "71-75": "Schenkeltreffer stösst Gegner zurück. Mit Beinpanzer: +7T Ohne: Fünf Treffer. 1ben",
       "76-80": "Den Arm des Gegners für kurze Zeit festgenagelt. Er kommt frei. Sechs Treffer. 1ben",
       "81-85": "Schneller Druck auf die Brust bringt exzellente Ergebnisse. Gegner taumelt. Sechs Treffer. 2-50",
       "86-90": "Ein Hammerschlag auf den Unterschenkel lässt Gegner fast umfallen. +7T, 2ben",
       "91-95": "Treffer an der Schildseite. Wenn er einen Schild hatte, ist er ihn jetzt los. +12T, 2ben",
-      "96": "Seitentreffer und schon weiss der Gegner nicht mehr wo er hinschlagen soll. +12T, Eine Runde benommen ohne Parade. +10",
-      "97": "Ellbogen in den Rücken gehauen. Gegner taumelt 1,5m zur Seite und scheint den Kopf nicht klar zu kriegen. +13T, 3ben, +20",
-      "98": "Kopftreffer. Ohne Helm: 2 Std bewusstlos. Mit Helm: Tja, so ist er besser dran 3ben",
-      "99": "Bauchtreffer. Gegner der Länge nach zu Boden geworfen. Er schlägt besser auf, als Du es Dir gewünscht hast. Zehn Treffer. 3opar",
-      "100": "Harter Hüfttreffer haut Gegner um. Sehnenrisse und ein gebrochenes Bein sowie grosse Schmerzen. Gegner ist 9 Std unbrauchbar. -90"
+      "96-96": "Seitentreffer und schon weiss der Gegner nicht mehr wo er hinschlagen soll. +12T, Eine Runde benommen ohne Parade. +10",
+      "97-97": "Ellbogen in den Rücken gehauen. Gegner taumelt 1,5m zur Seite und scheint den Kopf nicht klar zu kriegen. +13T, 3ben, +20",
+      "98-98": "Kopftreffer. Ohne Helm: 2 Std bewusstlos. Mit Helm: Tja, so ist er besser dran 3ben",
+      "99-99": "Bauchtreffer. Gegner der Länge nach zu Boden geworfen. Er schlägt besser auf, als Du es Dir gewünscht hast. Zehn Treffer. 3opar",
+      "100-100": "Harter Hüfttreffer haut Gegner um. Sehnenrisse und ein gebrochenes Bein sowie grosse Schmerzen. Gegner ist 9 Std unbrauchbar. -90"
     },
     "B": {
       "01-05": "Dein Angriff geht 1, 5m am Gegner vorbei +0T",
@@ -925,18 +924,18 @@
       "36-50": "Du rettest Deinen Angriff, indem Du dem Gegner ein Bein stellst. Du hast Initiative. Fünf Treffer. 2-5",
       "51-60": "Dein Angriff scheint zu gelingen. Gegner versucht auszuweichen. Fünf Treffer. 1par-20",
       "61-65": "Gegner gefasst und Knie hochgezogen, was einigen Schaden stiftet. Er kann aber auch ein bisschen abblocken. Fünf Treffer. 1ben",
-      "66": "Ellbogentreffer. Gegner lässt Waffe fallen und fasst Ellbogen an. Er hat völlig vergessen, dass Du auch noch da bist. +8T, 2benopar",
+      "66-66": "Ellbogentreffer. Gegner lässt Waffe fallen und fasst Ellbogen an. Er hat völlig vergessen, dass Du auch noch da bist. +8T, 2benopar",
       "67-70": "Gegner gefasst und Knie hochgezogen, was einigen Schaden stiftet. Er kann aber auch ein bisschen abblocken. Fünf Treffer. 1ben",
       "71-75": "Gegner stösst sich den Schenkel beim Versuch Deinen Angriff abzuwehren. Er geht zurück. Sechs Treffer. 1par-30",
       "76-80": "Waffenarm nach hinten umgebogen. Er lässt die Waffe fallen. +6T",
       "81-85": "An einem losen Ausrüstungsstück gepackt und daran durch die Gegend geschleudert. Gegner ist konfus. +7T, 1opar",
       "86-90": "Ernstzunehmender Wadentreffer. +9T, -10",
       "91-95": "Schildarm gepackt und Hebelwirkung ausprobiert. Zehn Treffer. Zwei Runden benommen. -10",
-      "96": "Guter Seitentreffer lässt Gegner 1m nach rechts taumeln. Das scheint schmerzhaft zu sein. +15T, 3ben",
-      "97": "Du behandelst den Gegner wie einen Amboss. Er taumelt drei Meter zurück. Du setzt ihm nach um ihn fertig zu machen. +12T, 2benopar",
-      "98": "Seitlicher Kopftreffer beschädigt Ohr und Gleichgewichtsinn für 3 Wochen. +9T, Sechs Runden benommen. -50",
-      "99": "Schlag in die Seite. Seine Füsse vergessen dem Oberkörper zu folgen, als er zurück will. Er geht bewundernswert zu Boden und weiss nicht was da eben passiert ist. 6benopar",
-      "100": "Gegner fliegt drei Meter davon und landet auf dem Gesicht. Durch die Drehung im Genick nehmen die Nerven Schaden. Von der Taille abwärts gelähmt."
+      "96-96": "Guter Seitentreffer lässt Gegner 1m nach rechts taumeln. Das scheint schmerzhaft zu sein. +15T, 3ben",
+      "97-97": "Du behandelst den Gegner wie einen Amboss. Er taumelt drei Meter zurück. Du setzt ihm nach um ihn fertig zu machen. +12T, 2benopar",
+      "98-98": "Seitlicher Kopftreffer beschädigt Ohr und Gleichgewichtsinn für 3 Wochen. +9T, Sechs Runden benommen. -50",
+      "99-99": "Schlag in die Seite. Seine Füsse vergessen dem Oberkörper zu folgen, als er zurück will. Er geht bewundernswert zu Boden und weiss nicht was da eben passiert ist. 6benopar",
+      "100-100": "Gegner fliegt drei Meter davon und landet auf dem Gesicht. Durch die Drehung im Genick nehmen die Nerven Schaden. Von der Taille abwärts gelähmt."
     },
     "C": {
       "01-05": "Versuch's noch mal. Was sollen denn Deine Freunde sagen? +0T",
@@ -949,18 +948,18 @@
       "36-50": "An der Schulter gepackt und mit dem Knie getroffen. Fünf Treffer. 1-40",
       "51-60": "Boom! Schlegerei in d'Fräschi. Er taumelt 1,5m zurück und findet Halt, kann sich aber nicht verteidigen. Sechs Treffer. 1 benopar",
       "61-65": "Knie des Gegners nach hinten gedrückt. Er geht zurück um Schmerzen zu vermeiden. Sechs Treffer. 1benopar",
-      "66": "Beintreffer lässt Gegner mit gebrochenem Bein zu Boden gehen. Sein Untergang ist nahe, denn er ist hilflos am Boden. +9T, Drei Runden benommen ohne Parade. -90",
+      "66-66": "Beintreffer lässt Gegner mit gebrochenem Bein zu Boden gehen. Sein Untergang ist nahe, denn er ist hilflos am Boden. +9T, Drei Runden benommen ohne Parade. -90",
       "67-70": "Knie des Gegners nach hinten gedrückt. Er geht zurück um Schmerzen zu vermeiden. Sechs Treffer. 1benopar",
       "71-75": "Wadentreffer. Mit Beinpanzer: +9T Ohne: +7T, Zwei Runden benommen. -10",
       "76-80": "Exzellent plazierter Treffer am Arm und der Gegner lässt die Waffe fallen. Sechs Treffer. 2ben",
       "81-85": "Rippentreffer lässt diese in die Brüche gehen, was schmerzhaft ist und die Kampfmoral sinken lässt. +8T, Zwei Runden benommen. -20",
       "86-90": "Bein gequetscht. Gegner versucht sich Deiner Reichweite nach hinten zu entziehen. Zehn Treffer. Eine Runde benommen ohne Parade. -20",
       "91-95": "Schwerer Treffer am Waffenarm macht Bruch mittlerer Schwere. 1,5m zurückgeschleudert. +11T, 3ben, -25",
-      "96": "Seitentreffer. Gegner kann einen Sturz nur noch dadurch verhindern, dass er alles im Schildarm getragene fallen lässt. 6ben",
-      "97": "Präziser Schlag lässt Gegner entwaffnet mit dem Gesicht voran zu Boden gehen. +14T, Sechs Runden benommen. +20",
-      "98": "Gegner rumgeschleudert. Er kommt drei Meter von Dir entfernt zum stehen und schaut in die falsche Richtung. Er verpatzt seinen Angriff.",
-      "99": "Sanfter und flotter Schlag zwingt Gegner in die Knie. Seine Waffe fliegt weg und er hat ein Blackout. Er starrt geradeaus ohne zu blinzeln.",
-      "100": "Kraftvoller Schlag lässt Gegner durch die Luft fliegen. Beim Aufprall bricht er sich beide Arme und stösst sich den Kopf. 2 Monate Koma"
+      "96-96": "Seitentreffer. Gegner kann einen Sturz nur noch dadurch verhindern, dass er alles im Schildarm getragene fallen lässt. 6ben",
+      "97-97": "Präziser Schlag lässt Gegner entwaffnet mit dem Gesicht voran zu Boden gehen. +14T, Sechs Runden benommen. +20",
+      "98-98": "Gegner rumgeschleudert. Er kommt drei Meter von Dir entfernt zum stehen und schaut in die falsche Richtung. Er verpatzt seinen Angriff.",
+      "99-99": "Sanfter und flotter Schlag zwingt Gegner in die Knie. Seine Waffe fliegt weg und er hat ein Blackout. Er starrt geradeaus ohne zu blinzeln.",
+      "100-100": "Kraftvoller Schlag lässt Gegner durch die Luft fliegen. Beim Aufprall bricht er sich beide Arme und stösst sich den Kopf. 2 Monate Koma"
     },
     "D": {
       "01-05": "Du bist nicht wirklich so gut, oder? +1T",
@@ -973,18 +972,18 @@
       "36-50": "Wadentreffer wirkt sich auf seine Bewegungen aus. Du hast Initiative. +7T, -25",
       "51-60": "Doppelter Treffer an beiden Armen verunmöglicht Verteidigung. +8T, 1benopar",
       "61-65": "Treffer am Brustkasten verursacht Flaute in der Lunge. Zehn Treffer. 1benopar",
-      "66": "Harter Kopftreffer. Mit Helm: drei Meter zurückgeschleudert. 6ben Ohne: 24 Std bewusstlos.",
+      "66-66": "Harter Kopftreffer. Mit Helm: drei Meter zurückgeschleudert. 6ben Ohne: 24 Std bewusstlos.",
       "67-70": "Treffer am Brustkasten verursacht Flaute in der Lunge. Zehn Treffer. 1benopar",
       "71-75": "Die Seite verpasst, aber den Schenkel getroffen. Du hast 3Rd Initiative. +12T, 2ben",
       "76-80": "Schultergelenk gefasst und mit einem Schlag auf den Arm entwaffnet. +7T, Zwei Runden benommen. +20",
       "81-85": "Schlüsselbein gebrochen und durch die Gegend gewirbelt. Gegner desorientiert. Zehn Treffer. Eine Runde benommen ohne Parade. -25",
       "86-90": "Gegner in die Luft gehoben und der Länge nach zu Boden geworfen. Er lässt die Waffe fallen. +12T, Eine Runde benommen ohne Parade. -75",
       "91-95": "Zur Seite gerissen und zu Fall gebracht. Knöchelbruch. +11T, -50",
-      "96": "Brutaler Schlag lässt Gegner zu Boden Gehen. Du stehst ihm auf den Waffenarm. Er sollte jetzt wohl lieber aufgeben. +12T, 6benopar",
-      "97": "Schildarmtreffer. Mit Schild: Schild zerbrochen. Ohne: Arm gebrochen. So oder so: Zehn Treffer. 9ben",
-      "98": "Gegner taumelt drei Meter zurück und braucht eine ganze Runde um umzufallen. Dabei bricht er sich den Arm und ist am Boden. Zehn Treffer. 8benopar, -30",
-      "99": "Kopftreffer lässt Helm in alle Richtungen zerspringen und Teile fliegen rum. +9T, 6ben Ohne Helm: 4 Wochen Koma.",
-      "100": "Wilder Kopftreffer lässt Gegner zu Boden gehen. Er fällt in ein Koma und stirbt nach 12 Rd an einer geplatzten Vene. +20"
+      "96-96": "Brutaler Schlag lässt Gegner zu Boden Gehen. Du stehst ihm auf den Waffenarm. Er sollte jetzt wohl lieber aufgeben. +12T, 6benopar",
+      "97-97": "Schildarmtreffer. Mit Schild: Schild zerbrochen. Ohne: Arm gebrochen. So oder so: Zehn Treffer. 9ben",
+      "98-98": "Gegner taumelt drei Meter zurück und braucht eine ganze Runde um umzufallen. Dabei bricht er sich den Arm und ist am Boden. Zehn Treffer. 8benopar, -30",
+      "99-99": "Kopftreffer lässt Helm in alle Richtungen zerspringen und Teile fliegen rum. +9T, 6ben Ohne Helm: 4 Wochen Koma.",
+      "100-100": "Wilder Kopftreffer lässt Gegner zu Boden gehen. Er fällt in ein Koma und stirbt nach 12 Rd an einer geplatzten Vene. +20"
     },
     "E": {
       "01-05": "Guter Soundeffekt, das war's dann aber auch schon. +2T",
@@ -997,18 +996,18 @@
       "36-50": "Harter aber abprallender Treffer am Bein. Mit Beinpanzer: +12T Ohne: +8T, 2ben",
       "51-60": "Schlag in den Rücken. Gegner nimmt die Verteidigung runter und ist jetzt sträflich ungeschützt. +12T, 1benopar",
       "61-65": "Gegner umgehauen, als ob er ein Kartoffelsack sei. Er richtet sich wieder auf. +12T, 1benopar",
-      "66": "Am Kiefer getroffen. Gegner verliert das Gleichgewicht und stösst sich beim Fallen den Kopf. Bewusstlos. +30T",
+      "66-66": "Am Kiefer getroffen. Gegner verliert das Gleichgewicht und stösst sich beim Fallen den Kopf. Bewusstlos. +30T",
       "67-70": "Gegner umgehauen, als ob er ein Kartoffelsack sei. Er richtet sich wieder auf. +12T, 1benopar",
       "71-75": "Durch Deinen Treffer verpatzt der Gegner den seinen. Er fällt fast um. +14T, 3ben",
       "76-80": "Schlag auf die Schulter wirbelt Gegner herum. Du bedrängst ihn ganz schön. +13T, 2benopar",
       "81-85": "Schultertreffer haut Gegner um. Er landet auf dem Bauch und versucht sich wegzurollen. Kleiner Bruch. 2benopar, -10",
       "86-90": "Gegner mit einem Schlag aufs Bein zu Boden gebracht. Gegner liegt auf seiner Waffe und braucht einige Zeit wieder von ihr runter zu kommen. +15T, Drei Runden benommen ohne Parade.",
       "91-95": "Schlag auf die Schildarmseite lässt Gegner 1m zurücktaumeln, dann fällt er um und verliert seine Waffe. +15T, 4benopar",
-      "96": "Wahnsinns Seitentreffer lässt Gegner taumeln, er fällt und bricht sich das Bein. Sechs Runden benommen. -50",
-      "97": "Gemeiner Kopftreffer lässt Gegner Sternchen sehen. Er taumelt drei Meter zurück, bleibt aber stehen. +20T, 12benopar",
-      "98": "Schildschultertreffer. Mit Schild: 6ben Ohne: zu Boden geworfen, Arm unbrauchbar und weggetreten.",
-      "99": "Fester Schlag bricht Genick. Gegner fällt 1,5m zurück, dreht sich, und geht zu Boden, wo er in 3 Rd an Schock und Luftmangel stirbt.",
-      "100": "Furchteinflössender Kopftreffer. Schläfe eingedrückt und Genick gebrochen. Er fliegt 6m durch die Luft und ist sofort tot. 3+20"
+      "96-96": "Wahnsinns Seitentreffer lässt Gegner taumeln, er fällt und bricht sich das Bein. Sechs Runden benommen. -50",
+      "97-97": "Gemeiner Kopftreffer lässt Gegner Sternchen sehen. Er taumelt drei Meter zurück, bleibt aber stehen. +20T, 12benopar",
+      "98-98": "Schildschultertreffer. Mit Schild: 6ben Ohne: zu Boden geworfen, Arm unbrauchbar und weggetreten.",
+      "99-99": "Fester Schlag bricht Genick. Gegner fällt 1,5m zurück, dreht sich, und geht zu Boden, wo er in 3 Rd an Schock und Luftmangel stirbt.",
+      "100-100": "Furchteinflössender Kopftreffer. Schläfe eingedrückt und Genick gebrochen. Er fliegt 6m durch die Luft und ist sofort tot. 3+20"
     }
   },
   "Stoss": {
@@ -1024,7 +1023,7 @@
       "51-55": "Fester Druck auf die Brust. Er geht zurück. Fünf Treffer. 1par-20",
       "56-60": "Schenkeltreffer stösst Gegner zurück. Mit Beinpanzer: +7T Ohne: Fünf Treffer. 1ben",
       "61-65": "Den Arm des Gegners für kurze Zeit festgenagelt. Er kommt frei. Sechs Treffer. 1ben",
-      "66": "Schultertreffer mit anschliessender ganzer Schraube. Gut plazierter Schlag. +7T, 2benopar",
+      "66-66": "Schultertreffer mit anschliessender ganzer Schraube. Gut plazierter Schlag. +7T, 2benopar",
       "67-70": "Schneller Druck auf die Brust bringt exzellente Ergebnisse. Gegner taumelt. Sechs Treffer. 2-50",
       "71-75": "Ein Hammerschlag auf den Unterschenkel lässt Gegner fast umfallen. +7T, 2ben",
       "76-80": "Treffer an der Schildseite. Wenn er einen Schild hatte, ist er ihn jetzt los. +12T, 2ben",
@@ -1032,7 +1031,7 @@
       "86-90": "Ellbogen in den Rücken gehauen. Gegner taumelt 1,5m zur Seite und scheint den Kopf nicht klar zu kriegen. +13T, 3ben, +20",
       "91-95": "Kopftreffer. Ohne Helm: 2 Std bewusstlos. Mit Helm: Tja, so ist er besser dran 3ben",
       "96-99": "Bauchtreffer. Gegner der Länge nach zu Boden geworfen. Er schlägt besser auf, als Du es Dir gewünscht hast. Zehn Treffer. 3opar",
-      "100": "Harter Hüfttreffer haut Gegner um. Sehnenrisse und ein gebrochenes Bein sowie grosse Schmerzen. Gegner ist 9 Std unbrauchbar. -90"
+      "100-100": "Harter Hüfttreffer haut Gegner um. Sehnenrisse und ein gebrochenes Bein sowie grosse Schmerzen. Gegner ist 9 Std unbrauchbar. -90"
     },
     "B": {
       "01-05": "Dein Angriff geht 1,5m am Gegner vorbei +0T",
@@ -1045,7 +1044,7 @@
       "51-55": "Gegner gefasst und Knie hochgezogen, was einigen Schaden stiftet. Er kann aber auch ein bisschen abblocken. Fünf Treffer. 1ben",
       "56-60": "Gegner stösst sich den Schenkel beim Versuch Deinen Angriff abzuwehren. Er geht zurück. Sechs Treffer. 1par-30",
       "61-65": "Waffenarm nach hinten umgebogen. Er lässt die Waffe fallen. +6T",
-      "66": "Ellbogentreffer. Gegner lässt Waffe fallen und fasst Ellbogen an. Er hat völlig vergessen, dass Du auch noch da bist. +8T, 2benopar",
+      "66-66": "Ellbogentreffer. Gegner lässt Waffe fallen und fasst Ellbogen an. Er hat völlig vergessen, dass Du auch noch da bist. +8T, 2benopar",
       "67-70": "An einem losen Ausrüstungsstück gepackt und daran durch die Gegend geschleudert. Gegner ist konfus. +7T, 1opar",
       "71-75": "Ernstzunehmender Wadentreffer. +9T, -10",
       "76-80": "Schildarm gepackt und Hebelwirkung ausprobiert. Zehn Treffer. Zwei Runden benommen. -10",
@@ -1053,7 +1052,7 @@
       "86-90": "Du behandelst den Gegner wie einen Amboss. Er taumelt drei Meter zurück. Du setzt ihm nach um ihn fertig zu machen. +12T, 2benopar",
       "91-95": "Seitlicher Kopftreffer beschädigt Ohr und Gleichgewichtsinn für 3 Wochen. +9T, Sechs Runden benommen. -50",
       "96-99": "Schlag in die Seite. Seine Füsse vergessen dem Oberkörper zu folgen, als er zurück will. Er geht bewundernswert zu Boden und weiss nicht was da eben passiert ist. 6benopar",
-      "100": "Gegner fliegt drei Meter davon und landet auf dem Gesicht. Durch die Drehung im Genick nehmen die Nerven Schaden. Von der Taille abwärts gelähmt."
+      "100-100": "Gegner fliegt drei Meter davon und landet auf dem Gesicht. Durch die Drehung im Genick nehmen die Nerven Schaden. Von der Taille abwärts gelähmt."
     },
     "C": {
       "01-05": "Versuch's noch mal. Was sollen denn Deine Freunde sagen? +0T",
@@ -1066,7 +1065,7 @@
       "51-55": "Knie des Gegners nach hinten gedrückt. Er geht zurück um Schmerzen zu vermeiden. Sechs Treffer. 1benopar",
       "56-60": "Wadentreffer. Mit Beinpanzer: +9T Ohne: +7T, Zwei Runden benommen. -10",
       "61-65": "Exzellent plazierter Treffer am Arm und der Gegner lässt die Waffe fallen. Sechs Treffer. 2ben",
-      "66": "Beintreffer lässt Gegner mit gebrochenem Bein zu Boden gehen. Sein Untergang ist nahe, denn er ist hilflos am Boden. +9T, Drei Runden benommen ohne Parade. -90",
+      "66-66": "Beintreffer lässt Gegner mit gebrochenem Bein zu Boden gehen. Sein Untergang ist nahe, denn er ist hilflos am Boden. +9T, Drei Runden benommen ohne Parade. -90",
       "67-70": "Rippentreffer lässt diese in die Brüche gehen, was schmerzhaft ist und die Kampfmoral sinken lässt. +8T, Zwei Runden benommen. -20",
       "71-75": "Bein gequetscht. Gegner versucht sich Deiner Reichweite nach hinten zu entziehen. Zehn Treffer. Eine Runde benommen ohne Parade. -20",
       "76-80": "Schwerer Treffer am Waffenarm macht Bruch mittlerer Schwere. 1,5m zurückgeschleudert. +11T, 3ben, -25",
@@ -1074,7 +1073,7 @@
       "86-90": "Präziser Schlag lässt Gegner entwaffnet mit dem Gesicht voran zu Boden gehen. +14T, Sechs Runden benommen. +20",
       "91-95": "Gegner rumgeschleudert. Er kommt drei Meter von Dir entfernt zum stehen und schaut in die falsche Richtung. Er verpatzt seinen Angriff.",
       "96-99": "Sanfter und flotter Schlag zwingt Gegner in die Knie. Seine Waffe fliegt weg und er hat ein Blackout. Er starrt geradeaus ohne zu blinzeln.",
-      "100": "Kraftvoller Schlag lässt Gegner durch die Luft fliegen. Beim Aufprall bricht er sich beide Arme und stösst sich den Kopf. 2 Monate Koma"
+      "100-100": "Kraftvoller Schlag lässt Gegner durch die Luft fliegen. Beim Aufprall bricht er sich beide Arme und stösst sich den Kopf. 2 Monate Koma"
     },
     "D": {
       "01-05": "Du bist nicht wirklich so gut, oder? +1T",
@@ -1087,7 +1086,7 @@
       "51-55": "Treffer am Brustkasten verursacht Flaute in der Lunge. Zehn Treffer. 1benopar",
       "56-60": "Die Seite verpasst, aber den Schenkel getroffen. Du hast 3 Rd Initiative. +12T, 2ben",
       "61-65": "Schultergelenk gefasst und mit einem Schlag auf den Arm entwaffnet. +7T, Zwei Runden benommen. +20",
-      "66": "Harter Kopftreffer. Mit Helm: drei Meter zurückgeschleudert. 6ben Ohne: 24 Std bewusstlos.",
+      "66-66": "Harter Kopftreffer. Mit Helm: drei Meter zurückgeschleudert. 6ben Ohne: 24 Std bewusstlos.",
       "67-70": "Schlüsselbein gebrochen und durch die Gegend gewirbelt. Gegner desorientiert. Zehn Treffer. Eine Runde benommen ohne Parade. -25",
       "71-75": "Gegner in die Luft gehoben und der Länge nach zu Boden geworfen. Er lässt die Waffe fallen. +12T, Eine Runde benommen ohne Parade. -75",
       "76-80": "Zur Seite gerissen und zu Fall gebracht. Knöchelbruch. +11T, -50",
@@ -1095,7 +1094,7 @@
       "86-90": "Schildarmtreffer. Mit Schild: Schild zerbrochen. Ohne: Arm gebrochen. So oder so: Zehn Treffer. 9ben",
       "91-95": "Gegner taumelt drei Meter zurück und braucht eine ganze Runde um umzufallen. Dabei bricht er sich den Arm und ist am Boden. Zehn Treffer. 8benopar, -30",
       "96-99": "Kopftreffer lässt Helm in alle Richtungen zerspringen und Teile fliegen rum. +9T, 6ben Ohne Helm: 4 Wochen Koma.",
-      "100": "Wilder Kopftreffer lässt Gegner zu Boden gehen. Er fällt in ein Koma und stirbt nach 12 Rd an einer geplatzten Vene. +20"
+      "100-100": "Wilder Kopftreffer lässt Gegner zu Boden gehen. Er fällt in ein Koma und stirbt nach 12 Rd an einer geplatzten Vene. +20"
     },
     "E": {
       "01-05": "Guter Soundeffekt, das war's dann aber auch schon. +2T",
@@ -1108,7 +1107,7 @@
       "51-55": "Gegner umgehauen, als ob er ein Kartoffelsack sei. Er richtet sich wieder auf. +12T, 1benopar",
       "56-60": "Durch Deinen Treffer verpatzt der Gegner den seinen. Er fällt fast um. +14T, 3ben",
       "61-65": "Schlag auf die Schulter wirbelt Gegner herum. Du bedrängst ihn ganz schön. +13T, 2benopar",
-      "66": "Am Kiefer getroffen. Gegner verliert das Gleichgewicht und stösst sich beim Fallen den Kopf. Bewusstlos. +30T",
+      "66-66": "Am Kiefer getroffen. Gegner verliert das Gleichgewicht und stösst sich beim Fallen den Kopf. Bewusstlos. +30T",
       "67-70": "Schultertreffer haut Gegner um. Er landet auf dem Bauch und versucht sich wegzurollen. Kleiner Bruch. 2benopar, -10",
       "71-75": "Gegner mit einem Schlag aufs Bein zu Boden gebracht. Gegner liegt auf seiner Waffe und braucht einige Zeit wieder von ihr runter zu kommen. +15T, Drei Runden benommen ohne Parade.",
       "76-80": "Schlag auf die Schildarmseite lässt Gegner 1m zurücktaumeln, dann fällt er um und verliert seine Waffe. +15T, 4benopar",
@@ -1116,7 +1115,7 @@
       "86-90": "Gemeiner Kopftreffer lässt Gegner Sternchen sehen. Er taumelt drei Meter zurück, bleibt aber stehen. +20T, 12benopar",
       "91-95": "Schildschultertreffer. Mit Schild: 6ben Ohne: zu Boden geworfen, Arm unbrauchbar und weggetreten.",
       "96-99": "Fester Schlag bricht Genick. Gegner fällt 1,5m zurück, dreht sich, und geht zu Boden, wo er in 3 Rd an Schock und Luftmangel stirbt.",
-      "100": "Furchteinflössender Kopftreffer. Schläfe eingedrückt und Genick gebrochen. Er fliegt 6m durch die Luft und ist sofort tot. 3+20"
+      "100-100": "Furchteinflössender Kopftreffer. Schläfe eingedrückt und Genick gebrochen. Er fliegt 6m durch die Luft und ist sofort tot. 3+20"
     }
   },
   "Stich": {
@@ -1132,7 +1131,7 @@
       "51-55": "Treffer am Brustkasten scheint Gegner zu beeindrucken. 1par-25, 2T/rd",
       "56-60": "Kleinere Oberschenkelwunde. Hätte auch besser sein dürfen. +2T, 1ben, 2T/rd",
       "61-65": "Leichter Unterarmtreffer lässt Hand gefühllos werden. +2T, 2T/rd, -10",
-      "66": "Treffer an der Schildschulter macht Arm unbrauchbar. Das muss sehr schmerzen! 3ben, +10",
+      "66-66": "Treffer an der Schildschulter macht Arm unbrauchbar. Das muss sehr schmerzen! 3ben, +10",
       "67-70": "Nackentreffer. Fünf Treffer. 3ben, 1opar",
       "71-75": "Unterschenkeltreffer. Mit Schienen: Fünf Treffer. 3par, -10. Ohne: +3T, Eine Runde benommen ohne Parade. -25",
       "76-80": "Mit einem Treffer am Oberarm zerreisst Du seine schöne Kleidung. +3T, Zwei Runden benommen. Drei Treffer pro Runde. -25",
@@ -1140,7 +1139,7 @@
       "86-90": "Treffer am Rücken lässt Gegner ohne Verteidigung vorwärtstaumeln. 2benopar, 2T/rd, -20",
       "91-95": "Treffer am Ohr. -50 auf hören. Mit Helm: Fünf Treffer. 4ben, 1opar. Ohne: +3T, 2T/rd, 2benopar",
       "96-99": "Nasentreffer hinterlässt bleibende Narbe. Gegner schielt einen Moment lang. Drei Runden benommen ohne Parade.. Drei Treffer pro Runde.",
-      "100": "Nackentreffer durchtrennt Vene und Arterie. Gegner kann nicht atmen. Er fällt um und stirbt an Herzversagen."
+      "100-100": "Nackentreffer durchtrennt Vene und Arterie. Gegner kann nicht atmen. Er fällt um und stirbt an Herzversagen."
     },
     "B": {
       "01-05": "Streifschuss, sonst nichts.",
@@ -1153,7 +1152,7 @@
       "51-55": "Solider Brusttreffer. Blut ruiniert die schönen Kleider. +3T, 2T/rd, 2par",
       "56-60": "Oberschenkeltreffer beschädigt ihn ein bisschen. +3T, Eine Runde benommen ohne Parade. 2T/rd",
       "61-65": "Unterarmtreffer schreckt Gegner auf. +2T, 1ben, 2T/rd, -10",
-      "66": "Gegner wehrt den Schuss mit seinem Ellbogen ab...Ist zerschmettert und Schildarm ist unbrauchbar. +3T, 4ben, 2par",
+      "66-66": "Gegner wehrt den Schuss mit seinem Ellbogen ab...Ist zerschmettert und Schildarm ist unbrauchbar. +3T, 4ben, 2par",
       "67-70": "Nackentreffer, allerdings nicht tödlich. Zwei Runden benommen. Drei Treffer pro Runde. -5",
       "71-75": "Wadentreffer zerreisst Muskeln und lässt Gegner beinahe stürzen. +3T, 2benopar, -40",
       "76-80": "Treffer an der Schildseite. Wenn der Gegner einen Schild hat, Steckt Deine Waffe 1 Rd fest. 3ben, Drei Treffer pro Runde. -30",
@@ -1161,7 +1160,7 @@
       "86-90": "Kopftreffer, der ohne Helm tödlich ist, sonst fällt er auf die Knie. Sechs Treffer. 2benopar",
       "91-95": "Hüfttreffer. Mit Panzer: +7T, 1ben, -10. Ohne: Fünf Treffer. 1ben, Drei Treffer pro Runde. -25",
       "96-99": "Treffer durchschlägt Wange und Gurgel. Gegner stirbt nach 9 Rd des Nichtstuns. +20",
-      "100": "Treffer durchbohrt Auge und tötet den Gegner sofort. Er bleibt einen Moment stehen, bis er begriffen hat, was los ist. Alle Verbündeten 1+10"
+      "100-100": "Treffer durchbohrt Auge und tötet den Gegner sofort. Er bleibt einen Moment stehen, bis er begriffen hat, was los ist. Alle Verbündeten 1+10"
     },
     "C": {
       "01-05": "Gegner kann noch zur Seite springen. +1T",
@@ -1174,7 +1173,7 @@
       "51-55": "Brusttreffer. Falls Schild: Für den Rest der Runde nicht einsetzbar. +3T, Zwei Runden benommen. 2T/rd",
       "56-60": "Oberschenkeltreffer. Mit Beinpanzer: +8T, Eine Runde benommen ohne Parade. 1T/rd. Ohne: Fünf Treffer. Zwei Runden benommen. 2T/rd, -10",
       "61-65": "Guter Unterarmtreffer rechts. Mit Schienen: Fünf Treffer. 2benopar. Ohne: +3T, Zwei Runden benommen. 2T/rd, -10",
-      "66": "Treffer zerschmettert Knie. Gegner ist 3 Rd unten. 2benopar, -90",
+      "66-66": "Treffer zerschmettert Knie. Gegner ist 3 Rd unten. 2benopar, -90",
       "67-70": "Nackentreffer. Gegner versucht verzweifelt dem Tod zu entrinnen. 4ben, 2opar, +15",
       "71-75": "Zerstörerischer Unterschenkeltreffer. Panzerung wird zerfetzt. Fünf Treffer. 2benopar, -50",
       "76-80": "Treffer zerfetzt Schildarmmuskulatur. Mit Schild: Lässt ihn fallen. Sechs Runden benommen. Drei Treffer pro Runde. -25",
@@ -1182,7 +1181,7 @@
       "86-90": "Treffer am Kopf. Mit Helm: Jetzt ohne Helm (zerstört), Sechs Treffer. 2benopar. Ohne: tot.",
       "91-95": "Treffer am Brustkasten. Mit Plattenpanzer: Gegner zu Boden gebracht und in 9 Rd tödlich. Ohne: sofort tödlich.",
       "96-99": "Nackentreffer bricht Rückgrat. Gegner vom Hals abwärts gelähmt.",
-      "100": "Treffer, der beide Ohren durchschlägt erweist sich als recht effektiv. Das ist sofort tödlich und übrigens ein schöner Schuss. 6+20"
+      "100-100": "Treffer, der beide Ohren durchschlägt erweist sich als recht effektiv. Das ist sofort tödlich und übrigens ein schöner Schuss. 6+20"
     },
     "D": {
       "01-05": "Treffer prallt ab. +2T",
@@ -1195,7 +1194,7 @@
       "51-55": "Solider Brusttreffer hinterlässt blaue Flecken und Blut. Fünf Treffer. 1par, Drei Treffer pro Runde. -15",
       "56-60": "Unterleibstreffer. Mit Panzer: Fünf Treffer. 2opar. Ohne: +3T, Eine Runde benommen ohne Parade. Drei Treffer pro Runde.",
       "61-65": "Treffer lässt Waffenarm gefühllos werden. +3T, Zwei Runden benommen. Drei Treffer pro Runde. -10",
-      "66": "Kopftreffer. Mit Helm: 6 Stunden bewusstlos. Ohne: tot. In jedem Fall: +10",
+      "66-66": "Kopftreffer. Mit Helm: 6 Stunden bewusstlos. Ohne: tot. In jedem Fall: +10",
       "67-70": "Treffer an beiden Armen lässt dem Gegner keine Paradechance. +3T, 2benopar, -20",
       "71-75": "Exzellenter Unterschenkeltreffer zerstört Muskeln und Knorpel. Gegner fällt auf den Boden. Sechs Treffer. 2benopar, -50",
       "76-80": "Schildarmtreffer macht Arm unbrauchbar. +12T, Sechs Runden benommen. Drei Treffer pro Runde.",
@@ -1203,35 +1202,35 @@
       "86-90": "Treffer durchschlägt Nieren. Gegner während 2 Stunden unbeweglich am Boden. Danach tödlich. +9T",
       "91-95": "Seitentreffer verspritzt Gedärme auf dem Boden. Gegner kämpft während 6 Rd normal weiter. Dann stirbt er.",
       "96-99": "Treffer schlägt im Brustkasten ein kommt auf der anderen Seite teilweise wieder raus. Gegner geht zu Boden und stirbt in 6 Rd.",
-      "100": "Hirntreffer macht dem Gegner das Leben schwer. Du hast noch eine halbe Runde für weitere Handlungen. +20"
+      "100-100": "Hirntreffer macht dem Gegner das Leben schwer. Du hast noch eine halbe Runde für weitere Handlungen. +20"
     },
     "E": {
       "01-05": "Treffer ist etwas schwach. Drei Treffer.",
       "06-10": "Schuss bringt Gegner aus dem Gleichgewicht. Du hast Initiative. Fünf Treffer.",
       "11-12": "Gegner fürchtet sich vor Deinem heftigen Angriff. Drei Treffer und eine Runde muss pariert werden.",
-      "13": "Die Dreizehn ist eine verfluchte Zahl. Trotzdem fürchtet sich der Gegner vor Deinem heftigen Angriff. Drei Treffer und eine Runde muss pariert werden.",
+      "13-13": "Die Dreizehn ist eine verfluchte Zahl. Trotzdem fürchtet sich der Gegner vor Deinem heftigen Angriff. Drei Treffer und eine Runde muss pariert werden.",
       "14-15": "Gegner fürchtet sich vor Deinem heftigen Angriff. Drei Treffer und eine Runde muss pariert werden.",
       "16-20": "Gegner zittert von der Heftigkeit des Treffers und ist eine Runde benommen. Du erhältst Plus 20 auf deinen nächsten Angriff.",
       "21-35": "Messbarer Einschlag an der Seite. Ein Behälter des Gegner ist Leck geschlagen. Zwei Treffer und zwei Treffer pro Runde. Minus zehn auf alle Kampfwürfe.",
       "36-45": "Oberschenkeltreffer ruiniert Beinkleid. Mit Beinpanzer: Drei Treffer. Eine Runde muss pariert werden. Ohne: Zwei Treffer und drei Treffer pro Runde.",
       "46-49": "Seitentreffer. Panzerung dort aufgeschossen und Haut sichtbar gemacht. Mit Unterleibspanzer: Drei Treffer. Eine Runde muss pariert werden. Ohne: Vier Treffer und vier Treffer pro Runde. Eine Runde benommen ohne Parade.",
-      "50": "Seitentreffer. Mit Unterleibspanzer: Panzerung aufgeschossen und fünfzigjährigen Speck sichtbar gemacht. Da läuft dem Angreifer das Wasser im Mund zusammen: Drei Treffer. und eine Runde muss pariert werden. Ohne: Vier Treffer und vier Treffer pro Runde. Eine Runde benommen ohne Parade. Alles Gute zum Geburtstag.",
+      "50-50": "Seitentreffer. Mit Unterleibspanzer: Panzerung aufgeschossen und fünfzigjährigen Speck sichtbar gemacht. Da läuft dem Angreifer das Wasser im Mund zusammen: Drei Treffer. und eine Runde muss pariert werden. Ohne: Vier Treffer und vier Treffer pro Runde. Eine Runde benommen ohne Parade. Alles Gute zum Geburtstag.",
       "51-55": "Gegner duckt sich um auszuweichen. Treffer zwingt ihn in die Knie. Mach ihn fertig. Fünf Treffer. Eine Runde benommen ohne Parade. Minus zehn auf alle Kampfwürfe.",
       "56-60": "Seitentreffer. Gegner taumelt drei Meter nach rechts. Sechs Treffer. Eine Runde benommen ohne Parade. Fünf Treffer pro Runde.",
       "61-65": "Am Unterarm erwischt. Das beginnt gleich zu bluten. Gegner hat Angst. Fünf Treffer. Zwei Runden benommen. Drei Treffer pro Runde. Minus fünfzehn auf alle Kampfwürfe.",
-      "66": "Treffer durchschlägt beide Lungenflügel. Gegner geht zu Boden und stirbt in sechs Runden. Plus zehn auf deinen nächsten Angriff.",
+      "66-66": "Treffer durchschlägt beide Lungenflügel. Gegner geht zu Boden und stirbt in sechs Runden. Plus zehn auf deinen nächsten Angriff.",
       "67-70": "Treffer reisst Arm in die Höhe und zerreisst mehrere Muskeln und Sehnen. Sechs Runden benommen. Drei Treffer pro Runde.",
       "71-74": "Treffer schlägt sauber im Bein ein. Gegner hält sein Bein und fällt zu Boden. Drei Runden benommen ohne Parade. Minus fünfundsiebzig.",
-      "75": "Treffer schlägt sauber im Bein ein. Gegner hält sein Bein und fällt zu Boden. Der Klang des dumpfen Aufpralls lässt vermuten, dass der Gegner mit der Angabe seines Kampfgewichts nicht ganz ehrlich war. Der wiegt sicher mehr als 75 Kilogramm. Drei Runden benommen ohne Parade. Minus fünfundsiebzig fürs Lügen.",
+      "75-75": "Treffer schlägt sauber im Bein ein. Gegner hält sein Bein und fällt zu Boden. Der Klang des dumpfen Aufpralls lässt vermuten, dass der Gegner mit der Angabe seines Kampfgewichts nicht ganz ehrlich war. Der wiegt sicher mehr als 75 Kilogramm. Drei Runden benommen ohne Parade. Minus fünfundsiebzig fürs Lügen.",
       "76-80": "Mit einem Treffer am Waffenarm den Knochen gebrochen und Arm unbrauchbar gemacht. Zehn Treffer. Drei Runden benommen ohne Parade.",
       "81-85": "Rückentreffer durchschlägt eine Vene. Gegner geht schmachvoll in die Knie und stirbt in zwölf Runden.",
       "86-90": "Treffer schlägt genau unterhalb des Schlüsselbeins ein. Gegner geht zu Boden und stirbt in zwölf Runden.",
       "91-95": "Treffer am Arm schlägt bis auf die andere Seite durch. Nach zwölf Runden Benommenheit tödlich.",
       "96-99": "Treffer ins Herz lässt Gegner drei Meter rückwärtstaumeln, wo ein passender Ort zum Sterben ist... Deine Waffe bleibt stecken.",
-      "100": "Augentreffer wirkt sich sofort tödlich aus. Weiter so. Plus 25 auf deinen nächsten Angriff."
+      "100-100": "Augentreffer wirkt sich sofort tödlich aus. Weiter so. Plus 25 auf deinen nächsten Angriff."
     }
   },
-  "Gewaltige_Wesen": {
+  "Gewaltige Wesen": {
     "audioFile": "gewaltige_wesen.mp3",
     "Normal": {
       "1-5": "+10 Treffer. Waffe zerbricht. Du bist aufgebracht.",
@@ -1241,7 +1240,7 @@
       "31-40": "+5 Treffer",
       "41-50": "+6 Treffer",
       "51-65": "+7 Treffer",
-      "66": "+20 Treffer",
+      "66-66": "+20 Treffer",
       "67-70": "+8 Treffer",
       "71-80": "+9 Treffer",
       "81-90": "+10 Treffer",
@@ -1252,7 +1251,7 @@
       "151-175": "Treffer zerstört Muskeln im Schildarm. +20 Treffer, 5 Tr/Rd und -20 auf alles.",
       "176-200": "Eingeweidetreffer zerstört Organe im Unterleib. +35 Treffer. Gegner bricht zusammen und stirbt nach zwölf Runden. +15 für Deinen nächsten Schlag.",
       "201-250": "Armtreffer durchtrennt Schlagader. +15 Treffer. Gegner ist 6 Rd ben. Danach tödlich.",
-      "251+": "Extrem schwerer und glatter Schlag. +35 Treffer. 3 Rd ben und keine Parade möglich. Leider schlägst Du Dich selbst bewusstlos."
+      "251-999": "Extrem schwerer und glatter Schlag. +35 Treffer. 3 Rd ben und keine Parade möglich. Leider schlägst Du Dich selbst bewusstlos."
     },
     "Magisch": {
       "1-5": "+10 Treffer. Dir rutscht die Waffe aus der Hand und es geht 2 Rd um sie zu holen.",
@@ -1262,7 +1261,7 @@
       "31-40": "+6 Treffer",
       "41-50": "+7 Treffer",
       "51-65": "+8 Treffer",
-      "66": "Kleine Wunde. +12 Treffer, 3 Tr/Rd und -10 auf Kampfwürfe, aber Deine Waffe zerbricht.",
+      "66-66": "Kleine Wunde. +12 Treffer, 3 Tr/Rd und -10 auf Kampfwürfe, aber Deine Waffe zerbricht.",
       "67-70": "+9 Treffer",
       "71-80": "+10 Treffer",
       "81-90": "+15 Treffer",
@@ -1273,7 +1272,7 @@
       "151-175": "Schlag treibt die zerschmetterten Überreste des Kiefers ins Hirn. Sofort tödlich. Du kannst noch eine halbe Rd handeln.",
       "176-200": "Treffer am Ohr tötet Gegner mit Leichtigkeit. +10 Treffer. +20 für alle freundlichen Schläge der nächsten Runde.",
       "201-250": "Schlag durchtrennt Rückgrat. +15 Treffer. Gegner vom Hals abwärts gelähmt. Leider zerbricht Deine Waffe.",
-      "251+": "Ein augendurchbohrender Treffer erweist sich als fatal. +20 Treffer. Sofort tödlich. +25 für Deinen nächsten Schlag."
+      "251-999": "Ein augendurchbohrender Treffer erweist sich als fatal. +20 Treffer. Sofort tödlich. +25 für Deinen nächsten Schlag."
     },
     "Mithril": {
       "1-5": "+10 Treffer. Fast verlierst Du Deine Waffe. Du bist eine 1 Rd benommen.",
@@ -1283,7 +1282,7 @@
       "31-40": "+7 Treffer",
       "41-50": "+8 Treffer",
       "51-65": "+9 Treffer",
-      "66": "Kleine Wunde. +15 Treffer, 5 Tr/Rd, -10 auf Kampfwürfe und 1 Rd Initiativeverlust.",
+      "66-66": "Kleine Wunde. +15 Treffer, 5 Tr/Rd, -10 auf Kampfwürfe und 1 Rd Initiativeverlust.",
       "67-70": "+10 Treffer",
       "71-80": "+15 Treffer",
       "81-90": "+20 Treffer",
@@ -1294,7 +1293,7 @@
       "151-175": "Unterleibstreffer zerstört wichtige Organe. +30 Treffer. Gegner bricht zusammen und stirbt nach 6 Rd.",
       "176-200": "Beintreffer, bei dem eine Arterie durchtrennt wird. 2 Rd mit -20, dann Bewusstlosigkeit und Tod nach 6 Rd.",
       "201-250": "Herz durchbohrt. +20 Treffer. Sofort tödlich. +15 für alle freundlichen Schläge den nächsten 2 Rd.",
-      "251+": "Tückischer Querschlag lässt Gegner erblinden, was diesen wütend macht. 6 Rd ben und -100 auf alles."
+      "251-999": "Tückischer Querschlag lässt Gegner erblinden, was diesen wütend macht. 6 Rd ben und -100 auf alles."
     },
     "Heilig": {
       "1-5": "+10 Treffer. Fast verlierst Du Deine Waffe. Du musst 1 Rd parieren.",
@@ -1304,7 +1303,7 @@
       "31-40": "+12 Treffer",
       "41-50": "+15 Treffer",
       "51-65": "+18 Treffer",
-      "66": "Schwere Verletzung. +20 Treffer, 10 Tr/Rd, -15 auf Kampfwürfe und 1 Rd ben ohne Möglichkeit zur Parade.",
+      "66-66": "Schwere Verletzung. +20 Treffer, 10 Tr/Rd, -15 auf Kampfwürfe und 1 Rd ben ohne Möglichkeit zur Parade.",
       "67-70": "+20 Treffer",
       "71-80": "Leichter Treffer macht +13 Treffer, 5 Tr7Rd, -10 auf Kampfwürfe und 1 Rd Initiativeverlust. +10 für Deinen nächsten Schlag.",
       "81-90": "Leichter Treffer macht +12 Treffer, 4 Tr7Rd und muss 1 Rd parieren. +20 für Deinen nächsten Schlag.",
@@ -1315,7 +1314,7 @@
       "151-175": "Glatter Wangendurchschlag. +10 Treffer. Sofort tödlich. Du kannst noch eine halbe Rd handeln.",
       "176-200": "Treffer durchschlägt Rückgrat. +20 Treffer. Gegner stürzt von der Taille abwärts gelähmt zu Boden.",
       "201-250": "Herz durchbohrt. +20 Treffer. Sofort tödlich. +20 für alle freundlichen Schläge den nächsten 3 Rd.",
-      "251+": "Schlag zerschmettert Rippe und beschädigt einen Lungenflügel. +30 Treffer. Bewusstlos. Deine Waffe steckt 6 Rd fest."
+      "251-999": "Schlag zerschmettert Rippe und beschädigt einen Lungenflügel. +30 Treffer. Bewusstlos. Deine Waffe steckt 6 Rd fest."
     },
     "Tödlich": {
       "1-5": "+10 Treffer, aber Du musst 1 Rd parieren.",
@@ -1325,7 +1324,7 @@
       "31-40": "+15 Treffer",
       "41-50": "+18 Treffer",
       "51-65": "+20 Treffer",
-      "66": "Herz durchbohrt. +50 Treffer. Der Gegner ist tot, Du bist ganz blutbeschmiert, erhältst aber dennoch +20 auf Deinen nächsten Angriff.",
+      "66-66": "Herz durchbohrt. +50 Treffer. Der Gegner ist tot, Du bist ganz blutbeschmiert, erhältst aber dennoch +20 auf Deinen nächsten Angriff.",
       "67-70": "Schwerer Treffer bricht 3 Rippen. +30 Treffer, 2 Rd ben und keine Parade möglich.",
       "71-80": "Harter Schlag. +24 Treffer, 5 Tr/Rd, -20 auf Kampfwürfe, 3 Rd ben und keine Parade möglich.",
       "81-90": "Schwerer Treffer. +25 Treffer, 20 Tr7Rd, 3 Rd ben und keine Parade möglich.",
@@ -1336,10 +1335,10 @@
       "151-175": "Genick durchschlagen. +25 Treffer. Sofort tödlich. +10 für Deinen nächsten Schlag. Wirklich saubere Arbeit.",
       "176-200": "Augen durchbohrt. +15 Treffer. Sofort tödlich. +20 für Deinen nächsten Schlag und Du kannst noch eine halbe Rd handeln.",
       "201-250": "Schädel quer durchgeschlagen. Sofort tödlich. Der Angriff geht noch auf den nächststehenden Feind über. (Diese Runde noch mal angreifen.)",
-      "251+": "Gegner durch Präzisionsschlag erblindet. +6 Treffer. Gegner ist 24 Stunden ben und keine Parade möglich."
+      "251-999": "Gegner durch Präzisionsschlag erblindet. +6 Treffer. Gegner ist 24 Stunden ben und keine Parade möglich."
     }
   },
-  "Grosse_Wesen": {
+  "Grosse Wesen": {
     "audioFile": "grosse_wesen.mp3",
     "Normal": {
       "1-5": "+12T Deine Waffe zerbricht. Du bist aufgebracht.",
@@ -1349,7 +1348,7 @@
       "31-40": "+12T",
       "41-50": "+15T",
       "51-65": "+20T",
-      "66": "Gut plazierter Halstreffer durchtrennt Halsschlagader. +15T, Tod nach 6rd Handlungsunfähigkeit.",
+      "66-66": "Gut plazierter Halstreffer durchtrennt Halsschlagader. +15T, Tod nach 6rd Handlungsunfähigkeit.",
       "67-70": "+25T",
       "71-80": "+30T",
       "81-90": "Schwerer Treffer lässt Gegner taumeln. +20T, 2benopar, +5",
@@ -1360,7 +1359,7 @@
       "151-175": "Treffer treibt Knochen durch Niere und Leber. +40T. Gegner fällt zu Boden und stirbt.",
       "176-200": "Eingeweidetreffer zerstört Organe im Unterleib. +35T. Gegner bricht zusammen und stirbt nach 12rd. +15",
       "201-250": "Armtreffer durchtrennt Schlagader. +15T, Sechs Runden benommen. danach tödlich.",
-      "251+": "Extrem schwerer und glatter Schlag. +35T, Drei Runden benommen ohne Parade.. Leider schlägst Du Dich selber bewusstlos."
+      "251-999": "Extrem schwerer und glatter Schlag. +35T, Drei Runden benommen ohne Parade.. Leider schlägst Du Dich selber bewusstlos."
     },
     "Magisch": {
       "1-5": "+15T Fast die Waffe verloren. 1par",
@@ -1370,7 +1369,7 @@
       "31-40": "+15T",
       "41-50": "+18T",
       "51-65": "+25T",
-      "66": "Tückischer Unterleibstreffer zerstört mehrere wichtige Organe. +30T, Niedergeschlagen und in 3rd tödlich.",
+      "66-66": "Tückischer Unterleibstreffer zerstört mehrere wichtige Organe. +30T, Niedergeschlagen und in 3rd tödlich.",
       "67-70": "+30T",
       "71-80": "Leichter Schlag. +13T, 3ben, 1opar",
       "81-90": "Harter Schultertreffer macht +22T, 3ben, 1opar, +10",
@@ -1381,7 +1380,7 @@
       "151-175": "Schlag treibt die zerschmetterten Überreste des Kiefers ins Hirn. Sofort tödlich. Du kannst noch eine halbe Runde handeln.",
       "176-200": "Treffer am Ohr. Gegner mit Leichtigkeit getötet. +10T. +20 für alle Freunde in der nächsten Runde.",
       "201-250": "Schlag durchtrennt Rückgrat. +15T. Gegner vom Hals abwärts gelähmt. Leider zerbricht Deine Waffe.",
-      "251+": "Ein augendurchbohrender Treffer erweist sich als fatal. +20T. Sofort tödlich. +25"
+      "251-999": "Ein augendurchbohrender Treffer erweist sich als fatal. +20T. Sofort tödlich. +25"
     },
     "Mithril": {
       "1-5": "+18T Du hast Dich schlecht bewegt. 1 Runde Iniverlust für Dich.",
@@ -1391,7 +1390,7 @@
       "31-40": "+20T",
       "41-50": "+25T",
       "51-65": "+30T",
-      "66": "Treffer ins Herz. +12T und sofort tödlich. Saubere Arbeit. +10",
+      "66-66": "Treffer ins Herz. +12T und sofort tödlich. Saubere Arbeit. +10",
       "67-70": "Leichte Verletzung. +13T, 3opar",
       "71-80": "Schwerer Schlag. +20T, Drei Treffer pro Runde. 2benopar",
       "81-90": "Beintreffer macht +15T, 2T/rd, -20 auf Kampfwürfe",
@@ -1402,7 +1401,7 @@
       "151-175": "Unterleibstreffer zerstört wichtige Organe. +30T. Gegner bricht zusammen und stirbt nach 6rd.",
       "176-200": "Beintreffer, bei dem eine Arterie durchtrennt wird. 2-20, dann Bewusstlosigkeit und Tod nach 6rd.",
       "201-250": "Herz durchbohrt. +20T. Sofort tödlich. 2+15 für alle Freunde.",
-      "251+": "Tückischer Querschlag lässt Gegner erblinden und macht ihn wütend. Sechs Runden benommen. -100"
+      "251-999": "Tückischer Querschlag lässt Gegner erblinden und macht ihn wütend. Sechs Runden benommen. -100"
     },
     "Heilig": {
       "1-5": "+20T Schwacher Schlag, deshalb –10 für Deinen nächsten Schlag.",
@@ -1412,7 +1411,7 @@
       "31-40": "+25T",
       "41-50": "+30T",
       "51-65": "Leicht getroffen. +1Zwei Treffer und drei Treffer pro Runde., 3par, 3Iniverlust",
-      "66": "Guter Schlag trifft zwischen den Augen. Sofort tödlich und Du kannst noch eine halbe Runde handeln.",
+      "66-66": "Guter Schlag trifft zwischen den Augen. Sofort tödlich und Du kannst noch eine halbe Runde handeln.",
       "67-70": "Schwerer Schlag. +20T, 2benopar, +10",
       "71-80": "Leichter Beintreffer macht +9T, Drei Treffer pro Runde. Eine Runde benommen ohne Parade. -10",
       "81-90": "Stirntreffer. Mit Helm: +30T und bewusstlos geschlagen. Ohne Helm: Sofort tödlich.",
@@ -1423,7 +1422,7 @@
       "151-175": "Glatter Wangendurchschlag. +10T. Sofort tödlich. Du kannst noch eine halbe Runde handeln.",
       "176-200": "Treffer durchschlägt Rückgrat. +20T. Gegner stürzt von der Taille abwärts gelähmt zu Boden.",
       "201-250": "Herz durchbohrt. +20T. Sofort tödlich. 3+20 für alle Freunde.",
-      "251+": "Schlag zerschmettert Rippe und beschädigt einen Lungenflügel. +30T Bewusstlos. Deine Waffe bleibt 6rd stecken."
+      "251-999": "Schlag zerschmettert Rippe und beschädigt einen Lungenflügel. +30T Bewusstlos. Deine Waffe bleibt 6rd stecken."
     },
     "Tödlich": {
       "1-5": "+5T",
@@ -1433,7 +1432,7 @@
       "31-40": "+30T",
       "41-50": "Leicht verletzt. +12T, Fünf Treffer pro Runde., 1par, +10",
       "51-65": "Glatter Schlag. Gegner taumelt. +15T, 1benopar",
-      "66": "Seitlicher Kopftreffer spaltet den Schädel auf Ohrenhöhe. Sofort tödlich. +10",
+      "66-66": "Seitlicher Kopftreffer spaltet den Schädel auf Ohrenhöhe. Sofort tödlich. +10",
       "67-70": "Brutaler Treffer durchstösst Herz. +20T, Sofort tödlich. +10",
       "71-80": "Treffer zerschmettert Schulter des Waffenarms. Der Arm ist nicht mehr einsatzfähig. +15T, 3ben",
       "81-90": "Treffer am Brustkasten zerstört Herz. Sofort tödlich. +15",
@@ -1444,7 +1443,7 @@
       "151-175": "Genick durchschlagen. +25T, Sofort tödlich. Wirklich saubere Arbeit. +25",
       "176-200": "Augen durchbohrt. +15T. Sofort tödlich. +20 und Du kannst noch eine halbe Runde handeln.",
       "201-250": "Schädel quer durchgeschlagen. Sofort tödlich. Der Angriff geht noch auf den nächstehenden Feind über (Diese Runde nochmals angreifen).",
-      "251+": "Gegner durch Präzisionsschlag erblindet. Sechs Treffer. 24 Stunden benopar, -100"
+      "251-999": "Gegner durch Präzisionsschlag erblindet. Sechs Treffer. 24 Stunden benopar, -100"
     }
   },
   "Streich": {
@@ -1460,7 +1459,7 @@
       "51-55": "Treffer an der Brust lässt Gegner zurück taumeln und eine Schwache Verteidigung aufbauen. +2T, 1par-25, 1T/rd",
       "56-60": "Du änderst Deinen ursprünglichen Schlag und ziehst nun die Schneide über das Bein des Gegners. Drei Treffer. Eine Runde muss pariert werden, 2T/rd",
       "61-65": "Eine Finte nach oben und nach unten geschlagen. Rückseite des Oberschenkels aufgeschlitzt. +3T, 2T/rd, -10",
-      "66": "Gegner blockt Deinen Angriff mit dem Schildarm. Dabei bricht die Schulter und der Arm ist nutzlos. Du hast Initiative. +9T, 3ben, +10",
+      "66-66": "Gegner blockt Deinen Angriff mit dem Schildarm. Dabei bricht die Schulter und der Arm ist nutzlos. Du hast Initiative. +9T, 3ben, +10",
       "67-70": "Schlag landet nah beim Hals, was den Gegner doch sehr erschreckt. Sechs Treffer. 3ben, 1opar",
       "71-75": "Schlag auf den Unterschenkel schlitzt Sehnen an. Armer Teufel. +4T, Zwei Runden benommen. 2T/rd, -30",
       "76-80": "Gegner duckt sich, Du triffst aber dennoch seinen Oberarm. Das scheint einen Bluter zu sein. Fünf Treffer. 2benopar, Drei Treffer pro Runde. -25",
@@ -1468,7 +1467,7 @@
       "86-90": "Gegner dreht sich um Deinem Schlag zu entgehen. Dabei erwischst Du ihn an der Seite. +8T, 2benopar, 2T/rd, -10",
       "91-95": "Kopftreffer. Mit Helm: +3T, 2benopar Ohne Helm: Ohr abgeschnitten (-50 auf Hören), +3T, 3ben, 1opar, Drei Treffer pro Runde.",
       "96-99": "Die Spitze Deiner Waffe schlitzt seine Nase an. Leichte Wunde und bleibende Narbe. +2T, Sechs Runden benommen. 2T/rd, -30",
-      "100": "Halsschlagader durchtrennt und Hals gebrochen. Gegner stirbt nach 6 Rd Unbeweglichkeit."
+      "100-100": "Halsschlagader durchtrennt und Hals gebrochen. Gegner stirbt nach 6 Rd Unbeweglichkeit."
     },
     "B": {
       "01-05": "Schwächlicher Schlag und erst noch daneben. +0T",
@@ -1481,7 +1480,7 @@
       "51-55": "Qualitätsarbeit. Treffer an der Brust. Mit Panzer: +4T, 1par Ohne: +3T, 2par, 1T/rd, -5",
       "56-60": "Schneide knüpft recht gute Kontakte zum Gegner. Leichte Oberschenkelwunde. +4T, 2par, 2T/rd",
       "61-65": "Streiftreffer am Unterarm. Das blutet erstaunlich stark. +4T, 1ben, 2T/rd, -10",
-      "66": "Dein Schlag verfehlt den Oberkörper, landet aber im Waffenarm, der nun nutzlos ist. Er lässt seine Waffe fallen. +8T, 4ben, 2opar",
+      "66-66": "Dein Schlag verfehlt den Oberkörper, landet aber im Waffenarm, der nun nutzlos ist. Er lässt seine Waffe fallen. +8T, 4ben, 2opar",
       "67-70": "Dein Versuch dem Gegner den Kopf abzuschlagen wäre fast gelungen. Halstreffer macht ihn auch nicht viel glücklicher. +7T, Zwei Runden benommen. Drei Treffer pro Runde. -5",
       "71-75": "Muskeln in der Wade aufgeschlitzt. Er hat zu grosse Schmerzen um sich schnell genug zu rächen. Sechs Treffer. 3ben, 1opar, -40",
       "76-80": "Gegner ist mir seinem Schild zu langsam, weshalb Du ihn am Arm triffst. Sechs Treffer. 2benopar, Drei Treffer pro Runde. -30",
@@ -1489,7 +1488,7 @@
       "86-90": "Schlag auf den Rücken. Gegner geht zu Boden um auszuweichen, steht aber mit dem Gesicht zur falschen Seite wieder auf. Zehn Treffer. Drei Runden benommen ohne Parade. Drei Treffer pro Runde.",
       "91-95": "Schlag in die Hüfte. Zwar nicht mit der Schneide, aber mit viel Wucht. Du bringst ihn ins Wanken. +7T, 3ben, 1opar, -20, +10",
       "96-99": "Kopftreffer bricht Schädelknochen und richtet schwere Hirnschäden an. Gegner fällt und um und stirbt nach 6 Rd. +20T",
-      "100": "Alles hat ein Ende, für den Gegner ist es jetzt gekommen. Sofort tödlicher Treffer. 25% Chance, dass Deine Waffe 1 Rd feststeckt."
+      "100-100": "Alles hat ein Ende, für den Gegner ist es jetzt gekommen. Sofort tödlicher Treffer. 25% Chance, dass Deine Waffe 1 Rd feststeckt."
     },
     "C": {
       "01-05": "Fester Schlag, aber gut pariert. Versuch's noch mal. +1T",
@@ -1502,7 +1501,7 @@
       "51-55": "Schlag landet hart auf der Brust. Du schnippelst ein bisschen an ihm rum, aber tödlich ist wohl nicht. +4T, 1par, 2T/rd, -10",
       "56-60": "Schlag rutscht von der Seite runter zum Oberschenkel und hinterlässt eine wirksame Wunde. Fünf Treffer. 1ben, 2T/rd",
       "61-65": "Am Unterarm erwischt und nach oben hin aufgeschlitzt. +4T, 1ben, Drei Treffer pro Runde. -10",
-      "66": "Dein Schlag ist zu kurz, weil Gegner sich nach hinten beugt. So zerschmetterst Du ihm eben das Knie und er geht zu Boden. Sechs Treffer. 3opar, -90",
+      "66-66": "Dein Schlag ist zu kurz, weil Gegner sich nach hinten beugt. So zerschmetterst Du ihm eben das Knie und er geht zu Boden. Sechs Treffer. 3opar, -90",
       "67-70": "Hals angeschlitzt. Kleidung und eventuelle Panzerung weggefetzt. +8T, 4ben, 2opar, +10",
       "71-75": "Muskeln und Sehnen im Unterschenkel angeschlitzt. Gegner taumelt ohne Verteidigung auf Dich zu. +7T, 2benopar, -45",
       "76-80": "Du erwischst ihn schnell und von oben her am Schildarm, wodurch Sehnen und Muskeln aufgeschlitzt werden und der Schildarm nutzlos wird. +9T, Sechs Runden benommen. 4T/rd",
@@ -1510,7 +1509,7 @@
       "86-90": "Volltreffer am Rücken bricht einen Knochen. Er torkelt ein bisschen vorwärts und kann sich kaum halten. +9T, 4benopar, -10",
       "91-95": "Oberschenkel zerhackt und Bein abgehauen. Er fällt sofort um und stirbt nach 6 Rd Schock und Blutverlust. +20T",
       "96-99": "Du hackst den Schild und seinen Arm in zwei Teile. Er versucht seinen Arm aufzufangen. Er hat einen Schock und stirbt nach zwölf Runden. +18T, 12benopar",
-      "100": "Aufgezogen und im Gesicht erwischt. Augen zerstört. Er fällt vor Schmerz auf den Rücken. Fünf Treffer. 30benopar"
+      "100-100": "Aufgezogen und im Gesicht erwischt. Augen zerstört. Er fällt vor Schmerz auf den Rücken. Fünf Treffer. 30benopar"
     },
     "D": {
       "01-05": "Dieser Treffer war ja erbärmlich. +2T",
@@ -1523,7 +1522,7 @@
       "51-55": "Schwerer Treffer am oberen Rücken. Offene Wunde bereitet sichtbar Schmerzen, trotzdem kann Gegner seine Verteidigung aufrecht erhalten. Erstaunlich. Fünf Treffer. 1par, Drei Treffer pro Runde. -15",
       "56-60": "Die Spitze Deiner Klinge bohrt sich in den Oberschenkel. Du bohrst noch ein bisschen weiter. Sechs Treffer. Zwei Runden benommen. 2T/rd",
       "61-65": "Du hast Glück und triffst ihn am Unterarm, als er sich nach einem Ausfallschritt wieder aufstellt. +4T, Zwei Runden benommen. Drei Treffer pro Runde. -10",
-      "66": "Mit einem seitlichen Kopftreffer schickst Du den Gegner 6 Std. ins Land der Träume. Wenn er keinen Halm an hat, ist dieser Schlag sofort tödlich. +15T",
+      "66-66": "Mit einem seitlichen Kopftreffer schickst Du den Gegner 6 Std. ins Land der Träume. Wenn er keinen Halm an hat, ist dieser Schlag sofort tödlich. +15T",
       "67-70": "Schultertreffer, der Muskeln anschlitzt. +8T, 4ben, 2opar, +10",
       "71-75": "Muskeln im Unterschenkel aufgeschlitzt und Sehnen durchtrennt. Er kann nicht mehr lange stehen. 3ben, 2opar, -50",
       "76-80": "Gegner versucht fälschlicherweise Deinen Schlag mit seinem Waffenarm zu blocken. Sehnen durchtrennt und der Arm ist schlaff und nutzlos. Zehn Treffer. 4ben, 2opar",
@@ -1531,7 +1530,7 @@
       "86-90": "Dein Versuch den Gegner zu entwaffnen ist mehr als geglückt, den nun ist auch gleich die Hand ab. Gegner stirbt nach 6 Rd Schock. Sechs Treffer. 6benopar",
       "91-95": "Waffenarm abgetrennt und Dein Schwert in seiner Seite parkiert. Er geht zu Boden und stirbt nach 12 Rd Schock. +15T, 9benopar",
       "96-99": "Dem Gegner die ganze Seite aufgeschlitzt. Er stirbt nach 3 Rd an inneren Schäden. Er fällt um und ist sofort bewusstlos. +20T",
-      "100": "Herz durchstossen. Sofort tödlich. 25% Chance, dass Deine Waffe 2 Rd feststeckt. +12T"
+      "100-100": "Herz durchstossen. Sofort tödlich. 25% Chance, dass Deine Waffe 2 Rd feststeckt. +12T"
     },
     "E": {
       "01-05": "Schwache Attacke. Drei Treffer",
@@ -1544,7 +1543,7 @@
       "51-55": "Graziös den Gegner aufgeschnitten. Du bist Dir über den Erfolg nicht ganz im Klaren, bis Du all das Blut rausströmen siehst. Sechs Treffer und vier Treffer pro Runde. Zwei Runden benommen. Minus zehn auf alle Kampfwürfe.",
       "56-60": "Schenkeltreffer der tiefen und ernsten Art verletzt auch eine wichtige Vene. Acht Treffer und fünf Treffer pro Runde. Zwei Runden benommen.",
       "61-65": "Gegner bezahlt den Versuch Dich zu entwaffnen mit einer tiefen Wunde am Unterarm. Sechs Treffer und drei Treffer pro Runde. Zwei Runden benommen. Minus 15 auf alle Kampfwürfe.",
-      "66": "Erst den Waffenarm abgeblockt und dann abgehauen. Gegner geht sofort zu Boden und stirbt in zwölf Runden. Sauber gemacht! 12 Treffer, Plus 10 auf den nächsten Angriff.",
+      "66-66": "Erst den Waffenarm abgeblockt und dann abgehauen. Gegner geht sofort zu Boden und stirbt in zwölf Runden. Sauber gemacht! 12 Treffer, Plus 10 auf den nächsten Angriff.",
       "67-70": "Treffer an der Schulter, bei dem Sehnen durchtrennt und der Knochen gebrochen wird, machen den Schildarm nutzlos. Vier Runden benommen. Zwei Treffer pro Runde.",
       "71-75": "Schlag auf den Unterschenkel durchtrennt Muskeln und Sehnen. Wenn er sich nirgends anlehnen kann, fällt er um. Acht Treffer. Sechs Runden benommen. Minus 70 auf alle Kampfwürfe.",
       "76-80": "Gegner streckt die Hände aus um Deinen Schlag abzuwehren. Nun hat er zwei Finger weniger und der Schildarm ist gebrochen und unbrauchbar. Zwölf Treffer. Drei Runden benommen ohne Parade.",
@@ -1552,7 +1551,7 @@
       "86-90": "Bein wie in einer Metzgerei abgehauen. Gegner fällt um und wird bewusstlos. In neun Runden tödlich. Fünfzehn Treffer. Plus zehn auf deinen nächsten Angriff.",
       "91-95": "Rückgrat durchtrennt. Gegner bricht zusammen und ist vom Hals abwärts gelähmt. Zwanzig Treffer.",
       "96-99": "Kopftreffer macht dem armen Teufel das Leben schwer. Er haucht sein Leben auf einen Schlag aus. Sofort tödlich.",
-      "100": "Das war knapp! Treffer in der Leistengegend, der alle wichtige Organe zerstört. Gegner stirbt nach vierundzwanzig qualvollen Stunden. Zehn Treffer und zwölf Runden benommen ohne Parade."
+      "100-100": "Das war knapp! Treffer in der Leistengegend, der alle wichtige Organe zerstört. Gegner stirbt nach vierundzwanzig qualvollen Stunden. Zehn Treffer und zwölf Runden benommen ohne Parade."
     }
   },
   "Hieb": {
@@ -1568,7 +1567,7 @@
       "51-55": "Brusttreffer. Gegner biegt sich zur Seite vor Schmerz. Fünf Treffer. 1par-25",
       "56-60": "Hüfttreffer lässt ein Ausrüstungsteil durch die Luft fliegen. Gegner weicht zurück. Fünf Treffer. 1par-25",
       "61-65": "Treffer am unteren Waffenarm. Mit Armschienen: +8T, 1par Ohne: Fünf Treffer. 1ben",
-      "66": "Schildschulter zerschmettert und Arm recht nutzlos gemacht. Wenn Gegner einen Schild hat, lässt er ihn fallen. +8T, 3ben, 1opar",
+      "66-66": "Schildschulter zerschmettert und Arm recht nutzlos gemacht. Wenn Gegner einen Schild hat, lässt er ihn fallen. +8T, 3ben, 1opar",
       "67-70": "Solider Brusttreffer lässt Gegner die Puste ausgehen. +8T, 3ben, 1opar",
       "71-75": "Schlag nach Unterschenkel. Versuch drüber zu springen schlägt fehl. Fünf Treffer. 2benopar, -20",
       "76-80": "Schildarmtreffer. Mit Schild: Jetzt ohne Schild (zerborsten) Ohne: Arm gebrochen.",
@@ -1576,7 +1575,7 @@
       "86-90": "Treffer am unteren Rücken. Muskel- u. Knorpelschäden. +12T, Drei Runden benommen ohne Parade. -25",
       "91-95": "Nase gebrochen. Mit Nasenschutz: Zehn Treffer. 2benopar Ohne: +15T, Drei Runden benommen ohne Parade.",
       "96-99": "Kopftreffer. Ohne Helm: tot Mit Helm: Niedergehauen. +20T, 6ben",
-      "100": "Kiefer zerhauen. Knochen ins Hirn getrieben. Sofort tödlich. +50T, +20"
+      "100-100": "Kiefer zerhauen. Knochen ins Hirn getrieben. Sofort tödlich. +50T, +20"
     },
     "B": {
       "01-05": "Du hast nicht richtig hingelangt. +0T",
@@ -1589,7 +1588,7 @@
       "51-55": "Gegner entkommt, bevor Dein Angriff einschlägt. Er geht 1,5m zurück um sich zu verteidigen. Sechs Treffer. 2par",
       "56-60": "Schlag geht unter dem Schildarm durch und landet auf dem Oberschenkel. Grosser Bluterguss. Sechs Treffer. 1par, -5",
       "61-65": "Solider Schlag auf den Unterarm schmerzt ganz sicher. +9T, 1ben, -10",
-      "66": "Ellbogen nach hinten gedrückt und gebrochen. Arm ist unbrauchbar. Gegner lässt die Waffe, beugt sich vor und schreit laut. Drei Runden benommen ohne Parade.",
+      "66-66": "Ellbogen nach hinten gedrückt und gebrochen. Arm ist unbrauchbar. Gegner lässt die Waffe, beugt sich vor und schreit laut. Drei Runden benommen ohne Parade.",
       "67-70": "Bloom! Volltreffer im oberen Bereich des Brustkastens. Gegner taumelt. Zehn Treffer. 2benopar, -10",
       "71-75": "Treffer an der rechten Achillessehne. Oh, Du weisst doch, dass das schmerzt! Zehn Treffer. Zwei Runden benommen. 1opar, -35",
       "76-80": "Treffer am Schildarm bricht das Handgelenk. Hand nutzlos, Gegner lässt Schild fallen. Sechs Treffer. 1ben",
@@ -1597,7 +1596,7 @@
       "86-90": "Gegner macht einen Fehler und bezahlt dafür. Du schickst ihn mit einem fällenden Schlag zu Boden. Sehnen reissen. 4benopar, -30",
       "91-95": "Kopftreffer. Ohne Helm: 3 Monate Koma. In jedem Fall +20T, 12ben",
       "96-99": "Volltreffer am Brustkasten treibt Rippen ins Herz. Gegner geht zu Boden und stirbt in 6 Rd. +20",
-      "100": "Treffer bricht das Genick. Gegner ist vom Hals abwärts gelähmt. +25T, 15ben"
+      "100-100": "Treffer bricht das Genick. Gegner ist vom Hals abwärts gelähmt. +25T, 15ben"
     },
     "C": {
       "01-05": "Das üben wir aber noch mal. +1T",
@@ -1610,7 +1609,7 @@
       "51-55": "Harter Brusttreffer. Da hilft auch Panzerung nicht. Fünf Treffer. 1ben, -10",
       "56-60": "Schwung schrammt über den linken Oberschenkel und schlägt im rechten ein. Sechs Treffer. 1par, -5, +10",
       "61-65": "Gegner beim Aufziehen erwischt und entwaffnet. Seine Waffe fällt hinter Dir zu Boden. +8T, 1ben",
-      "66": "Duthaler-Tomate auf den Oberschenkel gesetzt... mehr braucht man nicht zu sagen. +9T, Drei Runden benommen ohne Parade. -90",
+      "66-66": "Duthaler-Tomate auf den Oberschenkel gesetzt... mehr braucht man nicht zu sagen. +9T, Drei Runden benommen ohne Parade. -90",
       "67-70": "Brusttreffer verursacht eine Unzahl von Beschwerden. Zehn Treffer. 3ben, 2opar, -10",
       "71-75": "Treffer verdreht das Knie. Zehn Treffer. 2benopar, -40",
       "76-80": "Schlag auf den Waffenarm. Ein metallener Armschutz ist verbogen und macht Arm nutzlos, bis das Teil abgenommen wird. +9T, Eine Runde benommen ohne Parade. -50",
@@ -1618,7 +1617,7 @@
       "86-90": "Kraftvoller Schlag kehrt Gegner auf den Rücken. Knochen brechen und Muskeln reissen. +20T, Sechs Runden benommen. -50",
       "91-95": "Schwerer Beintreffer zertrümmert Knochen und verletzt Arterie. Gegner geht hart zu Boden und stirbt in zwölf Runden. +9T",
       "96-99": "Unterleibstreffer zerstört alle möglichen Organe. Der arme Tropf haucht nach 6 Rd Inaktivität sein Leben aus.",
-      "100": "Treffer im Gesicht. Augen zerstört und Helm weggeschlagen. Gegner wirbelt durch die Gegend. +30T, 24benopar"
+      "100-100": "Treffer im Gesicht. Augen zerstört und Helm weggeschlagen. Gegner wirbelt durch die Gegend. +30T, 24benopar"
     },
     "D": {
       "01-05": "Schlag durch Kleidung abgeschwächt. +2T",
@@ -1631,7 +1630,7 @@
       "51-55": "Schlag auf die Rippen. Gegner hebt den Arm vor Schmerz. Er kann sich nicht nach vorne beugen. Zehn Treffer. -15",
       "56-60": "Schlag verfehlt den Arm, landet aber auf dem Bein. Er taumelt und lässt etwas fallen. Sechs Treffer. 1ben, -10",
       "61-65": "Schlag auf den Unterarm zerreisst Kleidung aber keine Haut. Dafür ist jetzt der Arm blau. Zehn Treffer. Eine Runde benommen ohne Parade. -10",
-      "66": "Meisterhafter Kopftreffer. Ohne Helm: tot Mit Helm: 4 Stunden bewusstlos. +20T",
+      "66-66": "Meisterhafter Kopftreffer. Ohne Helm: tot Mit Helm: 4 Stunden bewusstlos. +20T",
       "67-70": "Schultertreffer. Mit Schulterpanzer: Sechs Treffer. 1benopar Ohne: 2benopar, -20",
       "71-75": "Ein Schlag mit dem gewissen Crack! Bein gebrochen und schwerer Knorpelschaden. +12T, 2benopar, -50",
       "76-80": "Treffer bricht Waffenarm und schleudert Waffe 1,5m nach rechts. Arm nutzlos, Sehnenschaden. +8t, 1benopar",
@@ -1639,7 +1638,7 @@
       "86-90": "Schlag auf den Hals. Mit Halsschutz: Vom Hals abwärts gelähmt Ohne: In 2 Rd tödlich. In jedem Fall +25T",
       "91-95": "Treffer erwischt die Schildschulter mit voller Wucht. Arm zerhauen. Gegner stirbt nach 9 Rd an Schock und Blutverlust.",
       "96-99": "Brustkasten zerhauen. Gegner packt Deinen Arm, schaut Dir fest in die Augen (Kleines) und geht zu Boden. In 3 Rd tödlich. +25",
-      "100": "Volltreffer ins Herz. Es pocht nicht mehr, er stirbt. Du hältst Dich für tödlich. Gute Arbeit. Auf zum nächsten. +25T"
+      "100-100": "Volltreffer ins Herz. Es pocht nicht mehr, er stirbt. Du hältst Dich für tödlich. Gute Arbeit. Auf zum nächsten. +25T"
     },
     "E": {
       "01-05": "Dem Gegner eine dieser blöden Dekoration abgehauen. +3T",
@@ -1652,7 +1651,7 @@
       "51-55": "Brusttreffer. Er versucht wieder Luft zu bekommen und Deinen heftigen Angriff zu überleben. +15T, Zwei Runden benommen. -15",
       "56-60": "Treffer am rechten Oberschenkel lässt das Bein etwas schwanken. Zehn Treffer. Eine Runde benommen ohne Parade. -10",
       "61-65": "Schwung mit gigantischem Einschlag am Waffenarm. Gegner lässt Waffe fallen und taumelt. Zehn Treffer. 1ben, -15",
-      "66": "Das zerschmettert, was mal der Kopf war. Wenn Gegner einen Halm hat, ist der auch zerstört. Du bist ganz mit Blut bespritzt. +15T, +10",
+      "66-66": "Das zerschmettert, was mal der Kopf war. Wenn Gegner einen Halm hat, ist der auch zerstört. Du bist ganz mit Blut bespritzt. +15T, +10",
       "67-70": "Schildarmtreffer. Mit Schild: Jetzt ohne Schild (zerborsten) Ohne: Arm gebrochen.",
       "71-75": "Schlag bricht die Hüfte. Hilfe, der Gegner ist umgefallen und kommt nicht alleine hoch. +15T, 3ben, -75",
       "76-80": "Arm wie eine Feder zusammengedrückt. Gelenk zerschmettert. Der Arm ist nutzlos. Der Gegner wäre heute wohl besser im Bett geblieben. +9T, 2benopar",
@@ -1660,7 +1659,7 @@
       "86-90": "Genicktreffer bricht Knochen und verletzt eine Arterie. Gegner bekommt keine Luft und erstickt nach 12 Rd Inaktivität.",
       "91-95": "Volltreffer am Rücken treibt einen Knochen in lebenswichtige Organe. Gegner geht zu Boden und Stirbt in 6 Rd. +25T",
       "96-99": "Schlag ins Gesicht. Mit Visierhelm: Visier ins Gesicht getrieben und in 10 Rd tödlich. Ohne: Sofort tödlich. Du kannst noch eine Halbe Runde handeln. +30T, +20",
-      "100": "Schlag zerbröselt Hüfte. Gegner fällt um, versucht aufzustehen und fällt wieder um. In 6 Rd tödlich. +35T, Zwei Runden benommen. 6-30"
+      "100-100": "Schlag zerbröselt Hüfte. Gegner fällt um, versucht aufzustehen und fällt wieder um. In 6 Rd tödlich. +35T, Zwei Runden benommen. 6-30"
     }
   }
 }

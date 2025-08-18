@@ -253,27 +253,27 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "100": {
+          "100-100": {
             "trefferpunkte": 7,
             "krit_typ": null,
             "krit_kat": null
           },
-          "99": {
+          "99-99": {
             "trefferpunkte": 7,
             "krit_typ": null,
             "krit_kat": null
           },
-          "98": {
+          "98-98": {
             "trefferpunkte": 7,
             "krit_typ": null,
             "krit_kat": null
           },
-          "97": {
+          "97-97": {
             "trefferpunkte": 7,
             "krit_typ": null,
             "krit_kat": null
           },
-          "96": {
+          "96-96": {
             "trefferpunkte": 7,
             "krit_typ": null,
             "krit_kat": null
@@ -378,7 +378,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "75": {
+          "75-75": {
             "trefferpunkte": 5,
             "krit_typ": null,
             "krit_kat": null
@@ -423,7 +423,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "66": {
+          "66-66": {
             "trefferpunkte": 4,
             "krit_typ": null,
             "krit_kat": null
@@ -503,7 +503,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "50": {
+          "50-50": {
             "trefferpunkte": 3,
             "krit_typ": null,
             "krit_kat": null
@@ -800,27 +800,27 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "100": {
+          "100-100": {
             "trefferpunkte": 8,
             "krit_typ": null,
             "krit_kat": null
           },
-          "99": {
+          "99-99": {
             "trefferpunkte": 8,
             "krit_typ": null,
             "krit_kat": null
           },
-          "98": {
+          "98-98": {
             "trefferpunkte": 8,
             "krit_typ": null,
             "krit_kat": null
           },
-          "97": {
+          "97-97": {
             "trefferpunkte": 8,
             "krit_typ": null,
             "krit_kat": null
           },
-          "96": {
+          "96-96": {
             "trefferpunkte": 8,
             "krit_typ": null,
             "krit_kat": null
@@ -925,7 +925,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "75": {
+          "75-75": {
             "trefferpunkte": 5,
             "krit_typ": null,
             "krit_kat": null
@@ -970,7 +970,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "66": {
+          "66-66": {
             "trefferpunkte": 4,
             "krit_typ": null,
             "krit_kat": null
@@ -1050,7 +1050,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "50": {
+          "50-50": {
             "trefferpunkte": 3,
             "krit_typ": null,
             "krit_kat": null
@@ -1347,27 +1347,27 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "100": {
+          "100-100": {
             "trefferpunkte": 9,
             "krit_typ": null,
             "krit_kat": null
           },
-          "99": {
+          "99-99": {
             "trefferpunkte": 8,
             "krit_typ": null,
             "krit_kat": null
           },
-          "98": {
+          "98-98": {
             "trefferpunkte": 8,
             "krit_typ": null,
             "krit_kat": null
           },
-          "97": {
+          "97-97": {
             "trefferpunkte": 8,
             "krit_typ": null,
             "krit_kat": null
           },
-          "96": {
+          "96-96": {
             "trefferpunkte": 8,
             "krit_typ": null,
             "krit_kat": null
@@ -1472,7 +1472,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "75": {
+          "75-75": {
             "trefferpunkte": 5,
             "krit_typ": null,
             "krit_kat": null
@@ -1517,7 +1517,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "66": {
+          "66-66": {
             "trefferpunkte": 4,
             "krit_typ": null,
             "krit_kat": null
@@ -1597,7 +1597,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "50": {
+          "50-50": {
             "trefferpunkte": 2,
             "krit_typ": null,
             "krit_kat": null
@@ -1894,27 +1894,27 @@
             "krit_typ": "S",
             "krit_kat": "A"
           },
-          "100": {
+          "100-100": {
             "trefferpunkte": 9,
             "krit_typ": "K",
             "krit_kat": "A"
           },
-          "99": {
+          "99-99": {
             "trefferpunkte": 9,
             "krit_typ": "S",
             "krit_kat": "A"
           },
-          "98": {
+          "98-98": {
             "trefferpunkte": 9,
             "krit_typ": "K",
             "krit_kat": "A"
           },
-          "97": {
+          "97-97": {
             "trefferpunkte": 9,
             "krit_typ": "S",
             "krit_kat": "A"
           },
-          "96": {
+          "96-96": {
             "trefferpunkte": 9,
             "krit_typ": "K",
             "krit_kat": "A"
@@ -2019,7 +2019,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "75": {
+          "75-75": {
             "trefferpunkte": 5,
             "krit_typ": null,
             "krit_kat": null
@@ -2064,7 +2064,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "66": {
+          "66-66": {
             "trefferpunkte": 4,
             "krit_typ": null,
             "krit_kat": null
@@ -2144,7 +2144,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "50": {
+          "50-50": {
             "trefferpunkte": 1,
             "krit_typ": null,
             "krit_kat": null
@@ -2441,27 +2441,27 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "100": {
+          "100-100": {
             "trefferpunkte": 10,
             "krit_typ": null,
             "krit_kat": null
           },
-          "99": {
+          "99-99": {
             "trefferpunkte": 10,
             "krit_typ": null,
             "krit_kat": null
           },
-          "98": {
+          "98-98": {
             "trefferpunkte": 10,
             "krit_typ": null,
             "krit_kat": null
           },
-          "97": {
+          "97-97": {
             "trefferpunkte": 10,
             "krit_typ": null,
             "krit_kat": null
           },
-          "96": {
+          "96-96": {
             "trefferpunkte": 10,
             "krit_typ": null,
             "krit_kat": null
@@ -2566,7 +2566,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "75": {
+          "75-75": {
             "trefferpunkte": 6,
             "krit_typ": null,
             "krit_kat": null
@@ -2611,7 +2611,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "66": {
+          "66-66": {
             "trefferpunkte": 5,
             "krit_typ": null,
             "krit_kat": null
@@ -2691,7 +2691,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "50": {
+          "50-50": {
             "trefferpunkte": 3,
             "krit_typ": null,
             "krit_kat": null
@@ -2988,27 +2988,27 @@
             "krit_typ": "S",
             "krit_kat": "A"
           },
-          "100": {
+          "100-100": {
             "trefferpunkte": 11,
             "krit_typ": "K",
             "krit_kat": "A"
           },
-          "99": {
+          "99-99": {
             "trefferpunkte": 10,
             "krit_typ": "S",
             "krit_kat": "A"
           },
-          "98": {
+          "98-98": {
             "trefferpunkte": 10,
             "krit_typ": "K",
             "krit_kat": "A"
           },
-          "97": {
+          "97-97": {
             "trefferpunkte": 10,
             "krit_typ": null,
             "krit_kat": null
           },
-          "96": {
+          "96-96": {
             "trefferpunkte": 10,
             "krit_typ": null,
             "krit_kat": null
@@ -3113,7 +3113,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "75": {
+          "75-75": {
             "trefferpunkte": 6,
             "krit_typ": null,
             "krit_kat": null
@@ -3158,7 +3158,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "66": {
+          "66-66": {
             "trefferpunkte": 5,
             "krit_typ": null,
             "krit_kat": null
@@ -3238,7 +3238,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "50": {
+          "50-50": {
             "trefferpunkte": 2,
             "krit_typ": null,
             "krit_kat": null
@@ -3535,27 +3535,27 @@
             "krit_typ": "K",
             "krit_kat": "A"
           },
-          "100": {
+          "100-100": {
             "trefferpunkte": 11,
             "krit_typ": "S",
             "krit_kat": "A"
           },
-          "99": {
+          "99-99": {
             "trefferpunkte": 11,
             "krit_typ": "K",
             "krit_kat": "A"
           },
-          "98": {
+          "98-98": {
             "trefferpunkte": 11,
             "krit_typ": "S",
             "krit_kat": "A"
           },
-          "97": {
+          "97-97": {
             "trefferpunkte": 11,
             "krit_typ": "K",
             "krit_kat": "A"
           },
-          "96": {
+          "96-96": {
             "trefferpunkte": 11,
             "krit_typ": "S",
             "krit_kat": "A"
@@ -3660,7 +3660,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "75": {
+          "75-75": {
             "trefferpunkte": 3,
             "krit_typ": null,
             "krit_kat": null
@@ -3705,7 +3705,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "66": {
+          "66-66": {
             "trefferpunkte": 2,
             "krit_typ": null,
             "krit_kat": null
@@ -3785,7 +3785,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "50": {
+          "50-50": {
             "trefferpunkte": 0,
             "krit_typ": null,
             "krit_kat": null
@@ -3831,7 +3831,7 @@
             "krit_kat": null
           }
         },
-        "13": {
+        "13-13": {
           "150": {
             "trefferpunkte": 21,
             "krit_typ": "K",
@@ -4082,27 +4082,27 @@
             "krit_typ": "K",
             "krit_kat": "B"
           },
-          "100": {
+          "100-100": {
             "trefferpunkte": 12,
             "krit_typ": "K",
             "krit_kat": "B"
           },
-          "99": {
+          "99-99": {
             "trefferpunkte": 11,
             "krit_typ": "K",
             "krit_kat": "B"
           },
-          "98": {
+          "98-98": {
             "trefferpunkte": 11,
             "krit_typ": "S",
             "krit_kat": "B"
           },
-          "97": {
+          "97-97": {
             "trefferpunkte": 11,
             "krit_typ": "K",
             "krit_kat": "B"
           },
-          "96": {
+          "96-96": {
             "trefferpunkte": 10,
             "krit_typ": "S",
             "krit_kat": "A"
@@ -4207,7 +4207,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "75": {
+          "75-75": {
             "trefferpunkte": 6,
             "krit_typ": null,
             "krit_kat": null
@@ -4252,7 +4252,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "66": {
+          "66-66": {
             "trefferpunkte": 4,
             "krit_typ": null,
             "krit_kat": null
@@ -4332,7 +4332,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "50": {
+          "50-50": {
             "trefferpunkte": 1,
             "krit_typ": null,
             "krit_kat": null
@@ -4629,27 +4629,27 @@
             "krit_typ": "K",
             "krit_kat": "A"
           },
-          "100": {
+          "100-100": {
             "trefferpunkte": 9,
             "krit_typ": "S",
             "krit_kat": "A"
           },
-          "99": {
+          "99-99": {
             "trefferpunkte": 9,
             "krit_typ": "K",
             "krit_kat": "A"
           },
-          "98": {
+          "98-98": {
             "trefferpunkte": 9,
             "krit_typ": "S",
             "krit_kat": "A"
           },
-          "97": {
+          "97-97": {
             "trefferpunkte": 9,
             "krit_typ": "K",
             "krit_kat": "A"
           },
-          "96": {
+          "96-96": {
             "trefferpunkte": 9,
             "krit_typ": "S",
             "krit_kat": "A"
@@ -4754,7 +4754,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "75": {
+          "75-75": {
             "trefferpunkte": 5,
             "krit_typ": null,
             "krit_kat": null
@@ -4799,7 +4799,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "66": {
+          "66-66": {
             "trefferpunkte": 3,
             "krit_typ": null,
             "krit_kat": null
@@ -4879,7 +4879,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "50": {
+          "50-50": {
             "trefferpunkte": 0,
             "krit_typ": null,
             "krit_kat": null
@@ -5176,27 +5176,27 @@
             "krit_typ": "K",
             "krit_kat": "B"
           },
-          "100": {
+          "100-100": {
             "trefferpunkte": 9,
             "krit_typ": "S",
             "krit_kat": "B"
           },
-          "99": {
+          "99-99": {
             "trefferpunkte": 8,
             "krit_typ": "K",
             "krit_kat": "A"
           },
-          "98": {
+          "98-98": {
             "trefferpunkte": 8,
             "krit_typ": "S",
             "krit_kat": "A"
           },
-          "97": {
+          "97-97": {
             "trefferpunkte": 8,
             "krit_typ": "K",
             "krit_kat": "A"
           },
-          "96": {
+          "96-96": {
             "trefferpunkte": 8,
             "krit_typ": "S",
             "krit_kat": "A"
@@ -5301,7 +5301,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "75": {
+          "75-75": {
             "trefferpunkte": 3,
             "krit_typ": null,
             "krit_kat": null
@@ -5346,7 +5346,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "66": {
+          "66-66": {
             "trefferpunkte": 0,
             "krit_typ": null,
             "krit_kat": null
@@ -5426,7 +5426,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "50": {
+          "50-50": {
             "trefferpunkte": 0,
             "krit_typ": null,
             "krit_kat": null
@@ -5723,27 +5723,27 @@
             "krit_typ": "K",
             "krit_kat": "B"
           },
-          "100": {
+          "100-100": {
             "trefferpunkte": 11,
             "krit_typ": "S",
             "krit_kat": "B"
           },
-          "99": {
+          "99-99": {
             "trefferpunkte": 11,
             "krit_typ": "K",
             "krit_kat": "B"
           },
-          "98": {
+          "98-98": {
             "trefferpunkte": 11,
             "krit_typ": "S",
             "krit_kat": "B"
           },
-          "97": {
+          "97-97": {
             "trefferpunkte": 11,
             "krit_typ": "K",
             "krit_kat": "B"
           },
-          "96": {
+          "96-96": {
             "trefferpunkte": 10,
             "krit_typ": "S",
             "krit_kat": "B"
@@ -5848,7 +5848,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "75": {
+          "75-75": {
             "trefferpunkte": 5,
             "krit_typ": null,
             "krit_kat": null
@@ -5893,7 +5893,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "66": {
+          "66-66": {
             "trefferpunkte": 3,
             "krit_typ": null,
             "krit_kat": null
@@ -5973,7 +5973,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "50": {
+          "50-50": {
             "trefferpunkte": 0,
             "krit_typ": null,
             "krit_kat": null
@@ -6270,27 +6270,27 @@
             "krit_typ": "S",
             "krit_kat": "C"
           },
-          "100": {
+          "100-100": {
             "trefferpunkte": 11,
             "krit_typ": "K",
             "krit_kat": "C"
           },
-          "99": {
+          "99-99": {
             "trefferpunkte": 11,
             "krit_typ": "S",
             "krit_kat": "C"
           },
-          "98": {
+          "98-98": {
             "trefferpunkte": 10,
             "krit_typ": "K",
             "krit_kat": "C"
           },
-          "97": {
+          "97-97": {
             "trefferpunkte": 10,
             "krit_typ": "S",
             "krit_kat": "C"
           },
-          "96": {
+          "96-96": {
             "trefferpunkte": 10,
             "krit_typ": "K",
             "krit_kat": "B"
@@ -6395,7 +6395,7 @@
             "krit_typ": "K",
             "krit_kat": "A"
           },
-          "75": {
+          "75-75": {
             "trefferpunkte": 4,
             "krit_typ": "S",
             "krit_kat": "A"
@@ -6440,7 +6440,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "66": {
+          "66-66": {
             "trefferpunkte": 0,
             "krit_typ": null,
             "krit_kat": null
@@ -6520,7 +6520,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "50": {
+          "50-50": {
             "trefferpunkte": 0,
             "krit_typ": null,
             "krit_kat": null
@@ -6817,27 +6817,27 @@
             "krit_typ": "K",
             "krit_kat": "B"
           },
-          "100": {
+          "100-100": {
             "trefferpunkte": 11,
             "krit_typ": "S",
             "krit_kat": "A"
           },
-          "99": {
+          "99-99": {
             "trefferpunkte": 11,
             "krit_typ": "K",
             "krit_kat": "A"
           },
-          "98": {
+          "98-98": {
             "trefferpunkte": 11,
             "krit_typ": "S",
             "krit_kat": "A"
           },
-          "97": {
+          "97-97": {
             "trefferpunkte": 11,
             "krit_typ": "K",
             "krit_kat": "A"
           },
-          "96": {
+          "96-96": {
             "trefferpunkte": 11,
             "krit_typ": "S",
             "krit_kat": "A"
@@ -6942,7 +6942,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "75": {
+          "75-75": {
             "trefferpunkte": 8,
             "krit_typ": null,
             "krit_kat": null
@@ -6987,7 +6987,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "66": {
+          "66-66": {
             "trefferpunkte": 6,
             "krit_typ": null,
             "krit_kat": null
@@ -7067,7 +7067,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "50": {
+          "50-50": {
             "trefferpunkte": 4,
             "krit_typ": null,
             "krit_kat": null
@@ -7364,27 +7364,27 @@
             "krit_typ": "K",
             "krit_kat": "B"
           },
-          "100": {
+          "100-100": {
             "trefferpunkte": 11,
             "krit_typ": "K",
             "krit_kat": "B"
           },
-          "99": {
+          "99-99": {
             "trefferpunkte": 11,
             "krit_typ": "S",
             "krit_kat": "B"
           },
-          "98": {
+          "98-98": {
             "trefferpunkte": 11,
             "krit_typ": "K",
             "krit_kat": "B"
           },
-          "97": {
+          "97-97": {
             "trefferpunkte": 10,
             "krit_typ": "S",
             "krit_kat": "B"
           },
-          "96": {
+          "96-96": {
             "trefferpunkte": 10,
             "krit_typ": "K",
             "krit_kat": "B"
@@ -7489,7 +7489,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "75": {
+          "75-75": {
             "trefferpunkte": 7,
             "krit_typ": null,
             "krit_kat": null
@@ -7534,7 +7534,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "66": {
+          "66-66": {
             "trefferpunkte": 6,
             "krit_typ": null,
             "krit_kat": null
@@ -7614,7 +7614,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "50": {
+          "50-50": {
             "trefferpunkte": 0,
             "krit_typ": null,
             "krit_kat": null
@@ -7911,27 +7911,27 @@
             "krit_typ": "K",
             "krit_kat": "B"
           },
-          "100": {
+          "100-100": {
             "trefferpunkte": 12,
             "krit_typ": "S",
             "krit_kat": "B"
           },
-          "99": {
+          "99-99": {
             "trefferpunkte": 12,
             "krit_typ": "K",
             "krit_kat": "B"
           },
-          "98": {
+          "98-98": {
             "trefferpunkte": 12,
             "krit_typ": "S",
             "krit_kat": "B"
           },
-          "97": {
+          "97-97": {
             "trefferpunkte": 12,
             "krit_typ": "K",
             "krit_kat": "B"
           },
-          "96": {
+          "96-96": {
             "trefferpunkte": 11,
             "krit_typ": "S",
             "krit_kat": "B"
@@ -8036,7 +8036,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "75": {
+          "75-75": {
             "trefferpunkte": 6,
             "krit_typ": null,
             "krit_kat": null
@@ -8081,7 +8081,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "66": {
+          "66-66": {
             "trefferpunkte": 4,
             "krit_typ": null,
             "krit_kat": null
@@ -8161,7 +8161,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "50": {
+          "50-50": {
             "trefferpunkte": 0,
             "krit_typ": null,
             "krit_kat": null
@@ -8458,27 +8458,27 @@
             "krit_typ": "S",
             "krit_kat": "B"
           },
-          "100": {
+          "100-100": {
             "trefferpunkte": 13,
             "krit_typ": "K",
             "krit_kat": "B"
           },
-          "99": {
+          "99-99": {
             "trefferpunkte": 13,
             "krit_typ": "S",
             "krit_kat": "B"
           },
-          "98": {
+          "98-98": {
             "trefferpunkte": 12,
             "krit_typ": "K",
             "krit_kat": "B"
           },
-          "97": {
+          "97-97": {
             "trefferpunkte": 12,
             "krit_typ": "S",
             "krit_kat": "B"
           },
-          "96": {
+          "96-96": {
             "trefferpunkte": 12,
             "krit_typ": "K",
             "krit_kat": "B"
@@ -8583,7 +8583,7 @@
             "krit_typ": "K",
             "krit_kat": "A"
           },
-          "75": {
+          "75-75": {
             "trefferpunkte": 6,
             "krit_typ": null,
             "krit_kat": null
@@ -8628,7 +8628,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "66": {
+          "66-66": {
             "trefferpunkte": 4,
             "krit_typ": null,
             "krit_kat": null
@@ -8708,7 +8708,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "50": {
+          "50-50": {
             "trefferpunkte": 0,
             "krit_typ": null,
             "krit_kat": null
@@ -9005,27 +9005,27 @@
             "krit_typ": "S",
             "krit_kat": "A"
           },
-          "100": {
+          "100-100": {
             "trefferpunkte": 9,
             "krit_typ": "K",
             "krit_kat": "A"
           },
-          "99": {
+          "99-99": {
             "trefferpunkte": 9,
             "krit_typ": "K",
             "krit_kat": "A"
           },
-          "98": {
+          "98-98": {
             "trefferpunkte": 8,
             "krit_typ": null,
             "krit_kat": null
           },
-          "97": {
+          "97-97": {
             "trefferpunkte": 8,
             "krit_typ": null,
             "krit_kat": null
           },
-          "96": {
+          "96-96": {
             "trefferpunkte": 8,
             "krit_typ": null,
             "krit_kat": null
@@ -9130,7 +9130,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "75": {
+          "75-75": {
             "trefferpunkte": 3,
             "krit_typ": null,
             "krit_kat": null
@@ -9175,7 +9175,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "66": {
+          "66-66": {
             "trefferpunkte": 0,
             "krit_typ": null,
             "krit_kat": null
@@ -9255,7 +9255,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "50": {
+          "50-50": {
             "trefferpunkte": 0,
             "krit_typ": null,
             "krit_kat": null
@@ -9552,27 +9552,27 @@
             "krit_typ": "S",
             "krit_kat": "A"
           },
-          "100": {
+          "100-100": {
             "trefferpunkte": 11,
             "krit_typ": "K",
             "krit_kat": "A"
           },
-          "99": {
+          "99-99": {
             "trefferpunkte": 10,
             "krit_typ": "S",
             "krit_kat": "A"
           },
-          "98": {
+          "98-98": {
             "trefferpunkte": 10,
             "krit_typ": "K",
             "krit_kat": "A"
           },
-          "97": {
+          "97-97": {
             "trefferpunkte": 10,
             "krit_typ": "S",
             "krit_kat": "A"
           },
-          "96": {
+          "96-96": {
             "trefferpunkte": 10,
             "krit_typ": "K",
             "krit_kat": "A"
@@ -9677,7 +9677,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "75": {
+          "75-75": {
             "trefferpunkte": 0,
             "krit_typ": null,
             "krit_kat": null
@@ -9722,7 +9722,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "66": {
+          "66-66": {
             "trefferpunkte": 0,
             "krit_typ": null,
             "krit_kat": null
@@ -9802,7 +9802,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "50": {
+          "50-50": {
             "trefferpunkte": 0,
             "krit_typ": null,
             "krit_kat": null
@@ -10099,27 +10099,27 @@
             "krit_typ": "K",
             "krit_kat": "C"
           },
-          "100": {
+          "100-100": {
             "trefferpunkte": 15,
             "krit_typ": "S",
             "krit_kat": "C"
           },
-          "99": {
+          "99-99": {
             "trefferpunkte": 15,
             "krit_typ": "K",
             "krit_kat": "C"
           },
-          "98": {
+          "98-98": {
             "trefferpunkte": 15,
             "krit_typ": "S",
             "krit_kat": "C"
           },
-          "97": {
+          "97-97": {
             "trefferpunkte": 14,
             "krit_typ": "K",
             "krit_kat": "C"
           },
-          "96": {
+          "96-96": {
             "trefferpunkte": 14,
             "krit_typ": "S",
             "krit_kat": "C"
@@ -10224,7 +10224,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "75": {
+          "75-75": {
             "trefferpunkte": 9,
             "krit_typ": null,
             "krit_kat": null
@@ -10269,7 +10269,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "66": {
+          "66-66": {
             "trefferpunkte": 0,
             "krit_typ": null,
             "krit_kat": null
@@ -10349,7 +10349,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "50": {
+          "50-50": {
             "trefferpunkte": 0,
             "krit_typ": null,
             "krit_kat": null
@@ -10646,27 +10646,27 @@
             "krit_typ": "S",
             "krit_kat": "B"
           },
-          "100": {
+          "100-100": {
             "trefferpunkte": 14,
             "krit_typ": "K",
             "krit_kat": "B"
           },
-          "99": {
+          "99-99": {
             "trefferpunkte": 13,
             "krit_typ": "S",
             "krit_kat": "B"
           },
-          "98": {
+          "98-98": {
             "trefferpunkte": 13,
             "krit_typ": "K",
             "krit_kat": "B"
           },
-          "97": {
+          "97-97": {
             "trefferpunkte": 13,
             "krit_typ": "S",
             "krit_kat": "B"
           },
-          "96": {
+          "96-96": {
             "trefferpunkte": 13,
             "krit_typ": "K",
             "krit_kat": "A"
@@ -10771,7 +10771,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "75": {
+          "75-75": {
             "trefferpunkte": 0,
             "krit_typ": null,
             "krit_kat": null
@@ -10816,7 +10816,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "66": {
+          "66-66": {
             "trefferpunkte": 0,
             "krit_typ": null,
             "krit_kat": null
@@ -10896,7 +10896,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "50": {
+          "50-50": {
             "trefferpunkte": 0,
             "krit_typ": null,
             "krit_kat": null
@@ -11197,27 +11197,27 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "100": {
+          "100-100": {
             "trefferpunkte": 2,
             "krit_typ": null,
             "krit_kat": null
           },
-          "99": {
+          "99-99": {
             "trefferpunkte": 2,
             "krit_typ": null,
             "krit_kat": null
           },
-          "98": {
+          "98-98": {
             "trefferpunkte": 2,
             "krit_typ": null,
             "krit_kat": null
           },
-          "97": {
+          "97-97": {
             "trefferpunkte": 2,
             "krit_typ": null,
             "krit_kat": null
           },
-          "96": {
+          "96-96": {
             "trefferpunkte": 2,
             "krit_typ": null,
             "krit_kat": null
@@ -11322,7 +11322,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "75": {
+          "75-75": {
             "trefferpunkte": 1,
             "krit_typ": null,
             "krit_kat": null
@@ -11367,7 +11367,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "66": {
+          "66-66": {
             "trefferpunkte": 1,
             "krit_typ": null,
             "krit_kat": null
@@ -11447,7 +11447,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "50": {
+          "50-50": {
             "trefferpunkte": 1,
             "krit_typ": null,
             "krit_kat": null
@@ -11754,27 +11754,27 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "100": {
+          "100-100": {
             "trefferpunkte": 3,
             "krit_typ": null,
             "krit_kat": null
           },
-          "99": {
+          "99-99": {
             "trefferpunkte": 2,
             "krit_typ": null,
             "krit_kat": null
           },
-          "98": {
+          "98-98": {
             "trefferpunkte": 2,
             "krit_typ": null,
             "krit_kat": null
           },
-          "97": {
+          "97-97": {
             "trefferpunkte": 2,
             "krit_typ": null,
             "krit_kat": null
           },
-          "96": {
+          "96-96": {
             "trefferpunkte": 2,
             "krit_typ": null,
             "krit_kat": null
@@ -11879,7 +11879,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "75": {
+          "75-75": {
             "trefferpunkte": 2,
             "krit_typ": null,
             "krit_kat": null
@@ -11924,7 +11924,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "66": {
+          "66-66": {
             "trefferpunkte": 1,
             "krit_typ": null,
             "krit_kat": null
@@ -12004,7 +12004,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "50": {
+          "50-50": {
             "trefferpunkte": 1,
             "krit_typ": null,
             "krit_kat": null
@@ -12311,27 +12311,27 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "100": {
+          "100-100": {
             "trefferpunkte": 2,
             "krit_typ": null,
             "krit_kat": null
           },
-          "99": {
+          "99-99": {
             "trefferpunkte": 2,
             "krit_typ": null,
             "krit_kat": null
           },
-          "98": {
+          "98-98": {
             "trefferpunkte": 2,
             "krit_typ": null,
             "krit_kat": null
           },
-          "97": {
+          "97-97": {
             "trefferpunkte": 2,
             "krit_typ": null,
             "krit_kat": null
           },
-          "96": {
+          "96-96": {
             "trefferpunkte": 2,
             "krit_typ": null,
             "krit_kat": null
@@ -12436,7 +12436,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "75": {
+          "75-75": {
             "trefferpunkte": 1,
             "krit_typ": null,
             "krit_kat": null
@@ -12481,7 +12481,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "66": {
+          "66-66": {
             "trefferpunkte": 1,
             "krit_typ": null,
             "krit_kat": null
@@ -12561,7 +12561,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "50": {
+          "50-50": {
             "trefferpunkte": 0,
             "krit_typ": null,
             "krit_kat": null
@@ -12868,27 +12868,27 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "100": {
+          "100-100": {
             "trefferpunkte": 3,
             "krit_typ": null,
             "krit_kat": null
           },
-          "99": {
+          "99-99": {
             "trefferpunkte": 3,
             "krit_typ": null,
             "krit_kat": null
           },
-          "98": {
+          "98-98": {
             "trefferpunkte": 3,
             "krit_typ": null,
             "krit_kat": null
           },
-          "97": {
+          "97-97": {
             "trefferpunkte": 3,
             "krit_typ": null,
             "krit_kat": null
           },
-          "96": {
+          "96-96": {
             "trefferpunkte": 3,
             "krit_typ": null,
             "krit_kat": null
@@ -12993,7 +12993,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "75": {
+          "75-75": {
             "trefferpunkte": 1,
             "krit_typ": null,
             "krit_kat": null
@@ -13038,7 +13038,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "66": {
+          "66-66": {
             "trefferpunkte": 1,
             "krit_typ": null,
             "krit_kat": null
@@ -13118,7 +13118,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "50": {
+          "50-50": {
             "trefferpunkte": 0,
             "krit_typ": null,
             "krit_kat": null
@@ -13425,27 +13425,27 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "100": {
+          "100-100": {
             "trefferpunkte": 4,
             "krit_typ": null,
             "krit_kat": null
           },
-          "99": {
+          "99-99": {
             "trefferpunkte": 4,
             "krit_typ": null,
             "krit_kat": null
           },
-          "98": {
+          "98-98": {
             "trefferpunkte": 4,
             "krit_typ": null,
             "krit_kat": null
           },
-          "97": {
+          "97-97": {
             "trefferpunkte": 4,
             "krit_typ": null,
             "krit_kat": null
           },
-          "96": {
+          "96-96": {
             "trefferpunkte": 4,
             "krit_typ": null,
             "krit_kat": null
@@ -13550,7 +13550,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "75": {
+          "75-75": {
             "trefferpunkte": 2,
             "krit_typ": null,
             "krit_kat": null
@@ -13595,7 +13595,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "66": {
+          "66-66": {
             "trefferpunkte": 1,
             "krit_typ": null,
             "krit_kat": null
@@ -13675,7 +13675,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "50": {
+          "50-50": {
             "trefferpunkte": null,
             "krit_typ": null,
             "krit_kat": null
@@ -13982,27 +13982,27 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "100": {
+          "100-100": {
             "trefferpunkte": 4,
             "krit_typ": null,
             "krit_kat": null
           },
-          "99": {
+          "99-99": {
             "trefferpunkte": 4,
             "krit_typ": null,
             "krit_kat": null
           },
-          "98": {
+          "98-98": {
             "trefferpunkte": 3,
             "krit_typ": null,
             "krit_kat": null
           },
-          "97": {
+          "97-97": {
             "trefferpunkte": 3,
             "krit_typ": null,
             "krit_kat": null
           },
-          "96": {
+          "96-96": {
             "trefferpunkte": 3,
             "krit_typ": null,
             "krit_kat": null
@@ -14107,7 +14107,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "75": {
+          "75-75": {
             "trefferpunkte": 2,
             "krit_typ": null,
             "krit_kat": null
@@ -14152,7 +14152,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "66": {
+          "66-66": {
             "trefferpunkte": 1,
             "krit_typ": null,
             "krit_kat": null
@@ -14232,7 +14232,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "50": {
+          "50-50": {
             "trefferpunkte": null,
             "krit_typ": null,
             "krit_kat": null
@@ -14539,27 +14539,27 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "100": {
+          "100-100": {
             "trefferpunkte": 5,
             "krit_typ": null,
             "krit_kat": null
           },
-          "99": {
+          "99-99": {
             "trefferpunkte": 5,
             "krit_typ": null,
             "krit_kat": null
           },
-          "98": {
+          "98-98": {
             "trefferpunkte": 5,
             "krit_typ": null,
             "krit_kat": null
           },
-          "97": {
+          "97-97": {
             "trefferpunkte": 4,
             "krit_typ": null,
             "krit_kat": null
           },
-          "96": {
+          "96-96": {
             "trefferpunkte": 4,
             "krit_typ": null,
             "krit_kat": null
@@ -14664,7 +14664,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "75": {
+          "75-75": {
             "trefferpunkte": 2,
             "krit_typ": null,
             "krit_kat": null
@@ -14709,7 +14709,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "66": {
+          "66-66": {
             "trefferpunkte": 1,
             "krit_typ": null,
             "krit_kat": null
@@ -14789,7 +14789,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "50": {
+          "50-50": {
             "trefferpunkte": null,
             "krit_typ": null,
             "krit_kat": null
@@ -14845,7 +14845,7 @@
             "krit_kat": null
           }
         },
-        "13": {
+        "13-13": {
           "150": {
             "trefferpunkte": 10,
             "krit_typ": "P",
@@ -15096,27 +15096,27 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "100": {
+          "100-100": {
             "trefferpunkte": 4,
             "krit_typ": null,
             "krit_kat": null
           },
-          "99": {
+          "99-99": {
             "trefferpunkte": 4,
             "krit_typ": null,
             "krit_kat": null
           },
-          "98": {
+          "98-98": {
             "trefferpunkte": 4,
             "krit_typ": null,
             "krit_kat": null
           },
-          "97": {
+          "97-97": {
             "trefferpunkte": 4,
             "krit_typ": null,
             "krit_kat": null
           },
-          "96": {
+          "96-96": {
             "trefferpunkte": 4,
             "krit_typ": null,
             "krit_kat": null
@@ -15221,7 +15221,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "75": {
+          "75-75": {
             "trefferpunkte": 1,
             "krit_typ": null,
             "krit_kat": null
@@ -15266,7 +15266,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "66": {
+          "66-66": {
             "trefferpunkte": null,
             "krit_typ": null,
             "krit_kat": null
@@ -15346,7 +15346,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "50": {
+          "50-50": {
             "trefferpunkte": null,
             "krit_typ": null,
             "krit_kat": null
@@ -15653,27 +15653,27 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "100": {
+          "100-100": {
             "trefferpunkte": 3,
             "krit_typ": null,
             "krit_kat": null
           },
-          "99": {
+          "99-99": {
             "trefferpunkte": 3,
             "krit_typ": null,
             "krit_kat": null
           },
-          "98": {
+          "98-98": {
             "trefferpunkte": 3,
             "krit_typ": null,
             "krit_kat": null
           },
-          "97": {
+          "97-97": {
             "trefferpunkte": 3,
             "krit_typ": null,
             "krit_kat": null
           },
-          "96": {
+          "96-96": {
             "trefferpunkte": 2,
             "krit_typ": null,
             "krit_kat": null
@@ -15778,7 +15778,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "75": {
+          "75-75": {
             "trefferpunkte": 1,
             "krit_typ": null,
             "krit_kat": null
@@ -15823,7 +15823,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "66": {
+          "66-66": {
             "trefferpunkte": null,
             "krit_typ": null,
             "krit_kat": null
@@ -15903,7 +15903,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "50": {
+          "50-50": {
             "trefferpunkte": null,
             "krit_typ": null,
             "krit_kat": null
@@ -16210,27 +16210,27 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "100": {
+          "100-100": {
             "trefferpunkte": 3,
             "krit_typ": null,
             "krit_kat": null
           },
-          "99": {
+          "99-99": {
             "trefferpunkte": 3,
             "krit_typ": null,
             "krit_kat": null
           },
-          "98": {
+          "98-98": {
             "trefferpunkte": 3,
             "krit_typ": null,
             "krit_kat": null
           },
-          "97": {
+          "97-97": {
             "trefferpunkte": 3,
             "krit_typ": null,
             "krit_kat": null
           },
-          "96": {
+          "96-96": {
             "trefferpunkte": 3,
             "krit_typ": null,
             "krit_kat": null
@@ -16335,7 +16335,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "75": {
+          "75-75": {
             "trefferpunkte": null,
             "krit_typ": null,
             "krit_kat": null
@@ -16380,7 +16380,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "66": {
+          "66-66": {
             "trefferpunkte": null,
             "krit_typ": null,
             "krit_kat": null
@@ -16460,7 +16460,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "50": {
+          "50-50": {
             "trefferpunkte": null,
             "krit_typ": null,
             "krit_kat": null
@@ -16767,27 +16767,27 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "100": {
+          "100-100": {
             "trefferpunkte": 5,
             "krit_typ": null,
             "krit_kat": null
           },
-          "99": {
+          "99-99": {
             "trefferpunkte": 4,
             "krit_typ": null,
             "krit_kat": null
           },
-          "98": {
+          "98-98": {
             "trefferpunkte": 4,
             "krit_typ": null,
             "krit_kat": null
           },
-          "97": {
+          "97-97": {
             "trefferpunkte": 4,
             "krit_typ": null,
             "krit_kat": null
           },
-          "96": {
+          "96-96": {
             "trefferpunkte": 4,
             "krit_typ": null,
             "krit_kat": null
@@ -16892,7 +16892,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "75": {
+          "75-75": {
             "trefferpunkte": 1,
             "krit_typ": null,
             "krit_kat": null
@@ -16937,7 +16937,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "66": {
+          "66-66": {
             "trefferpunkte": null,
             "krit_typ": null,
             "krit_kat": null
@@ -17017,7 +17017,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "50": {
+          "50-50": {
             "trefferpunkte": null,
             "krit_typ": null,
             "krit_kat": null
@@ -17324,27 +17324,27 @@
             "krit_typ": "S",
             "krit_kat": "A"
           },
-          "100": {
+          "100-100": {
             "trefferpunkte": 4,
             "krit_typ": "P",
             "krit_kat": "A"
           },
-          "99": {
+          "99-99": {
             "trefferpunkte": 4,
             "krit_typ": "S",
             "krit_kat": "A"
           },
-          "98": {
+          "98-98": {
             "trefferpunkte": 3,
             "krit_typ": "P",
             "krit_kat": "A"
           },
-          "97": {
+          "97-97": {
             "trefferpunkte": 3,
             "krit_typ": "K",
             "krit_kat": "A"
           },
-          "96": {
+          "96-96": {
             "trefferpunkte": 3,
             "krit_typ": null,
             "krit_kat": null
@@ -17449,7 +17449,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "75": {
+          "75-75": {
             "trefferpunkte": null,
             "krit_typ": null,
             "krit_kat": null
@@ -17494,7 +17494,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "66": {
+          "66-66": {
             "trefferpunkte": null,
             "krit_typ": null,
             "krit_kat": null
@@ -17574,7 +17574,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "50": {
+          "50-50": {
             "trefferpunkte": null,
             "krit_typ": null,
             "krit_kat": null
@@ -17881,27 +17881,27 @@
             "krit_typ": "S",
             "krit_kat": "A"
           },
-          "100": {
+          "100-100": {
             "trefferpunkte": 5,
             "krit_typ": "S",
             "krit_kat": "A"
           },
-          "99": {
+          "99-99": {
             "trefferpunkte": 5,
             "krit_typ": "P",
             "krit_kat": "A"
           },
-          "98": {
+          "98-98": {
             "trefferpunkte": 5,
             "krit_typ": "S",
             "krit_kat": "A"
           },
-          "97": {
+          "97-97": {
             "trefferpunkte": 5,
             "krit_typ": "P",
             "krit_kat": "A"
           },
-          "96": {
+          "96-96": {
             "trefferpunkte": 5,
             "krit_typ": "K",
             "krit_kat": "A"
@@ -18006,7 +18006,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "75": {
+          "75-75": {
             "trefferpunkte": 4,
             "krit_typ": null,
             "krit_kat": null
@@ -18051,7 +18051,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "66": {
+          "66-66": {
             "trefferpunkte": 3,
             "krit_typ": null,
             "krit_kat": null
@@ -18131,7 +18131,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "50": {
+          "50-50": {
             "trefferpunkte": null,
             "krit_typ": null,
             "krit_kat": null
@@ -18438,27 +18438,27 @@
             "krit_typ": "S",
             "krit_kat": "A"
           },
-          "100": {
+          "100-100": {
             "trefferpunkte": 5,
             "krit_typ": "P",
             "krit_kat": "A"
           },
-          "99": {
+          "99-99": {
             "trefferpunkte": 5,
             "krit_typ": "S",
             "krit_kat": "A"
           },
-          "98": {
+          "98-98": {
             "trefferpunkte": 5,
             "krit_typ": "P",
             "krit_kat": "A"
           },
-          "97": {
+          "97-97": {
             "trefferpunkte": 5,
             "krit_typ": "S",
             "krit_kat": "A"
           },
-          "96": {
+          "96-96": {
             "trefferpunkte": 5,
             "krit_typ": "P",
             "krit_kat": "A"
@@ -18563,7 +18563,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "75": {
+          "75-75": {
             "trefferpunkte": 3,
             "krit_typ": null,
             "krit_kat": null
@@ -18608,7 +18608,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "66": {
+          "66-66": {
             "trefferpunkte": 3,
             "krit_typ": null,
             "krit_kat": null
@@ -18688,7 +18688,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "50": {
+          "50-50": {
             "trefferpunkte": null,
             "krit_typ": null,
             "krit_kat": null
@@ -18995,27 +18995,27 @@
             "krit_typ": "S",
             "krit_kat": "A"
           },
-          "100": {
+          "100-100": {
             "trefferpunkte": 7,
             "krit_typ": "P",
             "krit_kat": "A"
           },
-          "99": {
+          "99-99": {
             "trefferpunkte": 7,
             "krit_typ": "S",
             "krit_kat": "A"
           },
-          "98": {
+          "98-98": {
             "trefferpunkte": 6,
             "krit_typ": "P",
             "krit_kat": "A"
           },
-          "97": {
+          "97-97": {
             "trefferpunkte": 6,
             "krit_typ": "S",
             "krit_kat": "A"
           },
-          "96": {
+          "96-96": {
             "trefferpunkte": 6,
             "krit_typ": "P",
             "krit_kat": "A"
@@ -19120,7 +19120,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "75": {
+          "75-75": {
             "trefferpunkte": 3,
             "krit_typ": null,
             "krit_kat": null
@@ -19165,7 +19165,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "66": {
+          "66-66": {
             "trefferpunkte": null,
             "krit_typ": null,
             "krit_kat": null
@@ -19245,7 +19245,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "50": {
+          "50-50": {
             "trefferpunkte": null,
             "krit_typ": null,
             "krit_kat": null
@@ -19552,27 +19552,27 @@
             "krit_typ": "P",
             "krit_kat": "B"
           },
-          "100": {
+          "100-100": {
             "trefferpunkte": 7,
             "krit_typ": "S",
             "krit_kat": "B"
           },
-          "99": {
+          "99-99": {
             "trefferpunkte": 7,
             "krit_typ": "P",
             "krit_kat": "B"
           },
-          "98": {
+          "98-98": {
             "trefferpunkte": 7,
             "krit_typ": "S",
             "krit_kat": "B"
           },
-          "97": {
+          "97-97": {
             "trefferpunkte": 7,
             "krit_typ": "P",
             "krit_kat": "A"
           },
-          "96": {
+          "96-96": {
             "trefferpunkte": 7,
             "krit_typ": "S",
             "krit_kat": "A"
@@ -19677,7 +19677,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "75": {
+          "75-75": {
             "trefferpunkte": 3,
             "krit_typ": null,
             "krit_kat": null
@@ -19722,7 +19722,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "66": {
+          "66-66": {
             "trefferpunkte": null,
             "krit_typ": null,
             "krit_kat": null
@@ -19802,7 +19802,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "50": {
+          "50-50": {
             "trefferpunkte": null,
             "krit_typ": null,
             "krit_kat": null
@@ -20109,27 +20109,27 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "100": {
+          "100-100": {
             "trefferpunkte": 4,
             "krit_typ": null,
             "krit_kat": null
           },
-          "99": {
+          "99-99": {
             "trefferpunkte": 4,
             "krit_typ": null,
             "krit_kat": null
           },
-          "98": {
+          "98-98": {
             "trefferpunkte": 4,
             "krit_typ": null,
             "krit_kat": null
           },
-          "97": {
+          "97-97": {
             "trefferpunkte": 3,
             "krit_typ": null,
             "krit_kat": null
           },
-          "96": {
+          "96-96": {
             "trefferpunkte": 3,
             "krit_typ": null,
             "krit_kat": null
@@ -20234,7 +20234,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "75": {
+          "75-75": {
             "trefferpunkte": null,
             "krit_typ": null,
             "krit_kat": null
@@ -20279,7 +20279,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "66": {
+          "66-66": {
             "trefferpunkte": null,
             "krit_typ": null,
             "krit_kat": null
@@ -20359,7 +20359,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "50": {
+          "50-50": {
             "trefferpunkte": null,
             "krit_typ": null,
             "krit_kat": null
@@ -20666,27 +20666,27 @@
             "krit_typ": "P",
             "krit_kat": "A"
           },
-          "100": {
+          "100-100": {
             "trefferpunkte": 6,
             "krit_typ": "S",
             "krit_kat": "A"
           },
-          "99": {
+          "99-99": {
             "trefferpunkte": 6,
             "krit_typ": null,
             "krit_kat": null
           },
-          "98": {
+          "98-98": {
             "trefferpunkte": 6,
             "krit_typ": null,
             "krit_kat": null
           },
-          "97": {
+          "97-97": {
             "trefferpunkte": 6,
             "krit_typ": null,
             "krit_kat": null
           },
-          "96": {
+          "96-96": {
             "trefferpunkte": 6,
             "krit_typ": null,
             "krit_kat": null
@@ -20791,7 +20791,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "75": {
+          "75-75": {
             "trefferpunkte": null,
             "krit_typ": null,
             "krit_kat": null
@@ -20836,7 +20836,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "66": {
+          "66-66": {
             "trefferpunkte": null,
             "krit_typ": null,
             "krit_kat": null
@@ -20916,7 +20916,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "50": {
+          "50-50": {
             "trefferpunkte": null,
             "krit_typ": null,
             "krit_kat": null
@@ -21223,27 +21223,27 @@
             "krit_typ": "S",
             "krit_kat": "B"
           },
-          "100": {
+          "100-100": {
             "trefferpunkte": 9,
             "krit_typ": "P",
             "krit_kat": "B"
           },
-          "99": {
+          "99-99": {
             "trefferpunkte": 9,
             "krit_typ": "S",
             "krit_kat": "B"
           },
-          "98": {
+          "98-98": {
             "trefferpunkte": 9,
             "krit_typ": "P",
             "krit_kat": "B"
           },
-          "97": {
+          "97-97": {
             "trefferpunkte": 9,
             "krit_typ": "S",
             "krit_kat": "B"
           },
-          "96": {
+          "96-96": {
             "trefferpunkte": 9,
             "krit_typ": "P",
             "krit_kat": "A"
@@ -21348,7 +21348,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "75": {
+          "75-75": {
             "trefferpunkte": null,
             "krit_typ": null,
             "krit_kat": null
@@ -21393,7 +21393,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "66": {
+          "66-66": {
             "trefferpunkte": null,
             "krit_typ": null,
             "krit_kat": null
@@ -21473,7 +21473,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "50": {
+          "50-50": {
             "trefferpunkte": null,
             "krit_typ": null,
             "krit_kat": null
@@ -21780,27 +21780,27 @@
             "krit_typ": "P",
             "krit_kat": "A"
           },
-          "100": {
+          "100-100": {
             "trefferpunkte": 9,
             "krit_typ": "S",
             "krit_kat": "A"
           },
-          "99": {
+          "99-99": {
             "trefferpunkte": 9,
             "krit_typ": "P",
             "krit_kat": "A"
           },
-          "98": {
+          "98-98": {
             "trefferpunkte": 9,
             "krit_typ": "S",
             "krit_kat": "A"
           },
-          "97": {
+          "97-97": {
             "trefferpunkte": 8,
             "krit_typ": "P",
             "krit_kat": "A"
           },
-          "96": {
+          "96-96": {
             "trefferpunkte": 8,
             "krit_typ": "K",
             "krit_kat": "A"
@@ -21905,7 +21905,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "75": {
+          "75-75": {
             "trefferpunkte": null,
             "krit_typ": null,
             "krit_kat": null
@@ -21950,7 +21950,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "66": {
+          "66-66": {
             "trefferpunkte": null,
             "krit_typ": null,
             "krit_kat": null
@@ -22030,7 +22030,7 @@
             "krit_typ": null,
             "krit_kat": null
           },
-          "50": {
+          "50-50": {
             "trefferpunkte": null,
             "krit_typ": null,
             "krit_kat": null

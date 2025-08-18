@@ -8,6 +8,11 @@ h1 {
   text-shadow: 1px 1px 2px #000;
 }
 
+.header-title {
+  flex-grow: 1;
+  text-align: center;
+}
+
 .result.crit-prominent {
   font-size: 1.25em;
   font-weight: bold;
@@ -36,15 +41,40 @@ h1 {
   align-items: center;
 }
 
+.selection-container>div>label {
+  margin-bottom: 10px;
+  display: inline-block;
+}
+
+/* Neue Container-Klasse für die RK- und Gegnertyp-Buttons */
+.rk-und-gegner {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  /* Stellt sicher, dass alle Buttons an der gleichen Grundlinie sind */
+  gap: 16px;
+  flex-wrap: wrap;
+  /* Erlaubt Umbruch auf kleineren Bildschirmen */
+}
+
+/* Container für die Gegnertyp-Buttons mit korrektem Layout */
+.gegner-typ-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
 /*
   ========================================
   WAFFEN- & RÜSTUNGS-AUSWAHL
   ========================================
 */
 
-/* Basis-Stil für alle Auswahl-Buttons (Waffe & RK) */
+/* Basis-Stil für alle Auswahl-Buttons */
 .weapon-grid button,
-.rk button {
+.rk button,
+.gegner-typ button {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -59,28 +89,25 @@ h1 {
   background-color: var(--chip);
 }
 
-/* KORREKTUR 1: Bildausschnitt vergrössern */
-.weapon-grid button {
-  background-size: contain;
-  /* Zeigt das ganze Bild, statt es zu beschneiden */
-}
-
-.rk button {
+/* KORREKTUR: Einheitliches Styling für alle Buttons, die ein Bild haben */
+.weapon-grid button,
+.rk button,
+.gegner-typ button {
   background-size: cover;
-  /* Behält den Zoom-Effekt für Rüstungen bei */
 }
-
 
 /* Hover-Effekt für alle Auswahl-Buttons */
 .weapon-grid button:hover,
-.rk button:hover {
-  transform: translateY(-px);
+.rk button:hover,
+.gegner-typ button:hover {
+  transform: translateY(-2px);
   box-shadow: var(--shadow);
 }
 
 /* Aktiver Zustand für alle Auswahl-Buttons */
 .weapon-grid button.active,
-.rk button.active {
+.rk button.active,
+.gegner-typ button.active {
   box-shadow: 0 0 10px 3px var(--accent);
   border-color: var(--accent);
   background-color: transparent;
@@ -88,15 +115,16 @@ h1 {
 
 /* Text im aktiven Zustand */
 .weapon-grid button.active span,
-.rk button.active span {
+.rk button.active span,
+.gegner-typ button.active span {
   color: var(--accent-2);
-  text-shadow: 2px 2px 5px var(--bg), 0 0 5px var(--accent-2);
+  text-shadow: 1px 1px 3px var(--bg);
 }
 
 /* Spezifische Layouts */
 .weapon-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
   gap: 8px;
   width: 100%;
   max-width: 350px;
@@ -113,7 +141,6 @@ h1 {
 /* Spezifische Button-Größen & Typo */
 .weapon-grid button {
   height: 45px;
-  /* KORREKTUR 2: Padding angepasst, um Abschneiden zu verhindern */
   padding: 0 8px;
 }
 
@@ -124,14 +151,14 @@ h1 {
 }
 
 .weapon-grid button span,
-.rk button span {
+.rk button span,
+.gegner-typ button span {
   position: relative;
   z-index: 1;
   font-family: 'Aniron', Georgia, serif;
   text-shadow: 1px 1px 3px var(--bg);
   text-align: center;
   line-height: 1.2;
-  /* Zeilenhöhe leicht erhöht */
 }
 
 .weapon-grid button span {
@@ -142,6 +169,66 @@ h1 {
 .rk button span {
   font-size: 20px;
   color: var(--accent);
+}
+
+/* Zusätzliches Styling für Gegnertyp-Buttons */
+.gegner-typ {
+  display: flex;
+  gap: 8px;
+}
+
+.gegner-typ button {
+  width: 80px;
+  /* Breiterer Button */
+  height: 40px;
+  /* Weniger hoher Button */
+  font-family: 'Aniron', Georgia, serif;
+  /* Schriftart anpassen */
+  color: var(--text);
+  /* Schriftfarbe wieder sichtbar machen */
+}
+
+.gegner-typ button::after {
+  display: none;
+}
+
+.gegner-typ button span {
+  display: none;
+  /* Versteckt den Text in den Buttons, um nur das Bild zu zeigen */
+}
+
+/* Hintergrundbilder für die Gegnertyp-Buttons */
+.gegner-typ button[data-gegner-typ="normal"] {
+  background-image: url('../assets/icons/gegner_normal.png');
+}
+
+.gegner-typ button[data-gegner-typ="gross"] {
+  background-image: url('../assets/icons/gegner_gross.png');
+}
+
+.gegner-typ button[data-gegner-typ="gewaltig"] {
+  background-image: url('../assets/icons/gegner_gewaltig.png');
+}
+
+/* Textlabels unter den Buttons */
+.gegner-typ-container {
+  position: relative;
+  text-align: center;
+}
+
+.gegner-typ-container label {
+  margin-bottom: 8px;
+}
+
+.gegner-typ button::after {
+  content: attr(data-gegner-typ);
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  font-weight: bold;
+  color: var(--text-2);
 }
 
 /* Hintergrundbilder für Waffen */
@@ -201,8 +288,6 @@ h1 {
   background-image: url('../assets/icons/langbogen.png');
 }
 
-/* ... weitere Waffen-Icons hier einfügen */
-
 /* Hintergrundbilder für Rüstungen */
 div.rk button[data-rk="1"],
 div.rk button[data-rk="2"],
@@ -225,7 +310,7 @@ div.rk button[data-rk="12"] {
   background-image: url('../assets/icons/heavy_leather.png');
 }
 
-div.rk button[data-rk="13"],
+div.rk button[data-rk="13-13"],
 div.rk button[data-rk="14"],
 div.rk button[data-rk="15"],
 div.rk button[data-rk="16"] {
@@ -270,37 +355,21 @@ div.rk button[data-rk="20"] {
 }
 
 /* Schriftfarbe für RK 13-16 */
-.rk button[data-rk="13"] span,
+.rk button[data-rk="13-13"] span,
 .rk button[data-rk="14"] span,
 .rk button[data-rk="15"] span,
 .rk button[data-rk="16"] span {
   color: #d5daea;
 }
 
-/* KORREKTUR 3: Spezifische Regeln für den aktiven Zustand, um die Farbänderung zu erzwingen */
-.rk button[data-rk="1"].active span,
-.rk button[data-rk="2"].active span,
-.rk button[data-rk="3"].active span,
-.rk button[data-rk="4"].active span,
-.rk button[data-rk="5"].active span,
-.rk button[data-rk="6"].active span,
-.rk button[data-rk="7"].active span,
-.rk button[data-rk="8"].active span,
-.rk button[data-rk="9"].active span,
-.rk button[data-rk="10"].active span,
-.rk button[data-rk="11"].active span,
-.rk button[data-rk="12"].active span,
-.rk button[data-rk="13"].active span,
-.rk button[data-rk="14"].active span,
-.rk button[data-rk="15"].active span,
-.rk button[data-rk="16"].active span {
-  color: var(--accent-2);
-  /* Setzt die aktive Farbe */
+/* Korrekte Farbänderung bei aktivem Zustand */
+.rk button.active span {
+  color: var(--accent-2) !important;
 }
 
 /*
   ========================================
-  KORREKTUR FÜR KLEINE BILDSCHIRME (z. B. iPhone SE)
+  KORREKTUR FÜR KLEINE BILDSCHIRME
   ========================================
 */
 @media (max-width: 420px) {
@@ -321,7 +390,6 @@ div.rk button[data-rk="20"] {
   .weapon-grid {
     grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
     max-width: 100%;
-    /* volle Breite erlauben */
   }
 
   .weapon-grid button {

@@ -37,6 +37,66 @@ for (let i = 1; i <= 20; i++) {
   rkWrap.appendChild(b);
 }
 
+// Logik für Gegnertyp-Buttons
+const gegnerTypWrap = $('#gegnerTyp');
+const critTypeDropdown = $('#critType');
+const critCatDropdown = $('#critCat');
+
+gegnerTypWrap.addEventListener('click', (e) => {
+  const targetBtn = e.target.closest('button');
+  if (targetBtn) {
+    $$('#gegnerTyp button').forEach(b => b.classList.remove('active'));
+    targetBtn.classList.add('active');
+
+    const gegnerTyp = targetBtn.dataset.gegnerTyp;
+
+    // Aktualisiert das Krit-Typ-Dropdown
+    if (gegnerTyp === 'gross') {
+      critTypeDropdown.value = 'Grosse_Wesen';
+    } else if (gegnerTyp === 'gewaltig') {
+      critTypeDropdown.value = 'Gewaltige_Wesen';
+    } else {
+      critTypeDropdown.value = '';
+    }
+
+    // Dynamisches Befüllen des Kategorien-Dropdowns
+    const selectedTableKey = critTypeDropdown.value;
+    const kritKategorien = tables?.[selectedTableKey] ? Object.keys(tables[selectedTableKey]).filter(k => k !== 'audioFile') : [];
+
+    critCatDropdown.innerHTML = '';
+    if (kritKategorien.length > 0) {
+      kritKategorien.forEach(kat => {
+        const opt = document.createElement('option');
+        opt.value = kat;
+        opt.textContent = kat;
+        critCatDropdown.appendChild(opt);
+      });
+    }
+
+    // Setzt den ersten Eintrag als Standard
+    if (critCatDropdown.options.length > 0) {
+      critCatDropdown.value = critCatDropdown.options[0].value;
+    }
+  }
+});
+
+// NEU: Aktualisiert das Kategorie-Dropdown, wenn sich der Krit-Typ ändert
+critTypeDropdown.addEventListener('change', () => {
+  const selectedTableKey = critTypeDropdown.value;
+  const kritKategorien = tables?.[selectedTableKey] ? Object.keys(tables[selectedTableKey]).filter(k => k !== 'audioFile') : [];
+
+  critCatDropdown.innerHTML = '';
+  if (kritKategorien.length > 0) {
+    kritKategorien.forEach(kat => {
+      const opt = document.createElement('option');
+      opt.value = kat;
+      opt.textContent = kat;
+      critCatDropdown.appendChild(opt);
+    });
+    critCatDropdown.value = kritKategorien[0]; // Ersten Eintrag als Standard setzen
+  }
+});
+
 // NEUE FUNKTION: Passt die Schriftgrösse der Waffen-Buttons an
 function adjustWeaponFontSizes() {
   const weaponButtons = $$('#weaponWrap button');
@@ -86,32 +146,109 @@ async function loadData() {
     btn.appendChild(label);
 
     btn.addEventListener('click', () => {
-      selectedWeapon = k;
       $$('#weaponWrap button').forEach(x => x.classList.remove('active'));
       btn.classList.add('active');
+      selectedWeapon = k;
     });
 
     wSelWrap.appendChild(btn);
   });
 
-  // Standard-Waffe auswählen
   if (waffen.length) {
-    selectedWeapon = waffen[0];
-    $(`button[data-weapon="${selectedWeapon}"]`)?.classList.add('active');
+    const defaultWeaponBtn = $(`#weaponWrap button[data-weapon="${waffen[0]}"]`);
+    if (defaultWeaponBtn) {
+      defaultWeaponBtn.classList.add('active');
+      selectedWeapon = waffen[0];
+    }
   }
-
-  // NEUER AUFRUF: Passt die Schriftgrössen an, nachdem die Buttons erstellt wurden
   adjustWeaponFontSizes();
 
-  // Nebentreffer-Typen aus tables.json
+  // Funktion zum Befüllen der Dropdown-Menüs
+  function populateCritDropdowns(dropdown, isMainCrit = true) {
+    dropdown.innerHTML = '';
+    if (isMainCrit) {
+      const defaultOption = document.createElement('option');
+      defaultOption.value = '';
+      defaultOption.textContent = '(automatisch aus Schritt 1 übernommen)';
+      dropdown.appendChild(defaultOption);
+    } else {
+      const defaultOption = document.createElement('option');
+      defaultOption.value = '';
+      defaultOption.textContent = '(eine wählen)';
+      dropdown.appendChild(defaultOption);
+    }
+
+    const critCategories = {
+      'Normal': ['Hieb', 'Stich', 'Stoss', 'Streich'],
+      'Magisch': ['Elektro', 'Hitze', 'Kälte', 'Schlag'],
+      'Gross & Gewaltig': ['Grosse Wesen', 'Gewaltige Wesen'],
+      'Helden': ['Hieb (Held)', 'Stich (Held)', 'Stoss (Held)', 'Streich (Held)'],
+      'Patzer': ['Allgemeine Patzer', "Waffenpatzer"]
+    };
+
+    if (!isMainCrit) {
+      delete critCategories['Helden'];
+      delete critCategories['Patzer'];
+    }
+
+    for (const [groupName, keys] of Object.entries(critCategories)) {
+      const optgroup = document.createElement('optgroup');
+      optgroup.label = groupName;
+
+      keys.forEach(key => {
+        if (tables[key]) {
+          const opt = document.createElement('option');
+          opt.value = key;
+          opt.textContent = key.replace(/_/g, ' ');
+          optgroup.appendChild(opt);
+        }
+      });
+
+      if (optgroup.children.length > 0) {
+        dropdown.appendChild(optgroup);
+      }
+    }
+  }
+
+  // Dropdowns mit den neuen Kategorien befüllen
+  populateCritDropdowns($('#critType'), true);
+  populateCritDropdowns($('#sideType'), false);
+
+  // Initiales Befüllen des Krit-Kategorie-Dropdowns
+  const critCatDropdown = $('#critCat');
+  const defaultCritTable = tables?.['Stich']; // Standardwert für initiales Befüllen
+  if (defaultCritTable) {
+    const categories = Object.keys(defaultCritTable).filter(k => k !== 'audioFile');
+    categories.forEach(cat => {
+      const opt = document.createElement('option');
+      opt.value = cat;
+      opt.textContent = cat;
+      critCatDropdown.appendChild(opt);
+    });
+  }
+
+  // Event-Listener für Nebentreffer-Tabelle (unverändert)
   const sideSel = $('#sideType');
-  sideSel.innerHTML = '<option value="">(eine wählen)</option>';
-  Object.keys(tables || {}).forEach(key => {
-    const opt = document.createElement('option');
-    opt.value = key;
-    opt.textContent = key;
-    sideSel.appendChild(opt);
+  sideSel.addEventListener('change', () => {
+    const selectedSideTable = sideSel.value;
+    const sideCatDropdown = $('#sideCat');
+    sideCatDropdown.innerHTML = '';
+    if (selectedSideTable && tables[selectedSideTable]) {
+      const categories = Object.keys(tables[selectedSideTable]).filter(k => k !== 'audioFile');
+      categories.forEach(cat => {
+        const opt = document.createElement('option');
+        opt.value = cat;
+        opt.textContent = cat;
+        sideCatDropdown.appendChild(opt);
+      });
+    }
   });
+
+  // Standardauswahl für Nebentreffer-Dropdown
+  if (sideSel.options.length > 1) {
+    sideSel.value = sideSel.options[1].value;
+    sideSel.dispatchEvent(new Event('change'));
+  }
 }
 
 // Utility: nächstniedrigerer Key im Objekt (number keys)
@@ -127,6 +264,7 @@ function floorKey(obj, target) {
 
 // Angriff berechnen
 $('#calcAttack').addEventListener('click', () => {
+  // --- Initiales Setup (unverändert) ---
   const weaponKey = selectedWeapon;
   const rk = parseInt($('#rk button.active')?.dataset.rk || '3', 10);
   const attack = parseInt($('#attack').value, 10);
@@ -135,6 +273,7 @@ $('#calcAttack').addEventListener('click', () => {
   const res = out.querySelector('.result');
 
   kpi.innerHTML = '';
+  res.innerHTML = ''; // Vorheriges Ergebnis leeren
   res.classList.remove('muted');
   res.classList.remove('crit-prominent');
 
@@ -143,7 +282,7 @@ $('#calcAttack').addEventListener('click', () => {
     res.textContent = '⚠️ Keine Angriffsdaten gefunden.';
     return;
   }
-  if (Number.isNaN(attack)) {
+  if (isNaN(attack)) {
     res.textContent = 'Bitte einen Angriffswert eingeben.';
     return;
   }
@@ -154,40 +293,124 @@ $('#calcAttack').addEventListener('click', () => {
     return;
   }
 
-  const fk = floorKey(rkBlock, attack);
-  if (fk === null) {
-    res.textContent = 'Kein passender Eintrag (Wert zu niedrig).';
+  // --- NEUE LOGIK ZUR KUMULATIVEN BERECHNUNG ---
+  let remainingAttack = attack;
+  let totalTp = 0;
+  let firstKrit = { typ: '', kat: '' };
+  let isFirstLookup = true;
+  const calculationSteps = [];
+
+  if (attack <= 0) {
+    res.textContent = 'Kein Schaden bei Angriffswert ≤ 0.';
+    kpi.append(chip(`Waffe: ${weaponKey.replace(/_/g, ' ')}`));
+    kpi.append(chip(`RK: ${rk}`));
+    kpi.append(chip(`Angriffswert: ${attack}`));
     return;
   }
 
-  const entry = rkBlock[String(fk)];
-  const tp = entry.trefferpunkte ?? '—';
-  const kt = entry.krit_typ || '';
-  const kk = entry.krit_kat || '';
+  while (remainingAttack > 0) {
+    const fk = floorKey(rkBlock, remainingAttack);
+    if (fk === null) {
+      calculationSteps.push({ attack: remainingAttack, tp: 0, key: '(< Minimum)' });
+      break;
+    }
 
-  autoCrit.typ = mapCritName(kt) || '';
-  autoCrit.kat = kk || '';
+    const entry = rkBlock[String(fk)];
+    const currentTp = entry.trefferpunkte ?? 0;
+    totalTp += currentTp;
+    calculationSteps.push({ attack: remainingAttack, tp: currentTp, key: fk });
+
+    if (isFirstLookup) {
+      firstKrit.typ = entry.krit_typ || '';
+      firstKrit.kat = entry.krit_kat || '';
+      isFirstLookup = false;
+    }
+
+    remainingAttack -= 150;
+  }
+
+  const gegnerTyp = $('#gegnerTyp button.active')?.dataset.gegnerTyp || 'normal';
+  let minKat = 'A';
+  if (gegnerTyp === 'gross') minKat = 'B';
+  if (gegnerTyp === 'gewaltig') minKat = 'D';
+
+  if (firstKrit.kat && firstKrit.kat < minKat) {
+    firstKrit = { typ: '', kat: '' };
+  }
+
+  // Krit-Typ für Anzeige und Dropdown anpassen
+  if (gegnerTyp === 'gross' && firstKrit.typ) {
+    firstKrit.typ = 'Grosse Wesen';
+  } else if (gegnerTyp === 'gewaltig' && firstKrit.typ) {
+    firstKrit.typ = 'Gewaltige Wesen';
+  }
+
+  autoCrit.typ = mapCritName(firstKrit.typ) || firstKrit.typ || '';
+  autoCrit.kat = firstKrit.kat || '';
 
   const label = weaponKey.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
   kpi.append(chip(`Waffe: ${label}`));
   kpi.append(chip(`RK: ${rk}`));
-  kpi.append(chip(`Tabelleneintrag: ${fk}`));
+  kpi.append(chip(`Angriffswert: ${attack}`));
 
   const pillz = document.createElement('div');
   pillz.className = 'kpi';
-  pillz.append(pill('Trefferpunkte', String(tp), 'ok'));
-  if (kt && kk) {
-    pillz.append(pill('Krit', `${kt}-${kk}`, 'warn'));
-    $('#critType').value = autoCrit.typ || '';
-    $('#critCat').value = autoCrit.kat || '';
+  pillz.append(pill('Gesamttreffer', String(totalTp), 'ok'));
+
+  if (firstKrit.typ && firstKrit.kat) {
+    const kritAnzeige = (gegnerTyp !== 'normal') ? firstKrit.typ : `${firstKrit.typ}-${firstKrit.kat}`;
+    pillz.append(pill('Krit', kritAnzeige, 'warn'));
+
+    // Dropdown für Krit-Typ aktualisieren
+    const critTypeDropdown = $('#critType');
+    critTypeDropdown.value = autoCrit.typ;
+
+    // Dropdown für Kategorien aktualisieren
+    const critCatDropdown = $('#critCat');
+
+    // Befüllt Kategorien dynamisch, falls es sich um grosse/gewaltige Wesen handelt
+    const critTable = tables?.[autoCrit.typ];
+    if (critTable && (gegnerTyp === 'gross' || gegnerTyp === 'gewaltig')) {
+      const kritKategorien = Object.keys(critTable).filter(k => k !== 'audioFile');
+      critCatDropdown.innerHTML = '';
+      kritKategorien.forEach(kat => {
+        const opt = document.createElement('option');
+        opt.value = kat;
+        opt.textContent = kat;
+        critCatDropdown.appendChild(opt);
+      });
+    } else {
+      // Für normale Gegner: Stellt sicher, dass die Kategorien A-E vorhanden sind
+      // und die richtige Kategorie ausgewählt wird.
+      critCatDropdown.innerHTML = '';
+      const normalCategories = ['A', 'B', 'C', 'D', 'E'];
+      normalCategories.forEach(cat => {
+        const opt = document.createElement('option');
+        opt.value = cat;
+        opt.textContent = cat;
+        critCatDropdown.appendChild(opt);
+      });
+    }
+    critCatDropdown.value = autoCrit.kat;
   } else {
     pillz.append(pill('Krit', '—', ''));
   }
-  res.innerHTML = '';
   res.append(pillz);
 
-  if (isBgMusicPlaying && autoCrit.typ) {
-    tryStartBgAudio(autoCrit.typ);
+  if (calculationSteps.length > 1) {
+    const details = document.createElement('details');
+    const summary = document.createElement('summary');
+    summary.textContent = 'Berechnungsdetails anzeigen';
+    details.appendChild(summary);
+    const stepsList = document.createElement('ul');
+    stepsList.style.cssText = 'font-size: 12px; margin-top: 8px; padding-left: 20px; list-style-type: disc;';
+    calculationSteps.forEach(step => {
+      const li = document.createElement('li');
+      li.textContent = `AW ${step.attack} (Eintrag: ${step.key}) → ${step.tp} TP`;
+      stepsList.appendChild(li);
+    });
+    details.appendChild(stepsList);
+    res.append(details);
   }
 });
 
@@ -203,27 +426,42 @@ $('#calcCrit').addEventListener('click', () => {
   kpi.innerHTML = '';
   res.classList.remove('muted');
 
-  if (!roll || roll < 1 || roll > 100) {
-    res.textContent = 'Bitte Wurf (1–100) eingeben.';
-    return;
-  }
-  if (!typSel || !katSel) {
+  const critTable = tables?.[typSel]?.[katSel];
+
+  if (!typSel || !katSel || !critTable) {
     res.textContent = 'Krit-Typ und -Kategorie festlegen (oder Schritt 1 ausführen).';
     return;
   }
 
-  const found = lookupCritEntry(typSel, katSel, roll);
-  if (!found) {
-    res.textContent = `Kein Eintrag gefunden für ${typSel} ${katSel} (${roll}).`;
+  // NEU: Vereinfachte dynamische Validierung
+  const ranges = Object.keys(critTable);
+  if (ranges.length === 0) {
+    res.textContent = `Keine Daten für ${typSel.replace(/_/g, ' ')} ${katSel} gefunden.`;
     return;
   }
 
-  const {
-    text,
-    key
-  } = found;
+  const firstRange = ranges[0];
+  const lastRange = ranges[ranges.length - 1];
 
-  kpi.append(chip(`Typ: ${typSel}`));
+  const minRoll = parseInt(firstRange.split('-')[0], 10);
+  const maxRoll = parseInt(lastRange.split('-')[1], 10);
+
+  // Angepasste Fehlermeldung
+  if (isNaN(roll) || roll < minRoll || roll > maxRoll) {
+    res.textContent = `Bitte Wurf (${minRoll}–${maxRoll}) eingeben.`;
+    return;
+  }
+
+  const found = lookupCritEntry(typSel, katSel, roll);
+
+  if (!found) {
+    res.textContent = `Kein Eintrag gefunden für ${typSel.replace(/_/g, ' ')} ${katSel} (${roll}).`;
+    return;
+  }
+
+  const { text, key } = found;
+
+  kpi.append(chip(`Typ: ${typSel.replace(/_/g, ' ')}`));
   kpi.append(chip(`Kat: ${katSel}`));
   kpi.append(chip(`Wurf: ${roll}`));
   if (key) kpi.append(chip(`Bereich: ${key}`));
@@ -248,26 +486,40 @@ $('#calcSide').addEventListener('click', () => {
   kpi.innerHTML = '';
   res.classList.remove('muted');
 
-  if (!typ) {
-    res.textContent = 'Bitte eine Nebentreffer-Tabelle wählen.';
+  const sideTable = tables?.[typ]?.[kat];
+
+  if (!typ || !kat || !sideTable) {
+    res.textContent = 'Bitte eine Nebentreffer-Tabelle und Kategorie wählen.';
     return;
   }
-  if (!roll || roll < 1 || roll > 100) {
-    res.textContent = 'Bitte Wurf (1–100) eingeben.';
+
+  // NEU: Vereinfachte dynamische Validierung
+  const ranges = Object.keys(sideTable);
+  if (ranges.length === 0) {
+    res.textContent = `Keine Daten für ${typ.replace(/_/g, ' ')} ${kat} gefunden.`;
+    return;
+  }
+
+  const firstRange = ranges[0];
+  const lastRange = ranges[ranges.length - 1];
+
+  const minRoll = parseInt(firstRange.split('-')[0], 10);
+  const maxRoll = parseInt(lastRange.split('-')[1], 10);
+
+  if (isNaN(roll) || roll < minRoll || roll > maxRoll) {
+    res.textContent = `Bitte Wurf (${minRoll}–${maxRoll}) eingeben.`;
     return;
   }
 
   const found = lookupCritEntry(typ, kat, roll);
   if (!found) {
-    res.textContent = `Kein Eintrag gefunden für ${typ} ${kat} (${roll}).`;
+    res.textContent = `Kein Eintrag gefunden für ${typ.replace(/_/g, ' ')} ${kat} (${roll}).`;
     return;
   }
-  const {
-    text,
-    key
-  } = found;
 
-  kpi.append(chip(`Nebentyp: ${typ}`));
+  const { text, key } = found;
+
+  kpi.append(chip(`Nebentyp: ${typ.replace(/_/g, ' ')}`));
   kpi.append(chip(`Kat: ${kat}`));
   kpi.append(chip(`Wurf: ${roll}`));
   if (key) kpi.append(chip(`Bereich: ${key}`));

@@ -50,31 +50,39 @@
 
         <!-- VEREINFACHTE STRUKTUR FÜR WAFFEN- UND RÜSTUNGS-AUSWAHL -->
         <div class="selection-container">
-          <div>
+          <div class="weapon-section">
             <label>Waffenart</label>
             <div id="weaponWrap" class="weapon-grid"></div>
           </div>
-          <div>
-            <label>Rüstungsklasse</label>
-            <div class="rk" id="rk"></div>
+          <div class="rk-section">
+            <label>Rüstungsklasse & Gegnertyp</label>
+            <div class="rk-und-gegner">
+              <div class="gegner-typ-container">
+                <div class="gegner-typ" id="gegnerTyp">
+                  <button type="button" class="btn active" data-gegner-typ="normal">Normal</button>
+                  <button type="button" class="btn" data-gegner-typ="gross">Gross</button>
+                  <button type="button" class="btn" data-gegner-typ="gewaltig">Gewaltig</button>
+                </div>
+              </div>
+              <div class="rk" id="rk"></div>
+            </div>
           </div>
-        </div>
 
-        <div class="row">
-          <div>
-            <label for="attack">Angriffswert (berechnet)</label><br>
-            <input id="attack" type="number" inputmode="numeric" placeholder="z. B. 126" />
+          <div class="row">
+            <div>
+              <label for="attack">Angriffswert (berechnet)</label><br>
+              <input id="attack" type="number" inputmode="numeric" placeholder="z. B. 126" />
+            </div>
           </div>
-        </div>
 
-        <div class="actions">
-          <button class="btn primary" id="calcAttack">Treffer ermitteln</button>
-          <button class="btn ghost" id="resetBtn">Zurücksetzen</button>
-        </div>
-        <div class="out" id="attackOut">
-          <div class="kpi" id="attackKpi"></div>
-          <div class="result muted">Noch kein Ergebnis.</div>
-        </div>
+          <div class="actions">
+            <button class="btn primary" id="calcAttack">Treffer ermitteln</button>
+            <button class="btn ghost" id="resetBtn">Zurücksetzen</button>
+          </div>
+          <div class="out" id="attackOut">
+            <div class="kpi" id="attackKpi"></div>
+            <div class="result muted">Noch kein Ergebnis.</div>
+          </div>
       </section>
 
       <section class="card">
@@ -82,7 +90,7 @@
         <div class="row">
           <div>
             <label for="critRoll">Würfelwurf</label><br>
-            <input id="critRoll" type="number" min="1" max="100" placeholder="z. B. 66" />
+            <input id="critRoll" type="number" min="1" max="100-100" placeholder="z. B. 66" />
           </div>
           <div>
             <label for="critType">Krit-Typ</label><br>
@@ -136,7 +144,7 @@
             </div>
             <div>
               <label for="sideRoll">Würfelwurf</label><br>
-              <input id="sideRoll" type="number" min="1" max="100" placeholder="z. B. 87" />
+              <input id="sideRoll" type="number" min="1" max="100-100" placeholder="z. B. 87" />
             </div>
           </div>
           <div class="actions">
