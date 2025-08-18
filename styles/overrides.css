@@ -333,8 +333,3 @@ div.rk button[data-rk="20"] {
     font-size: 12px;
   }
 }
-
-* {
-  outline: 1px solid red;
-  /* oder lime */
-}
