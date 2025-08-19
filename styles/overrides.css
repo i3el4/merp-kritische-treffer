@@ -310,7 +310,7 @@ div.rk button[data-rk="12"] {
   background-image: url('../assets/icons/heavy_leather.png');
 }
 
-div.rk button[data-rk="13-13"],
+div.rk button[data-rk="13"],
 div.rk button[data-rk="14"],
 div.rk button[data-rk="15"],
 div.rk button[data-rk="16"] {
@@ -355,7 +355,7 @@ div.rk button[data-rk="20"] {
 }
 
 /* Schriftfarbe für RK 13-16 */
-.rk button[data-rk="13-13"] span,
+.rk button[data-rk="13"] span,
 .rk button[data-rk="14"] span,
 .rk button[data-rk="15"] span,
 .rk button[data-rk="16"] span {

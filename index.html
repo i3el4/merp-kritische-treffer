@@ -3,10 +3,13 @@
 
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="theme-color" content="#3c3c39" />
   <!-- PWA-Meta-Tags für iOS (iPhone/iPad) -->
+  <!-- Für iOS (Safari) -->
   <meta name="apple-mobile-web-app-capable" content="yes">
+  <!-- Für Android (Chrome) -->
+  <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="MERS Treffer">
   <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
@@ -34,21 +37,6 @@
     <div class="grid">
       <section class="card">
         <h2>1) Angriff</h2>
-
-        <!-- NEUE STRUKTUR FÜR WAFFEN- UND RÜSTUNGS-AUSWAHL 
-        <div class="battle-selection">
-          <div>
-            <label>Waffenart</label>
-            <div id="weaponWrap" class="weapon-grid"></div>
-          </div>
-          <div class="vs-text">vs.</div>
-          <div>
-            <label>Rüstungsklasse</label>
-            <div class="rk" id="rk"></div>
-          </div>
-        </div>-->
-
-        <!-- VEREINFACHTE STRUKTUR FÜR WAFFEN- UND RÜSTUNGS-AUSWAHL -->
         <div class="selection-container">
           <div class="weapon-section">
             <label>Waffenart</label>
@@ -179,7 +167,7 @@
   <audio id="bgAudio" loop></audio>
   <audio id="sfxAudio"></audio>
 
-  <script src="scripts/app.js"></script>
+  <script type="module" src="scripts/main.js"></script>
 </body>
 
 </html>
