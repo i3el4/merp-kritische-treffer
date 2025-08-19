@@ -374,7 +374,7 @@ div.rk button[data-rk="20"] {
   }
 
   .card {
-    padding: 3px;
+    padding: 6px;
   }
 
   .weapon-grid button span {
@@ -383,6 +383,7 @@ div.rk button[data-rk="20"] {
 }
 
 .header-title {
+  flex-grow: 1;
   text-align: center;
 }
 
