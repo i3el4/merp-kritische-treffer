@@ -8,8 +8,8 @@ h1 {
   text-shadow: 1px 1px 2px #000;
 }
 
-/* Entfernt die Flex-Eigenschaft, um die Zentrierung zu gewährleisten */
 .header-title {
+  flex-grow: 1;
   text-align: center;
 }
 
@@ -32,9 +32,6 @@ h1 {
   align-items: center;
   gap: 24px;
   margin: 16px 0 24px 0;
-  width: 100%;
-  /* Korrektur: Lässt den Container sich ausdehnen */
-  max-width: none;
 }
 
 .selection-container>div {
@@ -130,7 +127,7 @@ h1 {
   grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
   gap: 8px;
   width: 100%;
-  max-width: 350px;
+  max-width: none;
 }
 
 .rk {
@@ -402,5 +399,13 @@ div.rk button[data-rk="20"] {
 
   .weapon-grid button span {
     font-size: 12px;
+  }
+}
+
+/* Media Query für Bildschirme kleiner als 960px */
+@media (max-width: 959px) {
+  .rk-und-gegner {
+    flex-direction: column;
+    align-items: center;
   }
 }
