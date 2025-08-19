@@ -119,6 +119,9 @@ h1 {
   margin: 0;
   letter-spacing: .3px;
   color: var(--accent);
+  text-align: center;
+  /* Korrektur: Zentraler Titel */
+  flex-grow: 1;
 }
 
 .card h2 {
@@ -314,9 +317,4 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
-}
-
-.header-title {
-  flex-grow: 1;
-  text-align: center;
 }
