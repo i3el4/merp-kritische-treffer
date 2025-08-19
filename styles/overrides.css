@@ -87,13 +87,40 @@ h1 {
   background-position: center;
   background-repeat: no-repeat;
   background-color: var(--chip);
+  border-color: var(--bg);
+  box-shadow: 0 0 3px 1px var(--bg);
 }
 
-/* KORREKTUR: Einheitliches Styling für alle Buttons, die ein Bild haben */
-.weapon-grid button,
+/* Spezifische Button-Größen & Typo */
+.weapon-grid button {
+  height: 45px;
+  padding: 0 8px;
+  height: 40px;
+  padding: 0 4px;
+  background-size: contain;
+}
+
+/* Einheitliches Styling für alle Buttons, die ein Bild haben */
 .rk button,
 .gegner-typ button {
   background-size: cover;
+}
+
+/* Zusätzliches Styling für Gegnertyp-Buttons */
+.gegner-typ {
+  display: flex;
+  gap: 8px;
+}
+
+.gegner-typ button {
+  width: 80px;
+  /* Breiterer Button */
+  height: 40px;
+  /* Weniger hoher Button */
+  font-family: 'Aniron', Georgia, serif;
+  /* Schriftart anpassen */
+  color: var(--text);
+  /* Schriftfarbe wieder sichtbar machen */
 }
 
 /* Hover-Effekt für alle Auswahl-Buttons */
@@ -125,7 +152,6 @@ h1 {
 .weapon-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  /* 4 Spalten auf mobilen Geräten */
   gap: 8px;
   width: 100%;
 }
@@ -136,12 +162,6 @@ h1 {
   grid-template-columns: repeat(5, 45px);
   grid-auto-flow: column;
   gap: 8px;
-}
-
-/* Spezifische Button-Größen & Typo */
-.weapon-grid button {
-  height: 45px;
-  padding: 0 8px;
 }
 
 .rk button {
@@ -162,39 +182,24 @@ h1 {
 }
 
 .weapon-grid button span {
-  font-size: 14px;
+  font-size: 10px;
   color: var(--text);
+}
+
+.gegner-typ button::after {
+  content: attr(data-gegner-typ);
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  font-weight: bold;
+  color: var(--text-2);
 }
 
 .rk button span {
   font-size: 20px;
   color: var(--accent);
-}
-
-/* Zusätzliches Styling für Gegnertyp-Buttons */
-.gegner-typ {
-  display: flex;
-  gap: 8px;
-}
-
-.gegner-typ button {
-  width: 80px;
-  /* Breiterer Button */
-  height: 40px;
-  /* Weniger hoher Button */
-  font-family: 'Aniron', Georgia, serif;
-  /* Schriftart anpassen */
-  color: var(--text);
-  /* Schriftfarbe wieder sichtbar machen */
-}
-
-.gegner-typ button::after {
-  display: none;
-}
-
-.gegner-typ button span {
-  display: none;
-  /* Versteckt den Text in den Buttons, um nur das Bild zu zeigen */
 }
 
 /* Hintergrundbilder für die Gegnertyp-Buttons */
@@ -218,17 +223,6 @@ h1 {
 
 .gegner-typ-container label {
   margin-bottom: 8px;
-}
-
-.gegner-typ button::after {
-  content: attr(data-gegner-typ);
-  position: absolute;
-  bottom: -15px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 10px;
-  font-weight: bold;
-  color: var(--text-2);
 }
 
 /* Hintergrundbilder für Waffen */
@@ -363,7 +357,8 @@ div.rk button[data-rk="20"] {
 }
 
 /* Korrekte Farbänderung bei aktivem Zustand */
-.rk button.active span {
+.rk button.active span,
+.gegner-typ button.active span {
   color: var(--accent-2) !important;
 }
 
@@ -380,46 +375,11 @@ div.rk button[data-rk="20"] {
   }
 
   .wrap {
-    padding: 2px;
+    padding: 3px;
   }
 
   .card {
-    padding: 2px;
-  }
-
-  .weapon-grid {
-    display: grid;
-    gap: 8px;
-    width: 100%;
-  }
-
-  @media (max-width: 479px) {
-    .weapon-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media (min-width: 480px) and (max-width: 767px) {
-    .weapon-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-
-  @media (min-width: 768px) and (max-width: 1023px) {
-    .weapon-grid {
-      grid-template-columns: repeat(4, 1fr);
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .weapon-grid {
-      grid-template-columns: repeat(5, 1fr);
-    }
-  }
-
-  .weapon-grid button {
-    height: 40px;
-    padding: 0 4px;
+    padding: 3px;
   }
 
   .weapon-grid button span {
