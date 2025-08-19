@@ -9,6 +9,7 @@ h1 {
 }
 
 .header-title {
+  flex-grow: 1;
   text-align: center;
 }
 
@@ -123,12 +124,11 @@ h1 {
 /* Spezifische Layouts */
 .weapon-grid {
   display: grid;
+  /* Korrektur: Wir begrenzen die Spalten auf maximal 4 */
   grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
   gap: 8px;
   width: 100%;
-  /* Sicherstellen, dass das Gitter die volle Breite einnimmt */
-  max-width: 400px;
-  /* Eine etwas größere, aber immer noch flexible Maximalbreite */
+  max-width: 350px;
 }
 
 .rk {
