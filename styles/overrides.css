@@ -124,11 +124,10 @@ h1 {
 /* Spezifische Layouts */
 .weapon-grid {
   display: grid;
-  /* Korrektur: Wir begrenzen die Spalten auf maximal 4 */
-  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
+  /* 4 Spalten auf mobilen Geräten */
   gap: 8px;
   width: 100%;
-  max-width: 350px;
 }
 
 .rk {
