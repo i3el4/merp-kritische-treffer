@@ -8,10 +8,6 @@ h1 {
   text-shadow: 1px 1px 2px #000;
 }
 
-.header-title {
-  text-align: center;
-}
-
 .result.crit-prominent {
   font-size: 1.25em;
   font-weight: bold;
@@ -384,6 +380,10 @@ div.rk button[data-rk="20"] {
   .weapon-grid button span {
     font-size: 12px;
   }
+}
+
+.header-title {
+  text-align: center;
 }
 
 /* Media Query für Bildschirme kleiner als 960px */
