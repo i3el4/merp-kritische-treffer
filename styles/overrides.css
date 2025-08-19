@@ -388,8 +388,33 @@ div.rk button[data-rk="20"] {
   }
 
   .weapon-grid {
-    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-    max-width: 100%;
+    display: grid;
+    gap: 8px;
+    width: 100%;
+  }
+
+  @media (max-width: 479px) {
+    .weapon-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 480px) and (max-width: 767px) {
+    .weapon-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .weapon-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .weapon-grid {
+      grid-template-columns: repeat(5, 1fr);
+    }
   }
 
   .weapon-grid button {
