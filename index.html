@@ -51,7 +51,7 @@
       text-align: center;
       cursor: pointer;
       color: white;
-      font-family: 'MonkeyIsland', serif;
+      font-family: 'Aniron', serif;
       font-size: 20px;
       padding: 20px;
       background: rgba(0, 0, 0, 0.5);
@@ -69,8 +69,8 @@
     }
 
     .intro-video-container .start-button img {
-      width: 100px;
-      height: 100px;
+      width: 120px;
+      height: 120px;
     }
 
     /* Versteckt den Video-Container nach dem Abspielen */
@@ -93,8 +93,10 @@
     </video>
     <div id="startButton" class="start-button">
       <img src="assets/icons/apple-touch-icon.png" alt="App Icon">
-      <span>Mal riechen lassen?</span>
-      <span>Hier geht's zur App</span>
+      <div class="text-container">
+        <span>Mal riechen lassen?</span><br>
+        <span>Hier geht's zur App</span>
+      </div>
     </div>
   </div>
 
@@ -246,41 +248,33 @@
       const container = document.querySelector('.intro-video-container');
       const startButton = document.getElementById('startButton');
 
-      // Prüft, ob das Video schon einmal abgespielt wurde
-      const hasPlayed = localStorage.getItem('introPlayed');
+      // Prüft, ob das Video schon einmal in dieser Sitzung abgespielt wurde
+      const hasPlayed = sessionStorage.getItem('introPlayed');
 
       if (!hasPlayed) {
-        // Zeigt Start-Button an
         startButton.style.display = 'flex';
 
         const startVideo = () => {
-          // Blendet den Start-Button aus
           startButton.classList.add('hidden');
 
-          // Entmutet das Video und startet die Wiedergabe
           video.muted = false;
           video.play().then(() => {
-            // Video erfolgreich gestartet
             video.onended = () => {
               container.classList.add('hidden');
-              localStorage.setItem('introPlayed', 'true');
+              sessionStorage.setItem('introPlayed', 'true');
             };
           }).catch(err => {
-            // Fehler bei der Wiedergabe, überspringe Intro
             console.error('Video-Wiedergabe fehlgeschlagen, überspringe Intro:', err);
             container.classList.add('hidden');
-            localStorage.setItem('introPlayed', 'true');
+            sessionStorage.setItem('introPlayed', 'true');
           });
 
-          // Entfernt den Event-Listener nach dem ersten Klick
           startButton.removeEventListener('click', startVideo);
         };
 
-        // Event-Listener für Benutzerinteraktion
         startButton.addEventListener('click', startVideo);
 
       } else {
-        // Wenn das Video schon abgespielt wurde, direkt verstecken
         container.style.display = 'none';
       }
     });
