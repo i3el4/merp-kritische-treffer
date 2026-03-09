@@ -11,7 +11,7 @@ window.addEventListener('load', () => {
     loadData().catch(err => {
         console.error(err);
         // Gibt eine Fehlermeldung aus, falls das Laden fehlschlägt.
-        alert('Fehler beim Laden der JSON-Dateien. Bitte sicherstellen, dass sich assets/data/tables.json und assets/data/treffer_tabellen_strukturiert.json im gleichen Repo befinden.');
+        alert('Fehler beim Laden der JSON-Dateien. Bitte sicherstellen, dass sich assets/data/tables_processed.json und assets/data/treffer_tabellen_strukturiert.json im gleichen Repo befinden.');
     });
 
     // Richtet alle Event-Listener für die Benutzeroberfläche ein.
