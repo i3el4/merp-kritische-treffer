@@ -78,19 +78,18 @@ function calculateCrit() {
         return;
     }
 
-    const {
-        text,
-        key
-    } = found;
+    const { entry, key } = found;
+    const visualText = typeof entry === 'object' && entry?.visual != null ? entry.visual : String(entry ?? '');
+    const ttsText = typeof entry === 'object' && entry?.tts != null ? entry.tts : String(entry ?? '');
 
     kpi.append(chip(`Typ: ${typSel.replace(/_/g, ' ')}`));
     kpi.append(chip(`Kat: ${katSel}`));
     kpi.append(chip(`Wurf: ${roll}`));
     if (key) kpi.append(chip(`Bereich: ${key}`));
-    res.textContent = text;
+    res.textContent = visualText;
     res.classList.add('crit-prominent');
 
-    playCritAudio(typSel, katSel, key, text);
+    playCritAudio(typSel, katSel, key, ttsText);
     if (state.isBgMusicPlaying) {
         tryStartBgAudio(typSel);
     }
@@ -137,19 +136,18 @@ function calculateSide() {
         return;
     }
 
-    const {
-        text,
-        key
-    } = found;
+    const { entry, key } = found;
+    const visualText = typeof entry === 'object' && entry?.visual != null ? entry.visual : String(entry ?? '');
+    const ttsText = typeof entry === 'object' && entry?.tts != null ? entry.tts : String(entry ?? '');
 
     kpi.append(chip(`Nebentyp: ${typ.replace(/_/g, ' ')}`));
     kpi.append(chip(`Kat: ${kat}`));
     kpi.append(chip(`Wurf: ${roll}`));
     if (key) kpi.append(chip(`Bereich: ${key}`));
-    res.textContent = text;
+    res.textContent = visualText;
     res.classList.add('crit-prominent');
 
-    playCritAudio(typ, kat, key, text);
+    playCritAudio(typ, kat, key, ttsText);
     if (state.isBgMusicPlaying) {
         tryStartBgAudio(typ);
     }
@@ -161,6 +159,8 @@ function calculateSide() {
 function resetApp() {
     $('#attack').value = '';
     $('#critRoll').value = '';
+    $('#sideRoll').value = '';
+    $('#sideType').value = '';
     $('#critOut .result').textContent = 'Noch kein Ergebnis.';
     $('#attackOut .result').textContent = 'Noch kein Ergebnis.';
     $('#sideOut .result').textContent = 'Noch kein Ergebnis.';

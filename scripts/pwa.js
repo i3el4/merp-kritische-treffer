@@ -24,16 +24,6 @@ export function initPWA() {
     });
 
     if ('serviceWorker' in navigator) {
-        const sw = `
-            const CORE = self.location.href;
-            self.addEventListener('install', e=>{self.skipWaiting()});
-            self.addEventListener('activate', e=>{clients.claim()});
-            self.addEventListener('fetch', e=>{});
-        `;
-        const blob = new Blob([sw], {
-            type: 'text/javascript'
-        });
-        const url = URL.createObjectURL(blob);
-        navigator.serviceWorker.register(url).catch(() => { });
+        navigator.serviceWorker.register('sw.js', { scope: './' }).catch(() => {});
     }
 }

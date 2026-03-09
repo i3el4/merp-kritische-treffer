@@ -223,7 +223,7 @@ export function lookupCritEntry(typ, kat, roll) {
     if (!cat) return null;
     for (const key of Object.keys(cat)) {
         if (matchRange(key, roll)) return {
-            text: cat[key],
+            entry: cat[key],
             key
         };
     }
