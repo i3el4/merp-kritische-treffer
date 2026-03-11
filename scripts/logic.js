@@ -132,7 +132,10 @@ export function calculateAttack() {
     if (gegnerTyp === 'gross') minKat = 'B';
     if (gegnerTyp === 'gewaltig') minKat = 'D';
 
-    if (firstKrit.kat && firstKrit.kat < minKat) {
+    const rawKat = firstKrit.kat;
+    const kannKritWuerfeln = firstKrit.kat && firstKrit.kat >= minKat;
+
+    if (!kannKritWuerfeln) {
         firstKrit = {
             typ: '',
             kat: ''
@@ -159,10 +162,21 @@ export function calculateAttack() {
     pillz.className = 'kpi';
     pillz.append(pill('Gesamttreffer', String(totalTp), 'ok'));
 
-    if (state.autoCrit.typ && state.autoCrit.kat) {
-        const kritAnzeige = (gegnerTyp !== 'normal') ? firstKrit.typ : `${firstKrit.typ}-${firstKrit.kat}`;
-        pillz.append(pill('Krit', kritAnzeige, 'warn'));
+    if (gegnerTyp === 'gross' || gegnerTyp === 'gewaltig') {
+        pillz.append(pill('Schadenskategorie', rawKat || '—', ''));
+        if (kannKritWuerfeln) {
+            pillz.append(pill('Krit', `${firstKrit.typ} (ab ${minKat})`, 'warn'));
+        } else {
+            const hinweis = gegnerTyp === 'gross' ? 'Krit erst ab B würfeln' : 'Krit erst ab D würfeln';
+            pillz.append(pill('Krit', hinweis, ''));
+        }
+    } else if (state.autoCrit.typ && state.autoCrit.kat) {
+        pillz.append(pill('Krit', `${firstKrit.typ}-${firstKrit.kat}`, 'warn'));
+    } else {
+        pillz.append(pill('Krit', '—', ''));
+    }
 
+    if (state.autoCrit.typ && (state.autoCrit.kat || kannKritWuerfeln)) {
         const critTypeDropdown = $('#critType');
         critTypeDropdown.value = state.autoCrit.typ;
 
@@ -177,6 +191,7 @@ export function calculateAttack() {
                 opt.textContent = kat;
                 critCatDropdown.appendChild(opt);
             });
+            critCatDropdown.value = kritKategorien.includes('Normal') ? 'Normal' : kritKategorien[0] || '';
         } else {
             critCatDropdown.innerHTML = '';
             const normalCategories = ['A', 'B', 'C', 'D', 'E'];
@@ -186,10 +201,8 @@ export function calculateAttack() {
                 opt.textContent = cat;
                 critCatDropdown.appendChild(opt);
             });
+            critCatDropdown.value = state.autoCrit.kat || 'A';
         }
-        critCatDropdown.value = state.autoCrit.kat;
-    } else {
-        pillz.append(pill('Krit', '—', ''));
     }
     res.append(pillz);
 
