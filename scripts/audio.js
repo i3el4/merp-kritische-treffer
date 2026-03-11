@@ -25,11 +25,7 @@ export function tryStartBgAudio(tableKey) {
     state.currentBgKey = tableKey;
     bgAudio.src = URLS.AUDIO_BASE_PATH + `musik/${file}`;
     bgAudio.volume = parseFloat($('#bgVol').value || '0.2');
-    bgAudio.play().then(() => {
-        console.log(`[Audio-Debug] Hintergrundmusik erfolgreich gestartet: ${bgAudio.src}`);
-    }).catch(err => {
-        console.error('[Audio-Debug] Hintergrundmusik konnte nicht abgespielt werden:', err);
-    });
+    bgAudio.play().catch(() => {});
 }
 
 /**
@@ -41,9 +37,7 @@ export function tryStartBgAudio(tableKey) {
  */
 export async function playCritAudio(typ, kat, rangeKey, fallbackText) {
     const mp3 = buildCritAudioFilename(typ, kat, rangeKey);
-    console.log(`[Audio-Debug] Versuche, Audio abzuspielen: ${mp3}`);
     if (!mp3) {
-        console.warn('[Audio-Debug] Kein MP3-Pfad generiert, verwende TTS-Fallback.');
         speak(fallbackText);
         return;
     }
@@ -51,15 +45,23 @@ export async function playCritAudio(typ, kat, rangeKey, fallbackText) {
     sfxAudio.src = mp3;
     sfxAudio.volume = parseFloat($('#ttsVol').value);
 
-    // Promise-basierte Wiedergabe, um Autoplay-Fehler abzufangen
     try {
         await sfxAudio.play();
-        console.log('[Audio-Debug] Audio erfolgreich abgespielt.');
     } catch (err) {
-        console.error('[Audio-Debug] Fehler beim Abspielen des Audio-Effekts. Versuche TTS-Fallback.', err);
-        // Fallback-Logik, die auch den alten onError-Fall abdeckt
         speak(fallbackText);
     }
+}
+
+/**
+ * Konvertiert Krit-Typ zu dateinamen-tauglichem Präfix (Leerzeichen → _, Umlaute → ae/oe/ue).
+ * @param {string} typ Krit-Typ (z.B. "Grosse Wesen", "Kälte").
+ * @returns {string} Dateinamen-sicherer String.
+ */
+function sanitizeTypForAudio(typ) {
+    let s = String(typ).trim();
+    s = s.replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss');
+    s = s.replace(/\s+/g, '_');
+    return s.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join('_');
 }
 
 /**
@@ -71,11 +73,10 @@ export async function playCritAudio(typ, kat, rangeKey, fallbackText) {
  */
 function buildCritAudioFilename(typ, kat, rangeKey) {
     if (!typ || !kat || !rangeKey) return null;
-    const safeTyp = String(typ).trim().toLowerCase();
-    const capitalTyp = safeTyp.charAt(0).toUpperCase() + safeTyp.slice(1);
+    const safeTyp = sanitizeTypForAudio(typ);
     const safeKat = String(kat).trim().toUpperCase();
     const safeRange = sanitizeRangeForFile(rangeKey);
-    return `${URLS.AUDIO_BASE_PATH}krit/${capitalTyp}_${safeKat}_${safeRange}.mp3`;
+    return `${URLS.AUDIO_BASE_PATH}krit/${safeTyp}_${safeKat}_${safeRange}.mp3`;
 }
 
 /**

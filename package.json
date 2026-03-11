@@ -1,0 +1,15 @@
+{
+  "name": "merp-kritische-treffer",
+  "version": "1.0.0",
+  "description": "MERS/MERP Angriffs- & Krit-Treffer App",
+  "scripts": {
+    "generate-audio": "node scripts/generate_audio_elevenlabs.js",
+    "clean-tables": "node scripts/clean_tables_with_gemini.js",
+    "minify-visual": "node scripts/minify_visual_text.js"
+  },
+  "dependencies": {
+    "@google/genai": "^1.44.0",
+    "axios": "^1.6.0",
+    "dotenv": "^16.6.1"
+  }
+}

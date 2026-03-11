@@ -3,9 +3,28 @@
 
 import { state } from './state.js';
 import { $, $$ } from './dom.js';
+import { CRIT_ICONS, URLS } from './constants.js';
 import { calculateAttack, lookupCritEntry, mapCritName } from './logic.js';
 import { playCritAudio, tryStartBgAudio } from './audio.js';
 import { chip } from './dom.js';
+
+/**
+ * Fügt das Krit-Icon in die KPI-Zeile ein (falls vorhanden).
+ * @param {HTMLElement} kpi Das KPI-Element
+ * @param {string} typ Der Krit-Typ (z.B. Stich, Elektro)
+ */
+function appendCritIcon(kpi, typ) {
+    const iconFile = CRIT_ICONS[typ];
+    if (iconFile) {
+        const img = document.createElement('img');
+        const iconPath = URLS.ICONS_BASE_PATH + iconFile;
+        img.src = new URL(iconPath, window.location.href).href;
+        img.alt = typ;
+        img.className = 'crit-kpi-icon';
+        img.loading = 'eager';
+        kpi.prepend(img);
+    }
+}
 
 /**
  * Richtet alle Event-Listener für die Benutzeroberfläche ein.
@@ -57,18 +76,8 @@ function calculateCrit() {
         return;
     }
 
-    const ranges = Object.keys(critTable);
-    if (ranges.length === 0) {
-        res.textContent = `Keine Daten für ${typSel.replace(/_/g, ' ')} ${katSel} gefunden.`;
-        return;
-    }
-    const firstRange = ranges[0];
-    const lastRange = ranges[ranges.length - 1];
-    const minRoll = parseInt(firstRange.split('-')[0], 10);
-    const maxRoll = parseInt(lastRange.split('-')[1], 10);
-
-    if (isNaN(roll) || roll < minRoll || roll > maxRoll) {
-        res.textContent = `Bitte Wurf (${minRoll}–${maxRoll}) eingeben.`;
+    if (isNaN(roll) || roll < 0) {
+        res.textContent = 'Bitte einen gültigen Würfelwurf (≥ 0) eingeben.';
         return;
     }
 
@@ -82,6 +91,7 @@ function calculateCrit() {
     const visualText = typeof entry === 'object' && entry?.visual != null ? entry.visual : String(entry ?? '');
     const ttsText = typeof entry === 'object' && entry?.tts != null ? entry.tts : String(entry ?? '');
 
+    appendCritIcon(kpi, typSel);
     kpi.append(chip(`Typ: ${typSel.replace(/_/g, ' ')}`));
     kpi.append(chip(`Kat: ${katSel}`));
     kpi.append(chip(`Wurf: ${roll}`));
@@ -115,18 +125,8 @@ function calculateSide() {
         return;
     }
 
-    const ranges = Object.keys(sideTable);
-    if (ranges.length === 0) {
-        res.textContent = `Keine Daten für ${typ.replace(/_/g, ' ')} ${kat} gefunden.`;
-        return;
-    }
-    const firstRange = ranges[0];
-    const lastRange = ranges[ranges.length - 1];
-    const minRoll = parseInt(firstRange.split('-')[0], 10);
-    const maxRoll = parseInt(lastRange.split('-')[1], 10);
-
-    if (isNaN(roll) || roll < minRoll || roll > maxRoll) {
-        res.textContent = `Bitte Wurf (${minRoll}–${maxRoll}) eingeben.`;
+    if (isNaN(roll) || roll < 0) {
+        res.textContent = 'Bitte einen gültigen Würfelwurf (≥ 0) eingeben.';
         return;
     }
 
@@ -140,6 +140,7 @@ function calculateSide() {
     const visualText = typeof entry === 'object' && entry?.visual != null ? entry.visual : String(entry ?? '');
     const ttsText = typeof entry === 'object' && entry?.tts != null ? entry.tts : String(entry ?? '');
 
+    appendCritIcon(kpi, typ);
     kpi.append(chip(`Nebentyp: ${typ.replace(/_/g, ' ')}`));
     kpi.append(chip(`Kat: ${kat}`));
     kpi.append(chip(`Wurf: ${roll}`));
@@ -188,13 +189,13 @@ function handleGegnerTypClick(e) {
         targetBtn.classList.add('active');
         const gegnerTyp = targetBtn.dataset.gegnerTyp;
         if (gegnerTyp === 'gross') {
-            $('#critType').value = 'Grosse_Wesen';
+            $('#critType').value = 'Grosse Wesen';
         } else if (gegnerTyp === 'gewaltig') {
-            $('#critType').value = 'Gewaltige_Wesen';
+            $('#critType').value = 'Gewaltige Wesen';
         } else {
-            $('#critType').value = '';
+            $('#critType').value = state.autoCrit.typ || '';
         }
-        updateCritCatDropdown();
+        $('#critType').dispatchEvent(new Event('change'));
     }
 }
 

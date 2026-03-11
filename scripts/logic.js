@@ -2,6 +2,7 @@
 // Dieses Modul enthält die Kernlogik für die Berechnungen.
 
 import { state } from './state.js';
+import { WEAPON_LABELS } from './constants.js';
 import { $, $$ } from './dom.js';
 import { playCritAudio, tryStartBgAudio } from './audio.js';
 import { chip, pill } from './dom.js';
@@ -91,7 +92,7 @@ export function calculateAttack() {
 
     if (attack <= 0) {
         res.textContent = 'Kein Schaden bei Angriffswert ≤ 0.';
-        kpi.append(chip(`Waffe: ${weaponKey.replace(/_/g, ' ')}`));
+        kpi.append(chip(`Waffe: ${WEAPON_LABELS[weaponKey] || weaponKey.replace(/_/g, ' ')}`));
         kpi.append(chip(`RK: ${rk}`));
         kpi.append(chip(`Angriffswert: ${attack}`));
         return;
@@ -149,7 +150,7 @@ export function calculateAttack() {
         kat: firstKrit.kat || ''
     };
 
-    const label = weaponKey.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+    const label = WEAPON_LABELS[weaponKey] || weaponKey.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
     kpi.append(chip(`Waffe: ${label}`));
     kpi.append(chip(`RK: ${rk}`));
     kpi.append(chip(`Angriffswert: ${attack}`));
@@ -239,6 +240,10 @@ export function lookupCritEntry(typ, kat, roll) {
 function matchRange(range, roll) {
     range = String(range).trim();
     const z = (s) => parseInt(String(s).replace(/^0+/, '') || '0', 10);
+    if (range.endsWith('+')) {
+        const min = z(range.slice(0, -1));
+        return roll >= min;
+    }
     if (range.includes('-')) {
         const [a, b] = range.split('-');
         return roll >= z(a) && roll <= z(b);

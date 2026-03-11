@@ -1,7 +1,7 @@
 // data.js
 // Dieses Modul lädt die JSON-Daten und initialisiert die UI.
 
-import { URLS, DEFAULT_RK } from './constants.js';
+import { URLS, DEFAULT_RK, WEAPON_LABELS, WEAPON_ICONS, WEAPON_GROUPS } from './constants.js';
 import { state } from './state.js';
 import { $, $$ } from './dom.js';
 import { mapCritName, adjustWeaponFontSizes } from './logic.js';
@@ -39,21 +39,29 @@ export async function loadData() {
     }
 }
 
-// Erzeugt die Buttons für die Waffen.
+// Erzeugt die Buttons für die Waffen (gruppiert).
 function populateWeapons() {
     const wSelWrap = $('#weaponWrap');
-    const waffen = Object.keys(state.treffer?.Angriffstabellen || {}).sort();
+    const angriffstabellen = state.treffer?.Angriffstabellen || {};
+    const verfuegbareWaffen = new Set(Object.keys(angriffstabellen));
     wSelWrap.innerHTML = '';
 
-    waffen.forEach(k => {
+    const createWeaponBtn = (k) => {
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.className = 'weapon-button';
         btn.dataset.weapon = k;
 
+        const displayName = WEAPON_LABELS[k] || k.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
         const label = document.createElement('span');
-        label.textContent = k.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+        label.textContent = displayName;
         btn.appendChild(label);
+
+        const icon = WEAPON_ICONS[k];
+        if (icon) {
+            const iconPath = URLS.ICONS_BASE_PATH + icon.replace(/ /g, '%20');
+            btn.style.backgroundImage = `url(${iconPath})`;
+        }
 
         btn.addEventListener('click', () => {
             $$('#weaponWrap button').forEach(x => x.classList.remove('active'));
@@ -61,14 +69,34 @@ function populateWeapons() {
             state.selectedWeapon = k;
         });
 
-        wSelWrap.appendChild(btn);
-    });
+        return btn;
+    };
 
-    if (waffen.length) {
-        const defaultWeaponBtn = $(`#weaponWrap button[data-weapon="${waffen[0]}"]`);
+    const verwendeteKeys = new Set();
+
+    for (const group of WEAPON_GROUPS) {
+        const keysInGruppe = group.keys.filter(k => verfuegbareWaffen.has(k));
+        keysInGruppe.forEach(k => {
+            verwendeteKeys.add(k);
+            wSelWrap.appendChild(createWeaponBtn(k));
+        });
+    }
+
+    const fehlende = [...verfuegbareWaffen].filter(k => !verwendeteKeys.has(k)).sort();
+    fehlende.forEach(k => wSelWrap.appendChild(createWeaponBtn(k)));
+
+    const ersteWaffe = (() => {
+        for (const group of WEAPON_GROUPS) {
+            const k = group.keys.find(key => verfuegbareWaffen.has(key));
+            if (k) return k;
+        }
+        return fehlende[0] || null;
+    })();
+    if (ersteWaffe) {
+        const defaultWeaponBtn = $(`#weaponWrap button[data-weapon="${ersteWaffe}"]`);
         if (defaultWeaponBtn) {
             defaultWeaponBtn.classList.add('active');
-            state.selectedWeapon = waffen[0];
+            state.selectedWeapon = ersteWaffe;
         }
     }
     adjustWeaponFontSizes();
@@ -115,7 +143,7 @@ function populateCritDropdowns(dropdown, isMainCrit = true) {
         'Magisch': ['Elektro', 'Hitze', 'Kälte', 'Schlag'],
         'Gross & Gewaltig': ['Grosse Wesen', 'Gewaltige Wesen'],
         'Helden': ['Hieb (Held)', 'Stich (Held)', 'Stoss (Held)', 'Streich (Held)'],
-        'Patzer': ['Allgemeine Patzer', "Waffenpatzer"]
+        'Patzer': ['Allgemeine Patzer']
     };
 
     if (!isMainCrit) {

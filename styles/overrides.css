@@ -15,6 +15,22 @@ h1 {
   text-shadow: 1px 1px 3px var(--bg), 0 0 8px rgba(229, 91, 65, 0.8), 0 0 12px rgba(229, 91, 65, 0.5);
 }
 
+/* Krit-Icon in der KPI-Zeile (neben Typ, Kat, Wurf, Bereich) */
+.kpi {
+  align-items: center;
+}
+
+.crit-kpi-icon {
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  min-height: 28px;
+  object-fit: contain;
+  flex-shrink: 0;
+  display: block;
+  vertical-align: middle;
+}
+
 /*
   ========================================
   LAYOUT FÜR AUSWAHL-SEKTION
@@ -93,6 +109,8 @@ h1 {
   height: 40px;
   padding: 0 4px;
   background-size: contain;
+  /* Weiße/helle Hintergründe von Icons werden mit Button-Farbe ersetzt (transparenter Effekt) */
+  background-blend-mode: darken;
 }
 
 /* Einheitliches Styling für alle Buttons, die ein Bild haben */
@@ -220,62 +238,32 @@ h1 {
   margin-bottom: 8px;
 }
 
-/* Hintergrundbilder für Waffen */
-.weapon-grid button[data-weapon="DOLCH"] {
-  background-image: url('../assets/icons/dolch.png');
-}
-
-.weapon-grid button[data-weapon="Axt (1H)"] {
-  background-image: url('../assets/icons/handaxt.png');
-}
-
-.weapon-grid button[data-weapon="Schwert (normal)"] {
-  background-image: url('../assets/icons/schwert.png');
-}
-
-.weapon-grid button[data-weapon="Bogen (kurz)"] {
-  background-image: url('../assets/icons/kurzbogen.png');
-}
-
-.weapon-grid button[data-weapon="Schleuder"] {
-  background-image: url('../assets/icons/schleuder.png');
-}
-
-.weapon-grid button[data-weapon="Axt (2H)"] {
-  background-image: url('../assets/icons/axt\ \(2h\).png');
-}
-
-.weapon-grid button[data-weapon="Stab"] {
-  background-image: url('../assets/icons/stab.png');
-}
-
-.weapon-grid button[data-weapon="Speer"] {
-  background-image: url('../assets/icons/speer.png');
-}
-
-.weapon-grid button[data-weapon="Schwert (kurz)"] {
-  background-image: url('../assets/icons/kurzschwert.png');
-}
-
-.weapon-grid button[data-weapon="Faust (gepanzert)"] {
-  background-image: url('../assets/icons/gep.\ faust.png');
-}
-
-.weapon-grid button[data-weapon="Knüppel"] {
-  background-image: url('../assets/icons/knueppel.png');
-}
-
-.weapon-grid button[data-weapon="Hammer"] {
-  background-image: url('../assets/icons/hammer.png');
-}
-
-.weapon-grid button[data-weapon="Bogen (komp.)"] {
-  background-image: url('../assets/icons/komp.\ bogen.png');
-}
-
-.weapon-grid button[data-weapon="Bogen (lang)"] {
-  background-image: url('../assets/icons/langbogen.png');
-}
+/* Hintergrundbilder für Waffen (JSON-Keys, Fallback falls JS Icons nicht setzt) */
+.weapon-grid button[data-weapon="DOLCH"] { background-image: url('../assets/icons/dolch.png'); }
+.weapon-grid button[data-weapon="HANDAXT"] { background-image: url('../assets/icons/handaxt.png'); }
+.weapon-grid button[data-weapon="PANZERFAUST"] { background-image: url('../assets/icons/gep.\ faust.png'); }
+.weapon-grid button[data-weapon="KAMPFAXT"] { background-image: url('../assets/icons/axt\ \(2h\).png'); }
+.weapon-grid button[data-weapon="BREITSCHWERT"] { background-image: url('../assets/icons/schwert.png'); }
+.weapon-grid button[data-weapon="KEULE"] { background-image: url('../assets/icons/knueppel.png'); }
+.weapon-grid button[data-weapon="COMPOSITEBOGEN"] { background-image: url('../assets/icons/komp.\ bogen.png'); }
+.weapon-grid button[data-weapon="FALCHION"],
+.weapon-grid button[data-weapon="SCIMITAR"] { background-image: url('../assets/icons/schwert.png'); }
+.weapon-grid button[data-weapon="WURFSPEER"],
+.weapon-grid button[data-weapon="LANZE"],
+.weapon-grid button[data-weapon="SPEER"] { background-image: url('../assets/icons/speer.png'); }
+.weapon-grid button[data-weapon="LANGBOGEN"] { background-image: url('../assets/icons/langbogen.png'); }
+.weapon-grid button[data-weapon="STREITKOLBEN"],
+.weapon-grid button[data-weapon="KRIEGSHAMMER"],
+.weapon-grid button[data-weapon="KRIEGSBEIL"],
+.weapon-grid button[data-weapon="MORGENSTERN"] { background-image: url('../assets/icons/hammer.png'); }
+.weapon-grid button[data-weapon="STANGENWAFFE"] { background-image: url('../assets/icons/halberd.png'); }
+.weapon-grid button[data-weapon="KAMPFSTAB"] { background-image: url('../assets/icons/stab.png'); }
+.weapon-grid button[data-weapon="RAPIER"],
+.weapon-grid button[data-weapon="KURZSCHWERT"] { background-image: url('../assets/icons/kurzschwert.png'); }
+.weapon-grid button[data-weapon="MAINEGAUCHE"] { background-image: url('../assets/icons/dolch.png'); }
+.weapon-grid button[data-weapon="KURZBOGEN"] { background-image: url('../assets/icons/kurzbogen.png'); }
+.weapon-grid button[data-weapon="SCHLEUDER"] { background-image: url('../assets/icons/schleuder.png'); }
+.weapon-grid button[data-weapon="ZWEIHÄNDER"] { background-image: url('../assets/icons/axt\ \(2h\).png'); }
 
 /* Hintergrundbilder für Rüstungen */
 div.rk button[data-rk="1"],
