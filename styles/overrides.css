@@ -8,19 +8,24 @@ h1 {
   text-shadow: 1px 1px 2px #000;
 }
 
-/* Header mit Aktionen */
+/* Header mit Aktionen – Icon zwingend oben rechts */
 header {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr auto;
   align-items: center;
-  flex-wrap: wrap;
   gap: 12px;
+}
+
+header > div:first-child {
+  min-width: 0;
 }
 
 .header-actions {
   display: flex;
   gap: 8px;
   align-items: center;
+  justify-self: end;
+  flex-shrink: 0;
 }
 
 /* Rollenwahl-Overlay */
@@ -131,7 +136,7 @@ header {
   margin-bottom: -2px;
 }
 
-/* Mobile: Tabs horizontal scrollbar, kompakter */
+/* Mobile: Tabs horizontal scrollbar, kompakter; Profil-Icon kleiner */
 @media (max-width: 600px) {
   .app-tabs {
     overflow-x: auto;
@@ -152,6 +157,13 @@ header {
   }
   .app-tabs .tab.active {
     padding-bottom: 10px;
+  }
+  .user-profile-btn {
+    padding: 4px;
+  }
+  .user-profile-btn img {
+    width: 28px;
+    height: 28px;
   }
 }
 
@@ -552,6 +564,11 @@ div.rk button[data-rk="20"] {
   .weapon-grid button span {
     font-size: 12px;
   }
+
+  /* Header: Titel kürzer, Profil-Icon bleibt rechts */
+  header h1 {
+    font-size: 0.9em;
+  }
 }
 
 .header-title {
@@ -809,6 +826,23 @@ div.rk button[data-rk="20"] {
   z-index: 50;
 }
 
+/* Dropdown öffnet nach unten, rechts am Button ausgerichtet */
+.user-profile-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: auto;
+  margin-top: 8px;
+  min-width: 220px;
+  max-width: min(280px, calc(100vw - 24px));
+  background: var(--panel);
+  border: 2px solid var(--accent);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  z-index: 1000;
+  overflow: hidden;
+}
+
 .user-profile-btn {
   padding: 6px;
   min-width: auto;
@@ -822,20 +856,6 @@ div.rk button[data-rk="20"] {
   height: 40px;
   object-fit: contain;
   display: block;
-}
-
-.user-profile-dropdown {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  margin-top: 8px;
-  min-width: 220px;
-  background: var(--panel);
-  border: 2px solid var(--accent);
-  border-radius: 10px;
-  box-shadow: var(--shadow);
-  z-index: 1000;
-  overflow: hidden;
 }
 
 .user-profile-dropdown.hidden {
