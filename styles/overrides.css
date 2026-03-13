@@ -103,16 +103,19 @@ header {
 }
 
 .app-tabs .tab {
-  padding: 10px 18px;
+  padding: 10px 14px;
   background: rgba(60, 45, 40, 0.9);
   border: 1px solid var(--border);
   border-bottom: none;
   border-radius: 8px 8px 0 0;
   color: var(--muted);
   cursor: pointer;
-  font-size: 0.95em;
+  font-size: 0.8em;
+  font-weight: normal;
   transition: all 0.2s ease;
   font-family: 'MonkeyIsland', Georgia, serif;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .app-tabs .tab:hover {
@@ -126,6 +129,30 @@ header {
   border-color: var(--accent);
   padding-bottom: 12px;
   margin-bottom: -2px;
+}
+
+/* Mobile: Tabs horizontal scrollbar, kompakter */
+@media (max-width: 600px) {
+  .app-tabs {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    margin-left: -4px;
+    margin-right: -4px;
+    padding: 0 4px 4px 4px;
+  }
+  .app-tabs::-webkit-scrollbar {
+    height: 4px;
+  }
+  .app-tabs .tab {
+    padding: 6px 10px;
+    font-size: 0.72em;
+    font-weight: normal;
+  }
+  .app-tabs .tab.active {
+    padding-bottom: 10px;
+  }
 }
 
 .tab-panel.hidden {
