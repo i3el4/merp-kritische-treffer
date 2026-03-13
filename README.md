@@ -84,7 +84,12 @@ cd merp-kritische-treffer
 2. `scripts/firebase-config.example.js` nach `private/firebase-config.js` kopieren
 3. Firebase Console → Projekt-Einstellungen → Web-App → Config eintragen
 
-Ohne `private/firebase-config.js` läuft die App mit **localStorage** (kein Sync).
+Ohne Firebase-Config läuft die App mit **localStorage** (kein Sync, keine Kampagnen-ID, kein Beitreten).
+
+**Für GitHub Pages:** Der Ordner `private/` wird nicht deployed. Damit Kampagnen-Sync auf der Live-URL funktioniert:
+1. `scripts/firebase-config.example.js` nach `scripts/firebase-config.js` kopieren
+2. Firebase-Konfiguration eintragen (gleiche Werte wie in `private/firebase-config.js`)
+3. `scripts/firebase-config.js` committen – Firebase Web-API-Keys sind für Client-Apps üblich öffentlich, Sicherheit über Firebase Security Rules
 
 ### 3. App starten
 

@@ -321,15 +321,23 @@ function initStartScreen() {
 }
 
 async function initFirebaseIfConfigured() {
-  try {
-    const mod = await import('../private/firebase-config.js');
-    const config = mod.firebaseConfig ?? mod.config ?? mod.default;
-    if (config?.apiKey && config.apiKey !== 'DEIN_API_KEY' && (await initFirebase(config))) {
-      await startSync();
-      subscribeToChanges(refreshKampftracker);
+  const loadConfig = async () => {
+    try {
+      const mod = await import('../private/firebase-config.js');
+      return mod.firebaseConfig ?? mod.config ?? mod.default;
+    } catch {
+      try {
+        const mod = await import('./firebase-config.js');
+        return mod.firebaseConfig ?? mod.config ?? mod.default;
+      } catch {
+        return null;
+      }
     }
-  } catch {
-    // firebase-config.js fehlt oder ungültig → localStorage
+  };
+  const config = await loadConfig();
+  if (config?.apiKey && config.apiKey !== 'DEIN_API_KEY' && (await initFirebase(config))) {
+    await startSync();
+    subscribeToChanges(refreshKampftracker);
   }
 }
 
