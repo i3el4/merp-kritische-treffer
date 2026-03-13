@@ -321,20 +321,13 @@ function initStartScreen() {
 }
 
 async function initFirebaseIfConfigured() {
-  const loadConfig = async () => {
-    try {
-      const mod = await import('../private/firebase-config.js');
-      return mod.firebaseConfig ?? mod.config ?? mod.default;
-    } catch {
-      try {
-        const mod = await import('./firebase-config.js');
-        return mod.firebaseConfig ?? mod.config ?? mod.default;
-      } catch {
-        return null;
-      }
-    }
-  };
-  const config = await loadConfig();
+  let config = null;
+  try {
+    const mod = await import('../private/firebase-config.js');
+    config = mod.firebaseConfig ?? mod.config ?? mod.default;
+  } catch {
+    // firebase-config.js fehlt (z.B. auf GitHub Pages) → localStorage
+  }
   if (config?.apiKey && config.apiKey !== 'DEIN_API_KEY' && (await initFirebase(config))) {
     await startSync();
     subscribeToChanges(refreshKampftracker);

@@ -1,6 +1,5 @@
 // Firebase Web Client Konfiguration – VORLAGE
-// Lokal: Kopiere nach private/firebase-config.js (wird nicht ins Repo committed).
-// GitHub Pages: Kopiere nach scripts/firebase-config.js (wird deployed, Kampagnen-Sync funktioniert).
+// Kopiere nach private/firebase-config.js (wird nicht ins Repo committed).
 // Firebase Console: https://console.firebase.google.com/ → Projekt → Einstellungen → Web-App
 
 export const firebaseConfig = {

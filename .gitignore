@@ -1,6 +1,7 @@
 # Sensible Dateien (API-Keys, Credentials)
 private/*
 !private/README.md
+scripts/firebase-config.js
 
 # Umgebungsvariablen (Fallback, falls nicht in private/)
 .env

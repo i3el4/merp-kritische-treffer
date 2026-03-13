@@ -86,10 +86,7 @@ cd merp-kritische-treffer
 
 Ohne Firebase-Config läuft die App mit **localStorage** (kein Sync, keine Kampagnen-ID, kein Beitreten).
 
-**Für GitHub Pages:** Der Ordner `private/` wird nicht deployed. Damit Kampagnen-Sync auf der Live-URL funktioniert:
-1. `scripts/firebase-config.example.js` nach `scripts/firebase-config.js` kopieren
-2. Firebase-Konfiguration eintragen (gleiche Werte wie in `private/firebase-config.js`)
-3. `scripts/firebase-config.js` committen – Firebase Web-API-Keys sind für Client-Apps üblich öffentlich, Sicherheit über Firebase Security Rules
+**Hinweis:** `private/` wird nicht ins Repo committed. Auf GitHub Pages gibt es daher keinen Firebase-Sync – Kampagnen-Sync funktioniert nur bei lokaler Installation mit `private/firebase-config.js`.
 
 ### 3. App starten
 
@@ -109,6 +106,12 @@ Ohne Firebase-Config läuft die App mit **localStorage** (kein Sync, keine Kampa
 - Kostenloser Spark-Plan (1 GB Speicher, 10 GB Transfer/Monat) reicht für Textdaten
 - Kampagnen-ID teilen → andere Geräte können beitreten
 - Firebase Console: Kampagnen-IDs einsehbar, falls Geräte verloren gehen
+
+### Sicherheit (API-Key)
+
+- **Nie** Firebase-Config ins Repo committen – nur in `private/` (gitignored)
+- Falls ein API-Key exponiert wurde: In [Google Cloud Console](https://console.cloud.google.com/) → APIs & Services → Credentials den Key **rotieren** (Regenerate)
+- **API-Key-Einschränkungen** setzen: Application restrictions (HTTP referrers: `localhost/*`, deine Domain) und API restrictions (nur benötigte APIs)
 
 ---
 
