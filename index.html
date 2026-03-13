@@ -73,29 +73,212 @@
       height: 120px;
     }
 
-    /* Versteckt den Video-Container nach dem Abspielen */
+    /* Versteckt den Start-Container nach dem Start */
     .intro-video-container.hidden {
       opacity: 0;
       pointer-events: none;
+      display: none !important;
     }
 
-    .intro-video-container .start-button.hidden {
+    .start-screen-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      padding: 32px;
+      background: rgba(0, 0, 0, 0.85);
+      border-radius: 16px;
+      border: 2px solid var(--accent);
+      max-width: 380px;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: center;
+    }
+
+    .start-screen-content h2 {
+      margin: 0;
+      color: var(--accent);
+      font-size: 1.2em;
+      font-family: 'Aniron', Georgia, serif;
+    }
+
+    .start-screen-content p {
+      margin: 0;
+      color: var(--text);
+      font-family: 'MonkeyIsland', Georgia, serif;
+    }
+
+    .start-screen-content .role-buttons {
+      display: flex;
+      gap: 12px;
+    }
+
+    .start-screen-expand-hint {
+      font-size: 0.9em;
+      color: var(--muted);
+      margin: 4px 0 0 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .start-screen-expand-hint.hidden {
       opacity: 0;
-      pointer-events: none;
+      height: 0;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    .start-screen-charakter-section {
+      width: 100%;
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.35s ease, opacity 0.3s ease, margin 0.3s ease;
+    }
+
+    .start-screen-charakter-section.expanded {
+      max-height: 320px;
+      opacity: 1;
+      margin-top: 16px;
+      padding: 0 8px 0 8px;
+      box-sizing: border-box;
+    }
+
+    .start-screen-content .charakterwahl-form {
+      text-align: left;
+      width: 100%;
+      padding: 0 4px 0 4px;
+      box-sizing: border-box;
+    }
+
+    .start-screen-content .charakterwahl-form select,
+    .start-screen-content .charakterwahl-form input {
+      box-sizing: border-box;
+      max-width: 100%;
+    }
+
+    .start-screen-content .charakterwahl-form select:focus,
+    .start-screen-content .charakterwahl-form input:focus {
+      outline-offset: 2px;
+    }
+
+    .start-screen-charakter-hint {
+      font-size: 0.8em;
+      color: var(--muted);
+      margin: 4px 0 0 0;
+      line-height: 1.3;
+    }
+
+    .start-screen-charakter-hint.hidden {
+      display: none !important;
+    }
+
+    .start-screen-join-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+      align-items: center;
+      min-width: 0;
+    }
+
+    .start-screen-join-row input {
+      flex: 1;
+      min-width: 0;
+      font-family: monospace;
+      font-size: 0.9em;
+    }
+
+    .start-screen-join-row button {
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+
+    .start-screen-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
     }
   </style>
 </head>
 
 <body>
-  <div class="intro-video-container">
-    <video id="introVideo" src="assets/videos/MERS.mp4" playsinline muted>
-      Ihr Browser unterstützt das Video-Tag nicht.
-    </video>
-    <div id="startButton" class="start-button">
-      <img src="assets/icons/apple-touch-icon.png" alt="App Icon">
-      <div class="text-container">
-        <span>Nach links, sonst krieg ich Komplexe!</span><br>
-        <span>Hier geht's zur App</span>
+  <!-- Start-Screen: Rolle und Charakter-Auswahl (ersetzt Video-Start) -->
+  <div id="introStartContainer" class="intro-video-container">
+    <div id="startScreenContent" class="start-screen-content">
+      <h2>MERS • Angriffe & Kritische Treffer</h2>
+      <p>1. Wähle deine Rolle:</p>
+      <div class="role-buttons">
+        <button type="button" class="btn primary" data-role="spieler">Spieler</button>
+        <button type="button" class="btn primary" data-role="spielleiter">Spielleiter</button>
+      </div>
+      <p id="startScreenExpandHint" class="start-screen-expand-hint hidden">2. ↓ Kampagne & Charakter wählen<span id="startScreenExpandHintOptional"> (optional)</span></p>
+      <div id="startScreenCharakterSection" class="start-screen-charakter-section">
+        <div id="startScreenCharakterwahl" class="charakterwahl-form">
+          <div id="startScreenJoinWrap" class="start-screen-join-row hidden">
+            <input type="text" id="startScreenKampagneJoin" placeholder="Kampagnen-ID zum Beitreten" />
+            <button type="button" class="btn primary" id="startScreenKampagneJoinBtn">Beitreten</button>
+          </div>
+          <label for="startScreenKampagne">Kampagne</label>
+          <select id="startScreenKampagne">
+            <option value="">(Kampagne wählen)</option>
+          </select>
+          <label for="startScreenCharakter">Charakter</label>
+          <p id="startScreenCharakterHint" class="start-screen-charakter-hint hidden">Dein Hauptcharakter, falls du neben der Spielleitung selbst mitspielst.</p>
+          <div class="start-screen-charakter-row">
+            <select id="startScreenCharakter">
+              <option value="">(Charakter wählen)</option>
+            </select>
+            <div id="startScreenCharakterPreview" class="start-screen-charakter-preview hidden">
+              <img id="startScreenCharakterIcon" src="" alt="" />
+              <span id="startScreenCharakterName"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="start-screen-actions">
+        <button type="button" class="btn ghost hidden" id="startScreenOhneCharakter">Ohne Charakter fortfahren</button>
+        <button type="button" class="btn primary" id="startScreenStarten">Starten</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rollenwahl (für späteren Wechsel über „Rolle“-Button) -->
+  <div id="roleOverlay" class="role-overlay hidden">
+    <div class="role-card">
+      <h2>Deine Rolle</h2>
+      <p>Wähle, wie du die App nutzen möchtest:</p>
+      <div class="role-buttons">
+        <button type="button" class="btn primary" data-role="spieler">Spieler</button>
+        <button type="button" class="btn primary" data-role="spielleiter">Spielleiter</button>
+      </div>
+      <p class="role-hint">Du kannst die Rolle jederzeit über den „Rolle“-Button wechseln.</p>
+    </div>
+  </div>
+
+  <!-- Charakterwahl (Profil: Kampagne & Charakter anpassen) -->
+  <div id="charakterwahlOverlay" class="role-overlay hidden">
+    <div class="role-card">
+      <h2>Kampagne & Charakter</h2>
+      <p>Wähle Kampagne und deinen Charakter:</p>
+      <div class="charakterwahl-form">
+        <div id="charakterwahlJoinWrap" class="start-screen-join-row hidden">
+          <input type="text" id="charakterwahlKampagneJoin" placeholder="Kampagnen-ID zum Beitreten" />
+          <button type="button" class="btn primary" id="charakterwahlKampagneJoinBtn">Beitreten</button>
+        </div>
+        <label for="charakterwahlKampagne">Kampagne</label>
+        <select id="charakterwahlKampagne">
+          <option value="">(Kampagne wählen)</option>
+        </select>
+        <label for="charakterwahlCharakter">Charakter</label>
+        <p id="charakterwahlCharakterHint" class="start-screen-charakter-hint hidden">Dein Hauptcharakter, falls du neben der Spielleitung selbst mitspielst.</p>
+        <select id="charakterwahlCharakter">
+          <option value="">(Charakter wählen)</option>
+        </select>
+      </div>
+      <div class="charakterwahl-actions">
+        <button type="button" class="btn ghost" id="charakterwahlZurueck">Zurück</button>
+        <button type="button" class="btn primary" id="charakterwahlStarten">Starten</button>
+        <button type="button" class="btn ghost" id="charakterwahlOhneCharakter" hidden>Ohne Charakter
+          fortfahren</button>
       </div>
     </div>
   </div>
@@ -105,98 +288,122 @@
       <div>
         <h1>MERS • Angriffe & Kritische Treffer</h1>
       </div>
-      <button class="btn" id="installBtn" hidden>Installieren</button>
+      <div class="header-actions">
+        <div class="user-profile-wrap">
+          <button type="button" class="btn user-profile-btn" id="userProfileBtn" title="Profil & Einstellungen">
+            <img id="userProfileIcon" src="assets/icons/wizard.png" alt="Profil" />
+          </button>
+          <div id="userProfileDropdown" class="user-profile-dropdown hidden">
+            <button type="button" class="user-profile-dropdown-item" id="userProfileRolle">Rolle wechseln</button>
+            <button type="button" class="user-profile-dropdown-item" id="userProfileCharakter">Charakter
+              wechseln</button>
+            <div class="user-profile-audio-section">
+              <div class="user-profile-audio-heading">Audio & Sprache</div>
+              <div class="audio-controls">
+                <button class="btn" id="bgToggleBtn">Musik ▶︎</button>
+                <label class="sr" for="bgVol">Musik-Lautstärke</label>
+                <input id="bgVol" type="range" min="0" max="1" step="0.01" value="0.20">
+                <span class="badge">Hintergrundmusik</span>
+              </div>
+              <div class="audio-controls">
+                <label for="ttsVol">Lautstärke</label>
+                <input id="ttsVol" type="range" min="0" max="1" step="0.01" value="1.00">
+                <span class="badge">TTS-Fallback</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="btn" id="installBtn" hidden>Installieren</button>
+      </div>
     </header>
 
-    <div class="grid">
-      <section class="card">
-        <h2>1) Angriff</h2>
-        <div class="selection-container">
-          <div class="weapon-section">
-            <label>Waffenart</label>
-            <div id="weaponWrap" class="weapon-grid"></div>
-          </div>
-          <div class="rk-section">
-            <label>Rüstungsklasse & Gegnertyp</label>
-            <div class="rk-und-gegner">
-              <div class="gegner-typ-container">
-                <div class="gegner-typ" id="gegnerTyp">
-                  <button type="button" class="btn active" data-gegner-typ="normal">Normal</button>
-                  <button type="button" class="btn" data-gegner-typ="gross">Gross</button>
-                  <button type="button" class="btn" data-gegner-typ="gewaltig">Gewaltig</button>
+    <!-- Tab-Navigation Spielleiter -->
+    <nav id="spielleiterTabs" class="app-tabs" hidden>
+      <button type="button" class="tab active" data-tab="simulator">Kampf-Simulator</button>
+      <button type="button" class="tab" data-tab="kampftracker">Kampftracker</button>
+      <button type="button" class="tab" data-tab="charaktertracker">Charakter-Stats</button>
+      <button type="button" class="tab" data-tab="erfassung">Kampagne</button>
+    </nav>
+    <!-- Tab-Navigation Spieler (Kampf-Simulator + Charakter-Stats) -->
+    <nav id="spielerTabs" class="app-tabs" hidden>
+      <button type="button" class="tab active" data-tab="simulator">Kampf-Simulator</button>
+      <button type="button" class="tab" data-tab="charaktertracker">Charakter-Stats</button>
+    </nav>
+
+    <div id="simulatorPanel" class="tab-panel">
+      <div class="grid">
+        <section class="card">
+          <h2>1) Angriff</h2>
+          <div class="selection-container">
+            <div id="simulatorAngreiferRow" class="ziel-row" hidden>
+              <label for="simulatorCharakterSelect">Angreifer</label>
+              <select id="simulatorCharakterSelect">
+                <option value="">(Kein Charakter)</option>
+              </select>
+            </div>
+            <div class="weapon-section">
+              <label>Waffenart</label>
+              <div id="weaponWrap" class="weapon-grid"></div>
+            </div>
+            <div id="simulatorZielSection" class="ziel-section" hidden>
+              <label>Angriffsziel(e)</label>
+              <div id="simulatorZielListe" class="ziel-liste"></div>
+              <span id="simulatorZielInfo" class="ziel-info muted"></span>
+            </div>
+            <div class="rk-section">
+              <label>Rüstungsklasse & Gegnertyp</label>
+              <div class="rk-und-gegner">
+                <div class="gegner-typ-container">
+                  <div class="gegner-typ" id="gegnerTyp">
+                    <button type="button" class="btn active" data-gegner-typ="normal">Normal</button>
+                    <button type="button" class="btn" data-gegner-typ="gross">Gross</button>
+                    <button type="button" class="btn" data-gegner-typ="gewaltig">Gewaltig</button>
+                  </div>
                 </div>
+                <div class="rk" id="rk"></div>
               </div>
-              <div class="rk" id="rk"></div>
             </div>
-          </div>
 
+            <div class="row">
+              <div>
+                <label for="attack">Angriffswert (berechnet)</label><br>
+                <input id="attack" type="number" inputmode="numeric" placeholder="z. B. 126" />
+              </div>
+            </div>
+
+            <div class="actions">
+              <button class="btn primary" id="calcAttack">Treffer ermitteln</button>
+              <button class="btn ghost" id="resetBtn">Zurücksetzen</button>
+            </div>
+            <div class="out" id="attackOut">
+              <div class="kpi" id="attackKpi"></div>
+              <div class="result muted">Noch kein Ergebnis.</div>
+            </div>
+            <div id="attackApplyWrap" class="apply-schaden-wrap"></div>
+        </section>
+
+        <section class="card">
+          <h2>2) Kritischer Haupttreffer</h2>
           <div class="row">
             <div>
-              <label for="attack">Angriffswert (berechnet)</label><br>
-              <input id="attack" type="number" inputmode="numeric" placeholder="z. B. 126" />
+              <label for="critRoll">Würfelwurf</label><br>
+              <input id="critRoll" type="number" min="1" max="100-100" placeholder="z. B. 66" />
             </div>
-          </div>
-
-          <div class="actions">
-            <button class="btn primary" id="calcAttack">Treffer ermitteln</button>
-            <button class="btn ghost" id="resetBtn">Zurücksetzen</button>
-          </div>
-          <div class="out" id="attackOut">
-            <div class="kpi" id="attackKpi"></div>
-            <div class="result muted">Noch kein Ergebnis.</div>
-          </div>
-      </section>
-
-      <section class="card">
-        <h2>2) Kritischer Haupttreffer</h2>
-        <div class="row">
-          <div>
-            <label for="critRoll">Würfelwurf</label><br>
-            <input id="critRoll" type="number" min="1" max="100-100" placeholder="z. B. 66" />
-          </div>
-          <div>
-            <label for="critType">Krit-Typ</label><br>
-            <select id="critType">
-              <option value="">(automatisch aus Schritt 1 übernommen)</option>
-              <option value="Stich">Stich (P)</option>
-              <option value="Streich">Streich (S)</option>
-              <option value="Hieb">Hieb (K)</option>
-              <option value="Schlag">Schlag</option>
-              <option value="Hitze">Hitze</option>
-            </select>
-          </div>
-          <div>
-            <label for="critCat">Kategorie</label><br>
-            <select id="critCat">
-              <option value="">(auto)</option>
-              <option>A</option>
-              <option>B</option>
-              <option>C</option>
-              <option>D</option>
-              <option>E</option>
-            </select>
-          </div>
-        </div>
-        <div class="actions">
-          <button class="btn primary" id="calcCrit">Kritischer Treffer ermitteln</button>
-        </div>
-        <div class="out" id="critOut">
-          <div class="kpi" id="critKpi"></div>
-          <div class="result muted">Noch kein Ergebnis.</div>
-        </div>
-        <hr>
-        <details>
-          <summary>3) Nebentreffer (optional)</summary>
-          <div class="row">
             <div>
-              <label for="sideType">Nebentreffer-Tabelle</label><br>
-              <select id="sideType">
-                <option value="">(eine wählen)</option>
+              <label for="critType">Krit-Typ</label><br>
+              <select id="critType">
+                <option value="">(automatisch aus Schritt 1 übernommen)</option>
+                <option value="Stich">Stich (P)</option>
+                <option value="Streich">Streich (S)</option>
+                <option value="Hieb">Hieb (K)</option>
+                <option value="Schlag">Schlag</option>
+                <option value="Hitze">Hitze</option>
               </select>
             </div>
             <div>
-              <label for="sideCat">Kategorie</label><br>
-              <select id="sideCat">
+              <label for="critCat">Kategorie</label><br>
+              <select id="critCat">
+                <option value="">(auto)</option>
                 <option>A</option>
                 <option>B</option>
                 <option>C</option>
@@ -204,81 +411,270 @@
                 <option>E</option>
               </select>
             </div>
-            <div>
-              <label for="sideRoll">Würfelwurf</label><br>
-              <input id="sideRoll" type="number" min="1" max="100-100" placeholder="z. B. 87" />
-            </div>
           </div>
           <div class="actions">
-            <button class="btn primary" id="calcSide">Nebentreffer ermitteln</button>
+            <button class="btn primary" id="calcCrit">Kritischer Treffer ermitteln</button>
           </div>
-          <div class="out" id="sideOut">
-            <div class="kpi" id="sideKpi"></div>
+          <div class="out" id="critOut">
+            <div class="kpi" id="critKpi"></div>
             <div class="result muted">Noch kein Ergebnis.</div>
           </div>
-        </details>
+          <div id="critApplyWrap" class="apply-schaden-wrap"></div>
+          <hr>
+          <details>
+            <summary>3) Nebentreffer (optional)</summary>
+            <div class="row">
+              <div>
+                <label for="sideType">Nebentreffer-Tabelle</label><br>
+                <select id="sideType">
+                  <option value="">(eine wählen)</option>
+                </select>
+              </div>
+              <div>
+                <label for="sideCat">Kategorie</label><br>
+                <select id="sideCat">
+                  <option>A</option>
+                  <option>B</option>
+                  <option>C</option>
+                  <option>D</option>
+                  <option>E</option>
+                </select>
+              </div>
+              <div>
+                <label for="sideRoll">Würfelwurf</label><br>
+                <input id="sideRoll" type="number" min="1" max="100-100" placeholder="z. B. 87" />
+              </div>
+            </div>
+            <div class="actions">
+              <button class="btn primary" id="calcSide">Nebentreffer ermitteln</button>
+            </div>
+            <div class="out" id="sideOut">
+              <div class="kpi" id="sideKpi"></div>
+              <div class="result muted">Noch kein Ergebnis.</div>
+            </div>
+            <div id="sideApplyWrap" class="apply-schaden-wrap"></div>
+          </details>
+        </section>
+      </div>
+
+    </div>
+
+    <div id="kampftrackerPanel" class="tab-panel hidden">
+      <section class="card">
+        <div class="kampftracker-header">
+          <h2>Gegner</h2>
+          <div class="runde-controls">
+            <span id="rundeAnzeige">Runde 1</span>
+            <button type="button" class="btn runde-next-btn" id="rundeNext" title="Runde beenden">Runde beenden</button>
+          </div>
+        </div>
+        <div id="gegnerListe" class="gegner-liste"></div>
+        <div class="gegner-erfassung-trenner"></div>
+        <form id="gegnerAddForm" class="gegner-add-form">
+          <div class="row">
+            <div>
+              <label for="gegnerName">Name</label>
+              <input type="text" name="gegnerName" id="gegnerName" placeholder="z. B. Ork 1" required />
+            </div>
+            <div>
+              <label>Icon</label>
+              <div id="gegnerIconPicker" class="icon-picker"></div>
+            </div>
+            <div>
+              <label for="gegnerTp">Trefferpunkte</label>
+              <input type="number" name="gegnerTp" id="gegnerTp" min="1" placeholder="z. B. 100" required />
+            </div>
+            <div>
+              <label for="gegnerGroesse">Grösse</label>
+              <select name="gegnerGroesse" id="gegnerGroesse">
+                <option value="normal">Normal</option>
+                <option value="gross">Gross</option>
+                <option value="gewaltig">Gewaltig</option>
+              </select>
+            </div>
+            <div>
+              <label for="gegnerRk">Rüstungsklasse</label>
+              <select name="gegnerRk" id="gegnerRk">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20" selected>20</option>
+              </select>
+            </div>
+          </div>
+          <button type="submit" class="btn primary">Gegner hinzufügen</button>
+        </form>
       </section>
     </div>
 
-    <section class="card" style="margin-top:12px">
-      <h2>Audio & Sprache</h2>
-      <div class="flex">
-        <div class="audio-controls">
-          <button class="btn" id="bgToggleBtn">Musik ▶︎</button>
-          <label class="sr" for="bgVol">Musik-Lautstärke</label>
-          <input id="bgVol" type="range" min="0" max="1" step="0.01" value="0.20">
-          <span class="badge">Hintergrundmusik je Tabelle</span>
+    <div id="charaktertrackerPanel" class="tab-panel hidden">
+      <section class="card">
+        <div class="kampftracker-header">
+          <h2>Spieler & NPCs</h2>
+          <div class="runde-controls">
+            <span id="charRundeAnzeige">Runde 1</span>
+            <button type="button" class="btn runde-next-btn" id="charRundeNext" title="Runde beenden">Runde beenden</button>
+          </div>
         </div>
-        <div class="audio-controls">
-          <label for="ttsVol">Lautstärke</label>
-          <input id="ttsVol" type="range" min="0" max="1" step="0.01" value="1.00">
-          <span class="badge">TTS-Fallback (falls keine MP3 gefunden)</span>
+        <div id="charakterListe" class="gegner-liste"></div>
+      </section>
+    </div>
+
+    <div id="erfassungPanel" class="tab-panel hidden">
+      <section class="card kampagne-kontext-card">
+        <h2>Kampagne</h2>
+        <div class="row kampagne-row">
+          <select id="kampagneSelect">
+            <option value="">(Keine Kampagne)</option>
+          </select>
+          <button type="button" class="btn" id="kampagneAdd">Neu</button>
+          <button type="button" class="btn ghost" id="kampagneRename">Umbenennen</button>
+          <button type="button" class="btn ghost" id="kampagneDel">Löschen</button>
         </div>
-      </div>
-    </section>
+        <div id="kampagneSyncWrap" class="kampagne-sync-wrap hidden">
+          <h3>Kampagne teilen / beitreten</h3>
+          <div class="kampagne-share-row">
+            <label for="kampagneIdDisplay">Kampagnen-ID</label>
+            <div class="kampagne-id-row">
+              <input type="text" id="kampagneIdDisplay" readonly />
+              <button type="button" class="btn ghost" id="kampagneIdCopy">Kopieren</button>
+            </div>
+          </div>
+          <div class="kampagne-join-row">
+            <label for="kampagneJoinInput">Beitreten mit ID</label>
+            <div class="kampagne-join-input-row">
+              <input type="text" id="kampagneJoinInput" placeholder="Kampagnen-ID eingeben" />
+              <button type="button" class="btn primary" id="kampagneJoinBtn">Beitreten</button>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="card kampagne-inhalt-card">
+        <h2 class="kampagne-inhalt-title">Inhalt der Kampagne</h2>
+        <div class="kampagne-inhalt-sections">
+          <div class="kampagne-section">
+            <h3>NPCs</h3>
+            <div id="npcListe" class="charakter-liste"></div>
+            <form id="npcAddForm" class="charakter-add-form">
+              <div class="row">
+                <input type="text" name="npcName" id="npcName" placeholder="z. B. Gandalf" required />
+                <button type="submit" class="btn primary">NPC hinzufügen</button>
+              </div>
+              <div class="charakter-add-fields">
+                <div class="row">
+                  <div>
+                    <label for="npcTp">Trefferpunkte</label>
+                    <input type="number" name="npcTp" id="npcTp" min="1" placeholder="z. B. 100" value="100" />
+                  </div>
+                  <div>
+                    <label for="npcRk">Rüstungsklasse</label>
+                    <select name="npcRk" id="npcRk">
+                      <option value="20" selected>20</option>
+                      <option value="19">19</option>
+                      <option value="18">18</option>
+                      <option value="17">17</option>
+                      <option value="16">16</option>
+                      <option value="15">15</option>
+                      <option value="14">14</option>
+                      <option value="13">13</option>
+                      <option value="12">12</option>
+                      <option value="11">11</option>
+                      <option value="10">10</option>
+                      <option value="9">9</option>
+                      <option value="8">8</option>
+                      <option value="7">7</option>
+                      <option value="6">6</option>
+                      <option value="5">5</option>
+                      <option value="4">4</option>
+                      <option value="3">3</option>
+                      <option value="2">2</option>
+                      <option value="1">1</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="icon-picker-row">
+                <label>Icon</label>
+                <div id="npcIconPicker" class="icon-picker"></div>
+              </div>
+            </form>
+          </div>
+          <div class="kampagne-section">
+            <h3>Spieler</h3>
+            <div id="spielerListe" class="charakter-liste"></div>
+            <form id="spielerAddForm" class="charakter-add-form">
+              <div class="row">
+                <input type="text" name="spielerName" id="spielerName" placeholder="z. B. Thorin" required />
+                <button type="submit" class="btn primary">Spieler hinzufügen</button>
+              </div>
+              <div class="charakter-add-fields">
+                <div class="row">
+                  <div>
+                    <label for="spielerTp">Trefferpunkte</label>
+                    <input type="number" name="spielerTp" id="spielerTp" min="1" placeholder="z. B. 100" value="100" />
+                  </div>
+                  <div>
+                    <label for="spielerRk">Rüstungsklasse</label>
+                    <select name="spielerRk" id="spielerRk">
+                      <option value="20" selected>20</option>
+                      <option value="19">19</option>
+                      <option value="18">18</option>
+                      <option value="17">17</option>
+                      <option value="16">16</option>
+                      <option value="15">15</option>
+                      <option value="14">14</option>
+                      <option value="13">13</option>
+                      <option value="12">12</option>
+                      <option value="11">11</option>
+                      <option value="10">10</option>
+                      <option value="9">9</option>
+                      <option value="8">8</option>
+                      <option value="7">7</option>
+                      <option value="6">6</option>
+                      <option value="5">5</option>
+                      <option value="4">4</option>
+                      <option value="3">3</option>
+                      <option value="2">2</option>
+                      <option value="1">1</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label for="spielerWahrnehmung">Wahrnehmung</label>
+                    <input type="text" name="spielerWahrnehmung" id="spielerWahrnehmung" placeholder="z. B. 72" />
+                  </div>
+                </div>
+              </div>
+              <div class="icon-picker-row">
+                <label>Icon</label>
+                <div id="spielerIconPicker" class="icon-picker"></div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+    </div>
   </div>
 
   <audio id="bgAudio" loop></audio>
   <audio id="sfxAudio"></audio>
 
   <script type="module" src="scripts/main.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const video = document.getElementById('introVideo');
-      const container = document.querySelector('.intro-video-container');
-      const startButton = document.getElementById('startButton');
-
-      // Prüft, ob das Video schon einmal in dieser Sitzung abgespielt wurde
-      const hasPlayed = sessionStorage.getItem('introPlayed');
-
-      if (!hasPlayed) {
-        startButton.style.display = 'flex';
-
-        const startVideo = () => {
-          startButton.classList.add('hidden');
-
-          video.muted = false;
-          video.play().then(() => {
-            video.onended = () => {
-              container.classList.add('hidden');
-              sessionStorage.setItem('introPlayed', 'true');
-            };
-          }).catch(err => {
-            console.error('Video-Wiedergabe fehlgeschlagen, überspringe Intro:', err);
-            container.classList.add('hidden');
-            sessionStorage.setItem('introPlayed', 'true');
-          });
-
-          startButton.removeEventListener('click', startVideo);
-        };
-
-        startButton.addEventListener('click', startVideo);
-
-      } else {
-        container.style.display = 'none';
-      }
-    });
-  </script>
 </body>
 
 </html>

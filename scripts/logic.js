@@ -64,6 +64,7 @@ export function calculateAttack() {
     kpi.innerHTML = '';
     res.innerHTML = '';
     res.classList.remove('muted');
+    state.lastAttackTp = 0;
 
     const weaponBlock = state.treffer?.Angriffstabellen?.[weaponKey];
     if (!weaponKey || !weaponBlock?.RK) {
@@ -157,6 +158,8 @@ export function calculateAttack() {
     kpi.append(chip(`Waffe: ${label}`));
     kpi.append(chip(`RK: ${rk}`));
     kpi.append(chip(`Angriffswert: ${attack}`));
+
+    state.lastAttackTp = totalTp;
 
     const pillz = document.createElement('div');
     pillz.className = 'kpi';

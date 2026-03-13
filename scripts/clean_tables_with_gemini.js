@@ -5,7 +5,8 @@
  * wendet Visual-Regeln an und speichert tables_clean.json.
  */
 
-require('dotenv').config();
+require('dotenv').config({ path: require('path').join(__dirname, '../private/.env') });
+require('dotenv').config(); // Fallback: .env im Projektroot
 const fs = require('fs');
 const path = require('path');
 const { GoogleGenAI } = require('@google/genai');

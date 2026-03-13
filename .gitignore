@@ -1,4 +1,8 @@
-# Umgebungsvariablen (API-Keys etc.)
+# Sensible Dateien (API-Keys, Credentials)
+private/*
+!private/README.md
+
+# Umgebungsvariablen (Fallback, falls nicht in private/)
 .env
 
 # Node
@@ -6,3 +10,6 @@ node_modules/
 
 # macOS
 .DS_Store
+
+# IDE
+.cursor/

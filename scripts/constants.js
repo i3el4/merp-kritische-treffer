@@ -117,4 +117,25 @@ export const URLS = {
   ICONS_BASE_PATH: 'assets/icons/',
 };
 
+/** Icons für Gegner, NPCs und Charaktere (Dateiname → Anzeigename) */
+export const CHARAKTER_ICONS = {
+  'bad_guy.png': 'Bösewicht',
+  'bard.png': 'Barde',
+  'dragon.png': 'Drache',
+  'dwarf.png': 'Zwerg',
+  'elf.png': 'Elf',
+  'gondorian.png': 'Gondorianer',
+  'hobbit.png': 'Hobbit',
+  'nazgul.png': 'Nazgûl',
+  'orc.png': 'Ork',
+  'ranger.png': 'Waldläufer',
+  'troll.png': 'Troll',
+  'undeath.png': 'Untoter',
+  'warg.png': 'Warg',
+  'wizard.png': 'Zauberer',
+  'gegner_normal.png': 'Goblin',
+  'gegner_gross.png': 'Oger',
+  'gegner_gewaltig.png': 'Drake',
+};
+
 export const DEFAULT_RK = 3;

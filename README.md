@@ -1,6 +1,35 @@
-# MERS Angriffs- & Kritische-Treffer App (PWA)
+# MERS • Angriffs- & Kritische Treffer
 
-Diese App erleichtert das Nachschlagen von Angriffswerten und kritischen Treffern im Mittelerde-Rollenspiel (MERP/MERS). Der Fokus liegt auf einer immersiven Nutzererfahrung durch Audio-Feedback und einem optimierten mobilen Design.
+Progressive Web App (PWA) für das Mittelerde-Rollenspiel (MERP/MERS). Ermöglicht schnelles Nachschlagen von Angriffswerten und kritischen Treffern, inklusive Kampftracker, Charakter-Stats und Echtzeit-Sync über mehrere Geräte.
+
+---
+
+## ✨ Funktionalität
+
+### Kampf-Simulator
+- **Angriff:** Waffenart, RK, Gegnertyp → Trefferbereich ermitteln
+- **Kritischer Haupttreffer:** Würfelwurf + Typ/Kategorie → TTS oder MP3-Ausgabe
+- **Nebentreffer:** Optionale Zusatztreffer
+- **Schaden anwenden:** TP und Status direkt auf gewählte Ziele übertragen
+
+### Kampftracker
+- Gegner mit TP, RK, Icon verwalten
+- Rundenende: laufende Schäden, Status (ben, benoPar, oPar, init, ko) automatisch verarbeiten
+- TP heilen, Blutung stoppen
+
+### Charakter-Stats
+- Spieler und NPCs mit TP, RK, Wahrnehmung
+- Gleiche Rundenlogik und Schadensverarbeitung wie bei Gegnern
+
+### Kampagnen
+- Kampagnen anlegen, umbenennen, löschen
+- **Firebase-Sync:** Kampagnen über Geräte hinweg teilen
+- Kampagnen-ID kopieren oder per ID beitreten
+- Ohne Firebase: lokale Speicherung (localStorage)
+
+### Rollen
+- **Spielleiter:** Voller Zugriff (Simulator, Kampftracker, Charakter-Stats, Kampagne)
+- **Spieler:** Simulator + Charakter-Stats, Kampagne/Charakter wählbar
 
 ---
 
@@ -8,68 +37,97 @@ Diese App erleichtert das Nachschlagen von Angriffswerten und kritischen Treffer
 
 ```plaintext
 /
-├── index_clean.html          # Haupt-HTML (verwende diese statt der alten index.html)
+├── index.html              # Haupt-HTML
+├── sw.js                   # Service Worker (PWA)
 ├── scripts/
-│   └── app.js                # Gesamter JavaScript-Code
+│   ├── main.js             # Einstieg, Rollenwahl, Tabs
+│   ├── app.js              # Simulator-Logik, Waffen, RK
+│   ├── kampftracker.js     # Kampftracker, Kampagnen-UI, Ziele
+│   ├── campaigns.js        # Kampagnen-Daten, Gegner, Spieler, NPCs
+│   ├── firebase-storage.js # Firebase Realtime Database / localStorage
+│   ├── firebase-config.example.js  # Vorlage für Firebase-Konfiguration
+│   ├── events.js           # Event-Listener, Schaden anwenden
+│   ├── logic.js            # Angriffs- und Krit-Berechnung
+│   ├── data.js             # JSON-Daten laden
+│   ├── audio.js            # TTS, Hintergrundmusik
+│   └── ...
 ├── styles/
-│   ├── base.css              # Basiseinstellungen (Farben, Schrift)
-│   └── overrides.css         # App-spezifische Layout-Details
+│   ├── base.css
+│   └── overrides.css
 ├── assets/
-│   ├── audio/
-│   │   ├── krit/             # Kritische Treffer MP3s (z. B. Streich_E_1-5.mp3)
-│   │   └── musik/            # Hintergrundmusik pro Trefferart (z. B. Helden_streich.mp3)
+│   ├── audio/krit/         # Krit-Treffer MP3s
+│   ├── audio/musik/         # Hintergrundmusik
+│   ├── data/               # tables.json, treffer_tabellen_strukturiert.json
 │   ├── fonts/
-│   │   └── Aniron.ttf        # Hauptschriftart
-│   ├── img/
-│   │   └── map_bg.jpeg       # Hintergrundbild
 │   ├── icons/
-│   │   └── apple-touch-icon.png  # PWA Icon
-│   ├── data/
-│       ├── tables.json
-│       └── treffer_tabellen_strukturiert.json
+│   └── img/
+└── private/                # Sensible Dateien (nicht in Git)
+    ├── README.md           # Einrichtungsanleitung
+    ├── firebase-config.js  # Firebase Web-Client-Config
+    └── .env                # API-Keys für Node-Skripte
 ```
 
 ---
 
 ## 🚀 Setup
 
-1. Kopiere alle Dateien in dein Projektverzeichnis.
-2. Stelle sicher, dass die Ordnerstruktur **genau so** wie oben abgebildet umgesetzt ist.
-3. Öffne `index_clean.html` lokal oder auf GitHub Pages – die App funktioniert als Progressive Web App (PWA).
-4. Optional: „Zum Home-Bildschirm hinzufügen“ auf iOS/Safari für eine App-ähnliche Nutzung.
+### 1. Repository klonen
+
+```bash
+git clone <repo-url>
+cd merp-kritische-treffer
+```
+
+### 2. Sensible Dateien (optional, für Firebase)
+
+1. Ordner `private/` anlegen (falls nicht vorhanden)
+2. `scripts/firebase-config.example.js` nach `private/firebase-config.js` kopieren
+3. Firebase Console → Projekt-Einstellungen → Web-App → Config eintragen
+
+Ohne `private/firebase-config.js` läuft die App mit **localStorage** (kein Sync).
+
+### 3. App starten
+
+- **Lokal:** `python3 -m http.server 8765` oder beliebiger HTTP-Server
+- **GitHub Pages:** Repo → Settings → Pages → Source: main branch
+
+### 4. PWA installieren
+
+- iOS/Safari: „Zum Home-Bildschirm hinzufügen“
+- Android/Chrome: „App installieren“ im Menü
 
 ---
 
-## 🎧 Audio-Integration
+## 🔥 Firebase (Echtzeit-Sync)
 
-- Alle kritischen Treffer verwenden automatisch MP3s aus `assets/audio/krit/` im Format:  
-  `Typ_Kat_Bereich.mp3` (z. B. `Streich_E_1-5.mp3`)
-- Für jede Kritische Trefferart kann passende Hintergrundmusik in `assets/audio/musik/` hinterlegt werden.
-- Falls keine MP3 vorhanden: automatische Sprachausgabe via TTS (Text-to-Speech)
-
----
-
-## 📄 Datenquellen
-
-Die App lädt zwei JSON-Dateien dynamisch:
-- **treffer_tabellen_strukturiert.json**: Angriffstabellen pro Waffenart
-- **tables.json**: Kritische Treffertexte (nach Typ/Kategorie/Wurf)
+- **Realtime Database** speichert Kampagnen unter `/campaigns/{id}`
+- Kostenloser Spark-Plan (1 GB Speicher, 10 GB Transfer/Monat) reicht für Textdaten
+- Kampagnen-ID teilen → andere Geräte können beitreten
+- Firebase Console: Kampagnen-IDs einsehbar, falls Geräte verloren gehen
 
 ---
 
-## 🛠 Entwicklerhinweise
+## 🎧 Audio
 
-- Die gesamte Logik liegt in `scripts/app.js`
-- Alle Farben, Schriftarten und Layoutdetails sind in `styles/base.css` und `styles/overrides.css` geregelt.
-- Du kannst eigene Waffenarten, Treffertexte oder Audio-Dateien leicht hinzufügen, indem du die JSON-Dateien erweiterst.
+- Krit-Treffer: MP3s aus `assets/audio/krit/` (Format: `Typ_Kat_Bereich.mp3`)
+- Hintergrundmusik: `assets/audio/musik/`
+- Fallback: Browser-TTS (Text-to-Speech)
+
+---
+
+## 🛠 Entwickler
+
+- **Node-Skripte** (Gemini, ElevenLabs): `private/.env` mit API-Keys, siehe `private/README.md`
+- **Daten:** `assets/data/tables.json`, `treffer_tabellen_strukturiert.json`
+- **PWA:** `sw.js`
 
 ---
 
 ## 📱 Kompatibilität
 
-- Optimiert für iPhone (Safari)
-- Unterstützt Touch-Eingaben und Offline-Zugriff (via PWA)
-- Funktioniert auch auf Desktopbrowsern
+- Desktop und Mobile
+- iOS Safari, Android Chrome
+- Offline-fähig (PWA)
 
 ---
 

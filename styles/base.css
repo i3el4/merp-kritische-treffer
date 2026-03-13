@@ -50,7 +50,7 @@ body {
   padding: 0;
   background: var(--bg);
   color: var(--text);
-  font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  font: 16px/1.5 'MonkeyIsland', Georgia, serif;
 }
 
 body {
@@ -117,8 +117,11 @@ header-title {
   ========================================
 */
 
+h1, h2, h3 {
+  font-family: 'Aniron', Georgia, serif;
+}
+
 h1 {
-  font-family: Aniron, Georgia, 'Times New Roman', serif;
   font-size: clamp(20px, 4.8vw, 28px);
   margin: 0;
   letter-spacing: .3px;
@@ -131,17 +134,17 @@ h1 {
 .card h2 {
   margin: 0 0 8px 0;
   font-size: 17px;
-  font-family: Aniron, Georgia, serif;
+  font-family: 'Aniron', Georgia, serif;
 }
 
 label {
-  font-family: Aniron, Georgia, serif;
+  font-family: 'MonkeyIsland', Georgia, serif;
   font-size: 12px;
   color: var(--accent);
 }
 
 details summary {
-  font-family: 'Aniron', serif;
+  font-family: 'Aniron', Georgia, serif;
   cursor: pointer;
   user-select: none;
 }
@@ -153,8 +156,9 @@ details summary {
 */
 
 select,
-input[type=number] {
-  font-family: MonkeyIsland, Georgia, serif;
+input[type=number],
+input[type=text] {
+  font-family: 'MonkeyIsland', Georgia, serif;
   appearance: none;
   background: #fff;
   border: 1px solid var(--border);
@@ -185,9 +189,14 @@ input[type=number] {
   width: 180px;
 }
 
+input[type=text] {
+  width: 180px;
+}
+
 @media (max-width: 500px) {
 
   input[type=number],
+  input[type=text],
   select {
     min-width: 100%;
   }
@@ -206,7 +215,7 @@ input[type=number] {
 }
 
 .btn {
-  font-family: MonkeyIsland, Georgia, serif;
+  font-family: 'MonkeyIsland', Georgia, serif;
   font-size: 10px;
   background: var(--chip);
   border: 1px solid var(--border);
@@ -236,7 +245,7 @@ input[type=number] {
 */
 
 .out {
-  font-family: MonkeyIsland, Georgia, serif;
+  font-family: 'MonkeyIsland', Georgia, serif;
   font-size: 12px;
   background: var(--chip);
   border: 1px dashed var(--border);

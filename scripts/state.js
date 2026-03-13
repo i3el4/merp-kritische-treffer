@@ -10,6 +10,14 @@ let autoCrit = {
 };
 let currentBgKey = null;
 let isBgMusicPlaying = false;
+let selectedGegnerId = null;
+let selectedGegnerIds = [];
+let selectedCharakterId = null;
+let selectedCharakterName = null;
+let lastAttackTp = 0;
+let lastCritTp = 0;
+let lastCritVisual = '';
+let lastCritParsed = null;
 
 export const state = {
     get treffer() {
@@ -47,5 +55,38 @@ export const state = {
     },
     set isBgMusicPlaying(value) {
         isBgMusicPlaying = value;
-    }
+    },
+    get selectedGegnerId() {
+        return selectedGegnerId;
+    },
+    set selectedGegnerId(value) {
+        selectedGegnerId = value;
+    },
+    get selectedGegnerIds() {
+        return selectedGegnerIds;
+    },
+    set selectedGegnerIds(value) {
+        selectedGegnerIds = Array.isArray(value) ? value : [];
+        selectedGegnerId = selectedGegnerIds[0] || null;
+    },
+    get selectedCharakterId() {
+        return selectedCharakterId;
+    },
+    set selectedCharakterId(value) {
+        selectedCharakterId = value;
+    },
+    get selectedCharakterName() {
+        return selectedCharakterName;
+    },
+    set selectedCharakterName(value) {
+        selectedCharakterName = value;
+    },
+    get lastAttackTp() { return lastAttackTp; },
+    set lastAttackTp(value) { lastAttackTp = value; },
+    get lastCritTp() { return lastCritTp; },
+    set lastCritTp(value) { lastCritTp = value; },
+    get lastCritVisual() { return lastCritVisual; },
+    set lastCritVisual(value) { lastCritVisual = value; },
+    get lastCritParsed() { return lastCritParsed; },
+    set lastCritParsed(value) { lastCritParsed = value; }
 };

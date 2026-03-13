@@ -7,6 +7,9 @@ import { CRIT_ICONS, URLS } from './constants.js';
 import { calculateAttack, lookupCritEntry, mapCritName } from './logic.js';
 import { playCritAudio, tryStartBgAudio } from './audio.js';
 import { chip } from './dom.js';
+import { applySchaden, applySchadenCharakter, getGegnerById, getSpielerById, getNpcById, getAktuelleRunde } from './campaigns.js';
+import { refreshKampftracker } from './kampftracker.js';
+import { parseCritText } from './critParser.js';
 
 /**
  * Fügt das Krit-Icon in die KPI-Zeile ein (falls vorhanden).
@@ -26,12 +29,76 @@ function appendCritIcon(kpi, typ) {
     }
 }
 
+const applySchadenPayloads = new Map();
+let applySchadenButtonId = 0;
+
+/**
+ * Fügt einen "Schaden anwenden"-Button hinzu, wenn Ziel gewählt und TP > 0 oder Status.
+ * @param {HTMLElement} wrapContainer Der Wrap-Container (z.B. #critApplyWrap)
+ * @param {'attack'|'crit'} quelle
+ * @param {{ tp?: number, ben?: number, benoPar?: number, oPar?: number, init?: number, tpPerRound?: number, ko?: boolean }} [parsedOverride] Bei 'crit': geparstes Objekt direkt übergeben
+ */
+function appendApplySchadenButton(wrapContainer, quelle, parsedOverride = null) {
+    if (!wrapContainer) return;
+    const gegnerIds = state.selectedGegnerIds || [];
+    const livingIds = gegnerIds.filter(id => {
+        const g = getGegnerById(id);
+        if (g) return g.tp > 0;
+        const s = getSpielerById(id);
+        if (s) return (s.tp ?? s.maxTp ?? 100) > 0;
+        const n = getNpcById(id);
+        if (n) return (n.tp ?? n.maxTp ?? 100) > 0;
+        return false;
+    });
+    if (livingIds.length === 0) return;
+    const tp = quelle === 'attack' ? state.lastAttackTp : state.lastCritTp;
+    const parsed = parsedOverride ?? (quelle === 'crit' ? state.lastCritParsed : null);
+    const hasStatus = parsed && (
+        (parsed.ben || 0) + (parsed.benoPar || 0) + (parsed.oPar || 0) +
+        (parsed.init || 0) + (parsed.tpPerRound || 0) > 0 || parsed.ko
+    );
+    const applyTp = tp > 0 ? tp : 0;
+    const beschreibungToApply = quelle === 'crit' ? state.lastCritVisual : `Angriff: ${tp} TP`;
+    const extractedToApply = quelle === 'crit' && parsed ? { ...parsed } : null;
+
+    const vonCharakter = (state.selectedCharakterId && state.selectedCharakterName)
+        ? { id: state.selectedCharakterId, name: state.selectedCharakterName }
+        : null;
+    const payload = {
+        zielIds: livingIds,
+        applyTp,
+        quelle,
+        beschreibung: beschreibungToApply,
+        extracted: extractedToApply,
+        vonCharakter
+    };
+    const id = ++applySchadenButtonId;
+    applySchadenPayloads.set(id, payload);
+
+    const names = livingIds.map(id => getGegnerById(id)?.name || getSpielerById(id)?.name || getNpcById(id)?.name).filter(Boolean);
+    const zielText = livingIds.length === 1 ? names[0] : `${livingIds.length} Ziele`;
+    wrapContainer.innerHTML = '';
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'btn primary btn-apply-schaden';
+    btn.dataset.applyId = String(id);
+    const statusLabel = hasStatus ? ' + Status' : '';
+    btn.textContent = tp > 0 ? `${tp} TP${statusLabel} anwenden (${zielText})` : `Status anwenden (${zielText})`;
+    btn.style.marginTop = '8px';
+    btn.style.display = 'block';
+    btn.style.cursor = 'pointer';
+    wrapContainer.appendChild(btn);
+}
+
 /**
  * Richtet alle Event-Listener für die Benutzeroberfläche ein.
  */
 export function setupEventListeners() {
     // Event-Listener für Angriffs-Berechnung
-    $('#calcAttack').addEventListener('click', calculateAttack);
+    $('#calcAttack')?.addEventListener('click', () => {
+        calculateAttack();
+        appendApplySchadenButton($('#attackApplyWrap'), 'attack');
+    });
 
     // Event-Listener für Haupttreffer-Berechnung
     $('#calcCrit').addEventListener('click', calculateCrit);
@@ -43,17 +110,43 @@ export function setupEventListeners() {
     $('#resetBtn').addEventListener('click', resetApp);
 
     // Event-Listener für die Gegnertyp-Buttons
-    $('#gegnerTyp').addEventListener('click', handleGegnerTypClick);
+    $('#gegnerTyp')?.addEventListener('click', handleGegnerTypClick);
 
     // Event-Listener, wenn sich der Krit-Typ ändert
-    $('#critType').addEventListener('change', handleCritTypeChange);
+    $('#critType')?.addEventListener('change', handleCritTypeChange);
 
     // Event-Listener für Nebentreffer-Typ-Dropdown
-    $('#sideType').addEventListener('change', handleSideTypeChange);
+    $('#sideType')?.addEventListener('change', handleSideTypeChange);
+
+    // Event-Delegation für Schaden-anwenden-Buttons (verhindert Klick-Probleme)
+    document.addEventListener('click', (e) => {
+        const btn = e.target.closest('.btn-apply-schaden');
+        if (!btn || btn.disabled) return;
+        const id = btn.dataset.applyId;
+        if (!id) return;
+        const payload = applySchadenPayloads.get(parseInt(id, 10));
+        if (!payload) return;
+        const { zielIds: zids, applyTp: tpVal, quelle: q, beschreibung: desc, extracted: ext, vonCharakter: von } = payload;
+        const ids = Array.isArray(zids) ? zids : [zids];
+        let ok = true;
+        for (const zid of ids) {
+            if (getGegnerById(zid)) {
+                if (!applySchaden(zid, tpVal, q, desc, ext, von)) ok = false;
+            } else {
+                if (!applySchadenCharakter(zid, tpVal, q, desc, ext, von)) ok = false;
+            }
+        }
+        if (ok) {
+            refreshKampftracker();
+            btn.textContent = '✓ Angewendet';
+            btn.disabled = true;
+            applySchadenPayloads.delete(parseInt(id, 10));
+        }
+    });
 
     // Event-Listener für Audio-Toggles
-    $('#bgToggleBtn').addEventListener('click', handleBgToggle);
-    $('#bgVol').addEventListener('input', handleBgVolumeChange);
+    $('#bgToggleBtn')?.addEventListener('click', handleBgToggle);
+    $('#bgVol')?.addEventListener('input', handleBgVolumeChange);
 }
 
 /**
@@ -72,17 +165,26 @@ function calculateCrit() {
 
     const critTable = state.tables?.[typSel]?.[katSel];
     if (!typSel || !katSel || !critTable) {
+        state.lastCritTp = 0;
+        state.lastCritVisual = '';
+        state.lastCritParsed = null;
         res.textContent = 'Krit-Typ und -Kategorie festlegen (oder Schritt 1 ausführen).';
         return;
     }
 
     if (isNaN(roll) || roll < 0) {
+        state.lastCritTp = 0;
+        state.lastCritVisual = '';
+        state.lastCritParsed = null;
         res.textContent = 'Bitte einen gültigen Würfelwurf (≥ 0) eingeben.';
         return;
     }
 
     const found = lookupCritEntry(typSel, katSel, roll);
     if (!found) {
+        state.lastCritTp = 0;
+        state.lastCritVisual = '';
+        state.lastCritParsed = null;
         res.textContent = `Kein Eintrag gefunden für ${typSel.replace(/_/g, ' ')} ${katSel} (${roll}).`;
         return;
     }
@@ -91,6 +193,12 @@ function calculateCrit() {
     const visualText = typeof entry === 'object' && entry?.visual != null ? entry.visual : String(entry ?? '');
     const ttsText = typeof entry === 'object' && entry?.tts != null ? entry.tts : String(entry ?? '');
 
+    state.lastCritVisual = visualText;
+    const parsed = parseCritText(visualText);
+    if (parsed.tp === 0) parsed.tp = parseCritText(ttsText).tp;
+    state.lastCritTp = parsed.tp;
+    state.lastCritParsed = parsed;
+
     appendCritIcon(kpi, typSel);
     kpi.append(chip(`Typ: ${typSel.replace(/_/g, ' ')}`));
     kpi.append(chip(`Kat: ${katSel}`));
@@ -98,6 +206,8 @@ function calculateCrit() {
     if (key) kpi.append(chip(`Bereich: ${key}`));
     res.textContent = visualText;
     res.classList.add('crit-prominent');
+
+    appendApplySchadenButton($('#critApplyWrap'), 'crit', parsed);
 
     playCritAudio(typSel, katSel, key, ttsText);
     if (state.isBgMusicPlaying) {
@@ -121,17 +231,26 @@ function calculateSide() {
 
     const sideTable = state.tables?.[typ]?.[kat];
     if (!typ || !kat || !sideTable) {
+        state.lastCritTp = 0;
+        state.lastCritVisual = '';
+        state.lastCritParsed = null;
         res.textContent = 'Bitte eine Nebentreffer-Tabelle und Kategorie wählen.';
         return;
     }
 
     if (isNaN(roll) || roll < 0) {
+        state.lastCritTp = 0;
+        state.lastCritVisual = '';
+        state.lastCritParsed = null;
         res.textContent = 'Bitte einen gültigen Würfelwurf (≥ 0) eingeben.';
         return;
     }
 
     const found = lookupCritEntry(typ, kat, roll);
     if (!found) {
+        state.lastCritTp = 0;
+        state.lastCritVisual = '';
+        state.lastCritParsed = null;
         res.textContent = `Kein Eintrag gefunden für ${typ.replace(/_/g, ' ')} ${kat} (${roll}).`;
         return;
     }
@@ -140,6 +259,12 @@ function calculateSide() {
     const visualText = typeof entry === 'object' && entry?.visual != null ? entry.visual : String(entry ?? '');
     const ttsText = typeof entry === 'object' && entry?.tts != null ? entry.tts : String(entry ?? '');
 
+    state.lastCritVisual = visualText;
+    const parsed = parseCritText(visualText);
+    if (parsed.tp === 0) parsed.tp = parseCritText(ttsText).tp;
+    state.lastCritTp = parsed.tp;
+    state.lastCritParsed = parsed;
+
     appendCritIcon(kpi, typ);
     kpi.append(chip(`Nebentyp: ${typ.replace(/_/g, ' ')}`));
     kpi.append(chip(`Kat: ${kat}`));
@@ -147,6 +272,8 @@ function calculateSide() {
     if (key) kpi.append(chip(`Bereich: ${key}`));
     res.textContent = visualText;
     res.classList.add('crit-prominent');
+
+    appendApplySchadenButton($('#sideApplyWrap'), 'crit', parsed);
 
     playCritAudio(typ, kat, key, ttsText);
     if (state.isBgMusicPlaying) {
@@ -170,12 +297,16 @@ function resetApp() {
     $('#sideKpi').innerHTML = '';
     $('#critType').value = '';
     $('#critCat').value = '';
-    state.autoCrit = {
-        typ: '',
-        kat: ''
-    };
+    state.autoCrit = { typ: '', kat: '' };
+    state.lastAttackTp = 0;
+    state.lastCritTp = 0;
+    state.lastCritVisual = '';
+    state.lastCritParsed = null;
     $('#critOut .result').classList.remove('crit-prominent');
     $('#sideOut .result').classList.remove('crit-prominent');
+    $('#attackApplyWrap').innerHTML = '';
+    $('#critApplyWrap').innerHTML = '';
+    $('#sideApplyWrap').innerHTML = '';
 }
 
 /**

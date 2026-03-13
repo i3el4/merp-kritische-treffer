@@ -9,7 +9,8 @@
  *   node scripts/generate_audio_elevenlabs.js
  */
 
-require('dotenv').config();
+require('dotenv').config({ path: require('path').join(__dirname, '../private/.env') });
+require('dotenv').config(); // Fallback: .env im Projektroot
 const axios = require('axios');
 const fs = require('fs');
 const path = require('path');

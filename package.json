@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "MERS/MERP Angriffs- & Krit-Treffer App",
   "scripts": {
+    "serve": "npx serve -l 3333",
     "generate-audio": "node scripts/generate_audio_elevenlabs.js",
     "clean-tables": "node scripts/clean_tables_with_gemini.js",
     "minify-visual": "node scripts/minify_visual_text.js"
