@@ -86,7 +86,7 @@ cd merp-kritische-treffer
 
 Ohne Firebase-Config läuft die App mit **localStorage** (kein Sync, keine Kampagnen-ID, kein Beitreten).
 
-**Hinweis:** `private/` wird nicht ins Repo committed. Auf GitHub Pages gibt es daher keinen Firebase-Sync – Kampagnen-Sync funktioniert nur bei lokaler Installation mit `private/firebase-config.js`.
+**GitHub Pages:** `scripts/firebase-config.js` wird deployed – Kampagnen-Sync funktioniert dort. Der API-Key muss in der Google Cloud Console auf `https://i3el4.github.io/*` (und ggf. `http://localhost/*`) eingeschränkt sein.
 
 ### 3. App starten
 
@@ -109,9 +109,11 @@ Ohne Firebase-Config läuft die App mit **localStorage** (kein Sync, keine Kampa
 
 ### Sicherheit (API-Key)
 
-- **Nie** Firebase-Config ins Repo committen – nur in `private/` (gitignored)
-- Falls ein API-Key exponiert wurde: In [Google Cloud Console](https://console.cloud.google.com/) → APIs & Services → Credentials den Key **rotieren** (Regenerate)
-- **API-Key-Einschränkungen** setzen: Application restrictions (HTTP referrers: `localhost/*`, deine Domain) und API restrictions (nur benötigte APIs)
+- `scripts/firebase-config.js` ist im Repo (für GitHub Pages). **API-Key-Einschränkungen** sind Pflicht:
+  - Google Cloud Console → APIs & Services → Credentials → API-Key bearbeiten
+  - Application restrictions: HTTP referrers → `https://i3el4.github.io/*`, `http://localhost/*`, `http://127.0.0.1/*`
+  - API restrictions: Nur Firebase Realtime Database (und benötigte APIs)
+- Lokal: `private/firebase-config.js` wird bevorzugt (falls vorhanden)
 
 ---
 

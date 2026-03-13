@@ -326,7 +326,12 @@ async function initFirebaseIfConfigured() {
     const mod = await import('../private/firebase-config.js');
     config = mod.firebaseConfig ?? mod.config ?? mod.default;
   } catch {
-    // firebase-config.js fehlt (z.B. auf GitHub Pages) → localStorage
+    try {
+      const mod = await import('./firebase-config.js');
+      config = mod.firebaseConfig ?? mod.config ?? mod.default;
+    } catch {
+      // Keine Config → localStorage
+    }
   }
   if (config?.apiKey && config.apiKey !== 'DEIN_API_KEY' && (await initFirebase(config))) {
     await startSync();
