@@ -451,13 +451,19 @@ function adjustZielNameFontSizes() {
 }
 
 function renderRunde() {
+  const r = getAktuelleRunde();
   const el = $(`${KAMPFTRACKER_PANEL} #rundeAnzeige`);
-  if (el) el.textContent = `Runde ${getAktuelleRunde()}`;
+  if (el) el.textContent = `Runde ${r}`;
+  const prevBtn = $(`${KAMPFTRACKER_PANEL} #rundePrev`);
+  if (prevBtn) prevBtn.disabled = r <= 0;
 }
 
 function renderCharRunde() {
+  const r = getAktuelleRunde();
   const el = $(`${CHARAKTERTRACKER_PANEL} #charRundeAnzeige`);
-  if (el) el.textContent = `Runde ${getAktuelleRunde()}`;
+  if (el) el.textContent = `Runde ${r}`;
+  const prevBtn = $(`${CHARAKTERTRACKER_PANEL} #charRundePrev`);
+  if (prevBtn) prevBtn.disabled = r <= 0;
 }
 
 function renderCharakterZeile() {
@@ -707,6 +713,9 @@ function render() {
   renderUserProfileIcon();
   renderRunde();
   renderCharRunde();
+  // „Auf 0“ nur für Spielleiter sichtbar
+  const resetBtn = $('#charRundeReset');
+  if (resetBtn) resetBtn.hidden = getRole() !== ROLES.SPIELLEITER;
 }
 
 function initKampagnenUI() {
@@ -873,15 +882,31 @@ function initSpielerNpcUI() {
 
 let rundeUIInitialized = false;
 
+function doRundeNext() {
+  processRundenende();
+  setAktuelleRunde(getAktuelleRunde() + 1);
+  render();
+}
+
+function doRundePrev() {
+  const r = getAktuelleRunde();
+  if (r > 0) {
+    setAktuelleRunde(r - 1);
+    render();
+  }
+}
+
+function doRundeReset() {
+  setAktuelleRunde(0);
+  render();
+}
+
 function initRundeUI() {
   if (rundeUIInitialized) return;
   rundeUIInitialized = true;
-  const nextBtn = $(`${KAMPFTRACKER_PANEL} #rundeNext`);
-  nextBtn?.addEventListener('click', () => {
-    processRundenende();
-    setAktuelleRunde(getAktuelleRunde() + 1);
-    render();
-  });
+  $(`${KAMPFTRACKER_PANEL} #rundeNext`)?.addEventListener('click', doRundeNext);
+  $(`${KAMPFTRACKER_PANEL} #rundePrev`)?.addEventListener('click', doRundePrev);
+  $(`${KAMPFTRACKER_PANEL} #rundeReset`)?.addEventListener('click', doRundeReset);
 }
 
 let charRundeUIInitialized = false;
@@ -889,12 +914,9 @@ let charRundeUIInitialized = false;
 function initCharRundeUI() {
   if (charRundeUIInitialized) return;
   charRundeUIInitialized = true;
-  const nextBtn = $(`${CHARAKTERTRACKER_PANEL} #charRundeNext`);
-  nextBtn?.addEventListener('click', () => {
-    processRundenende();
-    setAktuelleRunde(getAktuelleRunde() + 1);
-    render();
-  });
+  $(`${CHARAKTERTRACKER_PANEL} #charRundeNext`)?.addEventListener('click', doRundeNext);
+  $(`${CHARAKTERTRACKER_PANEL} #charRundePrev`)?.addEventListener('click', doRundePrev);
+  $(`${CHARAKTERTRACKER_PANEL} #charRundeReset`)?.addEventListener('click', doRundeReset);
 }
 
 export function initKampftracker() {

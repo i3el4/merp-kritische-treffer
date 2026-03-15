@@ -1405,6 +1405,12 @@ div.rk button[data-rk="20"] {
   border-color: rgba(188, 76, 91, 1) !important;
 }
 
+.runde-prev-btn,
+.runde-reset-btn {
+  padding: 6px 10px !important;
+  font-size: 11px !important;
+}
+
 /* Visuelle Trennung: Erfassung von Gegner-Auflistung */
 .gegner-erfassung-trenner {
   height: 1px;

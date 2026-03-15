@@ -285,7 +285,8 @@ export function setAktuelleRunde(runde) {
   const k = getCurrentKampagne();
   if (!k) return false;
   const data = loadAll();
-  data.kampagnen[k.id].aktuelleRunde = Math.max(1, parseInt(runde, 10) || 1);
+  const val = parseInt(runde, 10);
+  data.kampagnen[k.id].aktuelleRunde = isNaN(val) ? 1 : Math.max(0, val);
   data.kampagnen[k.id].updatedAt = new Date().toISOString();
   saveAll(data);
   return true;
