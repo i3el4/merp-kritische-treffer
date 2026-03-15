@@ -871,7 +871,11 @@ function initSpielerNpcUI() {
   });
 }
 
+let rundeUIInitialized = false;
+
 function initRundeUI() {
+  if (rundeUIInitialized) return;
+  rundeUIInitialized = true;
   const nextBtn = $(`${KAMPFTRACKER_PANEL} #rundeNext`);
   nextBtn?.addEventListener('click', () => {
     processRundenende();
@@ -880,7 +884,11 @@ function initRundeUI() {
   });
 }
 
+let charRundeUIInitialized = false;
+
 function initCharRundeUI() {
+  if (charRundeUIInitialized) return;
+  charRundeUIInitialized = true;
   const nextBtn = $(`${CHARAKTERTRACKER_PANEL} #charRundeNext`);
   nextBtn?.addEventListener('click', () => {
     processRundenende();
