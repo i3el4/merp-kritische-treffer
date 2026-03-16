@@ -107,6 +107,12 @@ Ohne Firebase-Config läuft die App mit **localStorage** (kein Sync, keine Kampa
 - Kampagnen-ID teilen → andere Geräte können beitreten
 - Firebase Console: Kampagnen-IDs einsehbar, falls Geräte verloren gehen
 
+### Sicherheit (Datenbank-Regeln)
+
+In der [Firebase Console](https://console.firebase.google.com/project/mersdb/database/rules) → Realtime Database → Regeln:
+
+Die Regeln in `firebase-database.rules.json` einsetzen. Sie erlauben nur Zugriff auf `/campaigns/{id}` – nicht auf die Root oder eine Auflistung aller Kampagnen. Ohne die genaue Kampagnen-ID (UUID) ist kein Zugriff möglich.
+
 ### Sicherheit (API-Key)
 
 - `scripts/firebase-config.js` ist im Repo (für GitHub Pages). **API-Key-Einschränkungen** sind Pflicht:

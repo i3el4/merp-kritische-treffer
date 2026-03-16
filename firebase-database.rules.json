@@ -1,0 +1,10 @@
+{
+  "rules": {
+    "campaigns": {
+      "$campaignId": {
+        ".read": true,
+        ".write": true
+      }
+    }
+  }
+}
