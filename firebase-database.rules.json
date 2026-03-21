@@ -5,6 +5,10 @@
         ".read": true,
         ".write": true
       }
+    },
+    "critCorrections": {
+      ".read": true,
+      ".write": true
     }
   }
 }

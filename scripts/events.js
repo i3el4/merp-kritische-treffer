@@ -10,6 +10,7 @@ import { chip } from './dom.js';
 import { applySchaden, applySchadenCharakter, getGegnerById, getSpielerById, getNpcById, getAktuelleRunde } from './campaigns.js';
 import { refreshKampftracker } from './kampftracker.js';
 import { parseCritText } from './critParser.js';
+import { setCorrection, deleteCorrection, exportCorrections } from './critCorrections.js';
 
 /**
  * Fügt das Krit-Icon in die KPI-Zeile ein (falls vorhanden).
@@ -31,6 +32,92 @@ function appendCritIcon(kpi, typ) {
 
 const applySchadenPayloads = new Map();
 let applySchadenButtonId = 0;
+
+function closeCritEditOverlay() {
+    $('#critEditOverlay')?.classList.add('hidden');
+}
+
+function applyCritCorrectionAndClose(visual, tts) {
+    const ctx = state.lastCritContext;
+    if (!ctx) return closeCritEditOverlay();
+    setCorrection(ctx.typ, ctx.kat, ctx.key, { visual, tts });
+    state.lastCritVisual = visual;
+    state.lastCritTts = tts;
+    const parsed = parseCritText(visual);
+    if (parsed.tp === 0) parsed.tp = parseCritText(tts).tp;
+    state.lastCritTp = parsed.tp;
+    state.lastCritParsed = parsed;
+    const res = ctx.source === 'crit' ? $('#critOut .result') : $('#sideOut .result');
+    const wrap = ctx.source === 'crit' ? $('#critApplyWrap') : $('#sideApplyWrap');
+    if (res) res.textContent = visual;
+    wrap.innerHTML = '';
+    appendApplySchadenButton(wrap, 'crit', parsed);
+    playCritAudio(ctx.typ, ctx.kat, ctx.key, tts);
+    closeCritEditOverlay();
+}
+
+function initCritEditOverlay() {
+    const overlay = $('#critEditOverlay');
+    const visualEl = $('#critEditVisual');
+    const ttsEl = $('#critEditTts');
+
+    function openOverlay() {
+        const ctx = state.lastCritContext;
+        if (!ctx) return;
+        if (visualEl) visualEl.value = state.lastCritVisual ?? '';
+        if (ttsEl) ttsEl.value = state.lastCritTts ?? '';
+        overlay?.classList.remove('hidden');
+    }
+
+    $('#critEditBtn')?.addEventListener('click', openOverlay);
+    $('#sideEditBtn')?.addEventListener('click', openOverlay);
+
+    $('#critEditSave')?.addEventListener('click', () => {
+        const visual = visualEl?.value?.trim() ?? '';
+        const tts = ttsEl?.value?.trim() ?? '';
+        applyCritCorrectionAndClose(visual, tts);
+    });
+
+    $('#critEditRevert')?.addEventListener('click', () => {
+        const ctx = state.lastCritContext;
+        if (!ctx) return closeCritEditOverlay();
+        deleteCorrection(ctx.typ, ctx.kat, ctx.key);
+        const roll = ctx.source === 'crit' ? parseInt($('#critRoll').value, 10) : parseInt($('#sideRoll').value, 10);
+        const found = lookupCritEntry(ctx.typ, ctx.kat, roll);
+        const origVisual = found?.entry?.visual ?? state.lastCritVisual ?? '';
+        const origTts = found?.entry?.tts ?? state.lastCritTts ?? '';
+        state.lastCritVisual = origVisual;
+        state.lastCritTts = origTts;
+        const parsed = parseCritText(origVisual);
+        if (parsed.tp === 0) parsed.tp = parseCritText(origTts).tp;
+        state.lastCritTp = parsed.tp;
+        state.lastCritParsed = parsed;
+        const res = ctx.source === 'crit' ? $('#critOut .result') : $('#sideOut .result');
+        const wrap = ctx.source === 'crit' ? $('#critApplyWrap') : $('#sideApplyWrap');
+        if (res) res.textContent = origVisual;
+        wrap.innerHTML = '';
+        appendApplySchadenButton(wrap, 'crit', parsed);
+        playCritAudio(ctx.typ, ctx.kat, ctx.key, origTts);
+        closeCritEditOverlay();
+    });
+
+    $('#critEditClose')?.addEventListener('click', closeCritEditOverlay);
+    $('#critEditCancel')?.addEventListener('click', closeCritEditOverlay);
+
+    overlay?.addEventListener('click', (e) => {
+        if (e.target === overlay) closeCritEditOverlay();
+    });
+
+    $('#critEditExport')?.addEventListener('click', () => {
+        const json = exportCorrections();
+        const blob = new Blob([json], { type: 'application/json' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'merp_crit_korrekturen.json';
+        a.click();
+        URL.revokeObjectURL(a.href);
+    });
+}
 
 /**
  * Fügt einen "Schaden anwenden"-Button hinzu, wenn Ziel gewählt und TP > 0 oder Status.
@@ -106,6 +193,8 @@ export function setupEventListeners() {
     // Event-Listener für Nebentreffer-Berechnung
     $('#calcSide').addEventListener('click', calculateSide);
 
+    initCritEditOverlay();
+
     // Event-Listener für den Reset-Button
     $('#resetBtn').addEventListener('click', resetApp);
 
@@ -168,6 +257,8 @@ function calculateCrit() {
         state.lastCritTp = 0;
         state.lastCritVisual = '';
         state.lastCritParsed = null;
+        state.lastCritContext = null;
+        $('#critEditRow')?.style.setProperty('display', 'none');
         res.textContent = 'Krit-Typ und -Kategorie festlegen (oder Schritt 1 ausführen).';
         return;
     }
@@ -176,6 +267,8 @@ function calculateCrit() {
         state.lastCritTp = 0;
         state.lastCritVisual = '';
         state.lastCritParsed = null;
+        state.lastCritContext = null;
+        $('#critEditRow')?.style.setProperty('display', 'none');
         res.textContent = 'Bitte einen gültigen Würfelwurf (≥ 0) eingeben.';
         return;
     }
@@ -185,6 +278,8 @@ function calculateCrit() {
         state.lastCritTp = 0;
         state.lastCritVisual = '';
         state.lastCritParsed = null;
+        state.lastCritContext = null;
+        $('#critEditRow')?.style.setProperty('display', 'none');
         res.textContent = `Kein Eintrag gefunden für ${typSel.replace(/_/g, ' ')} ${katSel} (${roll}).`;
         return;
     }
@@ -194,6 +289,7 @@ function calculateCrit() {
     const ttsText = typeof entry === 'object' && entry?.tts != null ? entry.tts : String(entry ?? '');
 
     state.lastCritVisual = visualText;
+    state.lastCritTts = ttsText;
     const parsed = parseCritText(visualText);
     if (parsed.tp === 0) parsed.tp = parseCritText(ttsText).tp;
     state.lastCritTp = parsed.tp;
@@ -208,6 +304,10 @@ function calculateCrit() {
     res.classList.add('crit-prominent');
 
     appendApplySchadenButton($('#critApplyWrap'), 'crit', parsed);
+
+    state.lastCritContext = { typ: typSel, kat: katSel, key, source: 'crit' };
+    $('#critEditRow')?.style.setProperty('display', '');
+    $('#sideEditRow')?.style.setProperty('display', 'none');
 
     playCritAudio(typSel, katSel, key, ttsText);
     if (state.isBgMusicPlaying) {
@@ -234,6 +334,8 @@ function calculateSide() {
         state.lastCritTp = 0;
         state.lastCritVisual = '';
         state.lastCritParsed = null;
+        state.lastCritContext = null;
+        $('#sideEditRow')?.style.setProperty('display', 'none');
         res.textContent = 'Bitte eine Nebentreffer-Tabelle und Kategorie wählen.';
         return;
     }
@@ -242,6 +344,8 @@ function calculateSide() {
         state.lastCritTp = 0;
         state.lastCritVisual = '';
         state.lastCritParsed = null;
+        state.lastCritContext = null;
+        $('#sideEditRow')?.style.setProperty('display', 'none');
         res.textContent = 'Bitte einen gültigen Würfelwurf (≥ 0) eingeben.';
         return;
     }
@@ -251,6 +355,8 @@ function calculateSide() {
         state.lastCritTp = 0;
         state.lastCritVisual = '';
         state.lastCritParsed = null;
+        state.lastCritContext = null;
+        $('#sideEditRow')?.style.setProperty('display', 'none');
         res.textContent = `Kein Eintrag gefunden für ${typ.replace(/_/g, ' ')} ${kat} (${roll}).`;
         return;
     }
@@ -260,6 +366,7 @@ function calculateSide() {
     const ttsText = typeof entry === 'object' && entry?.tts != null ? entry.tts : String(entry ?? '');
 
     state.lastCritVisual = visualText;
+    state.lastCritTts = ttsText;
     const parsed = parseCritText(visualText);
     if (parsed.tp === 0) parsed.tp = parseCritText(ttsText).tp;
     state.lastCritTp = parsed.tp;
@@ -274,6 +381,10 @@ function calculateSide() {
     res.classList.add('crit-prominent');
 
     appendApplySchadenButton($('#sideApplyWrap'), 'crit', parsed);
+
+    state.lastCritContext = { typ, kat, key, source: 'side' };
+    $('#sideEditRow')?.style.setProperty('display', '');
+    $('#critEditRow')?.style.setProperty('display', 'none');
 
     playCritAudio(typ, kat, key, ttsText);
     if (state.isBgMusicPlaying) {
@@ -304,6 +415,9 @@ function resetApp() {
     state.lastCritParsed = null;
     $('#critOut .result').classList.remove('crit-prominent');
     $('#sideOut .result').classList.remove('crit-prominent');
+    $('#critEditRow')?.style.setProperty('display', 'none');
+    $('#sideEditRow')?.style.setProperty('display', 'none');
+    state.lastCritContext = null;
     $('#attackApplyWrap').innerHTML = '';
     $('#critApplyWrap').innerHTML = '';
     $('#sideApplyWrap').innerHTML = '';

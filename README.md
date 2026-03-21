@@ -102,7 +102,7 @@ Ohne Firebase-Config läuft die App mit **localStorage** (kein Sync, keine Kampa
 
 ## 🔥 Firebase (Echtzeit-Sync)
 
-- **Realtime Database** speichert Kampagnen unter `/campaigns/{id}`
+- **Realtime Database** speichert Kampagnen unter `/campaigns/{id}` und Krit-Korrekturen unter `/critCorrections`
 - Kostenloser Spark-Plan (1 GB Speicher, 10 GB Transfer/Monat) reicht für Textdaten
 - Kampagnen-ID teilen → andere Geräte können beitreten
 - Firebase Console: Kampagnen-IDs einsehbar, falls Geräte verloren gehen
@@ -111,7 +111,7 @@ Ohne Firebase-Config läuft die App mit **localStorage** (kein Sync, keine Kampa
 
 In der [Firebase Console](https://console.firebase.google.com/project/mersdb/database/rules) → Realtime Database → Regeln:
 
-Die Regeln in `firebase-database.rules.json` einsetzen. Sie erlauben nur Zugriff auf `/campaigns/{id}` – nicht auf die Root oder eine Auflistung aller Kampagnen. Ohne die genaue Kampagnen-ID (UUID) ist kein Zugriff möglich.
+Die Regeln in `firebase-database.rules.json` einsetzen. Sie erlauben Zugriff auf `/campaigns/{id}` (Kampagnen) und `/critCorrections` (Krit-Text-Korrekturen, geräteübergreifend).
 
 ### Sicherheit (API-Key)
 

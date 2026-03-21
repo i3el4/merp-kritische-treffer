@@ -8,6 +8,7 @@ import { getRole, setRole, ROLES, getCharakter, setCharakter } from './role.js';
 import { initKampftracker, initSpieler, initCharakterwahl, refreshKampftracker, getIconUrl } from './kampftracker.js';
 import { getCurrentKampagneId, getKampagnenListe, getCharaktere, switchKampagne } from './campaigns.js';
 import { initFirebase, startSync, subscribeToChanges, isFirebaseActive, loadCampaign, joinCampaign } from './firebase-storage.js';
+import { initCritCorrections } from './critCorrections.js';
 import { state } from './state.js';
 import { $, $$ } from './dom.js';
 
@@ -147,7 +148,8 @@ function initUserProfile() {
   });
 }
 
-function initApp() {
+async function initApp() {
+  await initCritCorrections();
   loadData().catch(err => {
     console.error(err);
     alert('Fehler beim Laden der JSON-Dateien. Bitte sicherstellen, dass sich assets/data/tables_processed.json und assets/data/treffer_tabellen_strukturiert.json im gleichen Repo befinden.');
@@ -322,20 +324,28 @@ function initStartScreen() {
 
 async function initFirebaseIfConfigured() {
   let config = null;
+  let configSource = '';
   try {
     const mod = await import('../private/firebase-config.js');
     config = mod.firebaseConfig ?? mod.config ?? mod.default;
+    configSource = 'private';
   } catch {
     try {
       const mod = await import('./firebase-config.js');
       config = mod.firebaseConfig ?? mod.config ?? mod.default;
+      configSource = 'scripts';
     } catch {
-      // Keine Config → localStorage
+      console.info('[MERS] Keine Firebase-Config gefunden → localStorage');
     }
   }
-  if (config?.apiKey && config.apiKey !== 'DEIN_API_KEY' && (await initFirebase(config))) {
+  if (!config?.apiKey || config.apiKey === 'DEIN_API_KEY') return;
+  const ok = await initFirebase(config);
+  if (ok) {
+    console.info('[MERS] Firebase aktiv (' + configSource + ')');
     await startSync();
     subscribeToChanges(refreshKampftracker);
+  } else {
+    console.warn('[MERS] Firebase-Init fehlgeschlagen – prüfe API-Key-Einschränkungen in Google Cloud Console');
   }
 }
 

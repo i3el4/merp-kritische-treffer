@@ -3,6 +3,7 @@
 
 import { state } from './state.js';
 import { WEAPON_LABELS } from './constants.js';
+import { getCorrection } from './critCorrections.js';
 import { $, $$ } from './dom.js';
 import { playCritAudio, tryStartBgAudio } from './audio.js';
 import { chip, pill } from './dom.js';
@@ -239,10 +240,18 @@ export function lookupCritEntry(typ, kat, roll) {
     const cat = block?.[kat];
     if (!cat) return null;
     for (const key of Object.keys(cat)) {
-        if (matchRange(key, roll)) return {
-            entry: cat[key],
-            key
-        };
+        if (matchRange(key, roll)) {
+            const entry = cat[key];
+            const baseVisual = typeof entry === 'object' && entry?.visual != null ? entry.visual : String(entry ?? '');
+            const baseTts = typeof entry === 'object' && entry?.tts != null ? entry.tts : String(entry ?? '');
+            const corr = getCorrection(typ, kat, key);
+            const visual = corr?.visual !== undefined && corr.visual !== '' ? corr.visual : baseVisual;
+            const tts = corr?.tts !== undefined && corr.tts !== '' ? corr.tts : baseTts;
+            return {
+                entry: { visual, tts },
+                key
+            };
+        }
     }
     return null;
 }

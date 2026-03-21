@@ -60,7 +60,7 @@ export async function initFirebase(config) {
     firebaseDb = getDatabase(firebaseApp);
     return true;
   } catch (e) {
-    console.warn('Firebase init failed:', e);
+    console.warn('[MERS] Firebase init failed:', e?.message || e);
     return false;
   }
 }
@@ -230,4 +230,31 @@ export function getKnownCampaignIdsList() {
 
 export function joinCampaign(campaignId) {
   addKnownCampaignId(campaignId);
+}
+
+// --- Krit-Korrekturen (Firebase-Sync) ---
+
+const CRIT_CORRECTIONS_PATH = 'critCorrections';
+
+function critCorrectionsRef() {
+  return ref(firebaseDb, CRIT_CORRECTIONS_PATH);
+}
+
+export async function loadCritCorrectionsFromFirebase() {
+  if (!firebaseDb) return null;
+  const snap = await get(critCorrectionsRef());
+  return snap.exists() ? snap.val() : {};
+}
+
+export function saveCritCorrectionsToFirebase(data) {
+  if (!firebaseDb) return;
+  set(critCorrectionsRef(), data).catch(e => console.error('[MERS] Firebase crit corrections save:', e?.message));
+}
+
+export function subscribeToCritCorrections(callback) {
+  if (!firebaseDb) return () => {};
+  const r = critCorrectionsRef();
+  return onValue(r, (snap) => {
+    callback(snap.exists() ? snap.val() : {});
+  });
 }

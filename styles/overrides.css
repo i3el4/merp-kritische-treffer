@@ -217,6 +217,66 @@ header > div:first-child {
   }
 }
 
+/* Krit-Text Korrektur */
+.crit-edit-row {
+  margin-top: 6px;
+}
+.crit-edit-btn {
+  font-size: 12px;
+  padding: 4px 10px;
+}
+.crit-edit-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 998;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.7);
+}
+.crit-edit-overlay.hidden {
+  display: none !important;
+}
+.crit-edit-popover {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  max-width: 420px;
+  width: 90%;
+  box-shadow: var(--shadow);
+}
+.crit-edit-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.crit-edit-close {
+  font-size: 1.5em;
+  padding: 0 8px;
+  line-height: 1;
+}
+.crit-edit-body label {
+  display: block;
+  font-size: 12px;
+  margin-top: 10px;
+  margin-bottom: 4px;
+}
+.crit-edit-body textarea {
+  width: 100%;
+  font-family: inherit;
+  resize: vertical;
+  border-radius: 8px;
+  padding: 8px;
+}
+.crit-edit-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
 /*
   ========================================
   LAYOUT FÜR AUSWAHL-SEKTION

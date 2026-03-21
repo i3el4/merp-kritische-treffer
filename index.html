@@ -418,6 +418,9 @@
           <div class="out" id="critOut">
             <div class="kpi" id="critKpi"></div>
             <div class="result muted">Noch kein Ergebnis.</div>
+            <div class="crit-edit-row" id="critEditRow" style="display:none">
+              <button type="button" class="btn ghost crit-edit-btn" id="critEditBtn" title="Krit-Text korrigieren">✎ Korrigieren</button>
+            </div>
           </div>
           <div id="critApplyWrap" class="apply-schaden-wrap"></div>
           <hr>
@@ -451,6 +454,9 @@
             <div class="out" id="sideOut">
               <div class="kpi" id="sideKpi"></div>
               <div class="result muted">Noch kein Ergebnis.</div>
+              <div class="crit-edit-row" id="sideEditRow" style="display:none">
+                <button type="button" class="btn ghost crit-edit-btn" id="sideEditBtn" title="Krit-Text korrigieren">✎ Korrigieren</button>
+              </div>
             </div>
             <div id="sideApplyWrap" class="apply-schaden-wrap"></div>
           </details>
@@ -672,6 +678,27 @@
           </div>
         </div>
       </section>
+    </div>
+  </div>
+
+  <div id="critEditOverlay" class="crit-edit-overlay hidden">
+    <div class="crit-edit-popover">
+      <div class="crit-edit-header">
+        <span>Krit-Text korrigieren</span>
+        <button type="button" class="btn ghost crit-edit-close" id="critEditClose" title="Schliessen">×</button>
+      </div>
+      <div class="crit-edit-body">
+        <label for="critEditVisual">Visual (Anzeige)</label>
+        <textarea id="critEditVisual" rows="3" placeholder="Angezeigter Text…"></textarea>
+        <label for="critEditTts">TTS (Vorlesen)</label>
+        <textarea id="critEditTts" rows="3" placeholder="Text für Sprachausgabe…"></textarea>
+        <div class="crit-edit-actions">
+          <button type="button" class="btn primary" id="critEditSave">Speichern</button>
+          <button type="button" class="btn ghost" id="critEditRevert" title="Korrektur entfernen">Korrektur entfernen</button>
+          <button type="button" class="btn ghost" id="critEditCancel">Abbrechen</button>
+          <button type="button" class="btn ghost" id="critEditExport" title="Alle Korrekturen als JSON exportieren">Export</button>
+        </div>
+      </div>
     </div>
   </div>
 
