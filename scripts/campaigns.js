@@ -32,12 +32,11 @@ export function getGegner() {
 export function getGegnerFuerKampf() {
   const k = getCurrentKampagne();
   const gegner = k?.gegner ?? [];
-  const aktiveId = k?.aktiveGruppeId ?? null;
-  return gegner.filter(g => {
-    if (g.imKampf === false) return false;
-    if (aktiveId === null) return true;
-    return g.gruppeId === aktiveId;
-  });
+  const aktiveId = k?.aktiveGruppeId || null;
+  const imKampf = gegner.filter(g => g.imKampf !== false);
+  const inGruppe = aktiveId ? imKampf.filter(g => g.gruppeId === aktiveId) : imKampf;
+  /* Fallback: Gruppe gewählt, aber keine Gegner darin → alle im Kampf zeigen */
+  return inGruppe.length > 0 ? inGruppe : imKampf;
 }
 
 export function getSpieler() {
@@ -377,7 +376,8 @@ export function removeGegnerGruppe(gruppeId) {
 
 export function getAktiveGruppeId() {
   const k = getCurrentKampagne();
-  return k?.aktiveGruppeId ?? null;
+  const id = k?.aktiveGruppeId;
+  return id || null;
 }
 
 export function setAktiveGruppeId(gruppeId) {

@@ -45,7 +45,7 @@ function migrateKampagne(k) {
     if (!Array.isArray(n.laufendeSchaden)) n.laufendeSchaden = [];
   });
   if (!Array.isArray(k.gegnerGruppen)) k.gegnerGruppen = [];
-  if (k.aktiveGruppeId === undefined) k.aktiveGruppeId = null;
+  if (k.aktiveGruppeId === undefined || k.aktiveGruppeId === '') k.aktiveGruppeId = null;
   (k.gegner || []).forEach(g => {
     if (g.icon === undefined) g.icon = null;
     if (g.imKampf === undefined) g.imKampf = true;

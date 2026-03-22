@@ -866,7 +866,7 @@ function renderAktiveGruppeSelect() {
   if (!sel) return;
   const gruppen = getGegnerGruppen();
   const aktiveId = getAktiveGruppeId();
-  sel.innerHTML = '<option value="">Alle im Kampf</option>' +
+  sel.innerHTML = `<option value=""${!aktiveId ? ' selected' : ''}>Alle im Kampf</option>` +
     gruppen.map(g => `<option value="${g.id}"${g.id === aktiveId ? ' selected' : ''}>${escapeHtml(g.name)}</option>`).join('');
 }
 

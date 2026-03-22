@@ -1727,8 +1727,8 @@ div.rk button[data-rk="20"] {
   color: rgba(46, 42, 34, 0.9) !important;
 }
 
-/* --- Hochformat / schmale Bildschirme (Gegner-Tab) --- */
-@media (max-width: 500px), (orientation: portrait) and (max-height: 700px) {
+/* --- Hochformat / schmale Bildschirme (nur Gegner-Tab) --- */
+@media (max-width: 500px) {
   #kampftrackerPanel {
     overflow-x: hidden;
   }
@@ -1746,120 +1746,121 @@ div.rk button[data-rk="20"] {
     font-size: 15px;
   }
 
-  .gegner-card-header {
+  #kampftrackerPanel .gegner-card-header {
     flex-wrap: wrap;
     gap: 6px;
   }
 
-  .gegner-card-header .gegner-icon {
+  #kampftrackerPanel .gegner-card-header .gegner-icon {
     width: 28px;
     height: 28px;
   }
 
-  .gegner-card-header .gegner-name {
+  #kampftrackerPanel .gegner-card-header .gegner-name {
     min-width: 0;
-    flex: 1 1 60px;
+    flex: 1 1 50px;
     font-size: 13px;
   }
 
-  .gegner-card-header .gegner-rk-tp {
-    flex-basis: 100%;
+  #kampftrackerPanel .gegner-card-header .gegner-rk-tp {
     font-size: 10px;
     margin-left: 0;
-    margin-top: -2px;
+    order: 10;
+    flex-basis: 100%;
   }
 
-  .gegner-card-header .gegner-card-gruppe-select {
-    min-width: 60px;
-    max-width: 80px;
+  #kampftrackerPanel .gegner-card-header .gegner-card-gruppe-select {
+    min-width: 55px;
+    max-width: 75px;
     font-size: 9px;
     padding: 2px 4px;
   }
 
-  .gegner-card-header .btn.ghost {
+  #kampftrackerPanel .gegner-card-header .btn.ghost {
     padding: 4px 6px !important;
-    font-size: 13px !important;
-    min-width: 28px;
+    font-size: 12px !important;
+    min-width: 26px;
   }
 
-  .gegner-gruppen-row {
+  #kampftrackerPanel .gegner-gruppen-row {
     gap: 6px;
   }
 
-  .gegner-gruppen-row label {
+  #kampftrackerPanel .gegner-gruppen-row label {
     flex-basis: 100%;
   }
 
-  .gegner-gruppen-row #aktiveGruppeSelect {
-    min-width: 100px;
+  #kampftrackerPanel .gegner-gruppen-row #aktiveGruppeSelect {
+    min-width: 90px;
     flex: 1;
   }
 
-  .gegner-gruppen-row #gegnerAlleAuswaehlen,
-  .gegner-gruppen-row #gegnerAbwaehlen {
+  #kampftrackerPanel .gegner-gruppen-row #gegnerAlleAuswaehlen,
+  #kampftrackerPanel .gegner-gruppen-row #gegnerAbwaehlen {
     padding: 5px 8px;
     font-size: 10px;
   }
 
-  .gegner-ziel-auswahl-wrap {
+  #kampftrackerPanel .gegner-ziel-auswahl-wrap {
     padding: 8px;
     margin-top: 8px;
   }
 
-  .gegner-ziel-heading {
+  #kampftrackerPanel .gegner-ziel-heading {
     font-size: 11px;
   }
 
-  .gegner-ziel-chip {
+  #kampftrackerPanel .gegner-ziel-chip {
     padding: 4px 8px;
     font-size: 11px;
   }
 
-  .gegner-ziel-chip-icon {
+  #kampftrackerPanel .gegner-ziel-chip-icon {
     width: 16px;
     height: 16px;
   }
 
-  .gegner-ziel-aktionen {
+  #kampftrackerPanel .gegner-ziel-aktionen {
     flex-direction: column;
     align-items: stretch;
     gap: 8px;
   }
 
-  .gegner-ziel-schaden-row,
-  .gegner-ziel-zuweisen-row {
+  #kampftrackerPanel .gegner-ziel-schaden-row,
+  #kampftrackerPanel .gegner-ziel-zuweisen-row {
     flex-wrap: wrap;
   }
 
-  .gegner-ziel-zuweisen-select {
-    min-width: 100%;
+  #kampftrackerPanel .gegner-ziel-zuweisen-select {
+    min-width: 0;
+    flex: 1;
   }
 
-  .gegner-ziel-schaden-btn,
-  .gegner-ziel-auskampf-btn,
-  .gegner-ziel-tod-btn,
-  .gegner-ziel-loeschen-btn,
-  .gegner-ziel-zuweisen-btn {
+  #kampftrackerPanel .gegner-ziel-schaden-btn,
+  #kampftrackerPanel .gegner-ziel-auskampf-btn,
+  #kampftrackerPanel .gegner-ziel-tod-btn,
+  #kampftrackerPanel .gegner-ziel-loeschen-btn,
+  #kampftrackerPanel .gegner-ziel-zuweisen-btn {
     font-size: 11px !important;
     padding: 6px 10px !important;
   }
 
-  .runde-controls {
+  #kampftrackerPanel .runde-controls {
     flex-wrap: wrap;
     gap: 6px;
   }
 
-  .runde-controls button {
+  #kampftrackerPanel .runde-controls button {
     padding: 5px 8px !important;
     font-size: 10px !important;
   }
 
-  .gegner-add-form .row {
+  #kampftrackerPanel .gegner-add-form .row {
     gap: 8px;
   }
 
-  .gegner-add-form .row > div {
+  #kampftrackerPanel .gegner-add-form .row > div {
     min-width: 0;
-    flex: 1 1 120px;
+    flex: 1 1 100px;
   }
 }
