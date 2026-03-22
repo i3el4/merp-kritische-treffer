@@ -1856,11 +1856,31 @@ div.rk button[data-rk="20"] {
   }
 
   #kampftrackerPanel .gegner-add-form .row {
-    gap: 8px;
+    flex-direction: column;
+    gap: 12px;
   }
 
   #kampftrackerPanel .gegner-add-form .row > div {
     min-width: 0;
-    flex: 1 1 100px;
+    width: 100%;
+    flex: 0 0 auto;
+  }
+
+  #kampftrackerPanel .gegner-add-form .gegner-add-icon-wrap {
+    order: 3;
+  }
+
+  #kampftrackerPanel .gegner-add-form .icon-picker {
+    display: grid;
+    grid-template-columns: repeat(4, 44px);
+    gap: 8px;
+    max-height: 220px;
+    overflow-y: auto;
+  }
+
+  #kampftrackerPanel .gegner-add-form .icon-picker-btn {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
   }
 }
