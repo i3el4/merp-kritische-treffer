@@ -136,6 +136,8 @@ export const CHARAKTER_ICONS = {
   'gegner_normal.png': 'Goblin',
   'gegner_gross.png': 'Oger',
   'gegner_gewaltig.png': 'Drake',
+  'megli.png': 'Megli',
+  'harrass.png': 'Harrass',
 };
 
 export const DEFAULT_RK = 3;
