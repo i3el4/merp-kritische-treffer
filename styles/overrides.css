@@ -1728,14 +1728,16 @@ div.rk button[data-rk="20"] {
 }
 
 /* --- Hochformat / schmale Bildschirme (nur Gegner-Tab) --- */
-@media (max-width: 500px) {
+@media (max-width: 600px) {
   #kampftrackerPanel {
     overflow-x: hidden;
+    max-width: 100vw;
   }
 
   #kampftrackerPanel .card {
-    padding: 10px;
+    padding: 12px;
     min-width: 0;
+    max-width: 100%;
   }
 
   #kampftrackerPanel .kampftracker-header {
@@ -1855,32 +1857,80 @@ div.rk button[data-rk="20"] {
     font-size: 10px !important;
   }
 
+  /* Gegner-Form: klarer vertikaler Stapel für Smartphones */
+  #kampftrackerPanel .gegner-add-form {
+    width: 100%;
+    min-width: 0;
+  }
+
   #kampftrackerPanel .gegner-add-form .row {
-    flex-direction: column;
-    gap: 12px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-bottom: 14px;
   }
 
   #kampftrackerPanel .gegner-add-form .row > div {
     min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  #kampftrackerPanel .gegner-add-form label {
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  #kampftrackerPanel .gegner-add-form input,
+  #kampftrackerPanel .gegner-add-form select {
     width: 100%;
-    flex: 0 0 auto;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
   }
 
+  #kampftrackerPanel .gegner-add-form .btn.primary {
+    width: 100%;
+  }
+
+  /* Icon-Bereich: eigener Block, festes Grid */
   #kampftrackerPanel .gegner-add-form .gegner-add-icon-wrap {
-    order: 3;
+    grid-column: 1;
   }
 
-  #kampftrackerPanel .gegner-add-form .icon-picker {
+  #kampftrackerPanel .gegner-add-form .gegner-add-icon-wrap .icon-picker {
     display: grid;
-    grid-template-columns: repeat(4, 44px);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 8px;
-    max-height: 220px;
+    max-height: 180px;
     overflow-y: auto;
+    overflow-x: hidden;
+    padding: 4px 0;
+    -webkit-overflow-scrolling: touch;
+    justify-items: center;
+  }
+
+  #kampftrackerPanel .gegner-add-form .icon-picker-btn {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    min-height: 48px;
+    padding: 4px;
+    flex-shrink: 0;
+  }
+}
+
+/* Sehr schmale Smartphones (< 380px) */
+@media (max-width: 380px) {
+  #kampftrackerPanel .gegner-add-form .gegner-add-icon-wrap .icon-picker {
+    max-height: 160px;
   }
 
   #kampftrackerPanel .gegner-add-form .icon-picker-btn {
     width: 44px;
     height: 44px;
-    flex-shrink: 0;
+    min-width: 44px;
+    min-height: 44px;
   }
 }
