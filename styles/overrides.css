@@ -1726,3 +1726,140 @@ div.rk button[data-rk="20"] {
   font-size: 10px !important;
   color: rgba(46, 42, 34, 0.9) !important;
 }
+
+/* --- Hochformat / schmale Bildschirme (Gegner-Tab) --- */
+@media (max-width: 500px), (orientation: portrait) and (max-height: 700px) {
+  #kampftrackerPanel {
+    overflow-x: hidden;
+  }
+
+  #kampftrackerPanel .card {
+    padding: 10px;
+    min-width: 0;
+  }
+
+  #kampftrackerPanel .kampftracker-header {
+    gap: 8px;
+  }
+
+  #kampftrackerPanel .kampftracker-header h2 {
+    font-size: 15px;
+  }
+
+  .gegner-card-header {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .gegner-card-header .gegner-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .gegner-card-header .gegner-name {
+    min-width: 0;
+    flex: 1 1 60px;
+    font-size: 13px;
+  }
+
+  .gegner-card-header .gegner-rk-tp {
+    flex-basis: 100%;
+    font-size: 10px;
+    margin-left: 0;
+    margin-top: -2px;
+  }
+
+  .gegner-card-header .gegner-card-gruppe-select {
+    min-width: 60px;
+    max-width: 80px;
+    font-size: 9px;
+    padding: 2px 4px;
+  }
+
+  .gegner-card-header .btn.ghost {
+    padding: 4px 6px !important;
+    font-size: 13px !important;
+    min-width: 28px;
+  }
+
+  .gegner-gruppen-row {
+    gap: 6px;
+  }
+
+  .gegner-gruppen-row label {
+    flex-basis: 100%;
+  }
+
+  .gegner-gruppen-row #aktiveGruppeSelect {
+    min-width: 100px;
+    flex: 1;
+  }
+
+  .gegner-gruppen-row #gegnerAlleAuswaehlen,
+  .gegner-gruppen-row #gegnerAbwaehlen {
+    padding: 5px 8px;
+    font-size: 10px;
+  }
+
+  .gegner-ziel-auswahl-wrap {
+    padding: 8px;
+    margin-top: 8px;
+  }
+
+  .gegner-ziel-heading {
+    font-size: 11px;
+  }
+
+  .gegner-ziel-chip {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+
+  .gegner-ziel-chip-icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .gegner-ziel-aktionen {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .gegner-ziel-schaden-row,
+  .gegner-ziel-zuweisen-row {
+    flex-wrap: wrap;
+  }
+
+  .gegner-ziel-zuweisen-select {
+    min-width: 100%;
+  }
+
+  .gegner-ziel-schaden-btn,
+  .gegner-ziel-auskampf-btn,
+  .gegner-ziel-tod-btn,
+  .gegner-ziel-loeschen-btn,
+  .gegner-ziel-zuweisen-btn {
+    font-size: 11px !important;
+    padding: 6px 10px !important;
+  }
+
+  .runde-controls {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .runde-controls button {
+    padding: 5px 8px !important;
+    font-size: 10px !important;
+  }
+
+  .gegner-add-form .row {
+    gap: 8px;
+  }
+
+  .gegner-add-form .row > div {
+    min-width: 0;
+    flex: 1 1 120px;
+  }
+}
