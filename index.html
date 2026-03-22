@@ -469,6 +469,22 @@
       <section class="card">
         <div class="kampftracker-header">
           <h2>Gegner</h2>
+          <div class="gegner-gruppen-row">
+            <label for="aktiveGruppeSelect">Aktueller Raum</label>
+            <select id="aktiveGruppeSelect" title="Nur Gegner aus diesem Raum werden angezeigt und können ausgewählt werden">
+              <option value="">Alle im Kampf</option>
+            </select>
+            <button type="button" class="btn ghost" id="gegnerAlleAuswaehlen" title="Alle sichtbaren Gegner als Ziele auswählen">Alle auswählen</button>
+            <button type="button" class="btn ghost" id="gegnerAbwaehlen" title="Zielauswahl aufheben">Abwählen</button>
+            <details class="gegner-gruppen-details">
+              <summary>Gruppen verwalten</summary>
+              <div id="gegnerGruppenVerwaltung" class="gegner-gruppen-verwaltung"></div>
+            </details>
+          </div>
+          <div id="gegnerZielAuswahlWrap" class="gegner-ziel-auswahl-wrap">
+            <div id="gegnerZielAuswahl" class="gegner-ziel-auswahl"></div>
+            <div id="gegnerZielAktionen" class="gegner-ziel-aktionen"></div>
+          </div>
           <div class="runde-controls">
             <span id="rundeAnzeige">Runde 1</span>
             <button type="button" class="btn ghost runde-prev-btn" id="rundePrev" title="Runde zurück">← Zurück</button>
@@ -481,8 +497,12 @@
         <form id="gegnerAddForm" class="gegner-add-form">
           <div class="row">
             <div>
-              <label for="gegnerName">Name</label>
-              <input type="text" name="gegnerName" id="gegnerName" placeholder="z. B. Ork 1" required />
+              <label for="gegnerAnzahl">Anzahl</label>
+              <input type="number" name="gegnerAnzahl" id="gegnerAnzahl" min="1" max="100" value="1" title="1 = einzeln, 2+ = Batch (Ork 1, Ork 2, …)" />
+            </div>
+            <div>
+              <label for="gegnerName">Name / Prefix</label>
+              <input type="text" name="gegnerName" id="gegnerName" placeholder="z. B. Ork" required />
             </div>
             <div>
               <label>Icon</label>
@@ -491,6 +511,12 @@
             <div>
               <label for="gegnerTp">Trefferpunkte</label>
               <input type="number" name="gegnerTp" id="gegnerTp" min="1" placeholder="z. B. 100" required />
+            </div>
+            <div>
+              <label for="gegnerGruppeSelect">Gruppe / Raum</label>
+              <select name="gegnerGruppe" id="gegnerGruppeSelect" title="Gegner diesem Raum zuweisen (optional)">
+                <option value="">— Keine —</option>
+              </select>
             </div>
             <div>
               <label for="gegnerGroesse">Grösse</label>

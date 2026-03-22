@@ -8,6 +8,7 @@ import {
   getCurrentKampagne,
   getCurrentKampagneId,
   getGegner,
+  getGegnerFuerKampf,
   getGegnerById,
   getCharakterById,
   getAktuelleRunde,
@@ -16,12 +17,21 @@ import {
   renameKampagne,
   deleteKampagne,
   addGegner,
+  addGegnerBatch,
   removeGegner,
   updateGegner,
+  getGegnerGruppen,
+  addGegnerGruppe,
+  updateGegnerGruppe,
+  removeGegnerGruppe,
+  getAktiveGruppeId,
+  setAktiveGruppeId,
+  applySchaden,
   setAktuelleRunde,
   processRundenende,
   heilenLaufendeSchaden,
   heilenTp,
+  applySchadenCharakter,
   getSpieler,
   getNpcs,
   getCharaktere,
@@ -148,15 +158,23 @@ function showGegnerEditPopover(cardEl, gegner) {
   const popover = document.createElement('div');
   popover.className = 'gegner-edit-popover';
   const rkVal = gegner.rk != null ? gegner.rk : 20;
+  const imKampfVal = gegner.imKampf !== false;
+  const gruppen = getGegnerGruppen();
+  const gruppeOpts = '<option value="">— Keine —</option>' +
+    gruppen.map(g => `<option value="${g.id}"${g.id === (gegner.gruppeId || '') ? ' selected' : ''}>${escapeHtml(g.name)}</option>`).join('');
   const rkOpts = Array.from({ length: 20 }, (_, i) => i + 1).map(n =>
     `<option value="${n}"${rkVal === n ? ' selected' : ''}>${n}</option>`
   ).join('');
   popover.innerHTML = `
+    <div class="gegner-edit-row gegner-edit-gruppe-row">
+      <label>Gruppe / Raum</label>
+      <select class="gegner-edit-gruppe" title="Gegner diesem Raum zuweisen (z. B. Kerker)">
+        ${gruppeOpts}
+      </select>
+    </div>
     <div class="gegner-edit-row">
       <label>Rüstungsklasse</label>
-      <select class="gegner-edit-rk">
-        ${rkOpts}
-      </select>
+      <select class="gegner-edit-rk">${rkOpts}</select>
     </div>
     <div class="gegner-edit-row">
       <label>TP (aktuell)</label>
@@ -165,6 +183,9 @@ function showGegnerEditPopover(cardEl, gegner) {
     <div class="gegner-edit-row">
       <label>TP (max)</label>
       <input type="number" class="gegner-edit-maxTp" min="1" value="${gegner.maxTp}" />
+    </div>
+    <div class="gegner-edit-row">
+      <label><input type="checkbox" class="gegner-edit-imkampf" ${imKampfVal ? 'checked' : ''} /> Im Kampf anzeigen</label>
     </div>
     <div class="gegner-edit-row">
       <label>Icon</label>
@@ -182,11 +203,53 @@ function showGegnerEditPopover(cardEl, gegner) {
     const tp = parseInt(popover.querySelector('.gegner-edit-tp').value, 10);
     const maxTp = Math.max(1, parseInt(popover.querySelector('.gegner-edit-maxTp').value, 10));
     const icon = popover.dataset.selectedIcon || gegner.icon;
-    const updates = { rk, tp: Math.min(tp, maxTp), maxTp, icon };
+    const imKampf = popover.querySelector('.gegner-edit-imkampf')?.checked !== false;
+    const gruppeSel = popover.querySelector('.gegner-edit-gruppe');
+    const gruppeId = gruppeSel?.value?.trim() || null;
+    const updates = { rk, tp: Math.min(tp, maxTp), maxTp, icon, imKampf, gruppeId };
     updateGegner(gegner.id, updates);
     popover.remove();
     render();
   });
+  cardEl.appendChild(popover);
+}
+
+function showGegnerSchadenPopover(cardEl, gegner) {
+  const existing = document.querySelector('.gegner-schaden-popover');
+  if (existing) existing.remove();
+  const popover = document.createElement('div');
+  popover.className = 'gegner-edit-popover gegner-schaden-popover';
+  popover.innerHTML = `
+    <div class="gegner-edit-row">
+      <label>Schaden (TP abziehen)</label>
+      <input type="number" class="gegner-schaden-tp" min="0" placeholder="0" value="" />
+    </div>
+    <div class="gegner-edit-row">
+      <label>oder Heilung (TP hinzufügen)</label>
+      <input type="number" class="gegner-heilung-tp" min="0" placeholder="0" value="" />
+    </div>
+    <div class="gegner-edit-row">
+      <label>Beschreibung (optional)</label>
+      <input type="text" class="gegner-schaden-desc" placeholder="z. B. Fallschaden" />
+    </div>
+    <button type="button" class="btn primary gegner-schaden-apply">Anwenden</button>
+  `;
+  popover.querySelector('.gegner-schaden-apply').addEventListener('click', () => {
+    const schadenVal = parseInt(popover.querySelector('.gegner-schaden-tp').value, 10) || 0;
+    const heilVal = parseInt(popover.querySelector('.gegner-heilung-tp').value, 10) || 0;
+    const desc = popover.querySelector('.gegner-schaden-desc').value?.trim() || '';
+    if (schadenVal > 0) {
+      applySchaden(gegner.id, schadenVal, 'manuell', desc || `${schadenVal} TP (manuell)`);
+    }
+    if (heilVal > 0) {
+      heilenTp(gegner.id, heilVal);
+    }
+    if (schadenVal > 0 || heilVal > 0) {
+      popover.remove();
+      render();
+    }
+  });
+  cardEl.style.position = 'relative';
   cardEl.appendChild(popover);
 }
 
@@ -309,14 +372,31 @@ function renderGegnerListe() {
           <button type="button" class="btn gegner-heilen-btn" data-id="${g.id}" title="1 T/Rd Blutung stoppen (mehrmals klicken für mehr)">1 T/Rd Blutung stoppen</button>
         </div>`
       : '';
+    const imKampf = g.imKampf !== false;
     const iconUrl = getIconUrl(g.icon);
     const rk = g.rk != null ? g.rk : 20;
+    const isSelected = selectedIds.includes(g.id);
+    const gruppen = getGegnerGruppen();
+    const gruppeName = g.gruppeId ? gruppen.find(gr => gr.id === g.gruppeId)?.name : null;
+    const gruppeOpts = gruppen.length > 0
+      ? '<option value="">— Keine —</option>' + gruppen.map(gr =>
+          `<option value="${gr.id}"${gr.id === (g.gruppeId || '') ? ' selected' : ''}>${escapeHtml(gr.name)}</option>`
+        ).join('')
+      : '';
+    const gruppeSelect = gruppen.length > 0
+      ? `<select class="gegner-card-gruppe-select" data-id="${g.id}" title="Gruppe / Raum zuweisen">${gruppeOpts}</select>`
+      : '';
     card.innerHTML = `
       <div class="gegner-card-header">
         <img class="gegner-icon" src="${iconUrl}" alt="${escapeHtml(g.name)}" />
         <span class="gegner-name">${isTot ? '† ' : ''}${escapeHtml(g.name)}</span>
+        ${gruppeSelect}
         <span class="gegner-rk-tp">RK ${rk} · ${g.tp}/${g.maxTp} TP</span>
-        <button type="button" class="btn ghost gegner-icon-edit" data-id="${g.id}" title="Icon ändern">✎</button>
+        <button type="button" class="btn ghost gegner-select-toggle ${isSelected ? 'active' : ''}" data-id="${g.id}" title="${isSelected ? 'Abwählen' : 'Als Ziel auswählen'}">${isSelected ? '✓' : '○'}</button>
+        <button type="button" class="btn ghost gegner-edit" data-id="${g.id}" title="Bearbeiten">✎</button>
+        <button type="button" class="btn ghost gegner-schaden-btn" data-id="${g.id}" title="Treffer manuell">±</button>
+        ${!isTot ? `<button type="button" class="btn ghost gegner-tod-btn" data-id="${g.id}" title="Als tot markieren">†</button>` : ''}
+        <button type="button" class="btn ghost gegner-kampf-toggle ${imKampf ? 'active' : ''}" data-id="${g.id}" title="${imKampf ? 'Im Kampf' : 'Nicht im Kampf'}">${imKampf ? '⚔' : '—'}</button>
         <button type="button" class="btn ghost gegner-remove" data-id="${g.id}" title="Entfernen">×</button>
       </div>
       ${statusBadges || laufendBadge ? `<div class="gegner-status-row">${statusBadges}${laufendBadge}</div>` : ''}
@@ -328,9 +408,43 @@ function renderGegnerListe() {
       ${historieHtml}
       ${isTot ? '<span class="gegner-tot">TOT</span>' : ''}
     `;
-    card.querySelector('.gegner-icon-edit')?.addEventListener('click', (e) => {
+    card.querySelector('.gegner-select-toggle')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      let ids = [...(state.selectedGegnerIds || [])];
+      if (ids.includes(g.id)) ids = ids.filter(id => id !== g.id);
+      else ids.push(g.id);
+      state.selectedGegnerIds = ids;
+      applyZielToSimulator();
+      render();
+    });
+
+    const gruppeSelEl = card.querySelector('.gegner-card-gruppe-select');
+    gruppeSelEl?.addEventListener('change', (e) => {
+      e.stopPropagation();
+      const val = gruppeSelEl.value?.trim() || null;
+      updateGegner(g.id, { gruppeId: val });
+      render();
+    });
+
+    card.querySelector('.gegner-edit')?.addEventListener('click', (e) => {
       e.stopPropagation();
       showGegnerEditPopover(card, g);
+    });
+    card.querySelector('.gegner-schaden-btn')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      showGegnerSchadenPopover(card, g);
+    });
+    card.querySelector('.gegner-tod-btn')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      updateGegner(g.id, { tp: 0 });
+      state.selectedGegnerIds = (state.selectedGegnerIds || []).filter(id => id !== g.id);
+      applyZielToSimulator();
+      render();
+    });
+    card.querySelector('.gegner-kampf-toggle')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      updateGegner(g.id, { imKampf: !imKampf });
+      render();
     });
     card.querySelector('.gegner-remove')?.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -367,10 +481,10 @@ function escapeHtml(s) {
 }
 
 function renderZielAnzeige() {
-  const gegner = getGegner();
+  const imKampfGegner = getGegnerFuerKampf();
   const charaktere = getCharaktere();
   const verbuendete = charaktere.map(c => ({ ...c, zielTyp: c.typ }));
-  const gegnerZiele = gegner.map(g => ({ ...g, zielTyp: 'gegner' }));
+  const gegnerZiele = imKampfGegner.map(g => ({ ...g, zielTyp: 'gegner' }));
   const zielSection = $('#simulatorZielSection');
   const zielListe = $('#simulatorZielListe');
   const zielInfo = $('#simulatorZielInfo');
@@ -386,7 +500,7 @@ function renderZielAnzeige() {
       btn.className = 'ziel-select-btn ziel-select-btn-round' + (isTot ? ' tot' : '') + (isSelected ? ' active' : '');
       btn.dataset.id = z.id;
       btn.dataset.zielTyp = z.zielTyp;
-      btn.disabled = isTot;
+      btn.disabled = false;
       const iconWrap = document.createElement('div');
       iconWrap.className = 'ziel-icon-wrap';
       const iconImg = document.createElement('img');
@@ -611,6 +725,7 @@ function renderCharakterListe() {
         <img class="gegner-icon" src="${iconUrl}" alt="${escapeHtml(c.name)}" />
         <span class="gegner-name">${isTot ? '† ' : ''}${escapeHtml(c.name)}</span>
         <span class="gegner-rk-tp">RK ${rk} · ${tp}/${maxTp} TP${wahrStr}</span>
+        <button type="button" class="btn ghost charakter-ereignis-btn" data-id="${c.id}" data-typ="${c.typ}" title="Verletzung / Ereignis">+</button>
         <button type="button" class="btn ghost gegner-icon-edit" data-id="${c.id}" data-typ="${c.typ}" title="Bearbeiten">✎</button>
       </div>
       ${statusBadges || laufendBadge ? `<div class="gegner-status-row">${statusBadges}${laufendBadge}</div>` : ''}
@@ -622,6 +737,10 @@ function renderCharakterListe() {
       ${historieHtml}
       ${isTot ? '<span class="gegner-tot">TOT</span>' : ''}
     `;
+    card.querySelector('.charakter-ereignis-btn')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      showCharakterEreignisPopover(card, c);
+    });
     card.querySelector('.gegner-icon-edit')?.addEventListener('click', (e) => {
       e.stopPropagation();
       showCharakterEditPopover(card, c);
@@ -640,6 +759,46 @@ function renderCharakterListe() {
     });
     container.appendChild(card);
   });
+}
+
+function showCharakterEreignisPopover(cardEl, char) {
+  const existing = document.querySelector('.charakter-ereignis-popover');
+  if (existing) existing.remove();
+  const popover = document.createElement('div');
+  popover.className = 'gegner-edit-popover charakter-ereignis-popover';
+  popover.innerHTML = `
+    <div class="gegner-edit-row">
+      <label>Verletzung / Ereignis</label>
+      <input type="text" class="charakter-ereignis-desc" placeholder="z. B. Pfeil in die Schulter, eingeklemmt" />
+    </div>
+    <div class="gegner-edit-row">
+      <label>Schaden (TP abziehen) – optional</label>
+      <input type="number" class="charakter-ereignis-schaden" min="0" placeholder="0" value="" />
+    </div>
+    <div class="gegner-edit-row">
+      <label>Heilung (TP hinzufügen) – optional</label>
+      <input type="number" class="charakter-ereignis-heilung" min="0" placeholder="0" value="" />
+    </div>
+    <button type="button" class="btn primary charakter-ereignis-apply">Hinzufügen</button>
+  `;
+  popover.querySelector('.charakter-ereignis-apply').addEventListener('click', () => {
+    const desc = popover.querySelector('.charakter-ereignis-desc').value?.trim() || '';
+    const schadenVal = parseInt(popover.querySelector('.charakter-ereignis-schaden').value, 10) || 0;
+    const heilVal = parseInt(popover.querySelector('.charakter-ereignis-heilung').value, 10) || 0;
+    if (!desc && schadenVal <= 0 && heilVal <= 0) return;
+    if (schadenVal > 0) {
+      applySchadenCharakter(char.id, schadenVal, 'manuell', desc || `${schadenVal} TP (manuell)`);
+    } else if (desc) {
+      applySchadenCharakter(char.id, 0, 'manuell', desc);
+    }
+    if (heilVal > 0) {
+      heilenTpCharakter(char.id, heilVal);
+    }
+    popover.remove();
+    render();
+  });
+  cardEl.style.position = 'relative';
+  cardEl.appendChild(popover);
 }
 
 function showCharakterEditPopover(cardEl, char) {
@@ -702,10 +861,214 @@ function showCharakterEditPopover(cardEl, char) {
   cardEl.appendChild(popover);
 }
 
+function renderAktiveGruppeSelect() {
+  const sel = document.getElementById('aktiveGruppeSelect');
+  if (!sel) return;
+  const gruppen = getGegnerGruppen();
+  const aktiveId = getAktiveGruppeId();
+  sel.innerHTML = '<option value="">Alle im Kampf</option>' +
+    gruppen.map(g => `<option value="${g.id}"${g.id === aktiveId ? ' selected' : ''}>${escapeHtml(g.name)}</option>`).join('');
+}
+
+function renderGegnerGruppenVerwaltung() {
+  const container = document.getElementById('gegnerGruppenVerwaltung');
+  if (!container) return;
+  const gruppen = getGegnerGruppen();
+  container.innerHTML = '';
+  if (gruppen.length === 0) {
+    const hint = document.createElement('p');
+    hint.className = 'gegner-gruppen-hint muted';
+    hint.textContent = 'Erstelle eine Gruppe (z. B. Kerker), weise Gegner über das Dropdown auf der Karte zu, wähle dann den Raum oben und klicke „Alle auswählen“.';
+    container.appendChild(hint);
+  }
+  gruppen.forEach(g => {
+    const row = document.createElement('div');
+    row.className = 'gegner-gruppe-row';
+    row.innerHTML = `
+      <span class="gegner-gruppe-name">${escapeHtml(g.name)}</span>
+      <button type="button" class="btn ghost gegner-gruppe-rename" data-id="${g.id}" title="Umbenennen">✎</button>
+      <button type="button" class="btn ghost gegner-gruppe-remove" data-id="${g.id}" title="Löschen">×</button>
+    `;
+    row.querySelector('.gegner-gruppe-rename')?.addEventListener('click', () => {
+      const n = prompt('Neuer Name:', g.name);
+      if (n != null && n.trim() && updateGegnerGruppe(g.id, n.trim())) render();
+    });
+    row.querySelector('.gegner-gruppe-remove')?.addEventListener('click', () => {
+      if (confirm(`Gruppe „${g.name}" und ihre Zuordnung zu Gegnern entfernen?`)) {
+        removeGegnerGruppe(g.id);
+        render();
+      }
+    });
+    container.appendChild(row);
+  });
+  const addRow = document.createElement('div');
+  addRow.className = 'gegner-gruppe-add-row';
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.placeholder = 'Neuer Raum (z. B. Kerker)';
+  input.className = 'gegner-gruppe-add-input';
+  const addBtn = document.createElement('button');
+  addBtn.type = 'button';
+  addBtn.className = 'btn primary';
+  addBtn.textContent = 'Hinzufügen';
+  addBtn.addEventListener('click', () => {
+    const name = input.value?.trim();
+    if (name && addGegnerGruppe(name)) {
+      input.value = '';
+      render();
+    }
+  });
+  addRow.appendChild(input);
+  addRow.appendChild(addBtn);
+  container.appendChild(addRow);
+}
+
+function renderGegnerGruppeSelect() {
+  const sel = document.getElementById('gegnerGruppeSelect');
+  if (!sel) return;
+  const gruppen = getGegnerGruppen();
+  const currentVal = sel.value || '';
+  sel.innerHTML = '<option value="">— Keine —</option>' +
+    gruppen.map(g => `<option value="${g.id}"${g.id === currentVal ? ' selected' : ''}>${escapeHtml(g.name)}</option>`).join('');
+}
+
+function renderGegnerZielAuswahl() {
+  const wrap = document.getElementById('gegnerZielAuswahlWrap');
+  const container = document.getElementById('gegnerZielAuswahl');
+  const aktionen = document.getElementById('gegnerZielAktionen');
+  if (!wrap || !container || !aktionen) return;
+  const selectedIds = state.selectedGegnerIds || [];
+  const gegnerZiele = selectedIds
+    .map(id => getGegnerById(id))
+    .filter(Boolean);
+  if (gegnerZiele.length === 0) {
+    wrap.classList.add('hidden');
+    return;
+  }
+  wrap.classList.remove('hidden');
+  container.innerHTML = '';
+  const heading = document.createElement('div');
+  heading.className = 'gegner-ziel-heading';
+  heading.textContent = `${gegnerZiele.length} ausgewählt:`;
+  container.appendChild(heading);
+  const row = document.createElement('div');
+  row.className = 'gegner-ziel-chips';
+  gegnerZiele.forEach(g => {
+    const chip = document.createElement('button');
+    chip.type = 'button';
+    chip.className = 'gegner-ziel-chip active';
+    chip.title = `${g.name} abwählen`;
+    const isTot = g.tp <= 0;
+    chip.innerHTML = `<img src="${getIconUrl(g.icon)}" alt="" class="gegner-ziel-chip-icon" /><span>${isTot ? '† ' : ''}${escapeHtml(g.name)}</span><span class="gegner-ziel-chip-remove">×</span>`;
+    if (isTot) chip.classList.add('tot');
+    chip.addEventListener('click', () => {
+      state.selectedGegnerIds = selectedIds.filter(id => id !== g.id);
+      applyZielToSimulator();
+      render();
+    });
+    row.appendChild(chip);
+  });
+  container.appendChild(row);
+
+  aktionen.innerHTML = '';
+  const gruppen = getGegnerGruppen();
+  if (gegnerZiele.length >= 1) {
+    const schadenRow = document.createElement('div');
+    schadenRow.className = 'gegner-ziel-schaden-row';
+    const inp = document.createElement('input');
+    inp.type = 'number';
+    inp.min = '1';
+    inp.placeholder = 'TP';
+    inp.className = 'gegner-ziel-tp-input';
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'btn primary gegner-ziel-schaden-btn';
+    btn.textContent = 'TP Schaden an alle';
+    btn.addEventListener('click', () => {
+      const tp = parseInt(inp.value, 10) || 0;
+      if (tp > 0) {
+        gegnerZiele.forEach(g => applySchaden(g.id, tp, 'manuell', `${tp} TP (manuell)`));
+        inp.value = '';
+        render();
+      }
+    });
+    schadenRow.appendChild(inp);
+    schadenRow.appendChild(btn);
+    aktionen.appendChild(schadenRow);
+
+    const todBtn = document.createElement('button');
+    todBtn.type = 'button';
+    todBtn.className = 'btn ghost gegner-ziel-tod-btn';
+    todBtn.textContent = 'Alle als tot markieren';
+    todBtn.addEventListener('click', () => {
+      gegnerZiele.forEach(g => updateGegner(g.id, { tp: 0 }));
+      state.selectedGegnerIds = [];
+      applyZielToSimulator();
+      render();
+    });
+    aktionen.appendChild(todBtn);
+
+    const ausKampfBtn = document.createElement('button');
+    ausKampfBtn.type = 'button';
+    ausKampfBtn.className = 'btn ghost gegner-ziel-auskampf-btn';
+    ausKampfBtn.textContent = 'Alle aus Kampf entfernen';
+    ausKampfBtn.addEventListener('click', () => {
+      gegnerZiele.forEach(g => updateGegner(g.id, { imKampf: false }));
+      state.selectedGegnerIds = [];
+      applyZielToSimulator();
+      render();
+    });
+    aktionen.appendChild(ausKampfBtn);
+
+    if (gruppen.length > 0) {
+      const zuweisenWrap = document.createElement('div');
+      zuweisenWrap.className = 'gegner-ziel-zuweisen-row';
+      const zuweisenSel = document.createElement('select');
+      zuweisenSel.className = 'gegner-ziel-zuweisen-select';
+      zuweisenSel.innerHTML = '<option value="">Gruppe wählen …</option>' +
+        gruppen.map(gr => `<option value="${gr.id}">${escapeHtml(gr.name)}</option>`).join('');
+      const zuweisenBtn = document.createElement('button');
+      zuweisenBtn.type = 'button';
+      zuweisenBtn.className = 'btn ghost gegner-ziel-zuweisen-btn';
+      zuweisenBtn.textContent = 'Zuweisen';
+      zuweisenBtn.addEventListener('click', () => {
+        const gruppeId = zuweisenSel.value?.trim() || null;
+        if (gruppeId) {
+          gegnerZiele.forEach(g => updateGegner(g.id, { gruppeId }));
+          zuweisenSel.value = '';
+          render();
+        }
+      });
+      zuweisenWrap.appendChild(zuweisenSel);
+      zuweisenWrap.appendChild(zuweisenBtn);
+      aktionen.appendChild(zuweisenWrap);
+    }
+
+    const loeschenBtn = document.createElement('button');
+    loeschenBtn.type = 'button';
+    loeschenBtn.className = 'btn ghost gegner-ziel-loeschen-btn';
+    loeschenBtn.textContent = 'Ausgewählte löschen';
+    loeschenBtn.addEventListener('click', () => {
+      const namen = gegnerZiele.map(g => g.name).join(', ');
+      if (confirm(`${gegnerZiele.length} Gegner wirklich löschen?\n\n${namen}`)) {
+        gegnerZiele.forEach(g => removeGegner(g.id));
+        state.selectedGegnerIds = [];
+        applyZielToSimulator();
+        render();
+      }
+    });
+    aktionen.appendChild(loeschenBtn);
+  }
+}
+
 function render() {
   renderKampagnenDropdown();
   renderSpielerListe();
   renderNpcListe();
+  renderAktiveGruppeSelect();
+  renderGegnerGruppenVerwaltung();
+  renderGegnerGruppeSelect();
+  renderGegnerZielAuswahl();
   renderGegnerListe();
   renderCharakterListe();
   renderZielAnzeige();
@@ -809,6 +1172,7 @@ function initGegnerUI() {
   form?.addEventListener('submit', (e) => {
     e.preventDefault();
     const name = form.querySelector('[name="gegnerName"]')?.value?.trim();
+    const anzahl = parseInt(form.querySelector('[name="gegnerAnzahl"]')?.value || '1', 10) || 1;
     const tp = form.querySelector('[name="gegnerTp"]')?.value;
     const groesse = form.querySelector('[name="gegnerGroesse"]')?.value || 'normal';
     const rk = form.querySelector('[name="gegnerRk"]')?.value || '20';
@@ -816,9 +1180,36 @@ function initGegnerUI() {
     if (!getCurrentKampagneId()) {
       createKampagne('Kampagne 1');
     }
-    addGegner(name, tp, groesse, rk, icon);
+    const gruppeSel = form.querySelector('#gegnerGruppeSelect');
+    const gruppeId = gruppeSel?.value?.trim() || null;
+    if (anzahl > 1) {
+      addGegnerBatch(anzahl, name, tp, groesse, rk, icon, gruppeId);
+    } else {
+      addGegner(name, tp, groesse, rk, icon, gruppeId);
+    }
     form.reset();
+    form.querySelector('[name="gegnerAnzahl"]').value = '1';
     iconPicker?.querySelectorAll('.icon-picker-btn.selected').forEach(b => b.classList.remove('selected'));
+    render();
+  });
+
+  const aktiveSel = document.getElementById('aktiveGruppeSelect');
+  aktiveSel?.addEventListener('change', () => {
+    setAktiveGruppeId(aktiveSel.value || null);
+    render();
+  });
+
+  document.getElementById('gegnerAlleAuswaehlen')?.addEventListener('click', () => {
+    const fuerKampf = getGegnerFuerKampf();
+    const ids = fuerKampf.map(g => g.id);
+    state.selectedGegnerIds = ids;
+    applyZielToSimulator();
+    render();
+  });
+
+  document.getElementById('gegnerAbwaehlen')?.addEventListener('click', () => {
+    state.selectedGegnerIds = [];
+    applyZielToSimulator();
     render();
   });
 

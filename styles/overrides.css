@@ -1433,10 +1433,198 @@ div.rk button[data-rk="20"] {
 .kampftracker-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   flex-wrap: wrap;
   gap: 12px;
   margin-bottom: 8px;
+}
+
+#kampftrackerPanel .kampftracker-header .gegner-gruppen-row,
+#kampftrackerPanel .kampftracker-header .gegner-ziel-auswahl-wrap {
+  flex-basis: 100%;
+}
+
+#kampftrackerPanel .kampftracker-header .runde-controls {
+  margin-left: auto;
+}
+
+.gegner-gruppen-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.gegner-gruppen-row label {
+  font-size: 12px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.gegner-gruppen-row #aktiveGruppeSelect {
+  min-width: 140px;
+  padding: 6px 10px;
+  font-size: 12px;
+}
+
+.gegner-gruppen-details {
+  font-size: 12px;
+  margin-left: 8px;
+}
+
+.gegner-gruppen-details summary {
+  cursor: pointer;
+  color: var(--accent);
+}
+
+.gegner-gruppen-verwaltung {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 10px;
+  background: var(--chip);
+  border-radius: 8px;
+}
+
+.gegner-gruppe-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.gegner-gruppe-row .gegner-gruppe-name {
+  flex: 1;
+  font-size: 13px;
+}
+
+.gegner-gruppe-add-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+.gegner-gruppe-add-row .gegner-gruppe-add-input {
+  flex: 1;
+  padding: 6px 10px;
+  font-size: 12px;
+}
+
+.gegner-gruppen-row #gegnerAlleAuswaehlen,
+.gegner-gruppen-row #gegnerAbwaehlen {
+  padding: 6px 10px;
+  font-size: 11px;
+}
+
+/* Ausgewählte Ziele im Gegner-Tab */
+.gegner-ziel-auswahl-wrap {
+  width: 100%;
+  margin-top: 12px;
+  padding: 12px;
+  background: var(--chip);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+
+.gegner-ziel-auswahl-wrap.hidden {
+  display: none;
+}
+
+.gegner-ziel-heading {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.gegner-ziel-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.gegner-ziel-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  font-size: 12px;
+  background: rgba(229, 91, 65, 0.25);
+  border: 2px solid var(--accent);
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--text);
+}
+
+.gegner-ziel-chip:hover {
+  background: rgba(229, 91, 65, 0.4);
+}
+
+.gegner-ziel-chip.tot {
+  opacity: 0.7;
+}
+
+.gegner-ziel-chip-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+}
+
+.gegner-ziel-chip-remove {
+  margin-left: 4px;
+  opacity: 0.7;
+  font-size: 14px;
+}
+
+.gegner-ziel-aktionen {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+.gegner-ziel-schaden-row,
+.gegner-ziel-zuweisen-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.gegner-ziel-zuweisen-select {
+  padding: 6px 10px;
+  font-size: 12px;
+  min-width: 140px;
+}
+
+.gegner-ziel-tp-input {
+  width: 60px;
+  padding: 6px 8px;
+  font-size: 12px;
+}
+
+.gegner-ziel-schaden-btn,
+.gegner-ziel-auskampf-btn,
+.gegner-ziel-tod-btn,
+.gegner-ziel-loeschen-btn {
+  font-size: 12px !important;
+}
+
+.gegner-ziel-loeschen-btn {
+  color: var(--muted);
+}
+
+.gegner-ziel-loeschen-btn:hover {
+  color: #c00;
+}
+
+.gegner-select-toggle.active {
+  color: var(--accent) !important;
+  font-weight: bold;
 }
 
 .runde-controls {
@@ -1487,6 +1675,24 @@ div.rk button[data-rk="20"] {
   font-size: 11px;
   color: var(--muted);
   margin-left: 4px;
+}
+
+/* Gruppen-Auswahl auf Gegner-Karten (Schnellzuweisung) */
+.gegner-card-gruppe-select {
+  font-size: 10px;
+  padding: 2px 6px;
+  min-width: 70px;
+  max-width: 100px;
+  margin-left: 4px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--chip);
+  color: var(--text);
+}
+
+.gegner-card-gruppe-select:hover,
+.gegner-card-gruppe-select:focus {
+  border-color: var(--accent);
 }
 
 /* TP heilen & Blutung stoppen: klar als Knöpfe erkennbar */

@@ -28,6 +28,18 @@ export function getGegner() {
   return k?.gegner ?? [];
 }
 
+/** Gegner, die aktuell als Kampfziele sichtbar sind (aktive Gruppe + im Kampf). */
+export function getGegnerFuerKampf() {
+  const k = getCurrentKampagne();
+  const gegner = k?.gegner ?? [];
+  const aktiveId = k?.aktiveGruppeId ?? null;
+  return gegner.filter(g => {
+    if (g.imKampf === false) return false;
+    if (aktiveId === null) return true;
+    return g.gruppeId === aktiveId;
+  });
+}
+
 export function getSpieler() {
   const k = getCurrentKampagne();
   return k?.spieler ?? [];
@@ -157,6 +169,7 @@ export function createKampagne(name) {
     spieler: [],
     npcs: [],
     gegner: [],
+    gegnerGruppen: [],
     aktuelleRunde: 1,
     updatedAt: new Date().toISOString()
   };
@@ -197,7 +210,7 @@ export function deleteKampagne(id) {
   return true;
 }
 
-export function addGegner(name, maxTp, gegnerTyp = 'normal', rk = 20, icon = null) {
+export function addGegner(name, maxTp, gegnerTyp = 'normal', rk = 20, icon = null, gruppeId = null) {
   const k = getCurrentKampagne();
   if (!k) return null;
   const id = uuid();
@@ -211,6 +224,8 @@ export function addGegner(name, maxTp, gegnerTyp = 'normal', rk = 20, icon = nul
     gegnerTyp: typ,
     rk: rkNum,
     icon: icon || null,
+    imKampf: true,
+    gruppeId: gruppeId || null,
     status: [],
     laufendeSchaden: [],
     historie: []
@@ -221,6 +236,20 @@ export function addGegner(name, maxTp, gegnerTyp = 'normal', rk = 20, icon = nul
   data.kampagnen[k.id].updatedAt = new Date().toISOString();
   saveAll(data);
   return id;
+}
+
+/** Erstellt mehrere Gegner auf einmal (z.B. 50 Orks). */
+export function addGegnerBatch(count, namePrefix, maxTp, gegnerTyp = 'normal', rk = 20, icon = null, gruppeId = null) {
+  const k = getCurrentKampagne();
+  if (!k || !count || count < 1) return [];
+  const n = Math.min(100, Math.max(1, parseInt(count, 10) || 1));
+  const prefix = String(namePrefix || 'Gegner').trim() || 'Gegner';
+  const ids = [];
+  for (let i = 1; i <= n; i++) {
+    const name = n > 1 ? `${prefix} ${i}` : prefix;
+    ids.push(addGegner(name, maxTp, gegnerTyp, rk, icon, gruppeId));
+  }
+  return ids;
 }
 
 export function removeGegner(gegnerId) {
@@ -275,6 +304,8 @@ export function updateGegner(gegnerId, updates) {
     gegner[idx].tp = Math.min(gegner[idx].tp, v);
   }
   if (updates.tp != null) gegner[idx].tp = Math.max(0, Math.min(gegner[idx].maxTp, parseInt(updates.tp, 10) ?? gegner[idx].tp));
+  if (updates.imKampf !== undefined) gegner[idx].imKampf = !!updates.imKampf;
+  if (updates.gruppeId !== undefined) gegner[idx].gruppeId = updates.gruppeId || null;
   data.kampagnen[k.id].gegner = gegner;
   data.kampagnen[k.id].updatedAt = new Date().toISOString();
   saveAll(data);
@@ -295,6 +326,68 @@ export function setAktuelleRunde(runde) {
 export function getAktuelleRunde() {
   const k = getCurrentKampagne();
   return k?.aktuelleRunde ?? 1;
+}
+
+/** Gegner-Gruppen der Kampagne (z.B. Räume in einem Dungeon). */
+export function getGegnerGruppen() {
+  const k = getCurrentKampagne();
+  return k?.gegnerGruppen ?? [];
+}
+
+export function addGegnerGruppe(name) {
+  const k = getCurrentKampagne();
+  if (!k || !name?.trim()) return null;
+  const id = uuid();
+  const data = loadAll();
+  data.kampagnen[k.id].gegnerGruppen = data.kampagnen[k.id].gegnerGruppen || [];
+  data.kampagnen[k.id].gegnerGruppen.push({ id, name: String(name).trim() });
+  data.kampagnen[k.id].updatedAt = new Date().toISOString();
+  saveAll(data);
+  return id;
+}
+
+export function updateGegnerGruppe(gruppeId, name) {
+  const k = getCurrentKampagne();
+  if (!k) return false;
+  const data = loadAll();
+  const gruppen = data.kampagnen[k.id].gegnerGruppen || [];
+  const idx = gruppen.findIndex(g => g.id === gruppeId);
+  if (idx < 0) return false;
+  gruppen[idx].name = String(name || gruppen[idx].name).trim();
+  data.kampagnen[k.id].updatedAt = new Date().toISOString();
+  saveAll(data);
+  return true;
+}
+
+export function removeGegnerGruppe(gruppeId) {
+  const k = getCurrentKampagne();
+  if (!k) return false;
+  const data = loadAll();
+  const gruppen = (data.kampagnen[k.id].gegnerGruppen || []).filter(g => g.id !== gruppeId);
+  data.kampagnen[k.id].gegnerGruppen = gruppen;
+  const gegner = data.kampagnen[k.id].gegner || [];
+  gegner.forEach(g => { if (g.gruppeId === gruppeId) g.gruppeId = null; });
+  if (data.kampagnen[k.id].aktiveGruppeId === gruppeId) {
+    data.kampagnen[k.id].aktiveGruppeId = null;
+  }
+  data.kampagnen[k.id].updatedAt = new Date().toISOString();
+  saveAll(data);
+  return true;
+}
+
+export function getAktiveGruppeId() {
+  const k = getCurrentKampagne();
+  return k?.aktiveGruppeId ?? null;
+}
+
+export function setAktiveGruppeId(gruppeId) {
+  const k = getCurrentKampagne();
+  if (!k) return false;
+  const data = loadAll();
+  data.kampagnen[k.id].aktiveGruppeId = gruppeId || null;
+  data.kampagnen[k.id].updatedAt = new Date().toISOString();
+  saveAll(data);
+  return true;
 }
 
 /**
@@ -322,7 +415,8 @@ export function applySchaden(gegnerId, tp, quelle, beschreibung = '', extracted 
     (extracted.ben || 0) + (extracted.benoPar || 0) + (extracted.oPar || 0) +
     (extracted.init || 0) + (extracted.tpPerRound || 0) > 0 || extracted.ko
   );
-  if (schaden <= 0 && !hasStatus) return false;
+  const manuellMitBeschreibung = quelle === 'manuell' && beschreibung && beschreibung.trim();
+  if (schaden <= 0 && !hasStatus && !manuellMitBeschreibung) return false;
 
   const von = vonCharakter ? { id: vonCharakter.id, name: vonCharakter.name } : null;
   if (schaden > 0) {
@@ -376,6 +470,11 @@ export function applySchaden(gegnerId, tp, quelle, beschreibung = '', extracted 
         von
       });
     }
+  }
+
+  if (manuellMitBeschreibung && schaden <= 0) {
+    g.historie = g.historie || [];
+    g.historie.push({ runde, tp: 0, quelle: 'manuell', beschreibung: beschreibung.trim(), von });
   }
 
   data.kampagnen[k.id].gegner = gegner;
@@ -465,7 +564,8 @@ function applySchadenToCharakterArray(arr, idx, schaden, runde, quelle, beschrei
     (extracted.ben || 0) + (extracted.benoPar || 0) + (extracted.oPar || 0) +
     (extracted.init || 0) + (extracted.tpPerRound || 0) > 0 || extracted.ko
   );
-  if (schaden <= 0 && !hasStatus) return false;
+  const manuellMitBeschreibung = quelle === 'manuell' && beschreibung && beschreibung.trim();
+  if (schaden <= 0 && !hasStatus && !manuellMitBeschreibung) return false;
   const vonObj = von ? { id: von.id, name: von.name } : null;
   if (schaden > 0) {
     g.tp = Math.max(0, g.tp - schaden);
@@ -487,6 +587,10 @@ function applySchadenToCharakterArray(arr, idx, schaden, runde, quelle, beschrei
       statusParts.push(`+${extracted.tpPerRound} T/Rd`);
     }
     if (statusParts.length > 0) g.historie.push({ runde, tp: 0, quelle: 'krit', beschreibung: `Status: ${statusParts.join(', ')}`, von: vonObj });
+  }
+  if (manuellMitBeschreibung && schaden <= 0) {
+    g.historie = g.historie || [];
+    g.historie.push({ runde, tp: 0, quelle: 'manuell', beschreibung: beschreibung.trim(), von: von ? { id: von.id, name: von.name } : null });
   }
   return true;
 }
