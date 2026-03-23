@@ -667,6 +667,7 @@ function playCritAudio(typ, kat, rangeKey, fallbackText) {
     sfxAudio.currentTime = 0;
     sfxAudio.src = mp3;
     sfxAudio.volume = parseFloat($('#ttsVol').value);
+    sfxAudio.playbackRate = 1.12;
     const onError = () => {
         sfxAudio.removeEventListener('error', onError);
         speak(fallbackText);
@@ -687,7 +688,7 @@ function speak(text) {
     window.speechSynthesis.cancel();
     const utter = new SpeechSynthesisUtterance(text);
     utter.lang = 'de-DE';
-    utter.rate = 1.02;
+    utter.rate = 1.22;
     utter.volume = volume;
     window.speechSynthesis.speak(utter);
 }

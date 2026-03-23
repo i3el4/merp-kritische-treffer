@@ -1,7 +1,7 @@
 // data.js
 // Dieses Modul lädt die JSON-Daten und initialisiert die UI.
 
-import { URLS, DEFAULT_RK, WEAPON_LABELS, WEAPON_ICONS, WEAPON_GROUPS } from './constants.js';
+import { URLS, WEAPON_LABELS, WEAPON_ICONS, WEAPON_GROUPS } from './constants.js';
 import { state } from './state.js';
 import { $, $$ } from './dom.js';
 import { mapCritName, adjustWeaponFontSizes } from './logic.js';
@@ -12,9 +12,12 @@ export async function loadData() {
     const [t1, t2] = await Promise.all([fetch(URLS.TREFFER_URL), fetch(URLS.TABLES_URL)]);
     state.treffer = await t1.json();
     state.tables = await t2.json();
+    try {
+        const t3 = await fetch(URLS.PATZER_URL);
+        state.patzerTables = t3.ok ? await t3.json() : {};
+    } catch { state.patzerTables = {}; }
 
     populateWeapons();
-    populateRkButtons();
     populateCritDropdowns($('#critType'), true);
     populateCritDropdowns($('#sideType'), false);
 
@@ -37,6 +40,7 @@ export async function loadData() {
         sideSel.value = sideSel.options[1].value;
         sideSel.dispatchEvent(new Event('change'));
     }
+
 }
 
 // Erzeugt die Buttons für die Waffen (gruppiert).
@@ -102,25 +106,6 @@ function populateWeapons() {
     adjustWeaponFontSizes();
 }
 
-// Erzeugt die Buttons für die Rüstungsklassen (RK).
-function populateRkButtons() {
-    const rkWrap = $('#rk');
-    for (let i = 1; i <= 20; i++) {
-        const b = document.createElement('button');
-        b.type = 'button';
-        b.dataset.rk = i;
-
-        const span = document.createElement('span');
-        span.textContent = i;
-        b.appendChild(span);
-
-        b.addEventListener('click', () => {
-            $$('#rk button').forEach(x => x.classList.toggle('active', x === b));
-        });
-        if (i === DEFAULT_RK) b.classList.add('active');
-        rkWrap.appendChild(b);
-    }
-}
 
 // Befüllt die Krit-Typ-Dropdown-Menüs.
 function populateCritDropdowns(dropdown, isMainCrit = true) {

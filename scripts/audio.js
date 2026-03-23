@@ -5,6 +5,11 @@ import { URLS } from './constants.js';
 import { state } from './state.js';
 import { $ } from './dom.js';
 
+/** Vorlese-Tempo (Web Speech API, 0.1–10; ~1 = normal) */
+const TTS_UTTER_RATE = 1.22;
+/** Tempo für vorproduzierte Krit-MP3s (HTMLAudioElement.playbackRate) */
+const CRIT_MP3_PLAYBACK_RATE = 1.12;
+
 const bgAudio = $('#bgAudio');
 const sfxAudio = $('#sfxAudio');
 
@@ -44,6 +49,7 @@ export async function playCritAudio(typ, kat, rangeKey, fallbackText) {
 
     sfxAudio.src = mp3;
     sfxAudio.volume = parseFloat($('#ttsVol').value);
+    sfxAudio.playbackRate = CRIT_MP3_PLAYBACK_RATE;
 
     try {
         await sfxAudio.play();
@@ -107,7 +113,7 @@ function speak(text) {
     window.speechSynthesis.cancel();
     const utter = new SpeechSynthesisUtterance(text);
     utter.lang = 'de-DE';
-    utter.rate = 1.02;
+    utter.rate = TTS_UTTER_RATE;
     utter.volume = volume;
     window.speechSynthesis.speak(utter);
 }

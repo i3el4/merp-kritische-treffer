@@ -171,6 +171,18 @@ header > div:first-child {
   display: none !important;
 }
 
+.apply-reset-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.apply-reset-row .apply-schaden-wrap {
+  margin-top: 0;
+}
+
 .apply-schaden-wrap {
   margin-top: 8px;
   position: relative;
@@ -181,6 +193,11 @@ header > div:first-child {
 .apply-schaden-wrap .btn-apply-schaden {
   cursor: pointer;
   pointer-events: auto;
+}
+
+.apply-schaden-wrap .btn-apply-schaden:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
 }
 
 .result.crit-prominent {
@@ -307,28 +324,42 @@ header > div:first-child {
 /* Überschriften/Labels in Aniron (Angreifer, Waffenart, Ziele, RK, etc.) */
 .selection-container label,
 .ziel-section label,
-.card .row label,
-.gegner-typ-container label {
+.card .row label {
   font-family: 'Aniron', Georgia, serif;
 }
 
-/* Neue Container-Klasse für die RK- und Gegnertyp-Buttons */
-.rk-und-gegner {
+/* Fallback-Dropdowns für RK + Gegnertyp (wenn kein Ziel gewählt) */
+/* Kein width:100% hier – neben .ziel-section würde sonst die Zielspalte auf ~0 schrumpfen (Icons stapeln sich). */
+.rk-fallback-section {
+  box-sizing: border-box;
+}
+.rk-fallback-section[hidden] {
+  display: none !important;
+}
+.rk-fallback-details summary {
+  cursor: pointer;
+  font-size: 12px;
+  color: var(--muted);
+  font-family: 'Aniron', Georgia, serif;
+  user-select: none;
+  list-style-position: outside;
+}
+.rk-fallback-details summary:hover {
+  color: var(--text);
+}
+.rk-fallback-row {
   display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  /* Stellt sicher, dass alle Buttons an der gleichen Grundlinie sind */
   gap: 16px;
   flex-wrap: wrap;
-  /* Erlaubt Umbruch auf kleineren Bildschirmen */
+  align-items: flex-end;
 }
-
-/* Container für die Gegnertyp-Buttons mit korrektem Layout */
-.gegner-typ-container {
+.rk-fallback-row > div {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 8px;
+  gap: 4px;
+}
+.rk-fallback-row select {
+  min-width: 120px;
 }
 
 /*
@@ -337,10 +368,8 @@ header > div:first-child {
   ========================================
 */
 
-/* Basis-Stil für alle Auswahl-Buttons */
-.weapon-grid button,
-.rk button,
-.gegner-typ button {
+/* Basis-Stil für Waffen-Buttons */
+.weapon-grid button {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -373,46 +402,21 @@ header > div:first-child {
   background-color: rgba(110, 95, 85, 0.75);
 }
 
-/* Einheitliches Styling für alle Buttons, die ein Bild haben */
-.rk button,
-.gegner-typ button {
-  background-size: cover;
-}
-
-/* Zusätzliches Styling für Gegnertyp-Buttons */
-.gegner-typ {
-  display: flex;
-  gap: 8px;
-}
-
-.gegner-typ button {
-  width: 80px;
-  height: 40px;
-  font-family: 'MonkeyIsland', Georgia, serif;
-  color: var(--text);
-}
-
-/* Hover-Effekt für alle Auswahl-Buttons */
-.weapon-grid button:hover,
-.rk button:hover,
-.gegner-typ button:hover {
+/* Hover-Effekt für Waffen-Buttons */
+.weapon-grid button:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow);
 }
 
-/* Aktiver Zustand für alle Auswahl-Buttons */
-.weapon-grid button.active,
-.rk button.active,
-.gegner-typ button.active {
+/* Aktiver Zustand für Waffen-Buttons */
+.weapon-grid button.active {
   box-shadow: 0 0 10px 3px var(--accent);
   border-color: var(--accent);
   background-color: transparent;
 }
 
 /* Text im aktiven Zustand */
-.weapon-grid button.active span,
-.rk button.active span,
-.gegner-typ button.active span {
+.weapon-grid button.active span {
   color: var(--accent-2);
   text-shadow: 1px 1px 3px var(--bg);
 }
@@ -420,28 +424,12 @@ header > div:first-child {
 /* Spezifische Layouts */
 .weapon-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   gap: 8px;
   width: 100%;
 }
 
-.rk {
-  display: grid;
-  grid-template-rows: repeat(4, 45px);
-  grid-template-columns: repeat(5, 45px);
-  grid-auto-flow: column;
-  gap: 8px;
-}
-
-.rk button {
-  width: 45px;
-  height: 45px;
-  padding: 0;
-}
-
-.weapon-grid button span,
-.rk button span,
-.gegner-typ button span {
+.weapon-grid button span {
   position: relative;
   z-index: 1;
   font-family: 'MonkeyIsland', Georgia, serif;
@@ -453,45 +441,6 @@ header > div:first-child {
 .weapon-grid button span {
   font-size: 8px;
   color: var(--text);
-}
-
-.gegner-typ button::after {
-  content: attr(data-gegner-typ);
-  position: absolute;
-  bottom: -15px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 10px;
-  font-weight: bold;
-  color: var(--text-2);
-}
-
-.rk button span {
-  font-size: 20px;
-  color: var(--accent);
-}
-
-/* Hintergrundbilder für die Gegnertyp-Buttons */
-.gegner-typ button[data-gegner-typ="normal"] {
-  background-image: url('../assets/icons/gegner_normal.png');
-}
-
-.gegner-typ button[data-gegner-typ="gross"] {
-  background-image: url('../assets/icons/gegner_gross.png');
-}
-
-.gegner-typ button[data-gegner-typ="gewaltig"] {
-  background-image: url('../assets/icons/gegner_gewaltig.png');
-}
-
-/* Textlabels unter den Buttons */
-.gegner-typ-container {
-  position: relative;
-  text-align: center;
-}
-
-.gegner-typ-container label {
-  margin-bottom: 8px;
 }
 
 /* Hintergrundbilder für Waffen (JSON-Keys, Fallback falls JS Icons nicht setzt) */
@@ -521,41 +470,6 @@ header > div:first-child {
 .weapon-grid button[data-weapon="SCHLEUDER"] { background-image: url('../assets/icons/schleuder.png'); }
 .weapon-grid button[data-weapon="ZWEIHÄNDER"] { background-image: url('../assets/icons/axt\ \(2h\).png'); }
 
-/* Hintergrundbilder für Rüstungen */
-div.rk button[data-rk="1"],
-div.rk button[data-rk="2"],
-div.rk button[data-rk="3"],
-div.rk button[data-rk="4"] {
-  background-image: url('../assets/icons/none.png');
-}
-
-div.rk button[data-rk="5"],
-div.rk button[data-rk="6"],
-div.rk button[data-rk="7"],
-div.rk button[data-rk="8"] {
-  background-image: url('../assets/icons/leather.png');
-}
-
-div.rk button[data-rk="9"],
-div.rk button[data-rk="10"],
-div.rk button[data-rk="11"],
-div.rk button[data-rk="12"] {
-  background-image: url('../assets/icons/heavy_leather.png');
-}
-
-div.rk button[data-rk="13"],
-div.rk button[data-rk="14"],
-div.rk button[data-rk="15"],
-div.rk button[data-rk="16"] {
-  background-image: url('../assets/icons/chainmail.png');
-}
-
-div.rk button[data-rk="17"],
-div.rk button[data-rk="18"],
-div.rk button[data-rk="19"],
-div.rk button[data-rk="20"] {
-  background-image: url('../assets/icons/heavy_armor.png');
-}
 
 /*
   ========================================
@@ -563,43 +477,6 @@ div.rk button[data-rk="20"] {
   ========================================
 */
 
-/* Schriftfarbe für RK 1-4 */
-.rk button[data-rk="1"] span,
-.rk button[data-rk="2"] span,
-.rk button[data-rk="3"] span,
-.rk button[data-rk="4"] span {
-  color: #9c3232;
-}
-
-/* Schriftfarbe für RK 5-8 */
-.rk button[data-rk="5"] span,
-.rk button[data-rk="6"] span,
-.rk button[data-rk="7"] span,
-.rk button[data-rk="8"] span {
-  color: #768ccd;
-}
-
-/* Schriftfarbe für RK 9-12 */
-.rk button[data-rk="9"] span,
-.rk button[data-rk="10"] span,
-.rk button[data-rk="11"] span,
-.rk button[data-rk="12"] span {
-  color: #ec8932;
-}
-
-/* Schriftfarbe für RK 13-16 */
-.rk button[data-rk="13"] span,
-.rk button[data-rk="14"] span,
-.rk button[data-rk="15"] span,
-.rk button[data-rk="16"] span {
-  color: #d5daea;
-}
-
-/* Korrekte Farbänderung bei aktivem Zustand */
-.rk button.active span,
-.gegner-typ button.active span {
-  color: var(--accent-2) !important;
-}
 
 /*
   ========================================
@@ -636,12 +513,84 @@ div.rk button[data-rk="20"] {
   text-align: center;
 }
 
-/* Media Query für Bildschirme kleiner als 960px */
-@media (max-width: 959px) {
-  .rk-und-gegner {
+/* Ziel + RK nebeneinander auf Desktop */
+.selection-container > .ziel-rk-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 20px 24px;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.ziel-rk-row > .ziel-section {
+  /* Genug Mindestbreite, damit Gegner-/Verbündeten-Icons nebeneinander bleiben */
+  flex: 1 1 360px;
+  min-width: min(100%, 280px);
+  max-width: 100%;
+}
+
+/* Fallback rechts daneben oder umbrechend; nie volle Zeilenbreite erzwingen */
+.ziel-rk-row > .rk-fallback-section {
+  flex: 0 1 260px;
+  min-width: min(100%, 200px);
+  max-width: 100%;
+  align-self: flex-start;
+}
+
+
+/* Angreifer + Angriffswert + Buttons in einer Zeile */
+.selection-container > .angriff-bottom-row {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: flex-end;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.angriff-bottom-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.angriff-bottom-item select,
+.angriff-bottom-item input[type="number"] {
+  min-width: 160px;
+}
+
+.angriff-bottom-actions {
+  flex-direction: row;
+  gap: 8px;
+  align-self: flex-end;
+}
+
+@media (max-width: 767px) {
+  .selection-container > .ziel-rk-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .ziel-rk-row > .ziel-section {
+    flex-basis: auto;
+    min-width: 0;
+  }
+
+  .ziel-rk-row > .rk-fallback-section {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+
+  .selection-container > .angriff-bottom-row {
     flex-direction: column;
     align-items: center;
   }
+
+  .angriff-bottom-actions {
+    justify-content: center;
+  }
+
 }
 
 /*
@@ -821,6 +770,8 @@ div.rk button[data-rk="20"] {
 .gegner-name {
   flex: 1;
   font-weight: 600;
+  font-family: 'Aniron', Georgia, serif;
+  font-size: 13px;
 }
 
 .gegner-tp {
@@ -1047,9 +998,18 @@ div.rk button[data-rk="20"] {
 
 .ziel-liste {
   display: flex;
-  flex-direction: column;
-  gap: 12px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 12px 20px;
   margin: 8px 0;
+}
+
+/* Visueller Unterbruch nur wenn beide Gruppen vorhanden sind */
+.ziel-group[data-group-type="gegner"] + .ziel-group[data-group-type="verbuendete"] {
+  padding-left: 16px;
+  margin-left: 4px;
+  border-left: 2px solid rgba(255, 255, 255, 0.18);
 }
 
 .ziel-group-heading {
@@ -1091,6 +1051,14 @@ div.rk button[data-rk="20"] {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.ziel-group[data-group-type="gegner"] .ziel-select-btn-round .ziel-icon-wrap {
+  background-color: #3a3a3a;
+}
+
+.ziel-group[data-group-type="verbuendete"] .ziel-select-btn-round .ziel-icon-wrap {
+  background-color: #f5f0e0;
 }
 
 .ziel-select-btn-round:hover:not(.tot):not(:disabled) .ziel-icon-wrap {
@@ -1219,8 +1187,8 @@ div.rk button[data-rk="20"] {
 }
 
 .charakter-chip-icon {
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
   object-fit: contain;
   flex-shrink: 0;
 }
@@ -1264,6 +1232,21 @@ div.rk button[data-rk="20"] {
   border: 2px solid var(--accent);
   border-radius: 10px;
   box-shadow: var(--shadow);
+}
+
+.gegner-edit-close {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  min-width: 26px;
+  padding: 2px 8px;
+  line-height: 1;
+}
+
+.gegner-undo-btn,
+.charakter-undo-btn {
+  color: var(--warn);
+  font-size: 13px;
 }
 
 .gegner-edit-row {
@@ -1343,11 +1326,19 @@ div.rk button[data-rk="20"] {
 .charakter-chip {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 10px;
+  gap: 8px;
+  padding: 8px 12px;
   background: var(--chip);
-  border-radius: 8px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
   font-size: 13px;
+  font-family: 'Aniron', Georgia, serif;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition: transform 0.15s ease;
+}
+
+.charakter-chip:hover {
+  transform: translateY(-1px);
 }
 
 .charakter-chip .char-remove {
@@ -1439,13 +1430,9 @@ div.rk button[data-rk="20"] {
   margin-bottom: 8px;
 }
 
-#kampftrackerPanel .kampftracker-header .gegner-gruppen-row,
-#kampftrackerPanel .kampftracker-header .gegner-ziel-auswahl-wrap {
+.gegner-status-section .kampftracker-header .gegner-gruppen-row,
+.gegner-status-section .kampftracker-header .gegner-ziel-auswahl-wrap {
   flex-basis: 100%;
-}
-
-#kampftrackerPanel .kampftracker-header .runde-controls {
-  margin-left: auto;
 }
 
 .gegner-gruppen-row {
@@ -1633,7 +1620,8 @@ div.rk button[data-rk="20"] {
   gap: 10px;
 }
 
-.runde-controls #rundeAnzeige {
+.runde-controls #rundeAnzeige,
+.runde-controls span {
   font-family: 'MonkeyIsland', Georgia, serif;
   font-size: 12px;
   color: var(--text);
@@ -1727,183 +1715,193 @@ div.rk button[data-rk="20"] {
   color: rgba(46, 42, 34, 0.9) !important;
 }
 
-/* --- Hochformat / schmale Bildschirme (nur Gegner-Tab) --- */
+/* --- Hochformat / schmale Bildschirme --- */
 @media (max-width: 600px) {
-  #kampftrackerPanel {
+  .gegner-status-section {
     overflow-x: hidden;
     max-width: 100vw;
   }
 
-  #kampftrackerPanel .card {
+  .gegner-status-section .card,
+  #charakterPanel .card {
     padding: 12px;
     min-width: 0;
     max-width: 100%;
   }
 
-  #kampftrackerPanel .kampftracker-header {
+  .gegner-status-section .kampftracker-header {
     gap: 8px;
   }
 
-  #kampftrackerPanel .kampftracker-header h2 {
+  .gegner-status-section .kampftracker-header h2 {
     font-size: 15px;
   }
 
-  #kampftrackerPanel .gegner-card-header {
+  .gegner-status-section .gegner-card-header {
     flex-wrap: wrap;
     gap: 6px;
   }
 
-  #kampftrackerPanel .gegner-card-header .gegner-icon {
+  .gegner-status-section .gegner-card-header .gegner-icon {
     width: 28px;
     height: 28px;
   }
 
-  #kampftrackerPanel .gegner-card-header .gegner-name {
+  .gegner-status-section .gegner-card-header .gegner-name {
     min-width: 0;
     flex: 1 1 50px;
     font-size: 13px;
   }
 
-  #kampftrackerPanel .gegner-card-header .gegner-rk-tp {
+  .gegner-status-section .gegner-card-header .gegner-rk-tp {
     font-size: 10px;
     margin-left: 0;
     order: 10;
     flex-basis: 100%;
   }
 
-  #kampftrackerPanel .gegner-card-header .gegner-card-gruppe-select {
+  .gegner-status-section .tp-step-row {
+    margin-left: 0;
+    order: 8;
+  }
+
+  .gegner-status-section .tp-step-row .btn {
+    padding: 2px 5px !important;
+    font-size: 10px !important;
+  }
+
+  .gegner-status-section .gegner-card-header .gegner-card-gruppe-select {
     min-width: 55px;
     max-width: 75px;
     font-size: 9px;
     padding: 2px 4px;
   }
 
-  #kampftrackerPanel .gegner-card-header .btn.ghost {
+  .gegner-status-section .gegner-card-header .btn.ghost {
     padding: 4px 6px !important;
     font-size: 12px !important;
     min-width: 26px;
   }
 
-  #kampftrackerPanel .gegner-gruppen-row {
+  .gegner-status-section .gegner-gruppen-row {
     gap: 6px;
   }
 
-  #kampftrackerPanel .gegner-gruppen-row label {
+  .gegner-status-section .gegner-gruppen-row label {
     flex-basis: 100%;
   }
 
-  #kampftrackerPanel .gegner-gruppen-row #aktiveGruppeSelect {
+  .gegner-status-section .gegner-gruppen-row #aktiveGruppeSelect {
     min-width: 90px;
     flex: 1;
   }
 
-  #kampftrackerPanel .gegner-gruppen-row #gegnerAlleAuswaehlen,
-  #kampftrackerPanel .gegner-gruppen-row #gegnerAbwaehlen {
+  .gegner-status-section .gegner-gruppen-row #gegnerAlleAuswaehlen,
+  .gegner-status-section .gegner-gruppen-row #gegnerAbwaehlen {
     padding: 5px 8px;
     font-size: 10px;
   }
 
-  #kampftrackerPanel .gegner-ziel-auswahl-wrap {
+  .gegner-status-section .gegner-ziel-auswahl-wrap {
     padding: 8px;
     margin-top: 8px;
   }
 
-  #kampftrackerPanel .gegner-ziel-heading {
+  .gegner-status-section .gegner-ziel-heading {
     font-size: 11px;
   }
 
-  #kampftrackerPanel .gegner-ziel-chip {
+  .gegner-status-section .gegner-ziel-chip {
     padding: 4px 8px;
     font-size: 11px;
   }
 
-  #kampftrackerPanel .gegner-ziel-chip-icon {
+  .gegner-status-section .gegner-ziel-chip-icon {
     width: 16px;
     height: 16px;
   }
 
-  #kampftrackerPanel .gegner-ziel-aktionen {
+  .gegner-status-section .gegner-ziel-aktionen {
     flex-direction: column;
     align-items: stretch;
     gap: 8px;
   }
 
-  #kampftrackerPanel .gegner-ziel-schaden-row,
-  #kampftrackerPanel .gegner-ziel-zuweisen-row {
+  .gegner-status-section .gegner-ziel-schaden-row,
+  .gegner-status-section .gegner-ziel-zuweisen-row {
     flex-wrap: wrap;
   }
 
-  #kampftrackerPanel .gegner-ziel-zuweisen-select {
+  .gegner-status-section .gegner-ziel-zuweisen-select {
     min-width: 0;
     flex: 1;
   }
 
-  #kampftrackerPanel .gegner-ziel-schaden-btn,
-  #kampftrackerPanel .gegner-ziel-auskampf-btn,
-  #kampftrackerPanel .gegner-ziel-tod-btn,
-  #kampftrackerPanel .gegner-ziel-loeschen-btn,
-  #kampftrackerPanel .gegner-ziel-zuweisen-btn {
+  .gegner-status-section .gegner-ziel-schaden-btn,
+  .gegner-status-section .gegner-ziel-auskampf-btn,
+  .gegner-status-section .gegner-ziel-tod-btn,
+  .gegner-status-section .gegner-ziel-loeschen-btn,
+  .gegner-status-section .gegner-ziel-zuweisen-btn {
     font-size: 11px !important;
     padding: 6px 10px !important;
   }
 
-  #kampftrackerPanel .runde-controls {
+  .kampf-steuerung-card .runde-controls {
     flex-wrap: wrap;
     gap: 6px;
   }
 
-  #kampftrackerPanel .runde-controls button {
+  .kampf-steuerung-card .runde-controls button {
     padding: 5px 8px !important;
     font-size: 10px !important;
   }
 
-  /* Gegner-Form: klarer vertikaler Stapel für Smartphones */
-  #kampftrackerPanel .gegner-add-form {
+  /* Gegner-Form: klarer vertikaler Stapel */
+  #charakterPanel .gegner-add-form {
     width: 100%;
     min-width: 0;
   }
 
-  #kampftrackerPanel .gegner-add-form .row {
+  #charakterPanel .gegner-add-form .row {
     display: grid;
     grid-template-columns: 1fr;
     gap: 14px;
     margin-bottom: 14px;
   }
 
-  #kampftrackerPanel .gegner-add-form .row > div {
+  #charakterPanel .gegner-add-form .row > div {
     min-width: 0;
     display: flex;
     flex-direction: column;
     gap: 4px;
   }
 
-  #kampftrackerPanel .gegner-add-form label {
+  #charakterPanel .gegner-add-form label {
     font-size: 12px;
-    white-space: nowrap;
+    white-space: normal;
   }
 
-  #kampftrackerPanel .gegner-add-form input,
-  #kampftrackerPanel .gegner-add-form select {
+  #charakterPanel .gegner-add-form input,
+  #charakterPanel .gegner-add-form select {
     width: 100%;
     max-width: 100%;
     min-width: 0;
     box-sizing: border-box;
   }
 
-  #kampftrackerPanel .gegner-add-form .btn.primary {
+  #charakterPanel .gegner-add-form .btn.primary {
     width: 100%;
   }
 
-  /* Icon-Bereich: eigener Block, festes Grid */
-  #kampftrackerPanel .gegner-add-form .gegner-add-icon-wrap {
+  #charakterPanel .gegner-add-form .gegner-add-icon-wrap {
     grid-column: 1;
   }
 
-  #kampftrackerPanel .gegner-add-form .gegner-add-icon-wrap .icon-picker {
+  #charakterPanel .gegner-add-form .gegner-add-icon-wrap .icon-picker {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 8px;
-    max-height: 180px;
+    max-height: 170px;
     overflow-y: auto;
     overflow-x: hidden;
     padding: 4px 0;
@@ -1911,11 +1909,11 @@ div.rk button[data-rk="20"] {
     justify-items: center;
   }
 
-  #kampftrackerPanel .gegner-add-form .icon-picker-btn {
-    width: 48px;
-    height: 48px;
-    min-width: 48px;
-    min-height: 48px;
+  #charakterPanel .gegner-add-form .icon-picker-btn {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    min-height: 42px;
     padding: 4px;
     flex-shrink: 0;
   }
@@ -1923,14 +1921,244 @@ div.rk button[data-rk="20"] {
 
 /* Sehr schmale Smartphones (< 380px) */
 @media (max-width: 380px) {
-  #kampftrackerPanel .gegner-add-form .gegner-add-icon-wrap .icon-picker {
+  #charakterPanel .gegner-add-form .gegner-add-icon-wrap .icon-picker {
     max-height: 160px;
   }
 
-  #kampftrackerPanel .gegner-add-form .icon-picker-btn {
+  #charakterPanel .gegner-add-form .icon-picker-btn {
     width: 44px;
     height: 44px;
     min-width: 44px;
     min-height: 44px;
   }
+}
+
+.hidden-npc {
+  opacity: 0.45;
+}
+
+.tp-step-row {
+  display: inline-flex;
+  gap: 3px;
+  margin-left: 6px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.tp-step-row .btn {
+  padding: 2px 6px;
+  min-width: auto;
+  font-size: 10px;
+}
+
+.initiative-wrap {
+  width: 100%;
+  margin-top: 8px;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.initiative-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px 12px;
+  margin-bottom: 8px;
+}
+
+.initiative-hint {
+  flex: 1 1 220px;
+  font-size: 11px;
+  line-height: 1.35;
+  max-width: 100%;
+}
+
+.kampf-runde-status-card {
+  margin-bottom: 12px;
+}
+
+.kampf-runde-status-heading {
+  margin: 0 0 10px 0;
+  font-size: 1rem;
+}
+
+.runde-controls-status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 12px;
+}
+
+.runde-anzeige-status {
+  font-family: 'Aniron', Georgia, serif;
+  font-weight: bold;
+  min-width: 5em;
+}
+
+.initiative-liste {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.initiative-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.initiative-val {
+  margin-left: auto;
+  font-weight: bold;
+  color: var(--accent);
+}
+
+.initiative-init-verlust {
+  border-left: 3px solid rgba(255, 160, 80, 0.5);
+}
+
+.initiative-init-badge {
+  font-size: 11px;
+  color: var(--accent-2, #e8c48a);
+  white-space: nowrap;
+}
+
+.gegner-vorlagen-details {
+  margin-top: 12px;
+}
+
+.gegner-vorlagen-wrap {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.gegner-vorlage-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+.gegner-vorlage-form .vorlage-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 120px;
+}
+
+.gegner-vorlage-form .vorlage-field-wide {
+  flex: 1 1 180px;
+  min-width: 160px;
+}
+
+.gegner-vorlage-form .vorlage-field-label {
+  font-size: 11px;
+  color: var(--muted);
+  font-family: 'Aniron', Georgia, serif;
+}
+
+.gegner-vorlage-form input,
+.gegner-vorlage-form select {
+  min-width: 120px;
+}
+
+.gegner-vorlagen-liste {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.gegner-vorlage-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.historie-actions {
+  margin-bottom: 12px;
+}
+
+.historie-item {
+  margin-bottom: 10px;
+}
+
+.historie-entity {
+  margin-top: 8px;
+  padding: 8px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.historie-entity ul {
+  margin: 6px 0 0;
+  padding-left: 18px;
+}
+
+#simulatorPanel .card .row {
+  gap: 14px;
+}
+
+.db-anzeige-wrap {
+  width: fit-content;
+  padding: 6px 10px;
+  background: rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 12px;
+  font-family: 'MonkeyIsland', Georgia, serif;
+  color: var(--text);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+}
+
+.db-anzeige-wrap[hidden] {
+  display: none !important;
+}
+
+.db-anzeige-item strong {
+  color: var(--accent);
+}
+
+.spielleiter-only[hidden] {
+  display: none !important;
+}
+
+.spieler-charakter-view[hidden] {
+  display: none !important;
+}
+
+.spieler-char-card {
+  padding: 12px;
+  background: var(--chip);
+  border: 2px solid var(--border);
+  border-radius: 8px;
+}
+
+.spieler-char-card .gegner-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.kampf-steuerung-card .runde-controls {
+  flex-wrap: wrap;
+}
+
+.gegner-status-section .kampftracker-header {
+  flex-direction: column;
+  align-items: stretch;
 }

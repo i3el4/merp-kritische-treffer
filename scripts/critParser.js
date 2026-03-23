@@ -4,7 +4,7 @@
 /**
  * Parst den visual- oder tts-Text eines Krit-Eintrags.
  * @param {string} text Der visual- oder tts-Text
- * @returns {{ tp: number, tpPerRound: number, ben: number, benoPar: number, oPar: number, init: number, ko: boolean }}
+ * @returns {{ tp: number, tpPerRound: number, ben: number, benoPar: number, oPar: number, par: number, init: number, ko: boolean, severity: 'normal'|'incapacitated'|'lethal' }}
  */
 export function parseCritText(text) {
   const result = {
@@ -13,8 +13,10 @@ export function parseCritText(text) {
     ben: 0,
     benoPar: 0,
     oPar: 0,
+    par: 0,
     init: 0,
-    ko: false
+    ko: false,
+    severity: 'normal'
   };
   if (!text || typeof text !== 'string') return result;
 
@@ -38,6 +40,10 @@ export function parseCritText(text) {
   const oParMatch = text.match(/(\d+)\s*Rd\s+oPar/i);
   if (oParMatch) result.oPar = Math.max(result.oPar, parseInt(oParMatch[1], 10) || 0);
 
+  // X Rd par (Parade-Malus)
+  const parMatch = text.match(/(\d+)\s*Rd\s+par(?:\s|\.|,|$)/i);
+  if (parMatch) result.par = Math.max(result.par, parseInt(parMatch[1], 10) || 0);
+
   // X Rd Init-Verlust / Initiativeverlust
   const initMatch = text.match(/(\d+)\s*Rd\s+(?:Init[- ]?Verlust|Initiativeverlust)/i);
   if (initMatch) result.init = Math.max(result.init, parseInt(initMatch[1], 10) || 0);
@@ -53,6 +59,11 @@ export function parseCritText(text) {
     /\bsofort\s+tot\b/i
   ];
   result.ko = koPatterns.some(p => p.test(text));
+  if (/\bsofort\s+tödlich\b|\bsofort\s+tot\b|\btödlich\s+in\s+\d+/i.test(text)) {
+    result.severity = 'lethal';
+  } else if (result.ko) {
+    result.severity = 'incapacitated';
+  }
 
   return result;
 }

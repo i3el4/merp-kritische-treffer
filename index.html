@@ -320,14 +320,16 @@
     <!-- Tab-Navigation Spielleiter -->
     <nav id="spielleiterTabs" class="app-tabs" hidden>
       <button type="button" class="tab active" data-tab="simulator">Kampf</button>
-      <button type="button" class="tab" data-tab="kampftracker">Gegner</button>
-      <button type="button" class="tab" data-tab="charaktertracker">Stats</button>
+      <button type="button" class="tab" data-tab="charaktertracker">Status</button>
+      <button type="button" class="tab" data-tab="charakter">Charakter</button>
+      <button type="button" class="tab" data-tab="historie">Historie</button>
       <button type="button" class="tab" data-tab="erfassung">Kampagne</button>
     </nav>
-    <!-- Tab-Navigation Spieler (Kampf + Stats) -->
+    <!-- Tab-Navigation Spieler (Kampf + Status + Charakter) -->
     <nav id="spielerTabs" class="app-tabs" hidden>
       <button type="button" class="tab active" data-tab="simulator">Kampf</button>
-      <button type="button" class="tab" data-tab="charaktertracker">Stats</button>
+      <button type="button" class="tab" data-tab="charaktertracker">Status</button>
+      <button type="button" class="tab" data-tab="charakter">Charakter</button>
     </nav>
 
     <div id="simulatorPanel" class="tab-panel">
@@ -335,51 +337,66 @@
         <section class="card">
           <h2>1) Angriff</h2>
           <div class="selection-container">
-            <div id="simulatorAngreiferRow" class="ziel-row" hidden>
-              <label for="simulatorCharakterSelect">Angreifer</label>
-              <select id="simulatorCharakterSelect">
-                <option value="">(Kein Charakter)</option>
-              </select>
-            </div>
             <div class="weapon-section">
               <label>Waffenart</label>
               <div id="weaponWrap" class="weapon-grid"></div>
             </div>
-            <div id="simulatorZielSection" class="ziel-section" hidden>
-              <label>Angriffsziel(e)</label>
-              <div id="simulatorZielListe" class="ziel-liste"></div>
-              <span id="simulatorZielInfo" class="ziel-info muted"></span>
-            </div>
-            <div class="rk-section">
-              <label>Rüstungsklasse & Gegnertyp</label>
-              <div class="rk-und-gegner">
-                <div class="gegner-typ-container">
-                  <div class="gegner-typ" id="gegnerTyp">
-                    <button type="button" class="btn active" data-gegner-typ="normal">Normal</button>
-                    <button type="button" class="btn" data-gegner-typ="gross">Gross</button>
-                    <button type="button" class="btn" data-gegner-typ="gewaltig">Gewaltig</button>
+            <div class="ziel-rk-row">
+              <div id="simulatorZielSection" class="ziel-section" hidden>
+                <label>Angriffsziel(e)</label>
+                <div id="simulatorZielListe" class="ziel-liste"></div>
+                <span id="simulatorZielInfo" class="ziel-info muted"></span>
+              </div>
+              <div id="rkFallback" class="rk-fallback-section">
+                <details class="rk-fallback-details">
+                  <summary>Ohne Ziel: Rüstungsklasse &amp; Gegnertyp</summary>
+                  <div class="rk-fallback-row">
+                    <div>
+                      <label for="fallbackGegnerTyp">Gegnertyp</label>
+                      <select id="fallbackGegnerTyp">
+                        <option value="normal" selected>Normal</option>
+                        <option value="gross">Gross</option>
+                        <option value="gewaltig">Gewaltig</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label for="fallbackRk">Rüstungsklasse</label>
+                      <select id="fallbackRk">
+                        <option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4</option><option value="5">5</option>
+                        <option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option>
+                        <option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option>
+                        <option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option>
+                      </select>
+                    </div>
                   </div>
-                </div>
-                <div class="rk" id="rk"></div>
+                </details>
               </div>
             </div>
 
-            <div class="row">
-              <div>
-                <label for="attack">Angriffswert (berechnet)</label><br>
+            <div class="angriff-bottom-row">
+              <div id="simulatorAngreiferRow" class="angriff-bottom-item" hidden>
+                <label for="simulatorCharakterSelect">Angreifer</label>
+                <select id="simulatorCharakterSelect">
+                  <option value="">(Kein Charakter)</option>
+                </select>
+              </div>
+              <div id="dbAnzeige" class="db-anzeige-wrap" hidden></div>
+              <div class="angriff-bottom-item">
+                <label for="attack">Angriffswert (berechnet)</label>
                 <input id="attack" type="number" inputmode="numeric" placeholder="z. B. 126" />
               </div>
-            </div>
-
-            <div class="actions">
-              <button class="btn primary" id="calcAttack">Treffer ermitteln</button>
-              <button class="btn ghost" id="resetBtn">Zurücksetzen</button>
+              <div class="angriff-bottom-item angriff-bottom-actions">
+                <button class="btn primary" id="calcAttack">Treffer ermitteln</button>
+              </div>
             </div>
             <div class="out" id="attackOut">
               <div class="kpi" id="attackKpi"></div>
               <div class="result muted">Noch kein Ergebnis.</div>
             </div>
-            <div id="attackApplyWrap" class="apply-schaden-wrap"></div>
+            <div class="apply-reset-row">
+              <div id="attackApplyWrap" class="apply-schaden-wrap"></div>
+              <button class="btn ghost" id="resetBtn">Zurücksetzen</button>
+            </div>
         </section>
 
         <section class="card">
@@ -460,115 +477,228 @@
             </div>
             <div id="sideApplyWrap" class="apply-schaden-wrap"></div>
           </details>
+          <hr>
+          <details>
+            <summary>4) Kritischer Patzer</summary>
+            <div class="row">
+              <div>
+                <label for="patzerRoll">Würfelwurf</label><br>
+                <input id="patzerRoll" type="number" min="1" placeholder="z. B. 66" />
+              </div>
+              <div>
+                <label for="patzerKategorie">Kategorie</label><br>
+                <select id="patzerKategorie">
+                  <option value="allgemein">Allgemeiner Patzer</option>
+                  <option value="leichtes_manoever">Leichtes Manöver</option>
+                  <option value="leichtsinnig">Leichtsinniges Manöver</option>
+                </select>
+              </div>
+              <div>
+                <label for="patzerMaterial">Waffenmaterial</label><br>
+                <select id="patzerMaterial">
+                  <option value="normal">Normal</option>
+                  <option value="holz">Holz</option>
+                  <option value="stahl">Stahl</option>
+                  <option value="mithril">Mithril</option>
+                </select>
+              </div>
+              <div>
+                <label for="patzerSchwierigkeit">Manöver</label><br>
+                <select id="patzerSchwierigkeit">
+                  <option value="leicht">Leicht</option>
+                  <option value="normal" selected>Normal</option>
+                  <option value="schwer">Schwer</option>
+                  <option value="extrem">Extrem</option>
+                </select>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="btn primary" id="calcPatzer">Patzer ermitteln</button>
+            </div>
+            <div class="out" id="patzerOut">
+              <div class="kpi" id="patzerKpi"></div>
+              <div class="result muted">Noch kein Ergebnis.</div>
+            </div>
+          </details>
         </section>
       </div>
 
+      <section class="card kampf-steuerung-card spielleiter-only" style="margin-top:12px">
+        <div id="initiativeWrap" class="initiative-wrap">
+          <div class="initiative-head">
+            <strong>Initiative</strong>
+            <span class="initiative-hint muted">Reihenfolge nach B&amp;M (höher zuerst). Initiativeverlust durch Kritische Treffer: ans Ende.</span>
+          </div>
+          <div id="initiativeListe" class="initiative-liste"></div>
+        </div>
+        <div class="runde-controls" style="margin-top:12px">
+          <span id="rundeAnzeige">Runde 1</span>
+          <button type="button" class="btn ghost runde-prev-btn" id="rundePrev" title="Runde zurück">← Zurück</button>
+          <button type="button" class="btn runde-next-btn" id="rundeNext" title="Runde beenden">Runde beenden</button>
+          <button type="button" class="btn ghost runde-reset-btn" id="rundeReset" title="Runde auf 0 setzen">Auf 0</button>
+          <button type="button" class="btn ghost" id="kampfArchivierenBtn" title="Kampf in Historie speichern und zurücksetzen">Kampf archivieren</button>
+        </div>
+      </section>
+
     </div>
 
-    <div id="kampftrackerPanel" class="tab-panel hidden">
-      <section class="card">
+
+    <div id="charaktertrackerPanel" class="tab-panel hidden">
+      <section class="card spielleiter-only kampf-runde-status-card">
+        <h2 class="kampf-runde-status-heading">Runde</h2>
+        <div class="runde-controls runde-controls-status">
+          <span id="rundeAnzeigeStatus" class="runde-anzeige-status">Runde 1</span>
+          <button type="button" class="btn ghost runde-prev-btn" id="rundePrevStatus" title="Vorherige Runde">← Zurück</button>
+          <button type="button" class="btn runde-next-btn" id="rundeNextStatus" title="Runde beenden (Status &amp; laufender Schaden)">Runde beenden</button>
+          <button type="button" class="btn ghost runde-reset-btn" id="rundeResetStatus" title="Runde auf 0 setzen">Auf 0</button>
+        </div>
+      </section>
+
+      <section class="card spielleiter-only" id="gruppenStatusSection">
         <div class="kampftracker-header">
-          <h2>Gegner</h2>
+          <h2>Gruppen</h2>
           <div class="gegner-gruppen-row">
-            <label for="aktiveGruppeSelect">Aktueller Raum</label>
-            <select id="aktiveGruppeSelect" title="Nur Gegner aus diesem Raum werden angezeigt und können ausgewählt werden">
-              <option value="">Alle im Kampf</option>
+            <label for="aktiveGruppeSelect">Aktuelle Gruppe</label>
+            <select id="aktiveGruppeSelect" title="Nur Mitglieder aus dieser Gruppe werden angezeigt">
+              <option value="">Alle</option>
             </select>
-            <button type="button" class="btn ghost" id="gegnerAlleAuswaehlen" title="Alle sichtbaren Gegner als Ziele auswählen">Alle auswählen</button>
+            <button type="button" class="btn ghost" id="gegnerAlleAuswaehlen" title="Alle sichtbaren Mitglieder als Ziele auswählen">Alle auswählen</button>
             <button type="button" class="btn ghost" id="gegnerAbwaehlen" title="Zielauswahl aufheben">Abwählen</button>
-            <details class="gegner-gruppen-details">
-              <summary>Gruppen verwalten</summary>
-              <div id="gegnerGruppenVerwaltung" class="gegner-gruppen-verwaltung"></div>
-            </details>
           </div>
           <div id="gegnerZielAuswahlWrap" class="gegner-ziel-auswahl-wrap">
             <div id="gegnerZielAuswahl" class="gegner-ziel-auswahl"></div>
             <div id="gegnerZielAktionen" class="gegner-ziel-aktionen"></div>
           </div>
-          <div class="runde-controls">
-            <span id="rundeAnzeige">Runde 1</span>
-            <button type="button" class="btn ghost runde-prev-btn" id="rundePrev" title="Runde zurück">← Zurück</button>
-            <button type="button" class="btn runde-next-btn" id="rundeNext" title="Runde beenden">Runde beenden</button>
-            <button type="button" class="btn ghost runde-reset-btn" id="rundeReset" title="Runde auf 0 setzen">Auf 0</button>
-          </div>
+        </div>
+      </section>
+
+      <section class="card gegner-status-section spielleiter-only" style="margin-top:12px">
+        <div class="kampftracker-header">
+          <h2>Gegner</h2>
         </div>
         <div id="gegnerListe" class="gegner-liste"></div>
-        <div class="gegner-erfassung-trenner"></div>
-        <form id="gegnerAddForm" class="gegner-add-form">
+      </section>
+
+      <section class="card" style="margin-top:12px">
+        <div class="kampftracker-header">
+          <h2>Spieler & NPCs</h2>
+        </div>
+        <div id="charakterListe" class="gegner-liste"></div>
+      </section>
+    </div>
+
+    <div id="historiePanel" class="tab-panel hidden">
+      <section class="card">
+        <h2>Kampf-Historie</h2>
+        <div class="historie-actions">
+          <button type="button" class="btn primary" id="historieArchivierenBtn">Aktuellen Kampf archivieren</button>
+        </div>
+        <hr>
+        <div id="historieArchivListe"></div>
+      </section>
+    </div>
+
+    <div id="charakterPanel" class="tab-panel hidden">
+      <section class="card spielleiter-only">
+        <h2>Charakter erstellen</h2>
+        <form id="charAddForm" class="gegner-add-form">
           <div class="row">
             <div>
-              <label for="gegnerAnzahl">Anzahl</label>
-              <input type="number" name="gegnerAnzahl" id="gegnerAnzahl" min="1" max="100" value="1" title="1 = einzeln, 2+ = Batch (Ork 1, Ork 2, …)" />
-            </div>
-            <div>
-              <label for="gegnerName">Name / Prefix</label>
-              <input type="text" name="gegnerName" id="gegnerName" placeholder="z. B. Ork" required />
+              <label for="charTyp">Typ</label>
+              <select name="charTyp" id="charTyp">
+                <option value="gegner" selected>NPC Gegner</option>
+                <option value="npc">NPC Verbündet</option>
+                <option value="spieler">Spieler Charakter</option>
+              </select>
             </div>
             <div class="gegner-add-icon-wrap">
               <label>Icon</label>
-              <div id="gegnerIconPicker" class="icon-picker"></div>
+              <div id="charIconPicker" class="icon-picker"></div>
             </div>
             <div>
-              <label for="gegnerTp">Trefferpunkte</label>
-              <input type="number" name="gegnerTp" id="gegnerTp" min="1" placeholder="z. B. 100" required />
+              <label for="charName">Name / Prefix</label>
+              <input type="text" name="charName" id="charName" placeholder="z. B. Ork" required />
             </div>
             <div>
-              <label for="gegnerGruppeSelect">Gruppe / Raum</label>
-              <select name="gegnerGruppe" id="gegnerGruppeSelect" title="Gegner diesem Raum zuweisen (optional)">
+              <label for="charVorlageSelect">Aus Vorlage</label>
+              <select name="charVorlageSelect" id="charVorlageSelect">
                 <option value="">— Keine —</option>
               </select>
             </div>
             <div>
-              <label for="gegnerGroesse">Grösse</label>
-              <select name="gegnerGroesse" id="gegnerGroesse">
-                <option value="normal">Normal</option>
+              <label for="charTp">Trefferpunkte</label>
+              <input type="number" name="charTp" id="charTp" min="1" placeholder="z. B. 100" value="100" />
+            </div>
+            <div>
+              <label for="charGroesse">Grösse</label>
+              <select name="charGroesse" id="charGroesse">
+                <option value="normal" selected>Normal</option>
                 <option value="gross">Gross</option>
                 <option value="gewaltig">Gewaltig</option>
               </select>
             </div>
             <div>
-              <label for="gegnerRk">Rüstungsklasse</label>
-              <select name="gegnerRk" id="gegnerRk">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-                <option value="11">11</option>
-                <option value="12">12</option>
-                <option value="13">13</option>
-                <option value="14">14</option>
-                <option value="15">15</option>
-                <option value="16">16</option>
-                <option value="17">17</option>
-                <option value="18">18</option>
-                <option value="19">19</option>
-                <option value="20" selected>20</option>
+              <label for="charRk">Rüstungsklasse</label>
+              <select name="charRk" id="charRk">
+                <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
+                <option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10" selected>10</option>
+                <option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option>
+                <option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option>
               </select>
             </div>
+            <div>
+              <label for="charDb">Defensivbonus</label>
+              <input type="number" name="charDb" id="charDb" value="0" />
+            </div>
+            <div>
+              <label for="charBm">B&amp;M</label>
+              <input type="number" name="charBm" id="charBm" value="0" />
+            </div>
+            <div>
+              <label for="charWahrnehmung">Wahrnehmung</label>
+              <input type="text" name="charWahrnehmung" id="charWahrnehmung" placeholder="z. B. 72" />
+            </div>
+            <div>
+              <label for="charGruppeSelect">Gruppe</label>
+              <select name="charGruppe" id="charGruppeSelect" title="Gruppe zuweisen (optional)">
+                <option value="">— Keine —</option>
+              </select>
+            </div>
+            <div>
+              <label for="charAnzahl">Anzahl</label>
+              <input type="number" name="charAnzahl" id="charAnzahl" min="1" max="100" value="1" title="1 = einzeln, 2+ = Batch" />
+            </div>
           </div>
-          <button type="submit" class="btn primary">Gegner hinzufügen</button>
+          <button type="submit" class="btn primary">Hinzufügen</button>
         </form>
+        <details class="gegner-vorlagen-details" style="margin-top:12px">
+          <summary>Vorlagen</summary>
+          <div id="vorlagenWrap" class="gegner-vorlagen-wrap"></div>
+        </details>
+        <details class="gegner-gruppen-details" style="margin-top:12px">
+          <summary>Gruppen verwalten</summary>
+          <div id="gegnerGruppenVerwaltung" class="gegner-gruppen-verwaltung"></div>
+        </details>
       </section>
-    </div>
 
-    <div id="charaktertrackerPanel" class="tab-panel hidden">
-      <section class="card">
-        <div class="kampftracker-header">
-          <h2>Spieler & NPCs</h2>
-          <div class="runde-controls">
-            <span id="charRundeAnzeige">Runde 1</span>
-            <button type="button" class="btn ghost runde-prev-btn" id="charRundePrev" title="Runde zurück">← Zurück</button>
-            <button type="button" class="btn runde-next-btn" id="charRundeNext" title="Runde beenden">Runde beenden</button>
-            <button type="button" class="btn ghost runde-reset-btn spielleiter-only" id="charRundeReset" title="Runde auf 0 setzen">Auf 0</button>
-          </div>
-        </div>
-        <div id="charakterListe" class="gegner-liste"></div>
+      <section class="card spielleiter-only" style="margin-top:12px">
+        <h2>Gegner</h2>
+        <div id="gegnerCharListe" class="charakter-liste"></div>
+      </section>
+
+      <section class="card spielleiter-only" style="margin-top:12px">
+        <h2>NPCs</h2>
+        <div id="npcListe" class="charakter-liste"></div>
+      </section>
+
+      <section class="card" style="margin-top:12px">
+        <h2>Spieler</h2>
+        <div id="spielerListe" class="charakter-liste"></div>
+      </section>
+
+      <section class="card spieler-charakter-view" style="margin-top:12px">
+        <h2>Mein Charakter</h2>
+        <div id="spielerCharakterView"></div>
       </section>
     </div>
 
@@ -598,109 +728,6 @@
               <input type="text" id="kampagneJoinInput" placeholder="Kampagnen-ID eingeben" />
               <button type="button" class="btn primary" id="kampagneJoinBtn">Beitreten</button>
             </div>
-          </div>
-        </div>
-      </section>
-      <section class="card kampagne-inhalt-card">
-        <h2 class="kampagne-inhalt-title">Inhalt der Kampagne</h2>
-        <div class="kampagne-inhalt-sections">
-          <div class="kampagne-section">
-            <h3>NPCs</h3>
-            <div id="npcListe" class="charakter-liste"></div>
-            <form id="npcAddForm" class="charakter-add-form">
-              <div class="row">
-                <input type="text" name="npcName" id="npcName" placeholder="z. B. Gandalf" required />
-                <button type="submit" class="btn primary">NPC hinzufügen</button>
-              </div>
-              <div class="charakter-add-fields">
-                <div class="row">
-                  <div>
-                    <label for="npcTp">Trefferpunkte</label>
-                    <input type="number" name="npcTp" id="npcTp" min="1" placeholder="z. B. 100" value="100" />
-                  </div>
-                  <div>
-                    <label for="npcRk">Rüstungsklasse</label>
-                    <select name="npcRk" id="npcRk">
-                      <option value="20" selected>20</option>
-                      <option value="19">19</option>
-                      <option value="18">18</option>
-                      <option value="17">17</option>
-                      <option value="16">16</option>
-                      <option value="15">15</option>
-                      <option value="14">14</option>
-                      <option value="13">13</option>
-                      <option value="12">12</option>
-                      <option value="11">11</option>
-                      <option value="10">10</option>
-                      <option value="9">9</option>
-                      <option value="8">8</option>
-                      <option value="7">7</option>
-                      <option value="6">6</option>
-                      <option value="5">5</option>
-                      <option value="4">4</option>
-                      <option value="3">3</option>
-                      <option value="2">2</option>
-                      <option value="1">1</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div class="icon-picker-row">
-                <label>Icon</label>
-                <div id="npcIconPicker" class="icon-picker"></div>
-              </div>
-            </form>
-          </div>
-          <div class="kampagne-section">
-            <h3>Spieler</h3>
-            <div id="spielerListe" class="charakter-liste"></div>
-            <form id="spielerAddForm" class="charakter-add-form">
-              <div class="row">
-                <input type="text" name="spielerName" id="spielerName" placeholder="z. B. Thorin" required />
-                <button type="submit" class="btn primary">Spieler hinzufügen</button>
-              </div>
-              <div class="charakter-add-fields">
-                <div class="row">
-                  <div>
-                    <label for="spielerTp">Trefferpunkte</label>
-                    <input type="number" name="spielerTp" id="spielerTp" min="1" placeholder="z. B. 100" value="100" />
-                  </div>
-                  <div>
-                    <label for="spielerRk">Rüstungsklasse</label>
-                    <select name="spielerRk" id="spielerRk">
-                      <option value="20" selected>20</option>
-                      <option value="19">19</option>
-                      <option value="18">18</option>
-                      <option value="17">17</option>
-                      <option value="16">16</option>
-                      <option value="15">15</option>
-                      <option value="14">14</option>
-                      <option value="13">13</option>
-                      <option value="12">12</option>
-                      <option value="11">11</option>
-                      <option value="10">10</option>
-                      <option value="9">9</option>
-                      <option value="8">8</option>
-                      <option value="7">7</option>
-                      <option value="6">6</option>
-                      <option value="5">5</option>
-                      <option value="4">4</option>
-                      <option value="3">3</option>
-                      <option value="2">2</option>
-                      <option value="1">1</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label for="spielerWahrnehmung">Wahrnehmung</label>
-                    <input type="text" name="spielerWahrnehmung" id="spielerWahrnehmung" placeholder="z. B. 72" />
-                  </div>
-                </div>
-              </div>
-              <div class="icon-picker-row">
-                <label>Icon</label>
-                <div id="spielerIconPicker" class="icon-picker"></div>
-              </div>
-            </form>
           </div>
         </div>
       </section>

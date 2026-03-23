@@ -7,6 +7,7 @@ import { getCorrection } from './critCorrections.js';
 import { $, $$ } from './dom.js';
 import { playCritAudio, tryStartBgAudio } from './audio.js';
 import { chip, pill } from './dom.js';
+import { getGegnerById, getCharakterById } from './campaigns.js';
 
 /**
  * Passt die Schriftgrösse von Waffen-Buttons an, wenn der Text zu lang ist.
@@ -56,7 +57,13 @@ function floorKey(obj, target) {
  */
 export function calculateAttack() {
     const weaponKey = state.selectedWeapon;
-    const rk = parseInt($('#rk button.active')?.dataset.rk || '3', 10);
+    const firstId = (state.selectedGegnerIds || [])[0] || null;
+    const zielGegner = firstId ? getGegnerById(firstId) : null;
+    const zielChar = !zielGegner && firstId ? getCharakterById(firstId) : null;
+    const ziel = zielGegner || zielChar?.char;
+    const rk = ziel
+        ? Math.max(1, Math.min(20, parseInt(ziel.rk, 10) || 20))
+        : parseInt($('#fallbackRk')?.value || '3', 10);
     const attack = parseInt($('#attack').value, 10);
     const out = $('#attackOut');
     const kpi = $('#attackKpi');
@@ -129,7 +136,9 @@ export function calculateAttack() {
         remainingAttack -= 150;
     }
 
-    const gegnerTyp = $('#gegnerTyp button.active')?.dataset.gegnerTyp || 'normal';
+    const gegnerTyp = ziel
+        ? (ziel.gegnerTyp || 'normal')
+        : ($('#fallbackGegnerTyp')?.value || 'normal');
     let minKat = 'A';
     if (gegnerTyp === 'gross') minKat = 'B';
     if (gegnerTyp === 'gewaltig') minKat = 'D';
@@ -251,6 +260,16 @@ export function lookupCritEntry(typ, kat, roll) {
                 entry: { visual, tts },
                 key
             };
+        }
+    }
+    return null;
+}
+
+export function lookupPatzerEntry(kategorie, roll) {
+    const patzer = state.patzerTables?.[kategorie] || [];
+    for (const entry of patzer) {
+        if (matchRange(entry.range, roll)) {
+            return entry;
         }
     }
     return null;

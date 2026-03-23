@@ -2,9 +2,9 @@
 // Dieses Modul enthält alle Event-Listener der App.
 
 import { state } from './state.js';
-import { $, $$ } from './dom.js';
-import { CRIT_ICONS, URLS } from './constants.js';
-import { calculateAttack, lookupCritEntry, mapCritName } from './logic.js';
+import { $ } from './dom.js';
+import { CRIT_ICONS, URLS, PATZER_KATEGORIEN, PATZER_MATERIAL_MODS, PATZER_SCHWIERIGKEIT_MODS } from './constants.js';
+import { calculateAttack, lookupCritEntry, lookupPatzerEntry, mapCritName } from './logic.js';
 import { playCritAudio, tryStartBgAudio } from './audio.js';
 import { chip } from './dom.js';
 import { applySchaden, applySchadenCharakter, getGegnerById, getSpielerById, getNpcById, getAktuelleRunde } from './campaigns.js';
@@ -127,8 +127,9 @@ function initCritEditOverlay() {
  */
 function appendApplySchadenButton(wrapContainer, quelle, parsedOverride = null) {
     if (!wrapContainer) return;
-    const gegnerIds = state.selectedGegnerIds || [];
-    const livingIds = gegnerIds.filter(id => {
+    const zielIds = state.selectedGegnerIds || [];
+    if (zielIds.length === 0) return;
+    const livingIds = zielIds.filter(id => {
         const g = getGegnerById(id);
         if (g) return g.tp > 0;
         const s = getSpielerById(id);
@@ -137,7 +138,7 @@ function appendApplySchadenButton(wrapContainer, quelle, parsedOverride = null) 
         if (n) return (n.tp ?? n.maxTp ?? 100) > 0;
         return false;
     });
-    if (livingIds.length === 0) return;
+    const allDead = livingIds.length === 0;
     const tp = quelle === 'attack' ? state.lastAttackTp : state.lastCritTp;
     const parsed = parsedOverride ?? (quelle === 'crit' ? state.lastCritParsed : null);
     const hasStatus = parsed && (
@@ -151,26 +152,32 @@ function appendApplySchadenButton(wrapContainer, quelle, parsedOverride = null) 
     const vonCharakter = (state.selectedCharakterId && state.selectedCharakterName)
         ? { id: state.selectedCharakterId, name: state.selectedCharakterName }
         : null;
-    const payload = {
-        zielIds: livingIds,
-        applyTp,
-        quelle,
-        beschreibung: beschreibungToApply,
-        extracted: extractedToApply,
-        vonCharakter
-    };
-    const id = ++applySchadenButtonId;
-    applySchadenPayloads.set(id, payload);
+    let id = null;
+    if (!allDead) {
+        const payload = {
+            zielIds: livingIds,
+            applyTp,
+            quelle,
+            beschreibung: beschreibungToApply,
+            extracted: extractedToApply,
+            vonCharakter
+        };
+        id = ++applySchadenButtonId;
+        applySchadenPayloads.set(id, payload);
+    }
 
     const names = livingIds.map(id => getGegnerById(id)?.name || getSpielerById(id)?.name || getNpcById(id)?.name).filter(Boolean);
-    const zielText = livingIds.length === 1 ? names[0] : `${livingIds.length} Ziele`;
+    const zielText = allDead
+        ? 'Ziel ist bereits tot'
+        : (livingIds.length === 1 ? names[0] : `${livingIds.length} Ziele`);
     wrapContainer.innerHTML = '';
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'btn primary btn-apply-schaden';
-    btn.dataset.applyId = String(id);
+    if (id != null) btn.dataset.applyId = String(id);
     const statusLabel = hasStatus ? ' + Status' : '';
     btn.textContent = tp > 0 ? `${tp} TP${statusLabel} anwenden (${zielText})` : `Status anwenden (${zielText})`;
+    if (allDead) btn.disabled = true;
     btn.style.marginTop = '8px';
     btn.style.display = 'block';
     btn.style.cursor = 'pointer';
@@ -192,14 +199,25 @@ export function setupEventListeners() {
 
     // Event-Listener für Nebentreffer-Berechnung
     $('#calcSide').addEventListener('click', calculateSide);
+    $('#calcPatzer')?.addEventListener('click', calculatePatzer);
 
     initCritEditOverlay();
 
     // Event-Listener für den Reset-Button
     $('#resetBtn').addEventListener('click', resetApp);
 
-    // Event-Listener für die Gegnertyp-Buttons
-    $('#gegnerTyp')?.addEventListener('click', handleGegnerTypClick);
+    // Fallback-Gegnertyp-Dropdown aktualisiert den Krit-Typ
+    $('#fallbackGegnerTyp')?.addEventListener('change', () => {
+        const gt = $('#fallbackGegnerTyp').value;
+        if (gt === 'gross') {
+            $('#critType').value = 'Grosse Wesen';
+        } else if (gt === 'gewaltig') {
+            $('#critType').value = 'Gewaltige Wesen';
+        } else {
+            $('#critType').value = state.autoCrit.typ || '';
+        }
+        $('#critType').dispatchEvent(new Event('change'));
+    });
 
     // Event-Listener, wenn sich der Krit-Typ ändert
     $('#critType')?.addEventListener('change', handleCritTypeChange);
@@ -292,6 +310,7 @@ function calculateCrit() {
     state.lastCritTts = ttsText;
     const parsed = parseCritText(visualText);
     if (parsed.tp === 0) parsed.tp = parseCritText(ttsText).tp;
+    if (entry?.severity) parsed.severity = entry.severity;
     state.lastCritTp = parsed.tp;
     state.lastCritParsed = parsed;
 
@@ -369,6 +388,7 @@ function calculateSide() {
     state.lastCritTts = ttsText;
     const parsed = parseCritText(visualText);
     if (parsed.tp === 0) parsed.tp = parseCritText(ttsText).tp;
+    if (entry?.severity) parsed.severity = entry.severity;
     state.lastCritTp = parsed.tp;
     state.lastCritParsed = parsed;
 
@@ -390,6 +410,34 @@ function calculateSide() {
     if (state.isBgMusicPlaying) {
         tryStartBgAudio(typ);
     }
+}
+
+function calculatePatzer() {
+    const kat = $('#patzerKategorie')?.value || 'allgemein';
+    const material = $('#patzerMaterial')?.value || 'normal';
+    const schwierigkeit = $('#patzerSchwierigkeit')?.value || 'normal';
+    const rollRaw = parseInt($('#patzerRoll')?.value, 10);
+    const out = $('#patzerOut .result');
+    const kpi = $('#patzerKpi');
+    if (!out || !kpi) return;
+    kpi.innerHTML = '';
+    if (Number.isNaN(rollRaw) || rollRaw < 1) {
+        out.textContent = 'Bitte einen gültigen Wurf (>= 1) eingeben.';
+        return;
+    }
+    const katMod = PATZER_KATEGORIEN.find(x => x.id === kat)?.mod || 0;
+    const matMod = PATZER_MATERIAL_MODS.find(x => x.id === material)?.mod || 0;
+    const schMod = PATZER_SCHWIERIGKEIT_MODS.find(x => x.id === schwierigkeit)?.mod || 0;
+    const finalRoll = Math.max(1, rollRaw + katMod + matMod + schMod);
+    const entry = lookupPatzerEntry('allgemein', finalRoll);
+    const text = entry?.text || 'Kein Patzer-Eintrag gefunden.';
+    kpi.append(chip(`Basis: ${rollRaw}`));
+    kpi.append(chip(`Kategorie: ${katMod >= 0 ? '+' : ''}${katMod}`));
+    kpi.append(chip(`Material: ${matMod >= 0 ? '+' : ''}${matMod}`));
+    kpi.append(chip(`Schwierigkeit: ${schMod >= 0 ? '+' : ''}${schMod}`));
+    kpi.append(chip(`Final: ${finalRoll}`));
+    out.textContent = text;
+    state.lastPatzerResult = { rollRaw, finalRoll, text, kat, material, schwierigkeit };
 }
 
 /**
@@ -423,26 +471,6 @@ function resetApp() {
     $('#sideApplyWrap').innerHTML = '';
 }
 
-/**
- * Behandelt den Klick auf die Gegnertyp-Buttons.
- * @param {Event} e Das Klick-Ereignis.
- */
-function handleGegnerTypClick(e) {
-    const targetBtn = e.target.closest('button');
-    if (targetBtn) {
-        $$('#gegnerTyp button').forEach(b => b.classList.remove('active'));
-        targetBtn.classList.add('active');
-        const gegnerTyp = targetBtn.dataset.gegnerTyp;
-        if (gegnerTyp === 'gross') {
-            $('#critType').value = 'Grosse Wesen';
-        } else if (gegnerTyp === 'gewaltig') {
-            $('#critType').value = 'Gewaltige Wesen';
-        } else {
-            $('#critType').value = state.autoCrit.typ || '';
-        }
-        $('#critType').dispatchEvent(new Event('change'));
-    }
-}
 
 /**
  * Behandelt das Ändern des Krit-Typ-Dropdowns.

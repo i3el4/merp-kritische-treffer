@@ -3,6 +3,7 @@
 
 let treffer = null;
 let tables = null;
+let patzerTables = null;
 let selectedWeapon = null;
 let autoCrit = {
     typ: '',
@@ -18,6 +19,8 @@ let lastAttackTp = 0;
 let lastCritTp = 0;
 let lastCritVisual = '';
 let lastCritParsed = null;
+let lastPatzerResult = null;
+let aktiveGruppeCharId = null;
 
 export const state = {
     get treffer() {
@@ -31,6 +34,12 @@ export const state = {
     },
     set tables(value) {
         tables = value;
+    },
+    get patzerTables() {
+        return patzerTables;
+    },
+    set patzerTables(value) {
+        patzerTables = value;
     },
     get selectedWeapon() {
         return selectedWeapon;
@@ -88,5 +97,9 @@ export const state = {
     get lastCritVisual() { return lastCritVisual; },
     set lastCritVisual(value) { lastCritVisual = value; },
     get lastCritParsed() { return lastCritParsed; },
-    set lastCritParsed(value) { lastCritParsed = value; }
+    set lastCritParsed(value) { lastCritParsed = value; },
+    get lastPatzerResult() { return lastPatzerResult; },
+    set lastPatzerResult(value) { lastPatzerResult = value; },
+    get aktiveGruppeCharId() { return aktiveGruppeCharId; },
+    set aktiveGruppeCharId(value) { aktiveGruppeCharId = value; }
 };

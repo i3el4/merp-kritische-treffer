@@ -30,7 +30,12 @@ function migrateKampagne(k) {
     if (s.maxTp === undefined) s.maxTp = 100;
     if (s.tp === undefined) s.tp = s.maxTp ?? 100;
     if (s.rk === undefined) s.rk = 20;
+    if (s.gegnerTyp === undefined) s.gegnerTyp = 'normal';
     if (s.wahrnehmung === undefined) s.wahrnehmung = null;
+    if (s.sichtbar === undefined) s.sichtbar = true;
+    if (s.defensivBonus === undefined) s.defensivBonus = 0;
+    if (s.bm === undefined) s.bm = 0;
+    if (s.gruppeId === undefined) s.gruppeId = null;
     if (!Array.isArray(s.historie)) s.historie = [];
     if (!Array.isArray(s.status)) s.status = [];
     if (!Array.isArray(s.laufendeSchaden)) s.laufendeSchaden = [];
@@ -40,17 +45,47 @@ function migrateKampagne(k) {
     if (n.maxTp === undefined) n.maxTp = 100;
     if (n.tp === undefined) n.tp = n.maxTp ?? 100;
     if (n.rk === undefined) n.rk = 20;
+    if (n.gegnerTyp === undefined) n.gegnerTyp = 'normal';
+    if (n.wahrnehmung === undefined) n.wahrnehmung = null;
+    if (n.sichtbar === undefined) n.sichtbar = true;
+    if (n.defensivBonus === undefined) n.defensivBonus = 0;
+    if (n.bm === undefined) n.bm = 0;
+    if (n.gruppeId === undefined) n.gruppeId = null;
     if (!Array.isArray(n.historie)) n.historie = [];
     if (!Array.isArray(n.status)) n.status = [];
     if (!Array.isArray(n.laufendeSchaden)) n.laufendeSchaden = [];
   });
   if (!Array.isArray(k.gegnerGruppen)) k.gegnerGruppen = [];
+  if (!Array.isArray(k.gegnerVorlagen)) k.gegnerVorlagen = [];
+  if (!Array.isArray(k.vorlagen)) k.vorlagen = [];
+  if (!Array.isArray(k.kampfHistorieArchiv)) k.kampfHistorieArchiv = [];
+  if (!Array.isArray(k.removedGegnerHistorie)) k.removedGegnerHistorie = [];
+  if (!Array.isArray(k.initiative)) k.initiative = [];
   if (k.aktiveGruppeId === undefined || k.aktiveGruppeId === '') k.aktiveGruppeId = null;
   (k.gegner || []).forEach(g => {
     if (g.icon === undefined) g.icon = null;
     if (g.imKampf === undefined) g.imKampf = true;
+    if (g.sichtbar === undefined) g.sichtbar = true;
     if (g.gruppeId === undefined) g.gruppeId = null;
+    if (g.wahrnehmung === undefined) g.wahrnehmung = null;
+    if (g.defensivBonus === undefined) g.defensivBonus = 0;
+    if (g.bm === undefined) g.bm = 0;
+    if (!Array.isArray(g.status)) g.status = [];
+    if (!Array.isArray(g.laufendeSchaden)) g.laufendeSchaden = [];
+    if (!Array.isArray(g.historie)) g.historie = [];
   });
+  (k.gegnerVorlagen || []).forEach(v => {
+    if (v.defensivBonus === undefined) v.defensivBonus = 0;
+    if (v.bm === undefined) v.bm = 0;
+    if (v.icon === undefined) v.icon = null;
+  });
+  if (k.gegnerVorlagen.length > 0 && k.vorlagen.length === 0) {
+    k.vorlagen = k.gegnerVorlagen.map(v => ({
+      ...v,
+      typ: v.typ || 'gegner',
+      wahrnehmung: v.wahrnehmung ?? null
+    }));
+  }
   return k;
 }
 

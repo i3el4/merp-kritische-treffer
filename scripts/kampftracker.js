@@ -10,6 +10,8 @@ import {
   getGegner,
   getGegnerFuerKampf,
   getGegnerById,
+  getSpielerById,
+  getNpcById,
   getCharakterById,
   getAktuelleRunde,
   createKampagne,
@@ -35,22 +37,42 @@ import {
   getSpieler,
   getNpcs,
   getCharaktere,
+  getCharaktereFuerKampf,
   addSpieler,
   removeSpieler,
   updateSpieler,
   addNpc,
+  addNpcBatch,
   removeNpc,
   updateNpc,
+  toggleNpcSichtbarkeit,
+  toggleSpielerSichtbarkeit,
+  toggleGegnerSichtbarkeit,
   heilenTpCharakter,
-  heilenLaufendeSchadenCharakter
+  heilenLaufendeSchadenCharakter,
+  getGegnerVorlagen,
+  addGegnerVorlage,
+  updateGegnerVorlage,
+  removeGegnerVorlage,
+  getVorlagen,
+  addVorlage,
+  updateVorlage,
+  removeVorlage,
+  getKampfHistorieArchiv,
+  archiveKampfHistorie,
+  restoreKampfHistorie,
+  deleteKampfHistorieArchivEintrag,
+  undoLastGegnerHistorie,
+  undoLastCharakterHistorie
 } from './campaigns.js';
 import { state } from './state.js';
 import { getRole, ROLES, setCharakter, getCharakter } from './role.js';
 import { isFirebaseActive, loadCampaign, joinCampaign } from './firebase-storage.js';
 
-const KAMPFTRACKER_PANEL = '#kampftrackerPanel';
 const CHARAKTERTRACKER_PANEL = '#charaktertrackerPanel';
+const CHARAKTER_PANEL = '#charakterPanel';
 const ERFASSUNG_PANEL = '#erfassungPanel';
+const SIMULATOR_PANEL = '#simulatorPanel';
 
 export function getIconUrl(icon) {
   const base = URLS.ICONS_BASE_PATH || 'assets/icons/';
@@ -86,25 +108,93 @@ function getSelectedIconFromPicker(containerEl) {
   return sel?.dataset.icon || null;
 }
 
+function prependPopoverCloseButton(popover) {
+  const closeBtn = document.createElement('button');
+  closeBtn.type = 'button';
+  closeBtn.className = 'btn ghost gegner-edit-close';
+  closeBtn.textContent = '×';
+  closeBtn.title = 'Schliessen';
+  closeBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    popover.remove();
+  });
+  popover.prepend(closeBtn);
+}
+
+/** Aktiver Initiativeverlust (Kritische Treffer), solange Rd Init > 0 */
+function hasInitiativeVerlust(charObj) {
+  return (charObj?.status || []).some(s => s.typ === 'init' && parseInt(s.runden, 10) > 0);
+}
+
+/**
+ * Reihenfolge ohne Würfel: nach B&M ( höher = früher ), alle mit Init-Verlust
+ * vom Krit ans Ende (darin wieder nach B&M).
+ */
+function buildInitiativeOrderFromKampf() {
+  const entries = [];
+  getGegnerFuerKampf().forEach(g => {
+    if ((g.tp ?? 0) <= 0) return;
+    const bm = parseInt(g.bm, 10) || 0;
+    entries.push({
+      id: g.id,
+      typ: 'gegner',
+      name: g.name,
+      icon: g.icon,
+      bm,
+      initVerlust: hasInitiativeVerlust(g)
+    });
+  });
+  getCharaktereFuerKampf().forEach(c => {
+    if ((c.tp ?? c.maxTp ?? 100) <= 0) return;
+    const bm = parseInt(c.bm, 10) || 0;
+    entries.push({
+      id: c.id,
+      typ: c.typ,
+      name: c.name,
+      icon: c.icon,
+      bm,
+      initVerlust: hasInitiativeVerlust(c)
+    });
+  });
+  entries.sort((a, b) => {
+    if (a.initVerlust !== b.initVerlust) return a.initVerlust ? 1 : -1;
+    return b.bm - a.bm;
+  });
+  return entries;
+}
+
 function showCharakterEditPopoverForChip(chipEl, char) {
   const existing = document.querySelector('.gegner-edit-popover');
   if (existing) existing.remove();
   const popover = document.createElement('div');
   popover.className = 'gegner-edit-popover';
   const rkVal = char.rk != null ? char.rk : 20;
+  const gTyp = char.gegnerTyp || 'normal';
   const rkOpts = Array.from({ length: 20 }, (_, i) => i + 1).map(n =>
     `<option value="${n}"${rkVal === n ? ' selected' : ''}>${n}</option>`
   ).join('');
-  const wahrnehmungHtml = char.typ === 'spieler'
-    ? `<div class="gegner-edit-row">
-        <label>Wahrnehmung</label>
-        <input type="text" class="gegner-edit-wahrnehmung" value="${escapeHtml(char.wahrnehmung || '')}" placeholder="z. B. 72" />
-      </div>`
-    : '';
+  const sichtbarHtml = `<div class="gegner-edit-row">
+        <label><input type="checkbox" class="gegner-edit-sichtbar" ${(char.sichtbar !== false) ? 'checked' : ''} /> Im Kampf sichtbar</label>
+      </div>`;
+  const gruppen = getGegnerGruppen();
+  const gruppeOptsHtml = '<option value="">— Keine —</option>' +
+    gruppen.map(g => `<option value="${g.id}"${g.id === (char.gruppeId || '') ? ' selected' : ''}>${escapeHtml(g.name)}</option>`).join('');
   popover.innerHTML = `
     <div class="gegner-edit-row">
       <label>Name</label>
       <input type="text" class="gegner-edit-name" value="${escapeHtml(char.name || '')}" placeholder="Name" />
+    </div>
+    <div class="gegner-edit-row">
+      <label>Gruppe</label>
+      <select class="gegner-edit-gruppe">${gruppeOptsHtml}</select>
+    </div>
+    <div class="gegner-edit-row">
+      <label>Grösse</label>
+      <select class="gegner-edit-groesse">
+        <option value="normal"${gTyp === 'normal' ? ' selected' : ''}>Normal</option>
+        <option value="gross"${gTyp === 'gross' ? ' selected' : ''}>Gross</option>
+        <option value="gewaltig"${gTyp === 'gewaltig' ? ' selected' : ''}>Gewaltig</option>
+      </select>
     </div>
     <div class="gegner-edit-row">
       <label>Rüstungsklasse</label>
@@ -118,13 +208,26 @@ function showCharakterEditPopoverForChip(chipEl, char) {
       <label>TP (max)</label>
       <input type="number" class="gegner-edit-maxTp" min="1" value="${char.maxTp ?? 100}" />
     </div>
-    ${wahrnehmungHtml}
+    <div class="gegner-edit-row">
+      <label>Defensivbonus</label>
+      <input type="number" class="gegner-edit-db" value="${char.defensivBonus ?? 0}" />
+    </div>
+    <div class="gegner-edit-row">
+      <label>B&M</label>
+      <input type="number" class="gegner-edit-bm" value="${char.bm ?? 0}" />
+    </div>
+    <div class="gegner-edit-row">
+      <label>Wahrnehmung</label>
+      <input type="text" class="gegner-edit-wahrnehmung" value="${escapeHtml(char.wahrnehmung || '')}" placeholder="z. B. 72" />
+    </div>
+    ${sichtbarHtml}
     <div class="gegner-edit-row">
       <label>Icon</label>
       <div class="gegner-edit-icon-picker"></div>
     </div>
     <button type="button" class="btn primary gegner-edit-apply">Übernehmen</button>
   `;
+  prependPopoverCloseButton(popover);
   popover.dataset.selectedIcon = char.icon || '';
   const iconPickerEl = popover.querySelector('.gegner-edit-icon-picker');
   renderIconPicker(iconPickerEl, char.icon, (filename) => { popover.dataset.selectedIcon = filename; });
@@ -133,11 +236,15 @@ function showCharakterEditPopoverForChip(chipEl, char) {
     const rk = parseInt(popover.querySelector('.gegner-edit-rk').value, 10);
     const tp = parseInt(popover.querySelector('.gegner-edit-tp').value, 10);
     const maxTp = Math.max(1, parseInt(popover.querySelector('.gegner-edit-maxTp').value, 10));
+    const defensivBonus = parseInt(popover.querySelector('.gegner-edit-db').value, 10) || 0;
+    const bm = parseInt(popover.querySelector('.gegner-edit-bm').value, 10) || 0;
+    const gegnerTyp = popover.querySelector('.gegner-edit-groesse')?.value || 'normal';
+    const wahrnehmung = popover.querySelector('.gegner-edit-wahrnehmung')?.value?.trim() || null;
     const icon = popover.dataset.selectedIcon || char.icon;
-    const updates = { name: name || char.name, rk, tp: Math.min(tp, maxTp), maxTp, icon };
+    const gruppeId = popover.querySelector('.gegner-edit-gruppe')?.value?.trim() || null;
+    const sichtbar = popover.querySelector('.gegner-edit-sichtbar')?.checked !== false;
+    const updates = { name: name || char.name, rk, tp: Math.min(tp, maxTp), maxTp, icon, defensivBonus, bm, gruppeId, gegnerTyp, wahrnehmung, sichtbar };
     if (char.typ === 'spieler') {
-      const wahr = popover.querySelector('.gegner-edit-wahrnehmung')?.value?.trim();
-      updates.wahrnehmung = wahr || null;
       updateSpieler(char.id, updates);
     } else {
       updateNpc(char.id, updates);
@@ -159,6 +266,7 @@ function showGegnerEditPopover(cardEl, gegner) {
   popover.className = 'gegner-edit-popover';
   const rkVal = gegner.rk != null ? gegner.rk : 20;
   const imKampfVal = gegner.imKampf !== false;
+  const gTyp = gegner.gegnerTyp || 'normal';
   const gruppen = getGegnerGruppen();
   const gruppeOpts = '<option value="">— Keine —</option>' +
     gruppen.map(g => `<option value="${g.id}"${g.id === (gegner.gruppeId || '') ? ' selected' : ''}>${escapeHtml(g.name)}</option>`).join('');
@@ -167,9 +275,17 @@ function showGegnerEditPopover(cardEl, gegner) {
   ).join('');
   popover.innerHTML = `
     <div class="gegner-edit-row gegner-edit-gruppe-row">
-      <label>Gruppe / Raum</label>
-      <select class="gegner-edit-gruppe" title="Gegner diesem Raum zuweisen (z. B. Kerker)">
+      <label>Gruppe</label>
+      <select class="gegner-edit-gruppe" title="Gegner dieser Gruppe zuweisen (z. B. Kerker)">
         ${gruppeOpts}
+      </select>
+    </div>
+    <div class="gegner-edit-row">
+      <label>Grösse</label>
+      <select class="gegner-edit-groesse">
+        <option value="normal"${gTyp === 'normal' ? ' selected' : ''}>Normal</option>
+        <option value="gross"${gTyp === 'gross' ? ' selected' : ''}>Gross</option>
+        <option value="gewaltig"${gTyp === 'gewaltig' ? ' selected' : ''}>Gewaltig</option>
       </select>
     </div>
     <div class="gegner-edit-row">
@@ -185,7 +301,22 @@ function showGegnerEditPopover(cardEl, gegner) {
       <input type="number" class="gegner-edit-maxTp" min="1" value="${gegner.maxTp}" />
     </div>
     <div class="gegner-edit-row">
+      <label>Defensivbonus</label>
+      <input type="number" class="gegner-edit-db" value="${gegner.defensivBonus ?? 0}" />
+    </div>
+    <div class="gegner-edit-row">
+      <label>B&M</label>
+      <input type="number" class="gegner-edit-bm" value="${gegner.bm ?? 0}" />
+    </div>
+    <div class="gegner-edit-row">
+      <label>Wahrnehmung</label>
+      <input type="text" class="gegner-edit-wn" value="${gegner.wahrnehmung || ''}" placeholder="z. B. 72" />
+    </div>
+    <div class="gegner-edit-row">
       <label><input type="checkbox" class="gegner-edit-imkampf" ${imKampfVal ? 'checked' : ''} /> Im Kampf anzeigen</label>
+    </div>
+    <div class="gegner-edit-row">
+      <label><input type="checkbox" class="gegner-edit-sichtbar" ${(gegner.sichtbar !== false) ? 'checked' : ''} /> In Status &amp; Zielen sichtbar</label>
     </div>
     <div class="gegner-edit-row">
       <label>Icon</label>
@@ -193,6 +324,7 @@ function showGegnerEditPopover(cardEl, gegner) {
     </div>
     <button type="button" class="btn primary gegner-edit-apply">Übernehmen</button>
   `;
+  prependPopoverCloseButton(popover);
   popover.dataset.selectedIcon = gegner.icon || '';
   const iconPickerEl = popover.querySelector('.gegner-edit-icon-picker');
   renderIconPicker(iconPickerEl, gegner.icon, (filename) => {
@@ -202,11 +334,16 @@ function showGegnerEditPopover(cardEl, gegner) {
     const rk = parseInt(popover.querySelector('.gegner-edit-rk').value, 10);
     const tp = parseInt(popover.querySelector('.gegner-edit-tp').value, 10);
     const maxTp = Math.max(1, parseInt(popover.querySelector('.gegner-edit-maxTp').value, 10));
+    const defensivBonus = parseInt(popover.querySelector('.gegner-edit-db').value, 10) || 0;
+    const bm = parseInt(popover.querySelector('.gegner-edit-bm').value, 10) || 0;
+    const gegnerTyp = popover.querySelector('.gegner-edit-groesse')?.value || 'normal';
+    const wahrnehmung = popover.querySelector('.gegner-edit-wn')?.value?.trim() || null;
     const icon = popover.dataset.selectedIcon || gegner.icon;
     const imKampf = popover.querySelector('.gegner-edit-imkampf')?.checked !== false;
+    const sichtbar = popover.querySelector('.gegner-edit-sichtbar')?.checked !== false;
     const gruppeSel = popover.querySelector('.gegner-edit-gruppe');
     const gruppeId = gruppeSel?.value?.trim() || null;
-    const updates = { rk, tp: Math.min(tp, maxTp), maxTp, icon, imKampf, gruppeId };
+    const updates = { rk, tp: Math.min(tp, maxTp), maxTp, icon, imKampf, sichtbar, gruppeId, defensivBonus, bm, gegnerTyp, wahrnehmung };
     updateGegner(gegner.id, updates);
     popover.remove();
     render();
@@ -234,6 +371,7 @@ function showGegnerSchadenPopover(cardEl, gegner) {
     </div>
     <button type="button" class="btn primary gegner-schaden-apply">Anwenden</button>
   `;
+  prependPopoverCloseButton(popover);
   popover.querySelector('.gegner-schaden-apply').addEventListener('click', () => {
     const schadenVal = parseInt(popover.querySelector('.gegner-schaden-tp').value, 10) || 0;
     const heilVal = parseInt(popover.querySelector('.gegner-heilung-tp').value, 10) || 0;
@@ -259,30 +397,17 @@ function applyZielToSimulator() {
   const g = firstId ? getGegnerById(firstId) : null;
   const charInfo = !g && firstId ? getCharakterById(firstId) : null;
   const ziel = g || charInfo?.char;
-  if (!ziel) return;
-  const rk = ziel.rk ?? 20;
-  const rkBtn = $(`#rk button[data-rk="${rk}"]`);
-  if (rkBtn) {
-    $$('#rk button').forEach(b => b.classList.remove('active'));
-    rkBtn.classList.add('active');
+  const fallback = $('#rkFallback');
+  if (!ziel) {
+    if (fallback) fallback.hidden = false;
+    return;
   }
-  if (g) {
-    const typ = g.gegnerTyp || 'normal';
-    const typBtn = $(`#gegnerTyp button[data-gegner-typ="${typ}"]`);
-    if (typBtn) {
-      $$('#gegnerTyp button').forEach(b => b.classList.remove('active'));
-      typBtn.classList.add('active');
-      if (typ === 'gross') $('#critType').value = 'Grosse Wesen';
-      else if (typ === 'gewaltig') $('#critType').value = 'Gewaltige Wesen';
-      else $('#critType').value = (state.autoCrit && state.autoCrit.typ) || '';
-      $('#critType').dispatchEvent(new Event('change'));
-    }
-  } else if (charInfo) {
-    $$('#gegnerTyp button').forEach(b => b.classList.remove('active'));
-    $('#gegnerTyp button[data-gegner-typ="normal"]')?.classList.add('active');
-    $('#critType').value = (state.autoCrit && state.autoCrit.typ) || '';
-    $('#critType').dispatchEvent(new Event('change'));
-  }
+  if (fallback) fallback.hidden = true;
+  const typ = ziel.gegnerTyp || 'normal';
+  if (typ === 'gross') $('#critType').value = 'Grosse Wesen';
+  else if (typ === 'gewaltig') $('#critType').value = 'Gewaltige Wesen';
+  else $('#critType').value = (state.autoCrit && state.autoCrit.typ) || '';
+  $('#critType').dispatchEvent(new Event('change'));
 }
 
 function renderKampagnenDropdown() {
@@ -328,12 +453,17 @@ function renderKampagneSyncUI(sel) {
 function renderGegnerListe() {
   const container = document.getElementById('gegnerListe');
   if (!container) return;
-  const gegner = getGegner();
+  let gegner = getGegner();
+  const aktiveGruppe = getAktiveGruppeId() || null;
+  if (aktiveGruppe) {
+    gegner = gegner.filter(g => g.gruppeId === aktiveGruppe);
+  }
+  gegner = gegner.filter(g => g.sichtbar !== false);
   const selectedIds = state.selectedGegnerIds || [];
 
   container.innerHTML = '';
   if (gegner.length === 0) {
-    container.innerHTML = '<p class="muted">Noch keine Gegner. Füge unten einen hinzu.</p>';
+    container.innerHTML = '<p class="muted">Noch keine Gegner' + (aktiveGruppe ? ' in dieser Gruppe' : '') + ' (oder alle ausgeblendet).</p>';
     return;
   }
 
@@ -352,7 +482,7 @@ function renderGegnerListe() {
       }).join('')}</ul></details>`
       : '';
     const status = g.status || [];
-    const statusLabels = { ben: 'ben', benoPar: 'benoPar', oPar: 'oPar', init: 'Init', ko: 'K.O.' };
+    const statusLabels = { ben: 'ben', benoPar: 'benoPar', oPar: 'oPar', par: 'Par', init: 'Init', ko: 'K.O.' };
     const statusBadges = status.map(s => {
       const label = statusLabels[s.typ] || s.typ;
       return s.typ === 'ko' ? `<span class="gegner-status ko">${label}</span>` : `<span class="gegner-status">${label} ${s.runden} Rd</span>`;
@@ -360,13 +490,6 @@ function renderGegnerListe() {
     const laufend = g.laufendeSchaden || [];
     const laufendSum = laufend.reduce((a, l) => a + l.tp, 0);
     const laufendBadge = laufendSum > 0 ? `<span class="gegner-status laufend">+${laufendSum} T/Rd</span>` : '';
-    const maxHeilung = g.maxTp - g.tp;
-    const heilungRow = maxHeilung > 0
-      ? `<div class="gegner-heilen-row gegner-heilung-row" data-id="${g.id}">
-          <input type="number" min="1" max="${maxHeilung}" value="1" class="gegner-heilen-input" placeholder="TP" title="Trefferpunkte wiederherstellen (z.B. Zaubertrank)">
-          <button type="button" class="btn gegner-heilung-btn" data-id="${g.id}" title="TP heilen">TP heilen</button>
-        </div>`
-      : '';
     const laufendHeilenRow = laufendSum > 0
       ? `<div class="gegner-heilen-row gegner-blutung-row" data-id="${g.id}">
           <button type="button" class="btn gegner-heilen-btn" data-id="${g.id}" title="1 T/Rd Blutung stoppen (mehrmals klicken für mehr)">1 T/Rd Blutung stoppen</button>
@@ -375,32 +498,39 @@ function renderGegnerListe() {
     const imKampf = g.imKampf !== false;
     const iconUrl = getIconUrl(g.icon);
     const rk = g.rk != null ? g.rk : 20;
+    const db = parseInt(g.defensivBonus, 10) || 0;
     const isSelected = selectedIds.includes(g.id);
     const gruppen = getGegnerGruppen();
     const gruppeName = g.gruppeId ? gruppen.find(gr => gr.id === g.gruppeId)?.name : null;
     const gruppeOpts = gruppen.length > 0
       ? '<option value="">— Keine —</option>' + gruppen.map(gr =>
-          `<option value="${gr.id}"${gr.id === (g.gruppeId || '') ? ' selected' : ''}>${escapeHtml(gr.name)}</option>`
-        ).join('')
+        `<option value="${gr.id}"${gr.id === (g.gruppeId || '') ? ' selected' : ''}>${escapeHtml(gr.name)}</option>`
+      ).join('')
       : '';
     const gruppeSelect = gruppen.length > 0
-      ? `<select class="gegner-card-gruppe-select" data-id="${g.id}" title="Gruppe / Raum zuweisen">${gruppeOpts}</select>`
+      ? `<select class="gegner-card-gruppe-select" data-id="${g.id}" title="Gruppe zuweisen">${gruppeOpts}</select>`
       : '';
     card.innerHTML = `
       <div class="gegner-card-header">
         <img class="gegner-icon" src="${iconUrl}" alt="${escapeHtml(g.name)}" />
         <span class="gegner-name">${isTot ? '† ' : ''}${escapeHtml(g.name)}</span>
         ${gruppeSelect}
-        <span class="gegner-rk-tp">RK ${rk} · ${g.tp}/${g.maxTp} TP</span>
+        <span class="gegner-rk-tp">RK ${rk}${db ? ` · DB ${db}` : ''} · ${g.tp}/${g.maxTp} TP</span>
+        <div class="tp-step-row">
+          <button type="button" class="btn ghost tp-step-btn" data-step="-5" data-id="${g.id}" title="-5 TP">-5</button>
+          <button type="button" class="btn ghost tp-step-btn" data-step="-3" data-id="${g.id}" title="-3 TP">-3</button>
+          <button type="button" class="btn ghost tp-step-btn" data-step="3" data-id="${g.id}" title="+3 TP">+3</button>
+          <button type="button" class="btn ghost tp-step-btn" data-step="5" data-id="${g.id}" title="+5 TP">+5</button>
+        </div>
         <button type="button" class="btn ghost gegner-select-toggle ${isSelected ? 'active' : ''}" data-id="${g.id}" title="${isSelected ? 'Abwählen' : 'Als Ziel auswählen'}">${isSelected ? '✓' : '○'}</button>
         <button type="button" class="btn ghost gegner-edit" data-id="${g.id}" title="Bearbeiten">✎</button>
         <button type="button" class="btn ghost gegner-schaden-btn" data-id="${g.id}" title="Treffer manuell">±</button>
+        ${(g.historie || []).length > 0 ? `<button type="button" class="btn ghost gegner-undo-btn" data-id="${g.id}" title="Letzten Eintrag rückgängig">↩</button>` : ''}
         ${!isTot ? `<button type="button" class="btn ghost gegner-tod-btn" data-id="${g.id}" title="Als tot markieren">†</button>` : ''}
         <button type="button" class="btn ghost gegner-kampf-toggle ${imKampf ? 'active' : ''}" data-id="${g.id}" title="${imKampf ? 'Im Kampf' : 'Nicht im Kampf'}">${imKampf ? '⚔' : '—'}</button>
         <button type="button" class="btn ghost gegner-remove" data-id="${g.id}" title="Entfernen">×</button>
       </div>
       ${statusBadges || laufendBadge ? `<div class="gegner-status-row">${statusBadges}${laufendBadge}</div>` : ''}
-      ${heilungRow}
       ${laufendHeilenRow}
       <div class="gegner-tp-bar">
         <div class="gegner-tp-fill" style="width: ${Math.max(0, pct)}%"></div>
@@ -434,6 +564,11 @@ function renderGegnerListe() {
       e.stopPropagation();
       showGegnerSchadenPopover(card, g);
     });
+    card.querySelector('.gegner-undo-btn')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const undone = undoLastGegnerHistorie(g.id);
+      if (undone) render();
+    });
     card.querySelector('.gegner-tod-btn')?.addEventListener('click', (e) => {
       e.stopPropagation();
       updateGegner(g.id, { tp: 0 });
@@ -445,6 +580,15 @@ function renderGegnerListe() {
       e.stopPropagation();
       updateGegner(g.id, { imKampf: !imKampf });
       render();
+    });
+    card.querySelectorAll('.tp-step-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const step = parseInt(btn.dataset.step, 10) || 0;
+        if (step < 0) applySchaden(g.id, Math.abs(step), 'manuell', `${Math.abs(step)} TP (Schnellaktion)`);
+        if (step > 0) heilenTp(g.id, step);
+        render();
+      });
     });
     card.querySelector('.gegner-remove')?.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -461,15 +605,6 @@ function renderGegnerListe() {
         render();
       }
     });
-    card.querySelector('.gegner-heilung-row .gegner-heilung-btn')?.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const row = e.target.closest('.gegner-heilung-row');
-      const input = row?.querySelector('.gegner-heilen-input');
-      const tp = input ? parseInt(input.value, 10) : 0;
-      if (tp > 0 && heilenTp(g.id, tp)) {
-        render();
-      }
-    });
     container.appendChild(card);
   });
 }
@@ -482,7 +617,7 @@ function escapeHtml(s) {
 
 function renderZielAnzeige() {
   const imKampfGegner = getGegnerFuerKampf();
-  const charaktere = getCharaktere();
+  const charaktere = getCharaktereFuerKampf();
   const verbuendete = charaktere.map(c => ({ ...c, zielTyp: c.typ }));
   const gegnerZiele = imKampfGegner.map(g => ({ ...g, zielTyp: 'gegner' }));
   const zielSection = $('#simulatorZielSection');
@@ -510,7 +645,9 @@ function renderZielAnzeige() {
       iconWrap.appendChild(iconImg);
       const nameSpan = document.createElement('span');
       nameSpan.className = 'ziel-name';
-      nameSpan.textContent = (isTot ? '† ' : '') + z.name + (isTot ? ' (tot)' : '');
+      const db = parseInt(z.defensivBonus, 10) || 0;
+      nameSpan.textContent = (isTot ? '† ' : '') + z.name + (db ? ` (DB ${db})` : '') + (isTot ? ' (tot)' : '');
+      btn.title = `${z.name}${db ? ` · Defensivbonus ${db}` : ''}`;
       btn.appendChild(iconWrap);
       btn.appendChild(nameSpan);
       btn.addEventListener('click', () => {
@@ -523,10 +660,11 @@ function renderZielAnzeige() {
       });
       return btn;
     };
-    const addGroup = (label, ziele) => {
+    const addGroup = (label, ziele, groupType) => {
       if (ziele.length === 0) return;
       const group = document.createElement('div');
       group.className = 'ziel-group';
+      group.dataset.groupType = groupType;
       const heading = document.createElement('div');
       heading.className = 'ziel-group-heading';
       heading.textContent = label;
@@ -537,11 +675,24 @@ function renderZielAnzeige() {
       group.appendChild(row);
       zielListe.appendChild(group);
     };
-    addGroup('Gegner', gegnerZiele);
-    addGroup('Verbündete', verbuendete);
+    addGroup('Gegner', gegnerZiele, 'gegner');
+    addGroup('Verbündete', verbuendete, 'verbuendete');
     requestAnimationFrame(() => adjustZielNameFontSizes());
     if (zielInfo) zielInfo.textContent = '';
   }
+  syncRkFallbackSichtbarkeit();
+}
+
+/** RK-Fallback nur ausblenden, wenn ein gültiges erstes Ziel gewählt ist (ohne critType bei jedem Render zu überschreiben). */
+function syncRkFallbackSichtbarkeit() {
+  const fb = $('#rkFallback');
+  if (!fb) return;
+  const ids = state.selectedGegnerIds || [];
+  const firstId = ids[0] || null;
+  const g = firstId ? getGegnerById(firstId) : null;
+  const charInfo = !g && firstId ? getCharakterById(firstId) : null;
+  const ziel = g || charInfo?.char;
+  fb.hidden = !!ziel;
 }
 
 function adjustZielNameFontSizes() {
@@ -566,18 +717,46 @@ function adjustZielNameFontSizes() {
 
 function renderRunde() {
   const r = getAktuelleRunde();
-  const el = $(`${KAMPFTRACKER_PANEL} #rundeAnzeige`);
-  if (el) el.textContent = `Runde ${r}`;
-  const prevBtn = $(`${KAMPFTRACKER_PANEL} #rundePrev`);
+  const text = `Runde ${r}`;
+  const el = $(`${SIMULATOR_PANEL} #rundeAnzeige`);
+  if (el) el.textContent = text;
+  const elStatus = document.getElementById('rundeAnzeigeStatus');
+  if (elStatus) elStatus.textContent = text;
+  const prevBtn = $(`${SIMULATOR_PANEL} #rundePrev`);
   if (prevBtn) prevBtn.disabled = r <= 0;
+  const prevBtnS = document.getElementById('rundePrevStatus');
+  if (prevBtnS) prevBtnS.disabled = r <= 0;
 }
 
-function renderCharRunde() {
-  const r = getAktuelleRunde();
-  const el = $(`${CHARAKTERTRACKER_PANEL} #charRundeAnzeige`);
-  if (el) el.textContent = `Runde ${r}`;
-  const prevBtn = $(`${CHARAKTERTRACKER_PANEL} #charRundePrev`);
-  if (prevBtn) prevBtn.disabled = r <= 0;
+function renderDbAnzeige() {
+  const el = document.getElementById('dbAnzeige');
+  if (!el) return;
+  const ids = state.selectedGegnerIds || [];
+  if (ids.length === 0) {
+    el.hidden = true;
+    el.innerHTML = '';
+    return;
+  }
+  const parts = ids.map(id => {
+    const g = getGegnerById(id);
+    if (g) {
+      const db = parseInt(g.defensivBonus, 10) || 0;
+      return `<span class="db-anzeige-item">${escapeHtml(g.name)}: <strong>DB\u00a0=\u00a0${db}</strong></span>`;
+    }
+    const ci = getCharakterById(id);
+    if (ci) {
+      const db = parseInt(ci.char.defensivBonus, 10) || 0;
+      return `<span class="db-anzeige-item">${escapeHtml(ci.char.name)}: <strong>DB\u00a0=\u00a0${db}</strong></span>`;
+    }
+    return null;
+  }).filter(Boolean);
+  if (parts.length === 0) {
+    el.hidden = true;
+    el.innerHTML = '';
+    return;
+  }
+  el.hidden = false;
+  el.innerHTML = parts.join(' · ');
 }
 
 function renderCharakterZeile() {
@@ -618,6 +797,44 @@ function renderUserProfileIcon() {
   }
 }
 
+function renderGegnerCharListe() {
+  const container = document.getElementById('gegnerCharListe');
+  if (!container) return;
+  const gegner = getGegner();
+  container.innerHTML = '';
+  gegner.forEach(g => {
+    const div = document.createElement('div');
+    const isVisible = g.sichtbar !== false;
+    div.className = 'charakter-chip' + (isVisible ? '' : ' hidden-npc');
+    const iconUrl = getIconUrl(g.icon);
+    const rk = g.rk ?? 1;
+    const tp = g.tp ?? g.maxTp ?? 100;
+    const maxTp = g.maxTp ?? 100;
+    div.innerHTML = `<img class="charakter-chip-icon" src="${iconUrl}" alt="" /><span>${escapeHtml(g.name)} (RK ${rk}, ${tp}/${maxTp} TP)</span><button type="button" class="btn ghost gegner-visible-toggle" data-id="${g.id}" title="${isVisible ? 'Ausblenden' : 'Einblenden'}">${isVisible ? '👁' : '🙈'}</button><button type="button" class="btn ghost char-icon-edit" data-id="${g.id}" title="Bearbeiten">✎</button><button type="button" class="btn ghost char-remove" data-id="${g.id}" title="Entfernen">×</button>`;
+    div.querySelector('.gegner-visible-toggle')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleGegnerSichtbarkeit(g.id);
+      const g2 = getGegnerById(g.id);
+      if (g2 && g2.sichtbar === false) {
+        state.selectedGegnerIds = (state.selectedGegnerIds || []).filter(id => id !== g.id);
+        applyZielToSimulator();
+      }
+      render();
+    });
+    div.querySelector('.char-icon-edit')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      showGegnerEditPopover(div, g);
+    });
+    div.querySelector('.char-remove')?.addEventListener('click', () => {
+      if (confirm(`${g.name} wirklich entfernen?`)) {
+        removeGegner(g.id);
+        render();
+      }
+    });
+    container.appendChild(div);
+  });
+}
+
 function renderSpielerListe() {
   const container = document.getElementById('spielerListe');
   if (!container) return;
@@ -625,9 +842,15 @@ function renderSpielerListe() {
   container.innerHTML = '';
   spieler.forEach(s => {
     const div = document.createElement('div');
-    div.className = 'charakter-chip';
+    const isVisible = s.sichtbar !== false;
+    div.className = 'charakter-chip' + (isVisible ? '' : ' hidden-npc');
     const iconUrl = getIconUrl(s.icon);
-    div.innerHTML = `<img class="charakter-chip-icon" src="${iconUrl}" alt="" /><span>${escapeHtml(s.name)}</span><button type="button" class="btn ghost char-icon-edit" data-id="${s.id}" title="Bearbeiten">✎</button><button type="button" class="btn ghost char-remove" data-id="${s.id}" title="Entfernen">×</button>`;
+    div.innerHTML = `<img class="charakter-chip-icon" src="${iconUrl}" alt="" /><span>${escapeHtml(s.name)}</span><button type="button" class="btn ghost spieler-visible-toggle" data-id="${s.id}" title="${isVisible ? 'Ausblenden' : 'Einblenden'}">${isVisible ? '👁' : '🙈'}</button><button type="button" class="btn ghost char-icon-edit" data-id="${s.id}" title="Bearbeiten">✎</button><button type="button" class="btn ghost char-remove" data-id="${s.id}" title="Entfernen">×</button>`;
+    div.querySelector('.spieler-visible-toggle')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleSpielerSichtbarkeit(s.id);
+      render();
+    });
     div.querySelector('.char-icon-edit')?.addEventListener('click', (e) => {
       e.stopPropagation();
       showCharakterEditPopoverForChip(div, { ...s, typ: 'spieler' });
@@ -649,9 +872,15 @@ function renderNpcListe() {
   container.innerHTML = '';
   npcs.forEach(n => {
     const div = document.createElement('div');
-    div.className = 'charakter-chip';
+    const isVisible = n.sichtbar !== false;
+    div.className = 'charakter-chip' + (isVisible ? '' : ' hidden-npc');
     const iconUrl = getIconUrl(n.icon);
-    div.innerHTML = `<img class="charakter-chip-icon" src="${iconUrl}" alt="" /><span>${escapeHtml(n.name)}</span><button type="button" class="btn ghost char-icon-edit" data-id="${n.id}" title="Bearbeiten">✎</button><button type="button" class="btn ghost char-remove" data-id="${n.id}" title="Entfernen">×</button>`;
+    div.innerHTML = `<img class="charakter-chip-icon" src="${iconUrl}" alt="" /><span>${escapeHtml(n.name)}</span><button type="button" class="btn ghost npc-visible-toggle" data-id="${n.id}" title="${isVisible ? 'Ausblenden' : 'Einblenden'}">${isVisible ? '👁' : '🙈'}</button><button type="button" class="btn ghost char-icon-edit" data-id="${n.id}" title="Bearbeiten">✎</button><button type="button" class="btn ghost char-remove" data-id="${n.id}" title="Entfernen">×</button>`;
+    div.querySelector('.npc-visible-toggle')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleNpcSichtbarkeit(n.id);
+      render();
+    });
     div.querySelector('.char-icon-edit')?.addEventListener('click', (e) => {
       e.stopPropagation();
       showCharakterEditPopoverForChip(div, { ...n, typ: 'npc' });
@@ -666,21 +895,36 @@ function renderNpcListe() {
   });
 }
 
+function renderAktiveGruppeCharSelect() {
+  const sel = document.getElementById('aktiveGruppeCharSelect');
+  if (!sel) return;
+  const gruppen = getGegnerGruppen();
+  const aktiveId = state.aktiveGruppeCharId || '';
+  sel.innerHTML = `<option value=""${!aktiveId ? ' selected' : ''}>Alle</option>` +
+    gruppen.map(g => `<option value="${g.id}"${g.id === aktiveId ? ' selected' : ''}>${escapeHtml(g.name)}</option>`).join('');
+}
+
 function renderCharakterListe() {
   const container = document.getElementById('charakterListe');
   if (!container) return;
   const spieler = getSpieler();
   const npcs = getNpcs();
-  const alle = [
+  let alle = [
     ...spieler.map(s => ({ ...s, typ: 'spieler' })),
     ...npcs.map(n => ({ ...n, typ: 'npc' }))
   ];
+  const aktiveGruppeChar = state.aktiveGruppeCharId || null;
+  if (aktiveGruppeChar) {
+    alle = alle.filter(c => c.gruppeId === aktiveGruppeChar);
+  }
   container.innerHTML = '';
   if (alle.length === 0) {
-    container.innerHTML = '<p class="muted">Noch keine Spieler oder NPCs. Füge sie in der Kampagne hinzu.</p>';
+    container.innerHTML = '<p class="muted">Noch keine Spieler oder NPCs' + (aktiveGruppeChar ? ' in dieser Gruppe' : '') + '.</p>';
     return;
   }
   alle.forEach(c => {
+    const isHidden = (c.typ === 'npc' || c.typ === 'spieler') && c.sichtbar === false;
+    if (isHidden) return;
     const card = document.createElement('div');
     const isTot = (c.tp ?? c.maxTp ?? 100) <= 0;
     card.className = 'gegner-card charakter-card' + (isTot ? ' tot' : '');
@@ -688,6 +932,7 @@ function renderCharakterListe() {
     const tp = c.tp ?? maxTp;
     const pct = maxTp > 0 ? Math.round((tp / maxTp) * 100) : 100;
     const rk = c.rk != null ? c.rk : 20;
+    const db = parseInt(c.defensivBonus, 10) || 0;
     const historie = c.historie || [];
     const historieHtml = historie.length > 0
       ? `<details class="gegner-historie"><summary>Historie (${historie.length})</summary><ul>${historie.slice().reverse().slice(0, 10).map(h => {
@@ -698,7 +943,7 @@ function renderCharakterListe() {
       }).join('')}</ul></details>`
       : '';
     const status = c.status || [];
-    const statusLabels = { ben: 'ben', benoPar: 'benoPar', oPar: 'oPar', init: 'Init', ko: 'K.O.' };
+    const statusLabels = { ben: 'ben', benoPar: 'benoPar', oPar: 'oPar', par: 'Par', init: 'Init', ko: 'K.O.' };
     const statusBadges = status.map(s => {
       const label = statusLabels[s.typ] || s.typ;
       return s.typ === 'ko' ? `<span class="gegner-status ko">${label}</span>` : `<span class="gegner-status">${label} ${s.runden} Rd</span>`;
@@ -706,13 +951,6 @@ function renderCharakterListe() {
     const laufend = c.laufendeSchaden || [];
     const laufendSum = laufend.reduce((a, l) => a + l.tp, 0);
     const laufendBadge = laufendSum > 0 ? `<span class="gegner-status laufend">+${laufendSum} T/Rd</span>` : '';
-    const maxHeilung = maxTp - tp;
-    const heilungRow = maxHeilung > 0
-      ? `<div class="gegner-heilen-row gegner-heilung-row" data-id="${c.id}" data-typ="${c.typ}">
-          <input type="number" min="1" max="${maxHeilung}" value="1" class="gegner-heilen-input" placeholder="TP">
-          <button type="button" class="btn gegner-heilung-btn" data-id="${c.id}" data-typ="${c.typ}">TP heilen</button>
-        </div>`
-      : '';
     const laufendHeilenRow = laufendSum > 0
       ? `<div class="gegner-heilen-row gegner-blutung-row" data-id="${c.id}" data-typ="${c.typ}">
           <button type="button" class="btn gegner-heilen-btn" data-id="${c.id}" data-typ="${c.typ}">1 T/Rd Blutung stoppen</button>
@@ -720,16 +958,26 @@ function renderCharakterListe() {
       : '';
     const iconUrl = getIconUrl(c.icon);
     const wahrStr = c.typ === 'spieler' && c.wahrnehmung ? ` · W ${c.wahrnehmung}` : '';
+    const selectedIds = state.selectedGegnerIds || [];
+    const isSelected = selectedIds.includes(c.id);
     card.innerHTML = `
       <div class="gegner-card-header">
         <img class="gegner-icon" src="${iconUrl}" alt="${escapeHtml(c.name)}" />
         <span class="gegner-name">${isTot ? '† ' : ''}${escapeHtml(c.name)}</span>
-        <span class="gegner-rk-tp">RK ${rk} · ${tp}/${maxTp} TP${wahrStr}</span>
+        <span class="gegner-rk-tp">RK ${rk}${db ? ` · DB ${db}` : ''} · ${tp}/${maxTp} TP${wahrStr}</span>
+        <div class="tp-step-row">
+          <button type="button" class="btn ghost tp-step-char-btn" data-step="-5" data-id="${c.id}" title="-5 TP">-5</button>
+          <button type="button" class="btn ghost tp-step-char-btn" data-step="-3" data-id="${c.id}" title="-3 TP">-3</button>
+          <button type="button" class="btn ghost tp-step-char-btn" data-step="3" data-id="${c.id}" title="+3 TP">+3</button>
+          <button type="button" class="btn ghost tp-step-char-btn" data-step="5" data-id="${c.id}" title="+5 TP">+5</button>
+        </div>
+        <button type="button" class="btn ghost gegner-select-toggle ${isSelected ? 'active' : ''}" data-id="${c.id}" title="${isSelected ? 'Abwählen' : 'Als Ziel auswählen'}">${isSelected ? '✓' : '○'}</button>
+        <button type="button" class="btn ghost char-visible-toggle" data-id="${c.id}" data-typ="${c.typ}" title="Ausblenden">👁</button>
         <button type="button" class="btn ghost charakter-ereignis-btn" data-id="${c.id}" data-typ="${c.typ}" title="Verletzung / Ereignis">+</button>
+        ${(c.historie || []).length > 0 ? `<button type="button" class="btn ghost charakter-undo-btn" data-id="${c.id}" title="Letzten Eintrag rückgängig">↩</button>` : ''}
         <button type="button" class="btn ghost gegner-icon-edit" data-id="${c.id}" data-typ="${c.typ}" title="Bearbeiten">✎</button>
       </div>
       ${statusBadges || laufendBadge ? `<div class="gegner-status-row">${statusBadges}${laufendBadge}</div>` : ''}
-      ${heilungRow}
       ${laufendHeilenRow}
       <div class="gegner-tp-bar">
         <div class="gegner-tp-fill" style="width: ${Math.max(0, pct)}%"></div>
@@ -737,25 +985,47 @@ function renderCharakterListe() {
       ${historieHtml}
       ${isTot ? '<span class="gegner-tot">TOT</span>' : ''}
     `;
+    card.querySelector('.gegner-select-toggle')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      let ids = [...(state.selectedGegnerIds || [])];
+      if (ids.includes(c.id)) ids = ids.filter(id => id !== c.id);
+      else ids.push(c.id);
+      state.selectedGegnerIds = ids;
+      applyZielToSimulator();
+      render();
+    });
     card.querySelector('.charakter-ereignis-btn')?.addEventListener('click', (e) => {
       e.stopPropagation();
       showCharakterEreignisPopover(card, c);
     });
+    card.querySelector('.charakter-undo-btn')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const undone = undoLastCharakterHistorie(c.id);
+      if (undone) render();
+    });
     card.querySelector('.gegner-icon-edit')?.addEventListener('click', (e) => {
       e.stopPropagation();
       showCharakterEditPopover(card, c);
+    });
+    card.querySelector('.char-visible-toggle')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (c.typ === 'npc') toggleNpcSichtbarkeit(c.id);
+      else if (c.typ === 'spieler') toggleSpielerSichtbarkeit(c.id);
+      render();
     });
     const heilenBtn = card.querySelector('.gegner-blutung-row .gegner-heilen-btn');
     heilenBtn?.addEventListener('click', (e) => {
       e.stopPropagation();
       if (heilenLaufendeSchadenCharakter(c.id, 1)) render();
     });
-    card.querySelector('.gegner-heilung-row .gegner-heilung-btn')?.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const row = e.target.closest('.gegner-heilung-row');
-      const input = row?.querySelector('.gegner-heilen-input');
-      const tpVal = input ? parseInt(input.value, 10) : 0;
-      if (tpVal > 0 && heilenTpCharakter(c.id, tpVal)) render();
+    card.querySelectorAll('.tp-step-char-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const step = parseInt(btn.dataset.step, 10) || 0;
+        if (step < 0) applySchadenCharakter(c.id, Math.abs(step), 'manuell', `${Math.abs(step)} TP (Schnellaktion)`);
+        if (step > 0) heilenTpCharakter(c.id, step);
+        render();
+      });
     });
     container.appendChild(card);
   });
@@ -781,6 +1051,7 @@ function showCharakterEreignisPopover(cardEl, char) {
     </div>
     <button type="button" class="btn primary charakter-ereignis-apply">Hinzufügen</button>
   `;
+  prependPopoverCloseButton(popover);
   popover.querySelector('.charakter-ereignis-apply').addEventListener('click', () => {
     const desc = popover.querySelector('.charakter-ereignis-desc').value?.trim() || '';
     const schadenVal = parseInt(popover.querySelector('.charakter-ereignis-schaden').value, 10) || 0;
@@ -810,16 +1081,29 @@ function showCharakterEditPopover(cardEl, char) {
   const popover = document.createElement('div');
   popover.className = 'gegner-edit-popover';
   const rkVal = char.rk != null ? char.rk : 20;
+  const gTyp = char.gegnerTyp || 'normal';
   const rkOpts = Array.from({ length: 20 }, (_, i) => i + 1).map(n =>
     `<option value="${n}"${rkVal === n ? ' selected' : ''}>${n}</option>`
   ).join('');
-  const wahrnehmungHtml = char.typ === 'spieler'
-    ? `<div class="gegner-edit-row">
-        <label>Wahrnehmung</label>
-        <input type="text" class="gegner-edit-wahrnehmung" value="${escapeHtml(char.wahrnehmung || '')}" placeholder="z. B. 72" />
-      </div>`
-    : '';
+  const sichtbarHtml = `<div class="gegner-edit-row">
+        <label><input type="checkbox" class="gegner-edit-sichtbar" ${(char.sichtbar !== false) ? 'checked' : ''} /> Im Kampf sichtbar</label>
+      </div>`;
+  const gruppen2 = getGegnerGruppen();
+  const gruppeOptsHtml2 = '<option value="">— Keine —</option>' +
+    gruppen2.map(g => `<option value="${g.id}"${g.id === (char.gruppeId || '') ? ' selected' : ''}>${escapeHtml(g.name)}</option>`).join('');
   popover.innerHTML = `
+    <div class="gegner-edit-row">
+      <label>Gruppe</label>
+      <select class="gegner-edit-gruppe">${gruppeOptsHtml2}</select>
+    </div>
+    <div class="gegner-edit-row">
+      <label>Grösse</label>
+      <select class="gegner-edit-groesse">
+        <option value="normal"${gTyp === 'normal' ? ' selected' : ''}>Normal</option>
+        <option value="gross"${gTyp === 'gross' ? ' selected' : ''}>Gross</option>
+        <option value="gewaltig"${gTyp === 'gewaltig' ? ' selected' : ''}>Gewaltig</option>
+      </select>
+    </div>
     <div class="gegner-edit-row">
       <label>Rüstungsklasse</label>
       <select class="gegner-edit-rk">${rkOpts}</select>
@@ -832,13 +1116,26 @@ function showCharakterEditPopover(cardEl, char) {
       <label>TP (max)</label>
       <input type="number" class="gegner-edit-maxTp" min="1" value="${char.maxTp ?? 100}" />
     </div>
-    ${wahrnehmungHtml}
+    <div class="gegner-edit-row">
+      <label>Defensivbonus</label>
+      <input type="number" class="gegner-edit-db" value="${char.defensivBonus ?? 0}" />
+    </div>
+    <div class="gegner-edit-row">
+      <label>B&M</label>
+      <input type="number" class="gegner-edit-bm" value="${char.bm ?? 0}" />
+    </div>
+    <div class="gegner-edit-row">
+      <label>Wahrnehmung</label>
+      <input type="text" class="gegner-edit-wahrnehmung" value="${escapeHtml(char.wahrnehmung || '')}" placeholder="z. B. 72" />
+    </div>
+    ${sichtbarHtml}
     <div class="gegner-edit-row">
       <label>Icon</label>
       <div class="gegner-edit-icon-picker"></div>
     </div>
     <button type="button" class="btn primary gegner-edit-apply">Übernehmen</button>
   `;
+  prependPopoverCloseButton(popover);
   popover.dataset.selectedIcon = char.icon || '';
   const iconPickerEl = popover.querySelector('.gegner-edit-icon-picker');
   renderIconPicker(iconPickerEl, char.icon, (filename) => { popover.dataset.selectedIcon = filename; });
@@ -846,11 +1143,15 @@ function showCharakterEditPopover(cardEl, char) {
     const rk = parseInt(popover.querySelector('.gegner-edit-rk').value, 10);
     const tp = parseInt(popover.querySelector('.gegner-edit-tp').value, 10);
     const maxTp = Math.max(1, parseInt(popover.querySelector('.gegner-edit-maxTp').value, 10));
+    const defensivBonus = parseInt(popover.querySelector('.gegner-edit-db').value, 10) || 0;
+    const bm = parseInt(popover.querySelector('.gegner-edit-bm').value, 10) || 0;
+    const gegnerTyp = popover.querySelector('.gegner-edit-groesse')?.value || 'normal';
+    const wahrnehmung = popover.querySelector('.gegner-edit-wahrnehmung')?.value?.trim() || null;
     const icon = popover.dataset.selectedIcon || char.icon;
-    const updates = { rk, tp: Math.min(tp, maxTp), maxTp, icon };
+    const gruppeId = popover.querySelector('.gegner-edit-gruppe')?.value?.trim() || null;
+    const sichtbar = popover.querySelector('.gegner-edit-sichtbar')?.checked !== false;
+    const updates = { rk, tp: Math.min(tp, maxTp), maxTp, icon, defensivBonus, bm, gruppeId, gegnerTyp, wahrnehmung, sichtbar };
     if (char.typ === 'spieler') {
-      const wahr = popover.querySelector('.gegner-edit-wahrnehmung')?.value?.trim();
-      updates.wahrnehmung = wahr || null;
       updateSpieler(char.id, updates);
     } else {
       updateNpc(char.id, updates);
@@ -866,7 +1167,7 @@ function renderAktiveGruppeSelect() {
   if (!sel) return;
   const gruppen = getGegnerGruppen();
   const aktiveId = getAktiveGruppeId();
-  sel.innerHTML = `<option value=""${!aktiveId ? ' selected' : ''}>Alle im Kampf</option>` +
+  sel.innerHTML = `<option value=""${!aktiveId ? ' selected' : ''}>Alle</option>` +
     gruppen.map(g => `<option value="${g.id}"${g.id === aktiveId ? ' selected' : ''}>${escapeHtml(g.name)}</option>`).join('');
 }
 
@@ -878,7 +1179,7 @@ function renderGegnerGruppenVerwaltung() {
   if (gruppen.length === 0) {
     const hint = document.createElement('p');
     hint.className = 'gegner-gruppen-hint muted';
-    hint.textContent = 'Erstelle eine Gruppe (z. B. Kerker), weise Gegner über das Dropdown auf der Karte zu, wähle dann den Raum oben und klicke „Alle auswählen“.';
+    hint.textContent = 'Erstelle eine Gruppe (z. B. Kerker), weise Gegner über das Dropdown auf der Karte zu, wähle dann die Gruppe oben und klicke „Alle auswählen“.';
     container.appendChild(hint);
   }
   gruppen.forEach(g => {
@@ -905,7 +1206,7 @@ function renderGegnerGruppenVerwaltung() {
   addRow.className = 'gegner-gruppe-add-row';
   const input = document.createElement('input');
   input.type = 'text';
-  input.placeholder = 'Neuer Raum (z. B. Kerker)';
+  input.placeholder = 'Neue Gruppe (z. B. Kerker)';
   input.className = 'gegner-gruppe-add-input';
   const addBtn = document.createElement('button');
   addBtn.type = 'button';
@@ -924,12 +1225,190 @@ function renderGegnerGruppenVerwaltung() {
 }
 
 function renderGegnerGruppeSelect() {
-  const sel = document.getElementById('gegnerGruppeSelect');
+  const sel = document.getElementById('charGruppeSelect');
   if (!sel) return;
   const gruppen = getGegnerGruppen();
   const currentVal = sel.value || '';
   sel.innerHTML = '<option value="">— Keine —</option>' +
     gruppen.map(g => `<option value="${g.id}"${g.id === currentVal ? ' selected' : ''}>${escapeHtml(g.name)}</option>`).join('');
+}
+
+function renderVorlagen() {
+  renderCharVorlageSelect();
+  const wrap = document.getElementById('vorlagenWrap');
+  if (!wrap) return;
+  wrap.innerHTML = '';
+  const typLabels = { gegner: 'NPC Gegner', npc: 'NPC Verbündet', spieler: 'Spieler' };
+
+  const form = document.createElement('div');
+  form.className = 'gegner-vorlage-form';
+  form.innerHTML = `
+    <div class="vorlage-field">
+      <span class="vorlage-field-label">Typ</span>
+      <select class="vorlage-typ">
+        <option value="gegner">NPC Gegner</option>
+        <option value="npc">NPC Verbündet</option>
+        <option value="spieler">Spieler</option>
+      </select>
+    </div>
+    <div class="vorlage-field vorlage-field-wide">
+      <span class="vorlage-field-label">Vorlagenname</span>
+      <input type="text" class="vorlage-name" placeholder="z. B. Waldtroll" autocomplete="off" />
+    </div>
+    <div class="vorlage-field">
+      <span class="vorlage-field-label">Trefferpunkte (max)</span>
+      <input type="number" class="vorlage-tp" min="1" placeholder="100" />
+    </div>
+    <div class="vorlage-field">
+      <span class="vorlage-field-label">Grösse (Gegnertyp)</span>
+      <select class="vorlage-groesse">
+        <option value="normal">Normal</option>
+        <option value="gross">Gross</option>
+        <option value="gewaltig">Gewaltig</option>
+      </select>
+    </div>
+    <div class="vorlage-field">
+      <span class="vorlage-field-label">Rüstungsklasse</span>
+      <select class="vorlage-rk">${Array.from({ length: 20 }, (_, i) => i + 1).map(n => `<option value="${n}"${n === 10 ? ' selected' : ''}>${n}</option>`).join('')}</select>
+    </div>
+    <div class="vorlage-field">
+      <span class="vorlage-field-label">Defensivbonus</span>
+      <input type="number" class="vorlage-db" placeholder="0" />
+    </div>
+    <div class="vorlage-field">
+      <span class="vorlage-field-label">Bewegung &amp; Manöver</span>
+      <input type="number" class="vorlage-bm" placeholder="0" />
+    </div>
+    <div class="vorlage-field vorlage-field-wide">
+      <span class="vorlage-field-label">Wahrnehmung (optional)</span>
+      <input type="text" class="vorlage-wn" placeholder="z. B. 72" autocomplete="off" />
+    </div>
+    <button type="button" class="btn primary vorlage-add">Vorlage speichern</button>
+  `;
+  form.querySelector('.vorlage-add')?.addEventListener('click', () => {
+    const name = form.querySelector('.vorlage-name')?.value?.trim();
+    if (!name) return;
+    const tp = parseInt(form.querySelector('.vorlage-tp')?.value, 10);
+    const db = parseInt(form.querySelector('.vorlage-db')?.value, 10);
+    const bm = parseInt(form.querySelector('.vorlage-bm')?.value, 10);
+    addVorlage({
+      name,
+      typ: form.querySelector('.vorlage-typ')?.value || 'gegner',
+      maxTp: Number.isFinite(tp) && tp > 0 ? tp : 100,
+      gegnerTyp: form.querySelector('.vorlage-groesse')?.value,
+      rk: form.querySelector('.vorlage-rk')?.value,
+      defensivBonus: Number.isFinite(db) ? db : 0,
+      bm: Number.isFinite(bm) ? bm : 0,
+      wahrnehmung: form.querySelector('.vorlage-wn')?.value?.trim() || null,
+      icon: getSelectedIconFromPicker(document.getElementById('charIconPicker'))
+    });
+    render();
+  });
+  wrap.appendChild(form);
+
+  const list = getVorlagen();
+  const listWrap = document.createElement('div');
+  listWrap.className = 'gegner-vorlagen-liste';
+  if (list.length === 0) {
+    listWrap.innerHTML = '<p class="muted">Noch keine Vorlagen gespeichert.</p>';
+  } else {
+    list.forEach(v => {
+      const row = document.createElement('div');
+      row.className = 'gegner-vorlage-row';
+      const label = typLabels[v.typ] || v.typ;
+      row.innerHTML = `<span><em>${escapeHtml(label)}</em> ${escapeHtml(v.name)} · ${v.maxTp} TP · RK ${v.rk}${v.defensivBonus ? ` · DB ${v.defensivBonus}` : ''}${v.bm ? ` · B&M ${v.bm}` : ''}</span><button type="button" class="btn ghost edit">✎</button><button type="button" class="btn ghost del">×</button>`;
+      row.querySelector('.edit')?.addEventListener('click', () => {
+        const name = prompt('Neuer Vorlagenname:', v.name);
+        if (!name) return;
+        updateVorlage(v.id, { name: name.trim() });
+        render();
+      });
+      row.querySelector('.del')?.addEventListener('click', () => {
+        if (confirm(`Vorlage "${v.name}" löschen?`)) {
+          removeVorlage(v.id);
+          render();
+        }
+      });
+      listWrap.appendChild(row);
+    });
+  }
+  wrap.appendChild(listWrap);
+}
+
+function renderInitiative() {
+  const listEl = document.getElementById('initiativeListe');
+  if (!listEl) return;
+  /** Reihenfolge nur aus aktuellen Figuren berechnen — nicht bei jedem Render speichern (Firebase onValue → Render → Speichern → Loop). */
+  const list = buildInitiativeOrderFromKampf();
+  if (!Array.isArray(list) || list.length === 0) {
+    listEl.innerHTML = '<p class="muted">Keine Kämpfer im Kampf (oder alle bei 0 TP).</p>';
+    return;
+  }
+  listEl.innerHTML = list.map((e, idx) => {
+    const tail = e.initVerlust
+      ? '<span class="initiative-init-badge" title="Initiativeverlust durch Kritischen Treffer — zuletzt in der Runde">Init-Verlust</span>'
+      : '';
+    return `<div class="initiative-item${e.initVerlust ? ' initiative-init-verlust' : ''}"><span>${idx + 1}.</span><img class="charakter-chip-icon" src="${getIconUrl(e.icon)}" alt="" /><span>${escapeHtml(e.name)}</span><span class="initiative-val" title="Bewegung &amp; Manöver (Reihenfolge: höher zuerst)">${e.bm}</span>${tail}</div>`;
+  }).join('');
+}
+
+function renderHistorieArchiv() {
+  const el = document.getElementById('historieArchivListe');
+  if (!el) return;
+  const data = getKampfHistorieArchiv();
+  if (!data.length) {
+    el.innerHTML = '<p class="muted">Noch keine archivierten Kämpfe.</p>';
+    return;
+  }
+  el.innerHTML = '';
+  data.forEach(h => {
+    const details = document.createElement('details');
+    details.className = 'historie-item';
+    const date = new Date(h.datum);
+    details.innerHTML = `<summary>${escapeHtml(h.name)} · ${date.toLocaleString('de-CH')} · ${h.runden} Rd</summary>`;
+    const delBtn = document.createElement('button');
+    delBtn.type = 'button';
+    delBtn.className = 'btn ghost';
+    delBtn.textContent = 'Archiv löschen';
+    delBtn.addEventListener('click', () => {
+      if (confirm('Archiv-Eintrag wirklich löschen?')) {
+        deleteKampfHistorieArchivEintrag(h.id);
+        render();
+      }
+    });
+    const restoreBtn = document.createElement('button');
+    restoreBtn.type = 'button';
+    restoreBtn.className = 'btn ghost';
+    restoreBtn.textContent = 'Wiederherstellen';
+    restoreBtn.addEventListener('click', () => {
+      if (confirm('Kampf wiederherstellen? Aktuelle TP werden auf Basis der archivierten Historie neu berechnet.')) {
+        restoreKampfHistorie(h.id);
+        render();
+      }
+    });
+    details.appendChild(restoreBtn);
+    details.appendChild(document.createTextNode(' '));
+    details.appendChild(delBtn);
+    (h.eintraege || []).forEach(ent => {
+      const card = document.createElement('div');
+      card.className = 'historie-entity';
+      card.innerHTML = `<strong>${escapeHtml(ent.entityName)} (${ent.entityTyp})</strong><ul>${(ent.historie || []).map(x => `<li>Rd ${x.runde}: ${escapeHtml(x.beschreibung || `${x.quelle} ${x.tp || 0} TP`)}</li>`).join('')}</ul>`;
+      details.appendChild(card);
+    });
+    el.appendChild(details);
+  });
+}
+
+function resolveSelectedEntities(ids) {
+  return ids.map(id => {
+    const g = getGegnerById(id);
+    if (g) return { ...g, _typ: 'gegner' };
+    const s = getSpielerById(id);
+    if (s) return { ...s, _typ: 'spieler' };
+    const n = getNpcById(id);
+    if (n) return { ...n, _typ: 'npc' };
+    return null;
+  }).filter(Boolean);
 }
 
 function renderGegnerZielAuswahl() {
@@ -938,10 +1417,8 @@ function renderGegnerZielAuswahl() {
   const aktionen = document.getElementById('gegnerZielAktionen');
   if (!wrap || !container || !aktionen) return;
   const selectedIds = state.selectedGegnerIds || [];
-  const gegnerZiele = selectedIds
-    .map(id => getGegnerById(id))
-    .filter(Boolean);
-  if (gegnerZiele.length === 0) {
+  const ziele = resolveSelectedEntities(selectedIds);
+  if (ziele.length === 0) {
     wrap.classList.add('hidden');
     return;
   }
@@ -949,20 +1426,21 @@ function renderGegnerZielAuswahl() {
   container.innerHTML = '';
   const heading = document.createElement('div');
   heading.className = 'gegner-ziel-heading';
-  heading.textContent = `${gegnerZiele.length} ausgewählt:`;
+  heading.textContent = `${ziele.length} ausgewählt:`;
   container.appendChild(heading);
   const row = document.createElement('div');
   row.className = 'gegner-ziel-chips';
-  gegnerZiele.forEach(g => {
+  ziele.forEach(z => {
     const chip = document.createElement('button');
     chip.type = 'button';
     chip.className = 'gegner-ziel-chip active';
-    chip.title = `${g.name} abwählen`;
-    const isTot = g.tp <= 0;
-    chip.innerHTML = `<img src="${getIconUrl(g.icon)}" alt="" class="gegner-ziel-chip-icon" /><span>${isTot ? '† ' : ''}${escapeHtml(g.name)}</span><span class="gegner-ziel-chip-remove">×</span>`;
+    chip.title = `${z.name} abwählen`;
+    const isTot = (z.tp ?? z.maxTp ?? 100) <= 0;
+    const typLabel = z._typ === 'gegner' ? '' : z._typ === 'npc' ? ' (NPC)' : ' (SC)';
+    chip.innerHTML = `<img src="${getIconUrl(z.icon)}" alt="" class="gegner-ziel-chip-icon" /><span>${isTot ? '† ' : ''}${escapeHtml(z.name)}${typLabel}</span><span class="gegner-ziel-chip-remove">×</span>`;
     if (isTot) chip.classList.add('tot');
     chip.addEventListener('click', () => {
-      state.selectedGegnerIds = selectedIds.filter(id => id !== g.id);
+      state.selectedGegnerIds = selectedIds.filter(id => id !== z.id);
       applyZielToSimulator();
       render();
     });
@@ -972,7 +1450,7 @@ function renderGegnerZielAuswahl() {
 
   aktionen.innerHTML = '';
   const gruppen = getGegnerGruppen();
-  if (gegnerZiele.length >= 1) {
+  if (ziele.length >= 1) {
     const schadenRow = document.createElement('div');
     schadenRow.className = 'gegner-ziel-schaden-row';
     const inp = document.createElement('input');
@@ -987,7 +1465,10 @@ function renderGegnerZielAuswahl() {
     btn.addEventListener('click', () => {
       const tp = parseInt(inp.value, 10) || 0;
       if (tp > 0) {
-        gegnerZiele.forEach(g => applySchaden(g.id, tp, 'manuell', `${tp} TP (manuell)`));
+        ziele.forEach(z => {
+          if (z._typ === 'gegner') applySchaden(z.id, tp, 'manuell', `${tp} TP (manuell)`);
+          else applySchadenCharakter(z.id, tp, 'manuell', `${tp} TP (manuell)`);
+        });
         inp.value = '';
         render();
       }
@@ -1001,24 +1482,31 @@ function renderGegnerZielAuswahl() {
     todBtn.className = 'btn ghost gegner-ziel-tod-btn';
     todBtn.textContent = 'Alle als tot markieren';
     todBtn.addEventListener('click', () => {
-      gegnerZiele.forEach(g => updateGegner(g.id, { tp: 0 }));
+      ziele.forEach(z => {
+        if (z._typ === 'gegner') updateGegner(z.id, { tp: 0 });
+        else if (z._typ === 'spieler') updateSpieler(z.id, { tp: 0 });
+        else updateNpc(z.id, { tp: 0 });
+      });
       state.selectedGegnerIds = [];
       applyZielToSimulator();
       render();
     });
     aktionen.appendChild(todBtn);
 
-    const ausKampfBtn = document.createElement('button');
-    ausKampfBtn.type = 'button';
-    ausKampfBtn.className = 'btn ghost gegner-ziel-auskampf-btn';
-    ausKampfBtn.textContent = 'Alle aus Kampf entfernen';
-    ausKampfBtn.addEventListener('click', () => {
-      gegnerZiele.forEach(g => updateGegner(g.id, { imKampf: false }));
-      state.selectedGegnerIds = [];
-      applyZielToSimulator();
-      render();
-    });
-    aktionen.appendChild(ausKampfBtn);
+    const gegnerZiele = ziele.filter(z => z._typ === 'gegner');
+    if (gegnerZiele.length > 0) {
+      const ausKampfBtn = document.createElement('button');
+      ausKampfBtn.type = 'button';
+      ausKampfBtn.className = 'btn ghost gegner-ziel-auskampf-btn';
+      ausKampfBtn.textContent = `Gegner aus Kampf entfernen (${gegnerZiele.length})`;
+      ausKampfBtn.addEventListener('click', () => {
+        gegnerZiele.forEach(g => updateGegner(g.id, { imKampf: false }));
+        state.selectedGegnerIds = selectedIds.filter(id => !gegnerZiele.find(g => g.id === id));
+        applyZielToSimulator();
+        render();
+      });
+      aktionen.appendChild(ausKampfBtn);
+    }
 
     if (gruppen.length > 0) {
       const zuweisenWrap = document.createElement('div');
@@ -1034,7 +1522,11 @@ function renderGegnerZielAuswahl() {
       zuweisenBtn.addEventListener('click', () => {
         const gruppeId = zuweisenSel.value?.trim() || null;
         if (gruppeId) {
-          gegnerZiele.forEach(g => updateGegner(g.id, { gruppeId }));
+          ziele.forEach(z => {
+            if (z._typ === 'gegner') updateGegner(z.id, { gruppeId });
+            else if (z._typ === 'spieler') updateSpieler(z.id, { gruppeId });
+            else updateNpc(z.id, { gruppeId });
+          });
           zuweisenSel.value = '';
           render();
         }
@@ -1049,9 +1541,13 @@ function renderGegnerZielAuswahl() {
     loeschenBtn.className = 'btn ghost gegner-ziel-loeschen-btn';
     loeschenBtn.textContent = 'Ausgewählte löschen';
     loeschenBtn.addEventListener('click', () => {
-      const namen = gegnerZiele.map(g => g.name).join(', ');
-      if (confirm(`${gegnerZiele.length} Gegner wirklich löschen?\n\n${namen}`)) {
-        gegnerZiele.forEach(g => removeGegner(g.id));
+      const namen = ziele.map(z => z.name).join(', ');
+      if (confirm(`${ziele.length} Einträge wirklich löschen?\n\n${namen}`)) {
+        ziele.forEach(z => {
+          if (z._typ === 'gegner') removeGegner(z.id);
+          else if (z._typ === 'spieler') removeSpieler(z.id);
+          else removeNpc(z.id);
+        });
         state.selectedGegnerIds = [];
         applyZielToSimulator();
         render();
@@ -1061,24 +1557,84 @@ function renderGegnerZielAuswahl() {
   }
 }
 
+function renderSpielerCharakterView() {
+  const container = document.getElementById('spielerCharakterView');
+  if (!container) return;
+  if (getRole() === ROLES.SPIELLEITER) {
+    container.innerHTML = '';
+    return;
+  }
+  const charId = state.selectedCharakterId;
+  if (!charId) {
+    container.innerHTML = '<p class="muted">Kein Charakter ausgewählt.</p>';
+    return;
+  }
+  const spieler = getSpieler();
+  const npcs = getNpcs();
+  const alle = [...spieler.map(s => ({ ...s, typ: 'spieler' })), ...npcs.map(n => ({ ...n, typ: 'npc' }))];
+  const c = alle.find(x => x.id === charId);
+  if (!c) {
+    container.innerHTML = '<p class="muted">Charakter nicht gefunden.</p>';
+    return;
+  }
+  const tp = c.tp ?? c.maxTp ?? 100;
+  const maxTp = c.maxTp ?? 100;
+  const pct = maxTp > 0 ? Math.round((tp / maxTp) * 100) : 100;
+  const rk = c.rk != null ? c.rk : 20;
+  const db = parseInt(c.defensivBonus, 10) || 0;
+  const iconUrl = getIconUrl(c.icon);
+  const status = c.status || [];
+  const statusLabels = { ben: 'ben', benoPar: 'benoPar', oPar: 'oPar', par: 'Par', init: 'Init', ko: 'K.O.' };
+  const statusBadges = status.map(s => {
+    const label = statusLabels[s.typ] || s.typ;
+    return s.typ === 'ko' ? `<span class="gegner-status ko">${label}</span>` : `<span class="gegner-status">${label} ${s.runden} Rd</span>`;
+  }).join('');
+  const laufend = c.laufendeSchaden || [];
+  const laufendSum = laufend.reduce((a, l) => a + l.tp, 0);
+  const laufendBadge = laufendSum > 0 ? `<span class="gegner-status laufend">+${laufendSum} T/Rd</span>` : '';
+  container.innerHTML = `
+    <div class="spieler-char-card">
+      <div class="gegner-card-header">
+        <img class="gegner-icon" src="${iconUrl}" alt="${escapeHtml(c.name)}" />
+        <span class="gegner-name">${escapeHtml(c.name)}</span>
+        <span class="gegner-rk-tp">RK ${rk}${db ? ` · DB ${db}` : ''} · ${tp}/${maxTp} TP</span>
+      </div>
+      ${statusBadges || laufendBadge ? `<div class="gegner-status-row">${statusBadges}${laufendBadge}</div>` : ''}
+      <div class="gegner-tp-bar">
+        <div class="gegner-tp-fill" style="width: ${Math.max(0, pct)}%"></div>
+      </div>
+    </div>
+  `;
+}
+
 function render() {
   renderKampagnenDropdown();
+  renderGegnerCharListe();
   renderSpielerListe();
   renderNpcListe();
   renderAktiveGruppeSelect();
   renderGegnerGruppenVerwaltung();
   renderGegnerGruppeSelect();
+  renderVorlagen();
   renderGegnerZielAuswahl();
   renderGegnerListe();
   renderCharakterListe();
   renderZielAnzeige();
+  renderInitiative();
+  renderHistorieArchiv();
+  renderDbAnzeige();
   renderCharakterZeile();
   renderUserProfileIcon();
   renderRunde();
-  renderCharRunde();
-  // „Auf 0“ nur für Spielleiter sichtbar
-  const resetBtn = $('#charRundeReset');
-  if (resetBtn) resetBtn.hidden = getRole() !== ROLES.SPIELLEITER;
+  renderSpielerCharakterView();
+
+  const isSpieler = getRole() !== ROLES.SPIELLEITER;
+  document.querySelectorAll('.spielleiter-only').forEach(el => {
+    el.hidden = isSpieler;
+  });
+  document.querySelectorAll('.spieler-charakter-view').forEach(el => {
+    el.hidden = !isSpieler;
+  });
 }
 
 function initKampagnenUI() {
@@ -1159,50 +1715,114 @@ function initKampagnenUI() {
   });
 }
 
-let gegnerUIInitialized = false;
-function initGegnerUI() {
-  const form = document.getElementById('gegnerAddForm');
-  const iconPicker = document.getElementById('gegnerIconPicker');
+let charAddFormInitialized = false;
+function initCharAddForm() {
+  const form = document.getElementById('charAddForm');
+  const iconPicker = document.getElementById('charIconPicker');
   if (iconPicker && !iconPicker.dataset.initialized) {
     iconPicker.dataset.initialized = '1';
     renderIconPicker(iconPicker, null);
   }
-  if (gegnerUIInitialized) return;
-  gegnerUIInitialized = true;
+  if (charAddFormInitialized) return;
+  charAddFormInitialized = true;
+
   form?.addEventListener('submit', (e) => {
     e.preventDefault();
-    const name = form.querySelector('[name="gegnerName"]')?.value?.trim();
-    const anzahl = parseInt(form.querySelector('[name="gegnerAnzahl"]')?.value || '1', 10) || 1;
-    const tp = form.querySelector('[name="gegnerTp"]')?.value;
-    const groesse = form.querySelector('[name="gegnerGroesse"]')?.value || 'normal';
-    const rk = form.querySelector('[name="gegnerRk"]')?.value || '20';
+    const typ = form.querySelector('#charTyp')?.value || 'gegner';
+    const name = form.querySelector('#charName')?.value?.trim();
+    if (!name) return;
+    const anzahl = parseInt(form.querySelector('#charAnzahl')?.value || '1', 10) || 1;
+    const tp = form.querySelector('#charTp')?.value || '100';
+    const groesse = form.querySelector('#charGroesse')?.value || 'normal';
+    const rk = form.querySelector('#charRk')?.value || '10';
+    const defensivBonus = form.querySelector('#charDb')?.value || '0';
+    const bm = form.querySelector('#charBm')?.value || '0';
+    const wahrnehmung = form.querySelector('#charWahrnehmung')?.value?.trim() || null;
+    const gruppeId = form.querySelector('#charGruppeSelect')?.value?.trim() || null;
     const icon = getSelectedIconFromPicker(iconPicker);
-    if (!getCurrentKampagneId()) {
-      createKampagne('Kampagne 1');
-    }
-    const gruppeSel = form.querySelector('#gegnerGruppeSelect');
-    const gruppeId = gruppeSel?.value?.trim() || null;
-    if (anzahl > 1) {
-      addGegnerBatch(anzahl, name, tp, groesse, rk, icon, gruppeId);
+    if (!getCurrentKampagneId()) createKampagne('Kampagne 1');
+    if (typ === 'gegner') {
+      if (anzahl > 1) {
+        const ids = addGegnerBatch(anzahl, name, tp, groesse, rk, icon, gruppeId, wahrnehmung);
+        ids.forEach(id => updateGegner(id, { defensivBonus, bm }));
+      } else {
+        const id = addGegner(name, tp, groesse, rk, icon, gruppeId, wahrnehmung);
+        if (id) updateGegner(id, { defensivBonus, bm });
+      }
+    } else if (typ === 'npc') {
+      if (anzahl > 1) {
+        const ids = addNpcBatch(anzahl, name, tp, rk, icon, groesse, wahrnehmung);
+        ids.forEach(id => updateNpc(id, { defensivBonus, bm, gruppeId }));
+      } else {
+        const id = addNpc(name, icon, tp, rk, groesse, wahrnehmung);
+        if (id) updateNpc(id, { defensivBonus, bm, gruppeId });
+      }
     } else {
-      addGegner(name, tp, groesse, rk, icon, gruppeId);
+      const id = addSpieler(name, icon, tp, rk, wahrnehmung, groesse);
+      if (id) updateSpieler(id, { defensivBonus, bm, gruppeId });
     }
     form.reset();
-    form.querySelector('[name="gegnerAnzahl"]').value = '1';
+    form.querySelector('#charAnzahl').value = '1';
+    form.querySelector('#charTp').value = '100';
+    form.querySelector('#charRk').value = '10';
+    form.querySelector('#charGroesse').value = 'normal';
+    form.querySelector('#charTyp').value = typ;
     iconPicker?.querySelectorAll('.icon-picker-btn.selected').forEach(b => b.classList.remove('selected'));
     render();
   });
 
+  form?.querySelector('#charVorlageSelect')?.addEventListener('change', () => {
+    const sel = form.querySelector('#charVorlageSelect');
+    const tpl = getVorlagen().find(v => v.id === sel?.value);
+    if (!tpl) return;
+    form.querySelector('#charName').value = tpl.name || '';
+    form.querySelector('#charTp').value = tpl.maxTp || 100;
+    form.querySelector('#charGroesse').value = tpl.gegnerTyp || 'normal';
+    form.querySelector('#charRk').value = String(tpl.rk || 10);
+    form.querySelector('#charDb').value = String(tpl.defensivBonus || 0);
+    form.querySelector('#charBm').value = String(tpl.bm || 0);
+    form.querySelector('#charWahrnehmung').value = tpl.wahrnehmung || '';
+    if (tpl.typ) form.querySelector('#charTyp').value = tpl.typ;
+  });
+
+  form?.querySelector('#charTyp')?.addEventListener('change', () => {
+    renderCharVorlageSelect();
+  });
+}
+
+function renderCharVorlageSelect() {
+  const sel = document.getElementById('charVorlageSelect');
+  if (!sel) return;
+  const typ = document.getElementById('charTyp')?.value || 'gegner';
+  const list = getVorlagen().filter(v => v.typ === typ);
+  const cur = sel.value || '';
+  sel.innerHTML = '<option value="">— Keine —</option>' +
+    list.map(v => `<option value="${v.id}"${v.id === cur ? ' selected' : ''}>${escapeHtml(v.name)}</option>`).join('');
+}
+
+let gegnerUIInitialized = false;
+function initGegnerUI() {
+  if (gegnerUIInitialized) return;
+  gegnerUIInitialized = true;
+
   const aktiveSel = document.getElementById('aktiveGruppeSelect');
   aktiveSel?.addEventListener('change', () => {
-    setAktiveGruppeId(aktiveSel.value || null);
+    const val = aktiveSel.value || null;
+    setAktiveGruppeId(val);
+    state.aktiveGruppeCharId = val;
     render();
   });
 
   document.getElementById('gegnerAlleAuswaehlen')?.addEventListener('click', () => {
-    const fuerKampf = getGegnerFuerKampf();
-    const ids = fuerKampf.map(g => g.id);
-    state.selectedGegnerIds = ids;
+    const aktiveGruppe = getAktiveGruppeId() || null;
+    const gegnerIds = getGegnerFuerKampf().map(g => g.id);
+    const spieler = getSpieler().filter(s => s.sichtbar !== false);
+    const npcs = getNpcs().filter(n => n.sichtbar !== false);
+    let charIds = [...spieler, ...npcs].map(c => c.id);
+    if (aktiveGruppe) {
+      charIds = [...spieler, ...npcs].filter(c => c.gruppeId === aktiveGruppe).map(c => c.id);
+    }
+    state.selectedGegnerIds = [...gegnerIds, ...charIds];
     applyZielToSimulator();
     render();
   });
@@ -1213,6 +1833,19 @@ function initGegnerUI() {
     render();
   });
 
+  const archiveHandler = () => {
+    const name = prompt('Name für Kampf-Historie (optional):', `Kampf ${new Date().toLocaleString('de-CH')}`) ?? '';
+    const id = archiveKampfHistorie(name);
+    if (!id) {
+      alert('Keine Historie vorhanden, die archiviert werden kann.');
+      return;
+    }
+    state.selectedGegnerIds = [];
+    render();
+  };
+  document.getElementById('kampfArchivierenBtn')?.addEventListener('click', archiveHandler);
+  document.getElementById('historieArchivierenBtn')?.addEventListener('click', archiveHandler);
+
   $('#simulatorCharakterSelect')?.addEventListener('change', () => {
     const sel = $('#simulatorCharakterSelect');
     const val = sel?.value || '';
@@ -1222,51 +1855,6 @@ function initGegnerUI() {
     state.selectedCharakterName = c?.name || null;
     if (getRole() === ROLES.SPIELLER && getCurrentKampagneId()) {
       setCharakter(getCurrentKampagneId(), c || null);
-    }
-  });
-}
-
-let spielerNpcUIInitialized = false;
-function initSpielerNpcUI() {
-  const spielerPicker = document.getElementById('spielerIconPicker');
-  const npcPicker = document.getElementById('npcIconPicker');
-  if (spielerPicker && !spielerPicker.dataset.initialized) {
-    spielerPicker.dataset.initialized = '1';
-    renderIconPicker(spielerPicker, null);
-  }
-  if (npcPicker && !npcPicker.dataset.initialized) {
-    npcPicker.dataset.initialized = '1';
-    renderIconPicker(npcPicker, null);
-  }
-  if (spielerNpcUIInitialized) return;
-  spielerNpcUIInitialized = true;
-  document.getElementById('spielerAddForm')?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const input = document.getElementById('spielerName');
-    const name = input?.value?.trim();
-    const icon = getSelectedIconFromPicker(spielerPicker);
-    const tp = document.getElementById('spielerTp')?.value || 100;
-    const rk = document.getElementById('spielerRk')?.value || 20;
-    const wahrnehmung = document.getElementById('spielerWahrnehmung')?.value?.trim() || null;
-    if (!getCurrentKampagneId()) createKampagne('Kampagne 1');
-    if (name && addSpieler(name, icon, tp, rk, wahrnehmung)) {
-      input.value = '';
-      spielerPicker?.querySelectorAll('.icon-picker-btn.selected').forEach(b => b.classList.remove('selected'));
-      render();
-    }
-  });
-  document.getElementById('npcAddForm')?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const input = document.getElementById('npcName');
-    const name = input?.value?.trim();
-    const icon = getSelectedIconFromPicker(npcPicker);
-    const tp = document.getElementById('npcTp')?.value || 100;
-    const rk = document.getElementById('npcRk')?.value || 20;
-    if (!getCurrentKampagneId()) createKampagne('Kampagne 1');
-    if (name && addNpc(name, icon, tp, rk)) {
-      input.value = '';
-      npcPicker?.querySelectorAll('.icon-picker-btn.selected').forEach(b => b.classList.remove('selected'));
-      render();
     }
   });
 }
@@ -1295,27 +1883,20 @@ function doRundeReset() {
 function initRundeUI() {
   if (rundeUIInitialized) return;
   rundeUIInitialized = true;
-  $(`${KAMPFTRACKER_PANEL} #rundeNext`)?.addEventListener('click', doRundeNext);
-  $(`${KAMPFTRACKER_PANEL} #rundePrev`)?.addEventListener('click', doRundePrev);
-  $(`${KAMPFTRACKER_PANEL} #rundeReset`)?.addEventListener('click', doRundeReset);
-}
-
-let charRundeUIInitialized = false;
-
-function initCharRundeUI() {
-  if (charRundeUIInitialized) return;
-  charRundeUIInitialized = true;
-  $(`${CHARAKTERTRACKER_PANEL} #charRundeNext`)?.addEventListener('click', doRundeNext);
-  $(`${CHARAKTERTRACKER_PANEL} #charRundePrev`)?.addEventListener('click', doRundePrev);
-  $(`${CHARAKTERTRACKER_PANEL} #charRundeReset`)?.addEventListener('click', doRundeReset);
+  $(`${SIMULATOR_PANEL} #rundeNext`)?.addEventListener('click', doRundeNext);
+  $(`${SIMULATOR_PANEL} #rundePrev`)?.addEventListener('click', doRundePrev);
+  $(`${SIMULATOR_PANEL} #rundeReset`)?.addEventListener('click', doRundeReset);
+  document.getElementById('rundeNextStatus')?.addEventListener('click', doRundeNext);
+  document.getElementById('rundePrevStatus')?.addEventListener('click', doRundePrev);
+  document.getElementById('rundeResetStatus')?.addEventListener('click', doRundeReset);
 }
 
 export function initKampftracker() {
+  document.querySelector('#rkFallback .rk-fallback-details')?.removeAttribute('open');
   initKampagnenUI();
-  initSpielerNpcUI();
+  initCharAddForm();
   initGegnerUI();
   initRundeUI();
-  initCharRundeUI();
   render();
 }
 
@@ -1328,8 +1909,6 @@ export function initSpieler() {
       state.selectedCharakterName = saved.name;
     }
   }
-  initSpielerNpcUI();
-  initCharRundeUI();
   render();
 }
 

@@ -28,12 +28,12 @@ export function getGegner() {
   return k?.gegner ?? [];
 }
 
-/** Gegner, die aktuell als Kampfziele sichtbar sind (aktive Gruppe + im Kampf). */
+/** Gegner, die aktuell als Kampfziele sichtbar sind (aktive Gruppe + im Kampf + nicht ausgeblendet). */
 export function getGegnerFuerKampf() {
   const k = getCurrentKampagne();
   const gegner = k?.gegner ?? [];
   const aktiveId = k?.aktiveGruppeId || null;
-  const imKampf = gegner.filter(g => g.imKampf !== false);
+  const imKampf = gegner.filter(g => g.imKampf !== false && g.sichtbar !== false);
   const inGruppe = aktiveId ? imKampf.filter(g => g.gruppeId === aktiveId) : imKampf;
   /* Fallback: Gruppe gewählt, aber keine Gegner darin → alle im Kampf zeigen */
   return inGruppe.length > 0 ? inGruppe : imKampf;
@@ -49,6 +49,10 @@ export function getNpcs() {
   return k?.npcs ?? [];
 }
 
+export function getNpcsVisible() {
+  return getNpcs().filter(n => n.sichtbar !== false);
+}
+
 /** Alle wählbaren Charaktere (Spieler + NPCs) für Schadenszuordnung */
 export function getCharaktere() {
   const spieler = getSpieler();
@@ -59,17 +63,31 @@ export function getCharaktere() {
   ];
 }
 
-export function addSpieler(name, icon = null, maxTp = 100, rk = 20, wahrnehmung = null) {
+/** Charaktere, die im Simulator als Ziele angezeigt werden sollen */
+export function getCharaktereFuerKampf() {
+  const spieler = getSpieler().filter(s => s.sichtbar !== false);
+  const npcs = getNpcsVisible();
+  return [
+    ...spieler.map(s => ({ ...s, typ: 'spieler' })),
+    ...npcs.map(n => ({ ...n, typ: 'npc' }))
+  ];
+}
+
+export function addSpieler(name, icon = null, maxTp = 100, rk = 20, wahrnehmung = null, gegnerTyp = 'normal') {
   const k = getCurrentKampagne();
   if (!k) return null;
   const id = uuid();
   const tpVal = Math.max(0, parseInt(maxTp, 10) || 100);
   const rkNum = Math.max(1, Math.min(20, parseInt(rk, 10) || 20));
+  const typ = ['normal', 'gross', 'gewaltig'].includes(gegnerTyp) ? gegnerTyp : 'normal';
   const data = loadAll();
   data.kampagnen[k.id].spieler = data.kampagnen[k.id].spieler || [];
   data.kampagnen[k.id].spieler.push({
     id, name: name || 'Spieler', icon: icon || null,
-    maxTp: tpVal, tp: tpVal, rk: rkNum, wahrnehmung: wahrnehmung != null ? String(wahrnehmung) : null,
+    maxTp: tpVal, tp: tpVal, rk: rkNum, gegnerTyp: typ,
+    wahrnehmung: wahrnehmung != null ? String(wahrnehmung) : null,
+    sichtbar: true,
+    defensivBonus: 0, bm: 0, gruppeId: null,
     historie: [], status: [], laufendeSchaden: []
   });
   data.kampagnen[k.id].updatedAt = new Date().toISOString();
@@ -101,7 +119,12 @@ export function updateSpieler(spielerId, updates) {
   if (updates.name != null) spieler[idx].name = updates.name;
   if (updates.icon !== undefined) spieler[idx].icon = updates.icon || null;
   if (updates.rk != null) spieler[idx].rk = Math.max(1, Math.min(20, parseInt(updates.rk, 10) || 20));
+  if (updates.gegnerTyp != null) spieler[idx].gegnerTyp = ['normal', 'gross', 'gewaltig'].includes(updates.gegnerTyp) ? updates.gegnerTyp : spieler[idx].gegnerTyp;
   if (updates.wahrnehmung !== undefined) spieler[idx].wahrnehmung = updates.wahrnehmung != null ? String(updates.wahrnehmung) : null;
+  if (updates.defensivBonus !== undefined) spieler[idx].defensivBonus = parseInt(updates.defensivBonus, 10) || 0;
+  if (updates.bm !== undefined) spieler[idx].bm = parseInt(updates.bm, 10) || 0;
+  if (updates.sichtbar !== undefined) spieler[idx].sichtbar = !!updates.sichtbar;
+  if (updates.gruppeId !== undefined) spieler[idx].gruppeId = updates.gruppeId || null;
   if (updates.maxTp != null) {
     const v = Math.max(0, parseInt(updates.maxTp, 10) || 0);
     spieler[idx].maxTp = v;
@@ -113,16 +136,48 @@ export function updateSpieler(spielerId, updates) {
   return true;
 }
 
-export function addNpc(name, icon = null) {
+export function addNpc(name, icon = null, maxTp = 100, rk = 20, gegnerTyp = 'normal', wahrnehmung = null) {
   const k = getCurrentKampagne();
   if (!k) return null;
   const id = uuid();
+  const tpVal = Math.max(0, parseInt(maxTp, 10) || 100);
+  const rkNum = Math.max(1, Math.min(20, parseInt(rk, 10) || 20));
+  const typ = ['normal', 'gross', 'gewaltig'].includes(gegnerTyp) ? gegnerTyp : 'normal';
   const data = loadAll();
   data.kampagnen[k.id].npcs = data.kampagnen[k.id].npcs || [];
-  data.kampagnen[k.id].npcs.push({ id, name: name || 'NPC', icon: icon || null });
+  data.kampagnen[k.id].npcs.push({
+    id,
+    name: name || 'NPC',
+    icon: icon || null,
+    maxTp: tpVal,
+    tp: tpVal,
+    rk: rkNum,
+    gegnerTyp: typ,
+    wahrnehmung: wahrnehmung != null ? String(wahrnehmung) : null,
+    sichtbar: true,
+    defensivBonus: 0,
+    bm: 0,
+    gruppeId: null,
+    historie: [],
+    status: [],
+    laufendeSchaden: []
+  });
   data.kampagnen[k.id].updatedAt = new Date().toISOString();
   saveAll(data);
   return id;
+}
+
+export function addNpcBatch(count, namePrefix, maxTp = 100, rk = 20, icon = null, gegnerTyp = 'normal', wahrnehmung = null) {
+  const k = getCurrentKampagne();
+  if (!k || !count || count < 1) return [];
+  const n = Math.min(100, Math.max(1, parseInt(count, 10) || 1));
+  const prefix = String(namePrefix || 'NPC').trim() || 'NPC';
+  const ids = [];
+  for (let i = 1; i <= n; i++) {
+    const name = n > 1 ? `${prefix} ${i}` : prefix;
+    ids.push(addNpc(name, icon, maxTp, rk, gegnerTyp, wahrnehmung));
+  }
+  return ids;
 }
 
 export function removeNpc(npcId) {
@@ -149,6 +204,12 @@ export function updateNpc(npcId, updates) {
   if (updates.name != null) npcs[idx].name = updates.name;
   if (updates.icon !== undefined) npcs[idx].icon = updates.icon || null;
   if (updates.rk != null) npcs[idx].rk = Math.max(1, Math.min(20, parseInt(updates.rk, 10) || 20));
+  if (updates.gegnerTyp != null) npcs[idx].gegnerTyp = ['normal', 'gross', 'gewaltig'].includes(updates.gegnerTyp) ? updates.gegnerTyp : npcs[idx].gegnerTyp;
+  if (updates.wahrnehmung !== undefined) npcs[idx].wahrnehmung = updates.wahrnehmung != null ? String(updates.wahrnehmung) : null;
+  if (updates.sichtbar !== undefined) npcs[idx].sichtbar = !!updates.sichtbar;
+  if (updates.defensivBonus !== undefined) npcs[idx].defensivBonus = parseInt(updates.defensivBonus, 10) || 0;
+  if (updates.bm !== undefined) npcs[idx].bm = parseInt(updates.bm, 10) || 0;
+  if (updates.gruppeId !== undefined) npcs[idx].gruppeId = updates.gruppeId || null;
   if (updates.maxTp != null) {
     const v = Math.max(0, parseInt(updates.maxTp, 10) || 0);
     npcs[idx].maxTp = v;
@@ -169,6 +230,12 @@ export function createKampagne(name) {
     npcs: [],
     gegner: [],
     gegnerGruppen: [],
+    gegnerVorlagen: [],
+    vorlagen: [],
+    kampfHistorieArchiv: [],
+    removedGegnerHistorie: [],
+    initiative: [],
+    aktiveGruppeId: null,
     aktuelleRunde: 1,
     updatedAt: new Date().toISOString()
   };
@@ -209,7 +276,7 @@ export function deleteKampagne(id) {
   return true;
 }
 
-export function addGegner(name, maxTp, gegnerTyp = 'normal', rk = 20, icon = null, gruppeId = null) {
+export function addGegner(name, maxTp, gegnerTyp = 'normal', rk = 20, icon = null, gruppeId = null, wahrnehmung = null) {
   const k = getCurrentKampagne();
   if (!k) return null;
   const id = uuid();
@@ -224,7 +291,11 @@ export function addGegner(name, maxTp, gegnerTyp = 'normal', rk = 20, icon = nul
     rk: rkNum,
     icon: icon || null,
     imKampf: true,
+    sichtbar: true,
     gruppeId: gruppeId || null,
+    wahrnehmung: wahrnehmung != null ? String(wahrnehmung) : null,
+    defensivBonus: 0,
+    bm: 0,
     status: [],
     laufendeSchaden: [],
     historie: []
@@ -238,7 +309,7 @@ export function addGegner(name, maxTp, gegnerTyp = 'normal', rk = 20, icon = nul
 }
 
 /** Erstellt mehrere Gegner auf einmal (z.B. 50 Orks). */
-export function addGegnerBatch(count, namePrefix, maxTp, gegnerTyp = 'normal', rk = 20, icon = null, gruppeId = null) {
+export function addGegnerBatch(count, namePrefix, maxTp, gegnerTyp = 'normal', rk = 20, icon = null, gruppeId = null, wahrnehmung = null) {
   const k = getCurrentKampagne();
   if (!k || !count || count < 1) return [];
   const n = Math.min(100, Math.max(1, parseInt(count, 10) || 1));
@@ -246,7 +317,7 @@ export function addGegnerBatch(count, namePrefix, maxTp, gegnerTyp = 'normal', r
   const ids = [];
   for (let i = 1; i <= n; i++) {
     const name = n > 1 ? `${prefix} ${i}` : prefix;
-    ids.push(addGegner(name, maxTp, gegnerTyp, rk, icon, gruppeId));
+    ids.push(addGegner(name, maxTp, gegnerTyp, rk, icon, gruppeId, wahrnehmung));
   }
   return ids;
 }
@@ -258,6 +329,16 @@ export function removeGegner(gegnerId) {
   const gegner = data.kampagnen[k.id].gegner || [];
   const idx = gegner.findIndex(g => g.id === gegnerId);
   if (idx < 0) return false;
+  const removed = gegner[idx];
+  if ((removed.historie || []).length > 0) {
+    data.kampagnen[k.id].removedGegnerHistorie = data.kampagnen[k.id].removedGegnerHistorie || [];
+    data.kampagnen[k.id].removedGegnerHistorie.push({
+      entityId: removed.id,
+      entityName: removed.name,
+      entityTyp: 'gegner',
+      historie: [...removed.historie]
+    });
+  }
   gegner.splice(idx, 1);
   data.kampagnen[k.id].gegner = gegner;
   data.kampagnen[k.id].updatedAt = new Date().toISOString();
@@ -304,11 +385,134 @@ export function updateGegner(gegnerId, updates) {
   }
   if (updates.tp != null) gegner[idx].tp = Math.max(0, Math.min(gegner[idx].maxTp, parseInt(updates.tp, 10) ?? gegner[idx].tp));
   if (updates.imKampf !== undefined) gegner[idx].imKampf = !!updates.imKampf;
+  if (updates.sichtbar !== undefined) gegner[idx].sichtbar = !!updates.sichtbar;
   if (updates.gruppeId !== undefined) gegner[idx].gruppeId = updates.gruppeId || null;
+  if (updates.wahrnehmung !== undefined) gegner[idx].wahrnehmung = updates.wahrnehmung != null ? String(updates.wahrnehmung) : null;
+  if (updates.defensivBonus !== undefined) gegner[idx].defensivBonus = parseInt(updates.defensivBonus, 10) || 0;
+  if (updates.bm !== undefined) gegner[idx].bm = parseInt(updates.bm, 10) || 0;
   data.kampagnen[k.id].gegner = gegner;
   data.kampagnen[k.id].updatedAt = new Date().toISOString();
   saveAll(data);
   return true;
+}
+
+export function getGegnerVorlagen() {
+  const k = getCurrentKampagne();
+  return k?.gegnerVorlagen ?? [];
+}
+
+export function addGegnerVorlage(dataIn) {
+  const k = getCurrentKampagne();
+  if (!k) return null;
+  const data = loadAll();
+  const id = uuid();
+  const tpl = {
+    id,
+    name: String(dataIn?.name || 'Vorlage').trim(),
+    maxTp: Math.max(1, parseInt(dataIn?.maxTp, 10) || 100),
+    gegnerTyp: ['normal', 'gross', 'gewaltig'].includes(dataIn?.gegnerTyp) ? dataIn.gegnerTyp : 'normal',
+    rk: Math.max(1, Math.min(20, parseInt(dataIn?.rk, 10) || 20)),
+    icon: dataIn?.icon || null,
+    defensivBonus: parseInt(dataIn?.defensivBonus, 10) || 0,
+    bm: parseInt(dataIn?.bm, 10) || 0
+  };
+  data.kampagnen[k.id].gegnerVorlagen = data.kampagnen[k.id].gegnerVorlagen || [];
+  data.kampagnen[k.id].gegnerVorlagen.push(tpl);
+  data.kampagnen[k.id].updatedAt = new Date().toISOString();
+  saveAll(data);
+  return id;
+}
+
+export function updateGegnerVorlage(vorlageId, updates) {
+  const k = getCurrentKampagne();
+  if (!k) return false;
+  const data = loadAll();
+  const list = data.kampagnen[k.id].gegnerVorlagen || [];
+  const idx = list.findIndex(v => v.id === vorlageId);
+  if (idx < 0) return false;
+  if (updates.name != null) list[idx].name = String(updates.name || list[idx].name).trim();
+  if (updates.maxTp != null) list[idx].maxTp = Math.max(1, parseInt(updates.maxTp, 10) || 100);
+  if (updates.gegnerTyp != null) list[idx].gegnerTyp = ['normal', 'gross', 'gewaltig'].includes(updates.gegnerTyp) ? updates.gegnerTyp : list[idx].gegnerTyp;
+  if (updates.rk != null) list[idx].rk = Math.max(1, Math.min(20, parseInt(updates.rk, 10) || 20));
+  if (updates.icon !== undefined) list[idx].icon = updates.icon || null;
+  if (updates.defensivBonus !== undefined) list[idx].defensivBonus = parseInt(updates.defensivBonus, 10) || 0;
+  if (updates.bm !== undefined) list[idx].bm = parseInt(updates.bm, 10) || 0;
+  data.kampagnen[k.id].updatedAt = new Date().toISOString();
+  saveAll(data);
+  return true;
+}
+
+export function removeGegnerVorlage(vorlageId) {
+  const k = getCurrentKampagne();
+  if (!k) return false;
+  const data = loadAll();
+  const old = data.kampagnen[k.id].gegnerVorlagen || [];
+  data.kampagnen[k.id].gegnerVorlagen = old.filter(v => v.id !== vorlageId);
+  data.kampagnen[k.id].updatedAt = new Date().toISOString();
+  saveAll(data);
+  return old.length !== data.kampagnen[k.id].gegnerVorlagen.length;
+}
+
+/** Universelle Vorlagen (Gegner, NPCs, Spieler). */
+export function getVorlagen() {
+  const k = getCurrentKampagne();
+  return k?.vorlagen ?? [];
+}
+
+export function addVorlage(dataIn) {
+  const k = getCurrentKampagne();
+  if (!k) return null;
+  const data = loadAll();
+  const id = uuid();
+  const tpl = {
+    id,
+    name: String(dataIn?.name || 'Vorlage').trim(),
+    typ: ['spieler', 'npc', 'gegner'].includes(dataIn?.typ) ? dataIn.typ : 'gegner',
+    maxTp: Math.max(1, parseInt(dataIn?.maxTp, 10) || 100),
+    gegnerTyp: ['normal', 'gross', 'gewaltig'].includes(dataIn?.gegnerTyp) ? dataIn.gegnerTyp : 'normal',
+    rk: Math.max(1, Math.min(20, parseInt(dataIn?.rk, 10) || 10)),
+    icon: dataIn?.icon || null,
+    defensivBonus: parseInt(dataIn?.defensivBonus, 10) || 0,
+    bm: parseInt(dataIn?.bm, 10) || 0,
+    wahrnehmung: dataIn?.wahrnehmung != null ? String(dataIn.wahrnehmung) : null
+  };
+  data.kampagnen[k.id].vorlagen = data.kampagnen[k.id].vorlagen || [];
+  data.kampagnen[k.id].vorlagen.push(tpl);
+  data.kampagnen[k.id].updatedAt = new Date().toISOString();
+  saveAll(data);
+  return id;
+}
+
+export function updateVorlage(vorlageId, updates) {
+  const k = getCurrentKampagne();
+  if (!k) return false;
+  const data = loadAll();
+  const list = data.kampagnen[k.id].vorlagen || [];
+  const idx = list.findIndex(v => v.id === vorlageId);
+  if (idx < 0) return false;
+  if (updates.name != null) list[idx].name = String(updates.name || list[idx].name).trim();
+  if (updates.typ != null) list[idx].typ = ['spieler', 'npc', 'gegner'].includes(updates.typ) ? updates.typ : list[idx].typ;
+  if (updates.maxTp != null) list[idx].maxTp = Math.max(1, parseInt(updates.maxTp, 10) || 100);
+  if (updates.gegnerTyp != null) list[idx].gegnerTyp = ['normal', 'gross', 'gewaltig'].includes(updates.gegnerTyp) ? updates.gegnerTyp : list[idx].gegnerTyp;
+  if (updates.rk != null) list[idx].rk = Math.max(1, Math.min(20, parseInt(updates.rk, 10) || 10));
+  if (updates.icon !== undefined) list[idx].icon = updates.icon || null;
+  if (updates.defensivBonus !== undefined) list[idx].defensivBonus = parseInt(updates.defensivBonus, 10) || 0;
+  if (updates.bm !== undefined) list[idx].bm = parseInt(updates.bm, 10) || 0;
+  if (updates.wahrnehmung !== undefined) list[idx].wahrnehmung = updates.wahrnehmung != null ? String(updates.wahrnehmung) : null;
+  data.kampagnen[k.id].updatedAt = new Date().toISOString();
+  saveAll(data);
+  return true;
+}
+
+export function removeVorlage(vorlageId) {
+  const k = getCurrentKampagne();
+  if (!k) return false;
+  const data = loadAll();
+  const old = data.kampagnen[k.id].vorlagen || [];
+  data.kampagnen[k.id].vorlagen = old.filter(v => v.id !== vorlageId);
+  data.kampagnen[k.id].updatedAt = new Date().toISOString();
+  saveAll(data);
+  return old.length !== data.kampagnen[k.id].vorlagen.length;
 }
 
 export function setAktuelleRunde(runde) {
@@ -327,7 +531,7 @@ export function getAktuelleRunde() {
   return k?.aktuelleRunde ?? 1;
 }
 
-/** Gegner-Gruppen der Kampagne (z.B. Räume in einem Dungeon). */
+/** Gruppen der Kampagne (z.B. Bereiche in einem Dungeon). */
 export function getGegnerGruppen() {
   const k = getCurrentKampagne();
   return k?.gegnerGruppen ?? [];
@@ -366,6 +570,8 @@ export function removeGegnerGruppe(gruppeId) {
   data.kampagnen[k.id].gegnerGruppen = gruppen;
   const gegner = data.kampagnen[k.id].gegner || [];
   gegner.forEach(g => { if (g.gruppeId === gruppeId) g.gruppeId = null; });
+  (data.kampagnen[k.id].spieler || []).forEach(s => { if (s.gruppeId === gruppeId) s.gruppeId = null; });
+  (data.kampagnen[k.id].npcs || []).forEach(n => { if (n.gruppeId === gruppeId) n.gruppeId = null; });
   if (data.kampagnen[k.id].aktiveGruppeId === gruppeId) {
     data.kampagnen[k.id].aktiveGruppeId = null;
   }
@@ -413,7 +619,7 @@ export function applySchaden(gegnerId, tp, quelle, beschreibung = '', extracted 
   const isKrit = quelle === 'krit' || quelle === 'crit';
   const hasStatus = isKrit && extracted && (
     (extracted.ben || 0) + (extracted.benoPar || 0) + (extracted.oPar || 0) +
-    (extracted.init || 0) + (extracted.tpPerRound || 0) > 0 || extracted.ko
+    (extracted.par || 0) + (extracted.init || 0) + (extracted.tpPerRound || 0) > 0 || extracted.ko
   );
   const manuellMitBeschreibung = quelle === 'manuell' && beschreibung && beschreibung.trim();
   if (schaden <= 0 && !hasStatus && !manuellMitBeschreibung) return false;
@@ -448,6 +654,10 @@ export function applySchaden(gegnerId, tp, quelle, beschreibung = '', extracted 
       g.status.push({ typ: 'oPar', runden: extracted.oPar, startRunde: runde });
       statusParts.push(`${extracted.oPar} Rd oPar`);
     }
+    if (extracted.par > 0) {
+      g.status.push({ typ: 'par', runden: extracted.par, startRunde: runde });
+      statusParts.push(`${extracted.par} Rd Par`);
+    }
     if (extracted.init > 0) {
       g.status.push({ typ: 'init', runden: extracted.init, startRunde: runde });
       statusParts.push(`${extracted.init} Rd Init`);
@@ -455,6 +665,13 @@ export function applySchaden(gegnerId, tp, quelle, beschreibung = '', extracted 
     if (extracted.ko) {
       g.status.push({ typ: 'ko', runden: 999, startRunde: runde });
       statusParts.push('K.O.');
+    }
+    if (extracted.severity === 'lethal') {
+      g.tp = 0;
+      statusParts.push('Tödlich');
+    } else if (extracted.severity === 'incapacitated') {
+      g.status.push({ typ: 'ko', runden: 999, startRunde: runde });
+      statusParts.push('Kampfunfähig');
     }
     if (extracted.tpPerRound > 0) {
       g.laufendeSchaden = g.laufendeSchaden || [];
@@ -558,11 +775,62 @@ export function heilenTp(gegnerId, tp) {
   return true;
 }
 
+function undoLastHistorieEntry(entity) {
+  const hist = entity.historie || [];
+  if (hist.length === 0) return null;
+  const last = hist.pop();
+  if (last.tp > 0 && last.quelle !== 'heilung') {
+    entity.tp = Math.min(entity.maxTp ?? 9999, entity.tp + last.tp);
+  }
+  if (last.quelle === 'heilung' && last.beschreibung) {
+    const m = last.beschreibung.match(/\+(\d+)\s*TP/);
+    if (m) entity.tp = Math.max(0, entity.tp - parseInt(m[1], 10));
+  }
+  if (last.quelle === 'krit' && last.tp === 0 && last.beschreibung?.startsWith('Status:')) {
+    const statusArr = entity.status || [];
+    entity.status = statusArr.filter(s => s.startRunde !== last.runde);
+    const laufend = entity.laufendeSchaden || [];
+    entity.laufendeSchaden = laufend.filter(l => l.startRunde !== last.runde);
+  }
+  if (last.quelle === 'laufend' && last.tp > 0) {
+    entity.tp = Math.min(entity.maxTp ?? 9999, entity.tp + last.tp);
+  }
+  return last;
+}
+
+export function undoLastGegnerHistorie(gegnerId) {
+  const k = getCurrentKampagne();
+  if (!k) return false;
+  const data = loadAll();
+  const gegner = data.kampagnen[k.id].gegner || [];
+  const g = gegner.find(x => x.id === gegnerId);
+  if (!g) return false;
+  const undone = undoLastHistorieEntry(g);
+  if (!undone) return false;
+  data.kampagnen[k.id].updatedAt = new Date().toISOString();
+  saveAll(data);
+  return undone;
+}
+
+export function undoLastCharakterHistorie(charId) {
+  const k = getCurrentKampagne();
+  if (!k) return false;
+  const data = loadAll();
+  let entity = (data.kampagnen[k.id].spieler || []).find(s => s.id === charId);
+  if (!entity) entity = (data.kampagnen[k.id].npcs || []).find(n => n.id === charId);
+  if (!entity) return false;
+  const undone = undoLastHistorieEntry(entity);
+  if (!undone) return false;
+  data.kampagnen[k.id].updatedAt = new Date().toISOString();
+  saveAll(data);
+  return undone;
+}
+
 function applySchadenToCharakterArray(arr, idx, schaden, runde, quelle, beschreibung, von, extracted) {
   const g = arr[idx];
   const hasStatus = extracted && (
     (extracted.ben || 0) + (extracted.benoPar || 0) + (extracted.oPar || 0) +
-    (extracted.init || 0) + (extracted.tpPerRound || 0) > 0 || extracted.ko
+    (extracted.par || 0) + (extracted.init || 0) + (extracted.tpPerRound || 0) > 0 || extracted.ko
   );
   const manuellMitBeschreibung = quelle === 'manuell' && beschreibung && beschreibung.trim();
   if (schaden <= 0 && !hasStatus && !manuellMitBeschreibung) return false;
@@ -579,8 +847,16 @@ function applySchadenToCharakterArray(arr, idx, schaden, runde, quelle, beschrei
     if (extracted.benoPar > 0) { g.status.push({ typ: 'benoPar', runden: extracted.benoPar, startRunde: runde }); statusParts.push(`${extracted.benoPar} Rd benoPar`); }
     if (extracted.ben > 0) { g.status.push({ typ: 'ben', runden: extracted.ben, startRunde: runde }); statusParts.push(`${extracted.ben} Rd ben`); }
     if (extracted.oPar > 0) { g.status.push({ typ: 'oPar', runden: extracted.oPar, startRunde: runde }); statusParts.push(`${extracted.oPar} Rd oPar`); }
+    if (extracted.par > 0) { g.status.push({ typ: 'par', runden: extracted.par, startRunde: runde }); statusParts.push(`${extracted.par} Rd Par`); }
     if (extracted.init > 0) { g.status.push({ typ: 'init', runden: extracted.init, startRunde: runde }); statusParts.push(`${extracted.init} Rd Init`); }
     if (extracted.ko) { g.status.push({ typ: 'ko', runden: 999, startRunde: runde }); statusParts.push('K.O.'); }
+    if (extracted.severity === 'lethal') {
+      g.tp = 0;
+      statusParts.push('Tödlich');
+    } else if (extracted.severity === 'incapacitated') {
+      g.status.push({ typ: 'ko', runden: 999, startRunde: runde });
+      statusParts.push('Kampfunfähig');
+    }
     if (extracted.tpPerRound > 0) {
       g.laufendeSchaden = g.laufendeSchaden || [];
       g.laufendeSchaden.push({ tp: extracted.tpPerRound, startRunde: runde });
@@ -708,4 +984,169 @@ export function processRundenende() {
   data.kampagnen[k.id].npcs = npcs;
   data.kampagnen[k.id].updatedAt = new Date().toISOString();
   saveAll(data);
+}
+
+export function toggleNpcSichtbarkeit(npcId) {
+  const k = getCurrentKampagne();
+  if (!k) return false;
+  const data = loadAll();
+  const npcs = data.kampagnen[k.id].npcs || [];
+  const idx = npcs.findIndex(n => n.id === npcId);
+  if (idx < 0) return false;
+  npcs[idx].sichtbar = npcs[idx].sichtbar === false ? true : false;
+  data.kampagnen[k.id].updatedAt = new Date().toISOString();
+  saveAll(data);
+  return true;
+}
+
+export function toggleSpielerSichtbarkeit(spielerId) {
+  const k = getCurrentKampagne();
+  if (!k) return false;
+  const data = loadAll();
+  const spieler = data.kampagnen[k.id].spieler || [];
+  const idx = spieler.findIndex(s => s.id === spielerId);
+  if (idx < 0) return false;
+  spieler[idx].sichtbar = spieler[idx].sichtbar === false ? true : false;
+  data.kampagnen[k.id].updatedAt = new Date().toISOString();
+  saveAll(data);
+  return true;
+}
+
+export function toggleGegnerSichtbarkeit(gegnerId) {
+  const k = getCurrentKampagne();
+  if (!k) return false;
+  const data = loadAll();
+  const gegner = data.kampagnen[k.id].gegner || [];
+  const idx = gegner.findIndex(g => g.id === gegnerId);
+  if (idx < 0) return false;
+  gegner[idx].sichtbar = gegner[idx].sichtbar === false ? true : false;
+  data.kampagnen[k.id].updatedAt = new Date().toISOString();
+  saveAll(data);
+  return true;
+}
+
+export function setInitiativeOrder(order) {
+  const k = getCurrentKampagne();
+  if (!k) return false;
+  const data = loadAll();
+  data.kampagnen[k.id].initiative = Array.isArray(order) ? order : [];
+  data.kampagnen[k.id].updatedAt = new Date().toISOString();
+  saveAll(data);
+  return true;
+}
+
+export function getInitiativeOrder() {
+  const k = getCurrentKampagne();
+  return k?.initiative ?? [];
+}
+
+export function archiveKampfHistorie(name = '') {
+  const k = getCurrentKampagne();
+  if (!k) return null;
+  const data = loadAll();
+  const kamp = data.kampagnen[k.id];
+  const entry = {
+    id: uuid(),
+    name: String(name || `Kampf ${new Date().toLocaleString('de-CH')}`).trim(),
+    datum: new Date().toISOString(),
+    runden: kamp.aktuelleRunde ?? 1,
+    eintraege: []
+  };
+  const collect = (arr, typ) => {
+    (arr || []).forEach(e => {
+      if ((e.historie || []).length > 0) {
+        entry.eintraege.push({
+          entityId: e.id,
+          entityName: e.name,
+          entityTyp: typ,
+          historie: [...(e.historie || [])]
+        });
+      }
+      e.historie = [];
+      e.status = [];
+      e.laufendeSchaden = [];
+    });
+  };
+  collect(kamp.gegner, 'gegner');
+  collect(kamp.spieler, 'spieler');
+  collect(kamp.npcs, 'npc');
+  const removedHist = kamp.removedGegnerHistorie || [];
+  removedHist.forEach(r => {
+    if ((r.historie || []).length > 0) {
+      entry.eintraege.push({
+        entityId: r.entityId,
+        entityName: r.entityName + ' (entfernt)',
+        entityTyp: r.entityTyp || 'gegner',
+        historie: [...r.historie]
+      });
+    }
+  });
+  kamp.removedGegnerHistorie = [];
+  if (entry.eintraege.length === 0) return null;
+  kamp.kampfHistorieArchiv = kamp.kampfHistorieArchiv || [];
+  kamp.kampfHistorieArchiv.unshift(entry);
+  kamp.aktuelleRunde = 1;
+  kamp.initiative = [];
+  kamp.updatedAt = new Date().toISOString();
+  saveAll(data);
+  return entry.id;
+}
+
+export function getKampfHistorieArchiv() {
+  const k = getCurrentKampagne();
+  return k?.kampfHistorieArchiv ?? [];
+}
+
+export function restoreKampfHistorie(archivId) {
+  const k = getCurrentKampagne();
+  if (!k) return false;
+  const data = loadAll();
+  const kamp = data.kampagnen[k.id];
+  const archiv = kamp.kampfHistorieArchiv || [];
+  const idx = archiv.findIndex(a => a.id === archivId);
+  if (idx < 0) return false;
+  const entry = archiv[idx];
+
+  const findEntity = (entityId, entityTyp) => {
+    if (entityTyp === 'gegner') return (kamp.gegner || []).find(g => g.id === entityId);
+    if (entityTyp === 'spieler') return (kamp.spieler || []).find(s => s.id === entityId);
+    if (entityTyp === 'npc') return (kamp.npcs || []).find(n => n.id === entityId);
+    return null;
+  };
+
+  (entry.eintraege || []).forEach(e => {
+    const entity = findEntity(e.entityId, e.entityTyp);
+    if (!entity) return;
+    entity.tp = entity.maxTp ?? 100;
+    entity.historie = [...(e.historie || [])];
+    entity.status = [];
+    entity.laufendeSchaden = [];
+    (e.historie || []).forEach(h => {
+      if (h.tp > 0 && h.quelle !== 'heilung') {
+        entity.tp = Math.max(0, entity.tp - h.tp);
+      }
+      if (h.quelle === 'heilung' && h.beschreibung) {
+        const m = h.beschreibung.match(/\+(\d+)\s*TP/);
+        if (m) entity.tp = Math.min(entity.maxTp ?? 9999, entity.tp + parseInt(m[1], 10));
+      }
+    });
+  });
+
+  kamp.aktuelleRunde = entry.runden || 1;
+  kamp.initiative = [];
+  archiv.splice(idx, 1);
+  kamp.updatedAt = new Date().toISOString();
+  saveAll(data);
+  return true;
+}
+
+export function deleteKampfHistorieArchivEintrag(archivId) {
+  const k = getCurrentKampagne();
+  if (!k) return false;
+  const data = loadAll();
+  const old = data.kampagnen[k.id].kampfHistorieArchiv || [];
+  data.kampagnen[k.id].kampfHistorieArchiv = old.filter(e => e.id !== archivId);
+  data.kampagnen[k.id].updatedAt = new Date().toISOString();
+  saveAll(data);
+  return old.length !== data.kampagnen[k.id].kampfHistorieArchiv.length;
 }

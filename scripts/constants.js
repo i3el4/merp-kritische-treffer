@@ -111,6 +111,7 @@ export const CRIT_ICONS = {
 export const URLS = {
   TREFFER_URL: 'assets/data/treffer_tabellen_strukturiert.json',
   TABLES_URL: 'assets/data/tables_processed.json',
+  PATZER_URL: 'assets/data/patzer_default.json',
   AUDIO_BASE_PATH: 'assets/audio/',
   FONT_BASE_PATH: 'assets/fonts/',
   IMG_BASE_PATH: 'assets/img/',
@@ -138,6 +139,33 @@ export const CHARAKTER_ICONS = {
   'gegner_gewaltig.png': 'Drake',
   'megli.png': 'Megli',
   'harrass.png': 'Harrass',
+  'elb_schwarz.png': 'Elf (dunkel)',
+  'untoter_koenig.png': 'Untoter König',
+  'olog_hai.png': 'Olog-hai',
+  'uruk_hai.png': 'Uruk-hai',
+  'ork_klein.png': 'Ork (klein)',
+  'zwerg_schwarz.png': 'Zwerg (dunkel)',
+  'zwerg_grau.png': 'Zwerg (grau)',
 };
 
 export const DEFAULT_RK = 3;
+
+export const PATZER_KATEGORIEN = [
+  { id: 'allgemein', label: 'Allgemeiner Patzer', mod: 0 },
+  { id: 'leichtes_manoever', label: 'Leichtes Manöver', mod: -60 },
+  { id: 'leichtsinnig', label: 'Leichtsinniges Manöver', mod: 10 }
+];
+
+export const PATZER_MATERIAL_MODS = [
+  { id: 'normal', label: 'Normal', mod: 0 },
+  { id: 'holz', label: 'Holz', mod: -5 },
+  { id: 'stahl', label: 'Stahl', mod: 0 },
+  { id: 'mithril', label: 'Mithril', mod: 10 }
+];
+
+export const PATZER_SCHWIERIGKEIT_MODS = [
+  { id: 'leicht', label: 'Leicht', mod: -10 },
+  { id: 'normal', label: 'Normal', mod: 0 },
+  { id: 'schwer', label: 'Schwer', mod: 10 },
+  { id: 'extrem', label: 'Extrem', mod: 20 }
+];
