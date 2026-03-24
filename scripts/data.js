@@ -103,9 +103,16 @@ function populateWeapons() {
             state.selectedWeapon = ersteWaffe;
         }
     }
-    requestAnimationFrame(() => {
-        requestAnimationFrame(() => adjustWeaponFontSizes());
-    });
+    // Sofort messen (gleicher Task wie DOM) — sonst ein Frame mit CSS-Fallback (14px) → sichtbarer Sprung nach unten.
+    void wSelWrap.offsetHeight;
+    adjustWeaponFontSizes();
+    requestAnimationFrame(() => adjustWeaponFontSizes());
+    if (document.fonts?.ready) {
+        document.fonts.ready.then(() => {
+            if ($('#simulatorPanel')?.classList.contains('hidden')) return;
+            adjustWeaponFontSizes();
+        });
+    }
 }
 
 

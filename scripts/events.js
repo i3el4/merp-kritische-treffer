@@ -257,6 +257,7 @@ export function setupEventListeners() {
 
     let weaponLabelFitTimer;
     const scheduleWeaponLabelFit = () => {
+        if ($('#simulatorPanel')?.classList.contains('hidden')) return;
         clearTimeout(weaponLabelFitTimer);
         weaponLabelFitTimer = setTimeout(() => adjustWeaponFontSizes(), 120);
     };

@@ -97,35 +97,89 @@ critTypeDropdown.addEventListener('change', () => {
     }
 });
 
-// (Legacy-Standalone) — gleiche Logik wie logic.js adjustWeaponFontSizes (Breite+Höhe, 4–11px)
-const WEAPON_LABEL_MIN_PX = 4;
-const WEAPON_LABEL_MAX_PX = 11;
+// (Legacy-Standalone) — gleiche Logik wie logic.js adjustWeaponFontSizes
+const WEAPON_LABEL_MIN_PX = 10;
+const WEAPON_LABEL_MAX_PX = 20;
+const WEAPON_LABEL_LH = 1.03;
+function getAppTabLabelFontSizePx() {
+    const nav = document.querySelector('.app-tabs:not([hidden])') || document.querySelector('.app-tabs');
+    const tab = nav?.querySelector('.tab');
+    if (!tab) return 12.8;
+    const px = parseFloat(window.getComputedStyle(tab).fontSize);
+    return Number.isFinite(px) && px > 0 ? px : 12.8;
+}
+function measureWeaponLineWidth(line, fontSizePx, fontFamily, fontWeight, fontStyle) {
+    const p = document.createElement('span');
+    p.textContent = line;
+    p.setAttribute('aria-hidden', 'true');
+    p.style.cssText = [
+        'position:fixed',
+        'left:-10000px',
+        'top:0',
+        'visibility:hidden',
+        'white-space:nowrap',
+        'pointer-events:none',
+        `font-size:${fontSizePx}px`,
+        `line-height:${fontSizePx * WEAPON_LABEL_LH}px`,
+        `font-family:${fontFamily}`,
+        `font-weight:${fontWeight}`,
+        `font-style:${fontStyle}`
+    ].join(';');
+    document.body.appendChild(p);
+    const w = p.scrollWidth;
+    p.remove();
+    return w;
+}
 function adjustWeaponFontSizes() {
+    if ($('#simulatorPanel')?.classList.contains('hidden')) return;
+
+    const fsCap = Math.min(WEAPON_LABEL_MAX_PX, getAppTabLabelFontSizePx());
+
     const weaponButtons = $$('#weaponWrap button');
     weaponButtons.forEach(button => {
         const span = button.querySelector('span');
         if (!span) return;
-        span.style.fontSize = '';
-        span.style.lineHeight = '';
+        if (button.clientWidth < 4 || button.clientHeight < 4) return;
+
+        span.style.removeProperty('font-size');
+        span.style.removeProperty('line-height');
         void span.offsetWidth;
-        const style = window.getComputedStyle(button);
-        const padX = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
-        const padY = parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
-        const safety = 2;
-        const maxW = Math.max(8, button.clientWidth - padX - safety);
-        const maxH = Math.max(8, button.clientHeight - padY - safety);
+        const btnStyle = window.getComputedStyle(button);
+        const padX = parseFloat(btnStyle.paddingLeft) + parseFloat(btnStyle.paddingRight);
+        const padY = parseFloat(btnStyle.paddingTop) + parseFloat(btnStyle.paddingBottom);
+        const spStyle = window.getComputedStyle(span);
+        const spanPadX = parseFloat(spStyle.paddingLeft) + parseFloat(spStyle.paddingRight);
+        const spanPadY = parseFloat(spStyle.paddingTop) + parseFloat(spStyle.paddingBottom);
+        const safety = 0;
+        const maxW = Math.max(8, button.clientWidth - padX - spanPadX - safety);
+        const layoutW = Math.max(4, maxW - 3);
+        const maxH = Math.max(16, button.clientHeight - padY - spanPadY - safety);
+        const baseFam = spStyle.fontFamily;
+        const baseWt = spStyle.fontWeight;
+        const baseSt = spStyle.fontStyle;
+        const lines = (span.textContent || '').split('\n');
         let chosen = WEAPON_LABEL_MIN_PX;
-        for (let fs = WEAPON_LABEL_MAX_PX; fs >= WEAPON_LABEL_MIN_PX; fs -= 0.5) {
+        for (let fs = fsCap; fs >= WEAPON_LABEL_MIN_PX; fs -= 0.5) {
             span.style.fontSize = `${fs}px`;
-            span.style.lineHeight = `${fs * 1.12}px`;
+            span.style.lineHeight = `${fs * WEAPON_LABEL_LH}px`;
+            const wOk = lines.every(line => {
+                const li = line.replace(/\r/g, '');
+                if (!li.trim()) return true;
+                return measureWeaponLineWidth(li, fs, baseFam, baseWt, baseSt) <= layoutW + 1;
+            });
+            span.style.setProperty('white-space', 'pre-line', 'important');
+            span.style.setProperty('width', '100%', 'important');
             void span.offsetWidth;
-            if (span.scrollWidth <= maxW && span.scrollHeight <= maxH) {
+            const hOk = span.scrollHeight <= maxH + 1.5;
+            if (wOk && hOk) {
                 chosen = fs;
                 break;
             }
         }
-        span.style.fontSize = `${chosen}px`;
-        span.style.lineHeight = `${chosen * 1.12}px`;
+        span.style.removeProperty('white-space');
+        span.style.removeProperty('width');
+        span.style.setProperty('font-size', `${chosen}px`, 'important');
+        span.style.setProperty('line-height', `${chosen * WEAPON_LABEL_LH}px`, 'important');
     });
 }
 
@@ -165,7 +219,15 @@ async function loadData() {
             selectedWeapon = waffen[0];
         }
     }
+    void wSelWrap.offsetHeight;
     adjustWeaponFontSizes();
+    requestAnimationFrame(() => adjustWeaponFontSizes());
+    if (document.fonts?.ready) {
+        document.fonts.ready.then(() => {
+            if ($('#simulatorPanel')?.classList.contains('hidden')) return;
+            adjustWeaponFontSizes();
+        });
+    }
 
     // Funktion zum Befüllen der Dropdown-Menüs
     function populateCritDropdowns(dropdown, isMainCrit = true) {

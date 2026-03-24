@@ -374,7 +374,8 @@ header > div:first-child {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: stretch;
+  min-width: 0;
   border: 2px solid transparent;
   border-radius: 8px;
   cursor: pointer;
@@ -388,15 +389,18 @@ header > div:first-child {
   box-shadow: 0 0 3px 1px var(--bg);
 }
 
-/* Spezifische Button-Größen & Typo */
+/* Spezifische Button-Größen & Typo — Icons bewusst kleiner als die Kachel (Text soll dominieren) */
 .weapon-grid button {
   height: 45px;
   padding: 0 8px;
-  height: 40px;
-  padding: 0 4px;
+  height: 64px;
+  padding: 4px;
   width: 100%;
-  max-width: 104px;
-  background-size: contain;
+  max-width: 128px;
+  /* Nicht die ganze Fläche: sonst wirken Icons riesig neben kleiner Schrift (~25 % kleiner als zuvor) */
+  background-size: 43.5% auto;
+  /* Icon leicht nach oben, Textblock mittig darüber */
+  background-position: center 28%;
   /* Weiße/helle Hintergründe von Icons werden mit Button-Farbe ersetzt (transparenter Effekt) */
   background-blend-mode: darken;
 }
@@ -425,11 +429,11 @@ header > div:first-child {
   text-shadow: 1px 1px 3px var(--bg);
 }
 
-/* Feste Maximalbreite wie 3-Spalten-Smartphone; Desktop: mehr Spalten, nie breitere Zellen */
+/* Max. Zellbreite — etwas breiter → messbar grössere Schrift bei langen Namen */
 .weapon-grid {
-  --weapon-cell-max: 104px;
+  --weapon-cell-max: 128px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(88px, var(--weapon-cell-max)));
+  grid-template-columns: repeat(auto-fill, minmax(96px, var(--weapon-cell-max)));
   gap: 8px;
   width: 100%;
   justify-content: start;
@@ -454,19 +458,30 @@ header > div:first-child {
   z-index: 1;
   display: block;
   align-self: stretch;
+  flex: 0 1 auto;
+  min-width: 0;
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
-  padding: 0 3px;
+  padding: 0 1px;
   font-family: 'MonkeyIsland', Georgia, serif;
-  font-size: 8px;
+  /* Fallback vor JS-Fit — gleiche em-Basis wie .app-tabs .tab */
+  font-size: 0.8em;
   color: var(--text);
   text-shadow: 1px 1px 3px var(--bg);
   text-align: center;
-  line-height: 1.12;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-  hyphens: auto;
+  line-height: 1.03;
+  white-space: pre-line;
+  /* Kein „Rapie“+„r“: nur an Leerzeichen / expliziten \n umbrechen */
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+}
+
+@media (max-width: 600px) {
+  .weapon-grid button span {
+    font-size: 0.72em;
+  }
 }
 
 /* Hintergrundbilder für Waffen (JSON-Keys, Fallback falls JS Icons nicht setzt) */
