@@ -391,14 +391,13 @@ header > div:first-child {
 
 /* Spezifische Button-Größen & Typo — Icons bewusst kleiner als die Kachel (Text soll dominieren) */
 .weapon-grid button {
-  height: 45px;
-  padding: 0 8px;
-  height: 64px;
-  padding: 4px;
+  /* ca. 25 % niedriger als vorher (64px) */
+  height: 48px;
+  padding: 3px;
   width: 100%;
   max-width: 128px;
-  /* Nicht die ganze Fläche: sonst wirken Icons riesig neben kleiner Schrift (~25 % kleiner als zuvor) */
-  background-size: 43.5% auto;
+  /* Nicht die ganze Fläche: sonst wirken Icons riesig neben kleiner Schrift */
+  background-size: 58% auto;
   /* Icon leicht nach oben, Textblock mittig darüber */
   background-position: center 28%;
   /* Weiße/helle Hintergründe von Icons werden mit Button-Farbe ersetzt (transparenter Effekt) */
