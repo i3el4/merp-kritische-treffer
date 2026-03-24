@@ -121,6 +121,11 @@ function prependPopoverCloseButton(popover) {
   popover.prepend(closeBtn);
 }
 
+/** An document.body — damit position:fixed zum Viewport passt (nicht zu transformierten Chips/Karten). */
+function mountGegnerEditPopover(popover) {
+  document.body.appendChild(popover);
+}
+
 /** Aktiver Initiativeverlust (Kritische Treffer), solange Rd Init > 0 */
 function hasInitiativeVerlust(charObj) {
   return (charObj?.status || []).some(s => s.typ === 'init' && parseInt(s.runden, 10) > 0);
@@ -164,7 +169,7 @@ function buildInitiativeOrderFromKampf() {
 }
 
 function showCharakterEditPopoverForChip(chipEl, char) {
-  const existing = document.querySelector('.gegner-edit-popover');
+  const existing = document.querySelector('.gegner-edit-popover:not(.gegner-schaden-popover)');
   if (existing) existing.remove();
   const popover = document.createElement('div');
   popover.className = 'gegner-edit-popover';
@@ -252,16 +257,16 @@ function showCharakterEditPopoverForChip(chipEl, char) {
     popover.remove();
     render();
   });
-  chipEl.style.position = 'relative';
-  chipEl.appendChild(popover);
+  mountGegnerEditPopover(popover);
 }
 
 function showGegnerEditPopover(cardEl, gegner) {
-  const existing = cardEl.querySelector('.gegner-edit-popover');
-  if (existing) {
+  const existing = document.querySelector('.gegner-edit-popover:not(.gegner-schaden-popover)');
+  if (existing && existing.dataset.editTargetId === gegner.id) {
     existing.remove();
     return;
   }
+  if (existing) existing.remove();
   const popover = document.createElement('div');
   popover.className = 'gegner-edit-popover';
   const rkVal = gegner.rk != null ? gegner.rk : 20;
@@ -348,7 +353,8 @@ function showGegnerEditPopover(cardEl, gegner) {
     popover.remove();
     render();
   });
-  cardEl.appendChild(popover);
+  popover.dataset.editTargetId = gegner.id;
+  mountGegnerEditPopover(popover);
 }
 
 function showGegnerSchadenPopover(cardEl, gegner) {
@@ -387,8 +393,7 @@ function showGegnerSchadenPopover(cardEl, gegner) {
       render();
     }
   });
-  cardEl.style.position = 'relative';
-  cardEl.appendChild(popover);
+  mountGegnerEditPopover(popover);
 }
 
 function applyZielToSimulator() {
@@ -957,25 +962,40 @@ function renderCharakterListe() {
         </div>`
       : '';
     const iconUrl = getIconUrl(c.icon);
-    const wahrStr = c.typ === 'spieler' && c.wahrnehmung ? ` · W ${c.wahrnehmung}` : '';
+    const wPart = c.typ === 'spieler' && c.wahrnehmung
+      ? ` · W = ${escapeHtml(String(c.wahrnehmung))}`
+      : '';
+    const dbPart = db ? ` · DB = ${db}` : '';
+    const statsLine = `RK = ${rk}${dbPart} · TP = <span class="charakter-tp-fraction">${tp}/${maxTp}</span>${wPart}`;
     const selectedIds = state.selectedGegnerIds || [];
     const isSelected = selectedIds.includes(c.id);
     card.innerHTML = `
-      <div class="gegner-card-header">
-        <img class="gegner-icon" src="${iconUrl}" alt="${escapeHtml(c.name)}" />
-        <span class="gegner-name">${isTot ? '† ' : ''}${escapeHtml(c.name)}</span>
-        <span class="gegner-rk-tp">RK ${rk}${db ? ` · DB ${db}` : ''} · ${tp}/${maxTp} TP${wahrStr}</span>
-        <div class="tp-step-row">
-          <button type="button" class="btn ghost tp-step-char-btn" data-step="-5" data-id="${c.id}" title="-5 TP">-5</button>
-          <button type="button" class="btn ghost tp-step-char-btn" data-step="-3" data-id="${c.id}" title="-3 TP">-3</button>
-          <button type="button" class="btn ghost tp-step-char-btn" data-step="3" data-id="${c.id}" title="+3 TP">+3</button>
-          <button type="button" class="btn ghost tp-step-char-btn" data-step="5" data-id="${c.id}" title="+5 TP">+5</button>
+      <div class="gegner-card-header charakter-card-header">
+        <div class="charakter-card-top">
+          <div class="charakter-card-identity">
+            <img class="gegner-icon" src="${iconUrl}" alt="${escapeHtml(c.name)}" />
+            <span class="gegner-name">${isTot ? '† ' : ''}${escapeHtml(c.name)}</span>
+          </div>
+          <div class="charakter-card-actions">
+            <button type="button" class="btn ghost gegner-select-toggle ${isSelected ? 'active' : ''}" data-id="${c.id}" title="${isSelected ? 'Abwählen' : 'Auswahl: Als Ziel auswählen'}">${isSelected ? '✓' : '○'}</button>
+            <button type="button" class="btn ghost char-visible-toggle" data-id="${c.id}" data-typ="${c.typ}" title="Ausblenden">👁</button>
+            <button type="button" class="btn ghost charakter-ereignis-btn" data-id="${c.id}" data-typ="${c.typ}" title="Verletzung und TP erfassen">+</button>
+            ${(c.historie || []).length > 0 ? `<button type="button" class="btn ghost charakter-undo-btn" data-id="${c.id}" title="Zurücksetzen: letzten Eintrag rückgängig">↩</button>` : ''}
+            <button type="button" class="btn ghost gegner-icon-edit" data-id="${c.id}" data-typ="${c.typ}" title="Bearbeiten">✎</button>
+          </div>
         </div>
-        <button type="button" class="btn ghost gegner-select-toggle ${isSelected ? 'active' : ''}" data-id="${c.id}" title="${isSelected ? 'Abwählen' : 'Als Ziel auswählen'}">${isSelected ? '✓' : '○'}</button>
-        <button type="button" class="btn ghost char-visible-toggle" data-id="${c.id}" data-typ="${c.typ}" title="Ausblenden">👁</button>
-        <button type="button" class="btn ghost charakter-ereignis-btn" data-id="${c.id}" data-typ="${c.typ}" title="Verletzung / Ereignis">+</button>
-        ${(c.historie || []).length > 0 ? `<button type="button" class="btn ghost charakter-undo-btn" data-id="${c.id}" title="Letzten Eintrag rückgängig">↩</button>` : ''}
-        <button type="button" class="btn ghost gegner-icon-edit" data-id="${c.id}" data-typ="${c.typ}" title="Bearbeiten">✎</button>
+        <div class="charakter-card-stats">
+          <span class="gegner-rk-tp">${statsLine}</span>
+        </div>
+        <div class="charakter-card-tp-wrap">
+          <span class="charakter-card-tp-label">TP anpassen:</span>
+          <div class="tp-step-row tp-step-row--char">
+            <button type="button" class="btn ghost tp-step-char-btn" data-step="-5" data-id="${c.id}" title="-5 TP">-5</button>
+            <button type="button" class="btn ghost tp-step-char-btn" data-step="-3" data-id="${c.id}" title="-3 TP">-3</button>
+            <button type="button" class="btn ghost tp-step-char-btn" data-step="3" data-id="${c.id}" title="+3 TP">+3</button>
+            <button type="button" class="btn ghost tp-step-char-btn" data-step="5" data-id="${c.id}" title="+5 TP">+5</button>
+          </div>
+        </div>
       </div>
       ${statusBadges || laufendBadge ? `<div class="gegner-status-row">${statusBadges}${laufendBadge}</div>` : ''}
       ${laufendHeilenRow}
@@ -1068,16 +1088,16 @@ function showCharakterEreignisPopover(cardEl, char) {
     popover.remove();
     render();
   });
-  cardEl.style.position = 'relative';
-  cardEl.appendChild(popover);
+  mountGegnerEditPopover(popover);
 }
 
 function showCharakterEditPopover(cardEl, char) {
-  const existing = cardEl.querySelector('.gegner-edit-popover');
-  if (existing) {
+  const existing = document.querySelector('.gegner-edit-popover:not(.gegner-schaden-popover)');
+  if (existing && existing.dataset.editTargetId === char.id) {
     existing.remove();
     return;
   }
+  if (existing) existing.remove();
   const popover = document.createElement('div');
   popover.className = 'gegner-edit-popover';
   const rkVal = char.rk != null ? char.rk : 20;
@@ -1159,7 +1179,8 @@ function showCharakterEditPopover(cardEl, char) {
     popover.remove();
     render();
   });
-  cardEl.appendChild(popover);
+  popover.dataset.editTargetId = char.id;
+  mountGegnerEditPopover(popover);
 }
 
 function renderAktiveGruppeSelect() {

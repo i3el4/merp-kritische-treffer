@@ -1450,6 +1450,17 @@ header > div:first-child {
   object-fit: contain;
 }
 
+/* Charakter erstellen (Spielleiter): Icons über volle Breite, nicht nur 3 Spalten */
+#charakterPanel .gegner-add-form .gegner-add-icon-wrap .icon-picker {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
+  gap: 8px;
+  width: 100%;
+  max-width: 100%;
+  justify-items: center;
+  box-sizing: border-box;
+}
+
 .gegner-card-header {
   display: flex;
   align-items: center;
@@ -1495,29 +1506,48 @@ header > div:first-child {
   right: 0;
 }
 
-/* Gegner bearbeiten: Popover mit RK, TP, Icon – zentriert im Viewport */
+/*
+  Bearbeiten-Dialoge: an document.body (siehe mountGegnerEditPopover).
+  Nur horizontal zentrieren (translateX); top+bottom begrenzen die Höhe — kein translateY,
+  sonst wirkt es bei verschachtelten/älteren Containern wie „ragt raus“.
+*/
 .gegner-edit-popover {
   position: fixed;
-  top: 50%;
+  z-index: 1100;
+  box-sizing: border-box;
   left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 100;
+  top: max(8px, env(safe-area-inset-top, 0px));
+  bottom: max(8px, env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  width: min(420px, calc(100vw - 16px));
+  min-width: 0;
+  max-width: min(420px, calc(100vw - 16px));
   padding: 12px;
-  min-width: 220px;
-  max-width: 90vw;
+  padding-bottom: max(12px, env(safe-area-inset-bottom, 0px));
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
   background: var(--panel);
   border: 2px solid var(--accent);
   border-radius: 10px;
   box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
 }
 
 .gegner-edit-close {
-  position: absolute;
-  top: 6px;
-  right: 6px;
+  position: sticky;
+  top: 0;
+  align-self: flex-end;
+  z-index: 3;
+  flex-shrink: 0;
   min-width: 26px;
   padding: 2px 8px;
   line-height: 1;
+  margin: 0 0 8px 0;
+  background: var(--panel);
+  box-shadow: 0 8px 12px -4px var(--panel);
 }
 
 .gegner-undo-btn,
@@ -1563,6 +1593,16 @@ header > div:first-child {
 .gegner-edit-apply {
   width: 100%;
   margin-top: 4px;
+}
+
+@media (max-width: 600px) {
+  .gegner-edit-row {
+    margin-bottom: 8px;
+  }
+
+  .gegner-edit-row:last-of-type {
+    margin-bottom: 10px;
+  }
 }
 
 /* Charakterwahl-Overlay */
@@ -2198,19 +2238,6 @@ header > div:first-child {
   }
 }
 
-/* Charakter-Tab: Icon-Auswahl nicht über volle Breite strecken (Smartphone) */
-@media (max-width: 767px) {
-  #charakterPanel .gegner-add-form .gegner-add-icon-wrap .icon-picker {
-    display: grid;
-    grid-template-columns: repeat(3, max-content);
-    gap: 8px;
-    width: fit-content;
-    max-width: 100%;
-    justify-content: start;
-    justify-items: center;
-  }
-}
-
 /* Sehr schmale Smartphones (< 380px) */
 @media (max-width: 380px) {
   #charakterPanel .gegner-add-form .gegner-add-icon-wrap .icon-picker {
@@ -2227,6 +2254,135 @@ header > div:first-child {
 
 .hidden-npc {
   opacity: 0.45;
+}
+
+/* Spieler & NPCs (Status): Prototyp — Kopfzeile (Name | Aktionen), Stats, TP-Zeile */
+.charakter-card .charakter-card-header {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.charakter-card .charakter-card-top {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.charakter-card .charakter-card-identity {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.charakter-card .charakter-card-actions {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  flex: 0 0 auto;
+}
+
+.charakter-card .charakter-card-actions .btn.ghost {
+  padding: 4px 6px !important;
+  font-size: 12px !important;
+  min-width: 26px;
+}
+
+.charakter-card .charakter-card-stats {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.charakter-card .charakter-card-stats .gegner-rk-tp {
+  display: block;
+  font-size: 12px;
+  line-height: 1.35;
+  word-break: break-word;
+  color: var(--muted);
+}
+
+.charakter-card .charakter-tp-fraction {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.charakter-card .charakter-card-tp-wrap {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 8px;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.charakter-card .charakter-card-tp-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.charakter-card .tp-step-row--char {
+  display: inline-flex;
+  margin-left: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  gap: 4px;
+}
+
+.charakter-card .tp-step-row--char .btn {
+  flex: 0 0 auto;
+  padding: 3px 6px !important;
+  font-size: 11px !important;
+  min-width: auto;
+}
+
+/* Status · Spieler & NPCs: schmale Viewports */
+@media (max-width: 767px) {
+  #charaktertrackerPanel #charakterListe {
+    min-width: 0;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  #charakterListe .charakter-card {
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  #charakterListe .charakter-card .charakter-card-stats .gegner-rk-tp {
+    font-size: 11px;
+  }
+
+  #charakterListe .charakter-card .charakter-card-tp-wrap {
+    align-items: center;
+  }
+
+  #charakterListe .charakter-card .tp-step-row--char {
+    flex: 1 1 auto;
+    justify-content: space-between;
+    gap: 3px;
+  }
+
+  #charakterListe .charakter-card .tp-step-row--char .btn {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 4px 2px !important;
+    font-size: 10px !important;
+  }
 }
 
 .tp-step-row {
