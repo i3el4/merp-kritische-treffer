@@ -94,7 +94,8 @@ body::before {
 */
 
 .wrap {
-  max-width: 1000px;
+  /* Breiter: z. B. 7 Waffenarten in einer Zeile, mehr Platz für Tab-Inhalte */
+  max-width: min(1320px, calc(100vw - 32px));
   margin: 0 auto;
   padding: 16px;
 }

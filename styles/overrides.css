@@ -1450,10 +1450,20 @@ header > div:first-child {
   object-fit: contain;
 }
 
-/* Charakter erstellen (Spielleiter): Icons über volle Breite, nicht nur 3 Spalten */
+/*
+  Charakter erstellen: Icon-Raster nutzt volle Zeilenbreite.
+  Ohne flex-basis: 100% bleibt .gegner-add-icon-wrap in der Desktop-.row zu schmal
+  → nur eine Grid-Spalte (Icons untereinander).
+*/
+#charakterPanel .gegner-add-form .row > .gegner-add-icon-wrap {
+  flex: 1 1 100%;
+  width: 100%;
+  min-width: 0;
+}
+
 #charakterPanel .gegner-add-form .gegner-add-icon-wrap .icon-picker {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(48px, 1fr));
   gap: 8px;
   width: 100%;
   max-width: 100%;
