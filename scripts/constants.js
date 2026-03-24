@@ -122,7 +122,10 @@ export const URLS = {
 export const CHARAKTER_ICONS = {
   'bad_guy.png': 'Bösewicht',
   'bard.png': 'Barde',
+  'bard2.png': 'Barde (2)',
+  'demon.png': 'Dämon',
   'dragon.png': 'Drache',
+  'elemental.png': 'Elementar (Feuer)',
   'dwarf.png': 'Zwerg',
   'elf.png': 'Elf',
   'gondorian.png': 'Gondorianer',
