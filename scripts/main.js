@@ -9,6 +9,7 @@ import { initKampftracker, initSpieler, initCharakterwahl, refreshKampftracker, 
 import { getCurrentKampagneId, getKampagnenListe, getCharaktere, switchKampagne } from './campaigns.js';
 import { initFirebase, startSync, subscribeToChanges, isFirebaseActive, loadCampaign, joinCampaign } from './firebase-storage.js';
 import { initCritCorrections } from './critCorrections.js';
+import { adjustWeaponFontSizes } from './logic.js';
 import { state } from './state.js';
 import { $, $$ } from './dom.js';
 
@@ -83,6 +84,11 @@ function switchTab(tabId) {
     btn.classList.toggle('active', btn.dataset.tab === tabId);
   });
   refreshKampftracker();
+  if (tabId === 'simulator') {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => adjustWeaponFontSizes());
+    });
+  }
 }
 
 function initTabs() {

@@ -103,7 +103,9 @@ function populateWeapons() {
             state.selectedWeapon = ersteWaffe;
         }
     }
-    adjustWeaponFontSizes();
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => adjustWeaponFontSizes());
+    });
 }
 
 

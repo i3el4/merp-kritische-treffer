@@ -4,7 +4,7 @@
 import { state } from './state.js';
 import { $ } from './dom.js';
 import { CRIT_ICONS, URLS, PATZER_KATEGORIEN, PATZER_MATERIAL_MODS, PATZER_SCHWIERIGKEIT_MODS } from './constants.js';
-import { calculateAttack, lookupCritEntry, lookupPatzerEntry, mapCritName } from './logic.js';
+import { calculateAttack, lookupCritEntry, lookupPatzerEntry, mapCritName, adjustWeaponFontSizes } from './logic.js';
 import { playCritAudio, tryStartBgAudio } from './audio.js';
 import { chip } from './dom.js';
 import { applySchaden, applySchadenCharakter, getGegnerById, getSpielerById, getNpcById, getAktuelleRunde } from './campaigns.js';
@@ -254,6 +254,18 @@ export function setupEventListeners() {
     // Event-Listener für Audio-Toggles
     $('#bgToggleBtn')?.addEventListener('click', handleBgToggle);
     $('#bgVol')?.addEventListener('input', handleBgVolumeChange);
+
+    let weaponLabelFitTimer;
+    const scheduleWeaponLabelFit = () => {
+        clearTimeout(weaponLabelFitTimer);
+        weaponLabelFitTimer = setTimeout(() => adjustWeaponFontSizes(), 120);
+    };
+    window.addEventListener('resize', scheduleWeaponLabelFit);
+    const weaponWrap = $('#weaponWrap');
+    if (weaponWrap && typeof ResizeObserver !== 'undefined') {
+        const ro = new ResizeObserver(scheduleWeaponLabelFit);
+        ro.observe(weaponWrap);
+    }
 }
 
 /**

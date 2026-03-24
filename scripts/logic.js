@@ -9,8 +9,12 @@ import { playCritAudio, tryStartBgAudio } from './audio.js';
 import { chip, pill } from './dom.js';
 import { getGegnerById, getCharakterById } from './campaigns.js';
 
+const WEAPON_LABEL_MIN_PX = 4;
+const WEAPON_LABEL_MAX_PX = 11;
+
 /**
- * Passt die Schriftgrösse von Waffen-Buttons an, wenn der Text zu lang ist.
+ * Passt die Schriftgrösse pro Waffen-Button so an, dass der Text in Breite und Höhe
+ * in die Zelle passt (inkl. Zeilenumbruch), ohne abgeschnitten zu werden.
  */
 export function adjustWeaponFontSizes() {
     const weaponButtons = $$('#weaponWrap button');
@@ -20,19 +24,27 @@ export function adjustWeaponFontSizes() {
 
         span.style.fontSize = '';
         span.style.lineHeight = '';
+        void span.offsetWidth;
 
         const style = window.getComputedStyle(button);
-        const padding = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
-        const availableWidth = button.clientWidth - padding;
+        const padX = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
+        const padY = parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
+        const safety = 2;
+        const maxW = Math.max(8, button.clientWidth - padX - safety);
+        const maxH = Math.max(8, button.clientHeight - padY - safety);
 
-        if (span.scrollWidth > availableWidth) {
-            let currentFontSize = parseFloat(window.getComputedStyle(span).fontSize);
-            while (span.scrollWidth > availableWidth && currentFontSize > 8) {
-                currentFontSize -= 0.5;
-                span.style.fontSize = `${currentFontSize}px`;
-                span.style.lineHeight = `${currentFontSize * 1.1}px`;
+        let chosen = WEAPON_LABEL_MIN_PX;
+        for (let fs = WEAPON_LABEL_MAX_PX; fs >= WEAPON_LABEL_MIN_PX; fs -= 0.5) {
+            span.style.fontSize = `${fs}px`;
+            span.style.lineHeight = `${fs * 1.12}px`;
+            void span.offsetWidth;
+            if (span.scrollWidth <= maxW && span.scrollHeight <= maxH) {
+                chosen = fs;
+                break;
             }
         }
+        span.style.fontSize = `${chosen}px`;
+        span.style.lineHeight = `${chosen * 1.12}px`;
     });
 }
 

@@ -97,31 +97,35 @@ critTypeDropdown.addEventListener('change', () => {
     }
 });
 
-// NEUE FUNKTION: Passt die Schriftgrösse der Waffen-Buttons an
+// (Legacy-Standalone) — gleiche Logik wie logic.js adjustWeaponFontSizes (Breite+Höhe, 4–11px)
+const WEAPON_LABEL_MIN_PX = 4;
+const WEAPON_LABEL_MAX_PX = 11;
 function adjustWeaponFontSizes() {
     const weaponButtons = $$('#weaponWrap button');
     weaponButtons.forEach(button => {
         const span = button.querySelector('span');
         if (!span) return;
-
-        // Setzt die Schriftgrösse zurück, falls sie vorher schon mal angepasst wurde
         span.style.fontSize = '';
         span.style.lineHeight = '';
-
+        void span.offsetWidth;
         const style = window.getComputedStyle(button);
-        const padding = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
-        const availableWidth = button.clientWidth - padding;
-
-        // Prüft, ob der Text breiter als der verfügbare Platz ist
-        if (span.scrollWidth > availableWidth) {
-            let currentFontSize = parseFloat(window.getComputedStyle(span).fontSize);
-            // Verringert die Schriftgrösse schrittweise, bis der Text passt
-            while (span.scrollWidth > availableWidth && currentFontSize > 8) { // Minimalgrösse 8px
-                currentFontSize -= 0.5;
-                span.style.fontSize = `${currentFontSize}px`;
-                span.style.lineHeight = `${currentFontSize * 1.1}px`; // Passende Zeilenhöhe
+        const padX = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
+        const padY = parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
+        const safety = 2;
+        const maxW = Math.max(8, button.clientWidth - padX - safety);
+        const maxH = Math.max(8, button.clientHeight - padY - safety);
+        let chosen = WEAPON_LABEL_MIN_PX;
+        for (let fs = WEAPON_LABEL_MAX_PX; fs >= WEAPON_LABEL_MIN_PX; fs -= 0.5) {
+            span.style.fontSize = `${fs}px`;
+            span.style.lineHeight = `${fs * 1.12}px`;
+            void span.offsetWidth;
+            if (span.scrollWidth <= maxW && span.scrollHeight <= maxH) {
+                chosen = fs;
+                break;
             }
         }
+        span.style.fontSize = `${chosen}px`;
+        span.style.lineHeight = `${chosen * 1.12}px`;
     });
 }
 
