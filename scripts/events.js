@@ -11,6 +11,7 @@ import { applySchaden, applySchadenCharakter, getGegnerById, getSpielerById, get
 import { refreshKampftracker } from './kampftracker.js';
 import { parseCritText } from './critParser.js';
 import { setCorrection, deleteCorrection, exportCorrections } from './critCorrections.js';
+import { getRole, ROLES } from './role.js';
 
 /**
  * Fügt das Krit-Icon in die KPI-Zeile ein (falls vorhanden).
@@ -124,10 +125,13 @@ function initCritEditOverlay() {
  * @param {HTMLElement} wrapContainer Der Wrap-Container (z.B. #critApplyWrap)
  * @param {'attack'|'crit'} quelle
  * @param {{ tp?: number, ben?: number, benoPar?: number, oPar?: number, init?: number, tpPerRound?: number, ko?: boolean }} [parsedOverride] Bei 'crit': geparstes Objekt direkt übergeben
+ * @param {{ zielIds?: string[], tpOverride?: number, beschreibungOverride?: string, vonCharakter?: { id: string, name: string } | null }} [applyOpts] Optional: Ziele und Text überschreiben (z. B. Patzer auf gewählten Charakter)
  */
-function appendApplySchadenButton(wrapContainer, quelle, parsedOverride = null) {
+function appendApplySchadenButton(wrapContainer, quelle, parsedOverride = null, applyOpts = null) {
     if (!wrapContainer) return;
-    const zielIds = state.selectedGegnerIds || [];
+    const zielIds = (applyOpts?.zielIds && applyOpts.zielIds.length > 0)
+        ? applyOpts.zielIds
+        : (state.selectedGegnerIds || []);
     if (zielIds.length === 0) return;
     const livingIds = zielIds.filter(id => {
         const g = getGegnerById(id);
@@ -139,19 +143,25 @@ function appendApplySchadenButton(wrapContainer, quelle, parsedOverride = null) 
         return false;
     });
     const allDead = livingIds.length === 0;
-    const tp = quelle === 'attack' ? state.lastAttackTp : state.lastCritTp;
+    const tp = quelle === 'attack'
+        ? state.lastAttackTp
+        : (applyOpts?.tpOverride != null ? applyOpts.tpOverride : state.lastCritTp);
     const parsed = parsedOverride ?? (quelle === 'crit' ? state.lastCritParsed : null);
     const hasStatus = parsed && (
         (parsed.ben || 0) + (parsed.benoPar || 0) + (parsed.oPar || 0) +
         (parsed.init || 0) + (parsed.tpPerRound || 0) > 0 || parsed.ko
     );
     const applyTp = tp > 0 ? tp : 0;
-    const beschreibungToApply = quelle === 'crit' ? state.lastCritVisual : `Angriff: ${tp} TP`;
+    const beschreibungToApply = quelle === 'crit'
+        ? (applyOpts?.beschreibungOverride ?? state.lastCritVisual)
+        : `Angriff: ${tp} TP`;
     const extractedToApply = quelle === 'crit' && parsed ? { ...parsed } : null;
 
-    const vonCharakter = (state.selectedCharakterId && state.selectedCharakterName)
-        ? { id: state.selectedCharakterId, name: state.selectedCharakterName }
-        : null;
+    const vonCharakter = applyOpts && Object.prototype.hasOwnProperty.call(applyOpts, 'vonCharakter')
+        ? applyOpts.vonCharakter
+        : ((state.selectedCharakterId && state.selectedCharakterName)
+            ? { id: state.selectedCharakterId, name: state.selectedCharakterName }
+            : null);
     let id = null;
     if (!allDead) {
         const payload = {
@@ -446,6 +456,21 @@ function populatePatzerModifikationSelect() {
     });
 }
 
+/** Spieler: Profil-Charakter; Spielleiter: Auswahl im Patzer-Bereich. */
+function getPatzerBetroffenerId() {
+    if (getRole() === ROLES.SPIELLEITER) {
+        return String($('#patzerCharakterSelect')?.value ?? '').trim() || null;
+    }
+    return state.selectedCharakterId || null;
+}
+
+function clearPatzerApplyState() {
+    state.lastPatzerTp = 0;
+    state.lastPatzerParsed = null;
+    const w = $('#patzerApplyWrap');
+    if (w) w.innerHTML = '';
+}
+
 function calculatePatzer() {
     const kat = $('#patzerKategorie')?.value || 'Nahkampf';
     const modSel = $('#patzerModifikation');
@@ -457,6 +482,8 @@ function calculatePatzer() {
     if (!out || !kpi) return;
     kpi.innerHTML = '';
     out.classList.remove('crit-prominent');
+    clearPatzerApplyState();
+    state.lastPatzerResult = null;
     if (Number.isNaN(rollRaw) || rollRaw < 1) {
         out.textContent = 'Bitte einen gültigen Wurf (ganze Zahl ≥ 1) eingeben.';
         return;
@@ -473,10 +500,21 @@ function calculatePatzer() {
     const visualText = found.entry.visual;
     const ttsText = found.entry.tts;
     const key = found.key;
+    const parsed = parseCritText(visualText);
+    if (parsed.tp === 0) parsed.tp = parseCritText(ttsText).tp;
+    if (found.entry?.severity) parsed.severity = found.entry.severity;
+    state.lastPatzerTp = parsed.tp;
+    state.lastPatzerParsed = parsed;
+
     kpi.append(chip(`Basis: ${rollRaw}`));
     kpi.append(chip(`Modifikation: ${contextMod >= 0 ? '+' : ''}${contextMod}`));
     kpi.append(chip(`Effektiv: ${finalRoll}`));
     kpi.append(chip(`Bereich: ${key}`));
+    const betroffenerId = getPatzerBetroffenerId();
+    if (betroffenerId) {
+        const name = getSpielerById(betroffenerId)?.name || getNpcById(betroffenerId)?.name;
+        if (name) kpi.append(chip(`Charakter: ${name}`));
+    }
     appendCritIcon(kpi, 'Allgemeine Patzer');
     out.textContent = visualText;
     out.classList.add('crit-prominent');
@@ -489,6 +527,23 @@ function calculatePatzer() {
         visual: visualText,
         tts: ttsText
     };
+    const applyWrap = $('#patzerApplyWrap');
+    if (betroffenerId) {
+        appendApplySchadenButton(applyWrap, 'crit', parsed, {
+            zielIds: [betroffenerId],
+            tpOverride: parsed.tp,
+            beschreibungOverride: `Patzer: ${visualText}`,
+            vonCharakter: null
+        });
+    } else if (applyWrap) {
+        const p = document.createElement('p');
+        p.className = 'muted';
+        p.style.marginTop = '8px';
+        p.textContent = getRole() === ROLES.SPIELLEITER
+            ? 'Kein Charakter gewählt — oben „Charakter (Patzer auswerten)“ ausfüllen, um TP/Status zu verrechnen.'
+            : 'Kein Charakter im Profil — Kampagne und Charakter wählen, um TP/Status zu verrechnen.';
+        applyWrap.appendChild(p);
+    }
     playCritAudio('Allgemeine Patzer', kat, key, ttsText);
     if (state.isBgMusicPlaying) {
         tryStartBgAudio('Allgemeine Patzer');
@@ -524,6 +579,13 @@ function resetApp() {
     $('#attackApplyWrap').innerHTML = '';
     $('#critApplyWrap').innerHTML = '';
     $('#sideApplyWrap').innerHTML = '';
+    $('#patzerApplyWrap').innerHTML = '';
+    $('#patzerKpi').innerHTML = '';
+    $('#patzerOut .result').textContent = 'Noch kein Ergebnis.';
+    $('#patzerOut .result').classList.remove('crit-prominent');
+    state.lastPatzerResult = null;
+    state.lastPatzerTp = 0;
+    state.lastPatzerParsed = null;
 }
 
 

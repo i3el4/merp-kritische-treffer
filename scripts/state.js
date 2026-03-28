@@ -20,6 +20,8 @@ let lastCritTp = 0;
 let lastCritVisual = '';
 let lastCritParsed = null;
 let lastPatzerResult = null;
+let lastPatzerTp = 0;
+let lastPatzerParsed = null;
 let aktiveGruppeCharId = null;
 
 export const state = {
@@ -100,6 +102,10 @@ export const state = {
     set lastCritParsed(value) { lastCritParsed = value; },
     get lastPatzerResult() { return lastPatzerResult; },
     set lastPatzerResult(value) { lastPatzerResult = value; },
+    get lastPatzerTp() { return lastPatzerTp; },
+    set lastPatzerTp(value) { lastPatzerTp = value; },
+    get lastPatzerParsed() { return lastPatzerParsed; },
+    set lastPatzerParsed(value) { lastPatzerParsed = value; },
     get aktiveGruppeCharId() { return aktiveGruppeCharId; },
     set aktiveGruppeCharId(value) { aktiveGruppeCharId = value; }
 };

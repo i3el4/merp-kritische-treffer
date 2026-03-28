@@ -501,6 +501,13 @@
           <hr>
           <details>
             <summary>4) Kritischer Patzer</summary>
+            <div id="patzerCharakterRow" class="patzer-charakter-row" hidden>
+              <label for="patzerCharakterSelect">Charakter (Patzer auswerten)</label>
+              <select id="patzerCharakterSelect">
+                <option value="">(Charakter wählen)</option>
+              </select>
+            </div>
+            <p id="patzerCharakterHint" class="muted patzer-charakter-hint" style="margin: 0 0 8px;" hidden></p>
             <div class="row">
               <div>
                 <label for="patzerRoll">Würfelwurf (offen)</label>
@@ -527,6 +534,7 @@
               <div class="kpi" id="patzerKpi"></div>
               <div class="result muted">Noch kein Ergebnis.</div>
             </div>
+            <div id="patzerApplyWrap" class="apply-schaden-wrap"></div>
           </details>
         </section>
       </div>
