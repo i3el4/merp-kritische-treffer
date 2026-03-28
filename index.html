@@ -210,7 +210,8 @@
         <button type="button" class="btn primary" data-role="spieler">Spieler</button>
         <button type="button" class="btn primary" data-role="spielleiter">Spielleiter</button>
       </div>
-      <p id="startScreenExpandHint" class="start-screen-expand-hint hidden">2. ↓ Kampagne & Charakter wählen<span id="startScreenExpandHintOptional"> (optional)</span></p>
+      <p id="startScreenExpandHint" class="start-screen-expand-hint hidden">2. ↓ Kampagne & Charakter wählen<span
+          id="startScreenExpandHintOptional"> (optional)</span></p>
       <div id="startScreenCharakterSection" class="start-screen-charakter-section">
         <div id="startScreenCharakterwahl" class="charakterwahl-form">
           <div id="startScreenJoinWrap" class="start-screen-join-row hidden">
@@ -222,7 +223,8 @@
             <option value="">(Kampagne wählen)</option>
           </select>
           <label for="startScreenCharakter">Charakter</label>
-          <p id="startScreenCharakterHint" class="start-screen-charakter-hint hidden">Dein Hauptcharakter, falls du neben der Spielleitung selbst mitspielst.</p>
+          <p id="startScreenCharakterHint" class="start-screen-charakter-hint hidden">Dein Hauptcharakter, falls du
+            neben der Spielleitung selbst mitspielst.</p>
           <div class="start-screen-charakter-row">
             <select id="startScreenCharakter">
               <option value="">(Charakter wählen)</option>
@@ -269,7 +271,8 @@
           <option value="">(Kampagne wählen)</option>
         </select>
         <label for="charakterwahlCharakter">Charakter</label>
-        <p id="charakterwahlCharakterHint" class="start-screen-charakter-hint hidden">Dein Hauptcharakter, falls du neben der Spielleitung selbst mitspielst.</p>
+        <p id="charakterwahlCharakterHint" class="start-screen-charakter-hint hidden">Dein Hauptcharakter, falls du
+          neben der Spielleitung selbst mitspielst.</p>
         <select id="charakterwahlCharakter">
           <option value="">(Charakter wählen)</option>
         </select>
@@ -362,10 +365,26 @@
                     <div>
                       <label for="fallbackRk">Rüstungsklasse</label>
                       <select id="fallbackRk">
-                        <option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4</option><option value="5">5</option>
-                        <option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option>
-                        <option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option>
-                        <option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3" selected>3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="17">17</option>
+                        <option value="18">18</option>
+                        <option value="19">19</option>
+                        <option value="20">20</option>
                       </select>
                     </div>
                   </div>
@@ -436,7 +455,8 @@
             <div class="kpi" id="critKpi"></div>
             <div class="result muted">Noch kein Ergebnis.</div>
             <div class="crit-edit-row" id="critEditRow" style="display:none">
-              <button type="button" class="btn ghost crit-edit-btn" id="critEditBtn" title="Krit-Text korrigieren">✎ Korrigieren</button>
+              <button type="button" class="btn ghost crit-edit-btn" id="critEditBtn" title="Krit-Text korrigieren">✎
+                Korrigieren</button>
             </div>
           </div>
           <div id="critApplyWrap" class="apply-schaden-wrap"></div>
@@ -472,7 +492,8 @@
               <div class="kpi" id="sideKpi"></div>
               <div class="result muted">Noch kein Ergebnis.</div>
               <div class="crit-edit-row" id="sideEditRow" style="display:none">
-                <button type="button" class="btn ghost crit-edit-btn" id="sideEditBtn" title="Krit-Text korrigieren">✎ Korrigieren</button>
+                <button type="button" class="btn ghost crit-edit-btn" id="sideEditBtn" title="Krit-Text korrigieren">✎
+                  Korrigieren</button>
               </div>
             </div>
             <div id="sideApplyWrap" class="apply-schaden-wrap"></div>
@@ -482,34 +503,21 @@
             <summary>4) Kritischer Patzer</summary>
             <div class="row">
               <div>
-                <label for="patzerRoll">Würfelwurf</label>
-                <input id="patzerRoll" type="number" min="1" placeholder="z. B. 66" />
+                <label for="patzerRoll">Würfelwurf (offen)</label>
+                <input id="patzerRoll" type="number" placeholder="z. B. 66" />
               </div>
               <div>
-                <label for="patzerKategorie">Kategorie</label>
+                <label for="patzerKategorie">Tabellenspalte</label>
                 <select id="patzerKategorie">
-                  <option value="allgemein">Allgemeiner Patzer</option>
-                  <option value="leichtes_manoever">Leichtes Manöver</option>
-                  <option value="leichtsinnig">Leichtsinniges Manöver</option>
+                  <option value="Nahkampf">Nahkampf</option>
+                  <option value="Fernkampf">Fernkampf</option>
+                  <option value="Zauber">Zauber</option>
+                  <option value="Manöver">Manöver</option>
                 </select>
               </div>
-              <div>
-                <label for="patzerMaterial">Waffenmaterial</label>
-                <select id="patzerMaterial">
-                  <option value="normal">Normal</option>
-                  <option value="holz">Holz</option>
-                  <option value="stahl">Stahl</option>
-                  <option value="mithril">Mithril</option>
-                </select>
-              </div>
-              <div>
-                <label for="patzerSchwierigkeit">Manöver</label>
-                <select id="patzerSchwierigkeit">
-                  <option value="leicht">Leicht</option>
-                  <option value="normal" selected>Normal</option>
-                  <option value="schwer">Schwer</option>
-                  <option value="extrem">Extrem</option>
-                </select>
+              <div style="grid-column: 1 / -1; max-width: 100%;">
+                <label for="patzerModifikation">Modifikation (auf den Wurf addieren)</label>
+                <select id="patzerModifikation"></select>
               </div>
             </div>
             <div class="actions">
@@ -527,7 +535,8 @@
         <div id="initiativeWrap" class="initiative-wrap">
           <div class="initiative-head">
             <strong>Initiative</strong>
-            <span class="initiative-hint muted">Reihenfolge nach B&amp;M (höher zuerst). Initiativeverlust durch Kritische Treffer: ans Ende.</span>
+            <span class="initiative-hint muted">Reihenfolge nach B&amp;M (höher zuerst). Initiativeverlust durch
+              Kritische Treffer: ans Ende.</span>
           </div>
           <div id="initiativeListe" class="initiative-liste"></div>
         </div>
@@ -535,8 +544,10 @@
           <span id="rundeAnzeige">Runde 1</span>
           <button type="button" class="btn ghost runde-prev-btn" id="rundePrev" title="Runde zurück">← Zurück</button>
           <button type="button" class="btn runde-next-btn" id="rundeNext" title="Runde beenden">Runde beenden</button>
-          <button type="button" class="btn ghost runde-reset-btn" id="rundeReset" title="Runde auf 0 setzen">Auf 0</button>
-          <button type="button" class="btn ghost" id="kampfArchivierenBtn" title="Kampf in Historie speichern und zurücksetzen">Kampf archivieren</button>
+          <button type="button" class="btn ghost runde-reset-btn" id="rundeReset" title="Runde auf 0 setzen">Auf
+            0</button>
+          <button type="button" class="btn ghost" id="kampfArchivierenBtn"
+            title="Kampf in Historie speichern und zurücksetzen">Kampf archivieren</button>
         </div>
       </section>
 
@@ -548,9 +559,12 @@
         <h2 class="kampf-runde-status-heading">Runde</h2>
         <div class="runde-controls runde-controls-status">
           <span id="rundeAnzeigeStatus" class="runde-anzeige-status">Runde 1</span>
-          <button type="button" class="btn ghost runde-prev-btn" id="rundePrevStatus" title="Vorherige Runde">← Zurück</button>
-          <button type="button" class="btn runde-next-btn" id="rundeNextStatus" title="Runde beenden (Status &amp; laufender Schaden)">Runde beenden</button>
-          <button type="button" class="btn ghost runde-reset-btn" id="rundeResetStatus" title="Runde auf 0 setzen">Auf 0</button>
+          <button type="button" class="btn ghost runde-prev-btn" id="rundePrevStatus" title="Vorherige Runde">←
+            Zurück</button>
+          <button type="button" class="btn runde-next-btn" id="rundeNextStatus"
+            title="Runde beenden (Status &amp; laufender Schaden)">Runde beenden</button>
+          <button type="button" class="btn ghost runde-reset-btn" id="rundeResetStatus" title="Runde auf 0 setzen">Auf
+            0</button>
         </div>
       </section>
 
@@ -562,7 +576,8 @@
             <select id="aktiveGruppeSelect" title="Nur Mitglieder aus dieser Gruppe werden angezeigt">
               <option value="">Alle</option>
             </select>
-            <button type="button" class="btn ghost" id="gegnerAlleAuswaehlen" title="Alle sichtbaren Mitglieder als Ziele auswählen">Alle auswählen</button>
+            <button type="button" class="btn ghost" id="gegnerAlleAuswaehlen"
+              title="Alle sichtbaren Mitglieder als Ziele auswählen">Alle auswählen</button>
             <button type="button" class="btn ghost" id="gegnerAbwaehlen" title="Zielauswahl aufheben">Abwählen</button>
           </div>
           <div id="gegnerZielAuswahlWrap" class="gegner-ziel-auswahl-wrap">
@@ -640,10 +655,26 @@
             <div>
               <label for="charRk">Rüstungsklasse</label>
               <select name="charRk" id="charRk">
-                <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
-                <option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10" selected>10</option>
-                <option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option>
-                <option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10" selected>10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
               </select>
             </div>
             <div>
@@ -666,7 +697,8 @@
             </div>
             <div>
               <label for="charAnzahl">Anzahl</label>
-              <input type="number" name="charAnzahl" id="charAnzahl" min="1" max="100" value="1" title="1 = einzeln, 2+ = Batch" />
+              <input type="number" name="charAnzahl" id="charAnzahl" min="1" max="100" value="1"
+                title="1 = einzeln, 2+ = Batch" />
             </div>
           </div>
           <button type="submit" class="btn primary">Hinzufügen</button>
@@ -747,9 +779,11 @@
         <textarea id="critEditTts" rows="3" placeholder="Text für Sprachausgabe…"></textarea>
         <div class="crit-edit-actions">
           <button type="button" class="btn primary" id="critEditSave">Speichern</button>
-          <button type="button" class="btn ghost" id="critEditRevert" title="Korrektur entfernen">Korrektur entfernen</button>
+          <button type="button" class="btn ghost" id="critEditRevert" title="Korrektur entfernen">Korrektur
+            entfernen</button>
           <button type="button" class="btn ghost" id="critEditCancel">Abbrechen</button>
-          <button type="button" class="btn ghost" id="critEditExport" title="Alle Korrekturen als JSON exportieren">Export</button>
+          <button type="button" class="btn ghost" id="critEditExport"
+            title="Alle Korrekturen als JSON exportieren">Export</button>
         </div>
       </div>
     </div>

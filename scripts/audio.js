@@ -93,13 +93,23 @@ function buildCritAudioFilename(typ, kat, rangeKey) {
 function sanitizeRangeForFile(rangeKey) {
     let s = String(rangeKey).trim();
     s = s.replace(/[–—]/g, '-').replace(/\s+/g, '');
-    if (s.includes('-')) {
-        const [a, b] = s.split('-');
-        const nz = (x) => String(parseInt(x, 10));
-        return nz(a) + '-' + nz(b);
+    /** Generierte MP3s nutzen diesen Alias für den untersten Bereich */
+    if (s === '-100-5') {
+        return '0-100';
+    }
+    if (s.endsWith('+')) {
+        const num = parseInt(s.slice(0, -1), 10);
+        return Number.isNaN(num) ? s : `${num}+`;
+    }
+    const twoPart = s.match(/^(-?\d+)-(\d+)$/);
+    if (twoPart) {
+        const a = parseInt(twoPart[1], 10);
+        const b = parseInt(twoPart[2], 10);
+        return `${a}-${b}`;
     }
     s = s.replace(/[≤≥]/g, '');
-    return String(parseInt(s, 10));
+    const n = parseInt(s, 10);
+    return Number.isNaN(n) ? s : String(n);
 }
 
 /**

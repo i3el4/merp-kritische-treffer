@@ -367,9 +367,13 @@ function matchRange(range, roll) {
         const min = z(range.slice(0, -1));
         return roll >= min;
     }
-    if (range.includes('-')) {
-        const [a, b] = range.split('-');
-        return roll >= z(a) && roll <= z(b);
+    // Zwei Grenzen mit Bindestrich (inkl. negative Untergrenze, z. B. -100 bis 5).
+    // Nicht split('-') nutzen: "-100-5" würde sonst falsch zerlegt.
+    const twoPart = range.match(/^(-?\d+)-(\d+)$/);
+    if (twoPart) {
+        const a = parseInt(twoPart[1], 10);
+        const b = parseInt(twoPart[2], 10);
+        return roll >= a && roll <= b;
     }
     if (range.startsWith('≤')) {
         return roll <= z(range.slice(1));

@@ -6,6 +6,7 @@
  * Verwendung:
  *   npm install axios dotenv
  *   Erstelle .env mit ELEVENLABS_API_KEY und ELEVENLABS_VOICE_ID
+ *   Optional: ELEVENLABS_SPEECH_SPEED (Standard 1.1) — 1.0 = normal, >1 schneller (typ. bis ca. 1.2)
  *   node scripts/generate_audio_elevenlabs.js
  */
 
@@ -19,6 +20,12 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 const API_KEY = process.env.ELEVENLABS_API_KEY;
 const VOICE_ID = process.env.ELEVENLABS_VOICE_ID;
+/** Sprechtempo (ElevenLabs voice_settings.speed): 1.0 = Standard, >1 etwas schneller */
+const SPEECH_SPEED = (() => {
+    const raw = parseFloat(process.env.ELEVENLABS_SPEECH_SPEED ?? '1.1');
+    if (Number.isNaN(raw)) return 1.1;
+    return Math.min(1.2, Math.max(0.7, raw));
+})();
 const DATA_PATH = path.join(__dirname, '../assets/data/tables_processed.json');
 const OUTPUT_DIR = path.join(__dirname, '../assets/audio/krit');
 
@@ -82,6 +89,9 @@ async function generateAndSave(text, filePath) {
                 data: {
                     text,
                     model_id: 'eleven_multilingual_v2',
+                    voice_settings: {
+                        speed: SPEECH_SPEED,
+                    },
                 },
                 responseType: 'arraybuffer',
                 validateStatus: () => true,
@@ -129,6 +139,8 @@ async function main() {
         console.error('Fehler: ELEVENLABS_API_KEY und ELEVENLABS_VOICE_ID müssen in .env gesetzt sein.');
         process.exit(1);
     }
+
+    console.log(`Sprechtempo (speed): ${SPEECH_SPEED} (ELEVENLABS_SPEECH_SPEED in .env überschreibbar)\n`);
 
     if (!fs.existsSync(DATA_PATH)) {
         console.error(`Fehler: ${DATA_PATH} nicht gefunden.`);

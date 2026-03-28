@@ -153,22 +153,41 @@ export const CHARAKTER_ICONS = {
 
 export const DEFAULT_RK = 3;
 
-export const PATZER_KATEGORIEN = [
-  { id: 'allgemein', label: 'Allgemeiner Patzer', mod: 0 },
-  { id: 'leichtes_manoever', label: 'Leichtes Manöver', mod: -60 },
-  { id: 'leichtsinnig', label: 'Leichtsinniges Manöver', mod: 10 }
-];
-
-export const PATZER_MATERIAL_MODS = [
-  { id: 'normal', label: 'Normal', mod: 0 },
-  { id: 'holz', label: 'Holz', mod: -5 },
-  { id: 'stahl', label: 'Stahl', mod: 0 },
-  { id: 'mithril', label: 'Mithril', mod: 10 }
-];
-
-export const PATZER_SCHWIERIGKEIT_MODS = [
-  { id: 'leicht', label: 'Leicht', mod: -10 },
-  { id: 'normal', label: 'Normal', mod: 0 },
-  { id: 'schwer', label: 'Schwer', mod: 10 },
-  { id: 'extrem', label: 'Extrem', mod: 20 }
-];
+/**
+ * Modifikation auf den gewürfelten Wert (wird zum Wurf addiert), abhängig von der gewählten Spalte.
+ * Schlüssel = Kategorien unter „Allgemeine Patzer“ in tables_processed.json.
+ */
+export const PATZER_CONTEXT_MODS = {
+  Nahkampf: [
+    { id: 'einh_schlag', label: 'Einhändige Schlagwaffen', mod: -20 },
+    { id: 'einh_klinge', label: 'Einhändige Klingenwaffen', mod: -10 },
+    { id: 'zweihand', label: 'Zweihandwaffen', mod: 0 },
+    { id: 'stangen', label: 'Stangenwaffen', mod: 10 },
+    { id: 'beritten', label: 'Berittener Kampf', mod: 20 }
+  ],
+  Fernkampf: [
+    { id: 'schleuder', label: 'Schleuder', mod: -20 },
+    { id: 'kurzbogen', label: 'Kurzbogen', mod: -10 },
+    { id: 'komposit', label: 'Kompositbogen', mod: 0 },
+    { id: 'langbogen', label: 'Langbogen', mod: 10 },
+    { id: 'armbrust', label: 'Armbrust', mod: 20 }
+  ],
+  Zauber: [
+    { id: 'stufe_i', label: 'Zauberstufe I', mod: -20 },
+    { id: 'stufe_n', label: 'Zauberstufe N', mod: -10 },
+    { id: 'stufe_p', label: 'Zauberstufe P', mod: 0 },
+    { id: 'stufe_a', label: 'Zauberstufe A', mod: 10 },
+    { id: 'stufe_e', label: 'Zauberstufe E', mod: 20 }
+  ],
+  Manöver: [
+    { id: 'routine', label: 'Routine-Manöver', mod: -50 },
+    { id: 'einfach', label: 'Einfache Manöver', mod: -35 },
+    { id: 'leicht', label: 'Leichte Manöver', mod: -20 },
+    { id: 'mittel', label: 'Mittlere Manöver', mod: -10 },
+    { id: 'schwer', label: 'Schwere Manöver', mod: 0 },
+    { id: 'sehr_schwer', label: 'Sehr schwere Manöver', mod: 5 },
+    { id: 'aeusserst', label: 'Äußerst schwere Manöver', mod: 10 },
+    { id: 'fast_verrueckt', label: 'Fast verrückte Manöver', mod: 15 },
+    { id: 'absurd', label: 'Absurde Manöver', mod: 20 }
+  ]
+};

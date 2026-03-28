@@ -1463,397 +1463,6 @@
       }
     }
   },
-  "Allgemeine Patzer": {
-    "audioFile": "patzer.mp3",
-    "Nahkampf": {
-      "-100-5": {
-        "tts": "Sie haben sich nicht ganz in der Gewalt und können in dieser Runde keine weiteren Handlungen vornehmen.",
-        "visual": "Diese Rd keine Aktionen.",
-        "needs_review": false
-      },
-      "5-20": {
-        "tts": "Sie rutschen aus. Führen Sie eine nichtmagische Handwaffe, so zerbricht diese. In dieser Runde sind keine weiteren Handlungen möglich.",
-        "visual": "Nichtmag. Handwaffe zerbricht. Diese Rd keine Aktionen.",
-        "needs_review": false
-      },
-      "21-35": {
-        "tts": "Schlechte Ausführung. Die Gelegenheit wurde verpasst. In der nächsten Runde erhalten Sie einen Malus von minus dreißig auf alle Handlungen.",
-        "visual": "Nächste Rd -30 auf alle Aktionen.",
-        "needs_review": false
-      },
-      "36-50": {
-        "tts": "Die Waffe rutscht Ihnen aus der Hand. Sie benötigen eine Runde, um eine neue Waffe zu ziehen, oder zwei Runden, um die alte Waffe aufzuheben.",
-        "visual": "Waffe fallengelassen. 1 Rd Waffe ziehen, 2 Rd Waffe aufheben.",
-        "needs_review": false
-      },
-      "51-60": {
-        "tts": "Sie sind außer Atem. In den nächsten zwei Runden erhalten Sie einen Malus von minus vierzig auf alle Handlungen.",
-        "visual": "2 Rd -40 auf alle Aktionen.",
-        "needs_review": false
-      },
-      "61-79": {
-        "tts": "Sie sind ungeschickt gestolpert und zwei Runden lang benommen.",
-        "visual": "2 Rd ben.",
-        "needs_review": false
-      },
-      "80-80": {
-        "tts": "Sie haben sich durch Ungeschick selbst verletzt. Erleiden Sie einen Kritischen Hieb des Typs B Eins, oder erleiden Sie stattdessen plus fünf Treffer. Bei Klingenwaffen zersplittert Ihre eigene Waffe.",
-        "visual": "Kritischer Hieb B1 ODER +5T. Klingenwaffe zerbricht.",
-        "needs_review": true
-      },
-      "81-86": {
-        "tts": "Sie beißen sich auf die Zunge und sind zwei Runden lang benommen.",
-        "visual": "2 Rd ben.",
-        "needs_review": false
-      },
-      "87-89": {
-        "tts": "Sie verlieren Ihre Waffe und den Bezug zur Realität. Dadurch sind Sie drei Runden lang benommen.",
-        "visual": "Waffe fallengelassen. 3 Rd ben.",
-        "needs_review": true
-      },
-      "90-90": {
-        "tts": "Ihre Waffe zerbricht und trifft Sie. Sie erleiden einen Kritischen Hieb des Typs C.",
-        "visual": "Waffe zerbricht. Kritischer Hieb C.",
-        "needs_review": false
-      },
-      "91-96": {
-        "tts": "Besonders ungeschickt: Ein Kritischer Hieb vom Typ B für jeden befreundeten Charakter im Umkreis.",
-        "visual": "Kritischer Hieb B für jeden Verbündeten im Umkreis.",
-        "needs_review": false
-      },
-      "97-99": {
-        "tts": "Sie stolpern über etwas Unsichtbares, vielleicht eine Schildkröte, und sind drei Runden benommen.",
-        "visual": "3 Rd ben.",
-        "needs_review": false
-      },
-      "100-100": {
-        "tts": "Eine Prellung der Rippe verursacht einen unbekannten Malus auf alle Handlungen. Außerdem ist der Gegner zwei Runden vor Lachen benommen.",
-        "visual": "Unbekannter Malus auf alle Aktionen. Gegner 2 Rd ben.",
-        "needs_review": true
-      },
-      "101-106": {
-        "tts": "Sie stolpern und spießen sich fast selbst auf. Sie sind drei Runden benommen. Falls Sie eine Stangenwaffe führen, zerbricht deren Schaft.",
-        "visual": "3 Rd ben. Stangenwaffe zerbricht.",
-        "needs_review": false
-      },
-      "107-109": {
-        "tts": "Ihre Waffe zerbricht aufgrund von Unfähigkeit. Sie sind vier Runden benommen.",
-        "visual": "Waffe zerbricht. 4 Rd ben.",
-        "needs_review": false
-      },
-      "110-110": {
-        "tts": "Sie stolpern und sind fünf Runden benommen. Falls Sie beritten sind, fliegen Sie zehn Meter weit. Bei der Landung erleiden Sie zusätzlichen Schaden, gleich einem Kritischen Stich der Kategorie A auf ein Objekt.",
-        "visual": "5 Rd ben. Beritten: 10m Flug, Landung: zus. Schaden Krit. Stich Kat. A auf Objekt.",
-        "needs_review": false
-      },
-      "111-116": {
-        "tts": "Ihr Reittier bäumt sich auf. Sie sind drei Runden benommen, fangen sich dann aber wieder.",
-        "visual": "3 Rd ben.",
-        "needs_review": false
-      },
-      "117-119": {
-        "tts": "Sie sind uneins mit Ihrem Reittier und erleiden drei Runden lang einen Malus von neunzig auf alle Handlungen.",
-        "visual": "3 Rd -90 auf alle Handlungen.",
-        "needs_review": false
-      },
-      "120-999": {
-        "tts": "Sie sind vom Ross gefallen und müssen einen Kritischen Hieb vom Typ D hinnehmen.",
-        "visual": "Krit. Hieb Typ D.",
-        "needs_review": false
-      }
-    },
-    "Fernkampf": {
-      "-100-5": {
-        "tts": "Sie zögern zu lange und lassen Gelegenheiten verstreichen. Diese Runde ist keine Aktion möglich.",
-        "visual": "Keine Aktion diese Rd.",
-        "needs_review": false
-      },
-      "5-20": {
-        "tts": "Sie sind zu nervös zum Laden. Diese Runde ist nichts mehr möglich.",
-        "visual": "Nichts mehr möglich diese Rd.",
-        "needs_review": false
-      },
-      "21-35": {
-        "tts": "Sie lassen Ihr Geschoss fallen. Diese Runde ist nichts mehr möglich. In der nächsten Runde erhalten Sie einen Malus von minus dreißig auf alle Handlungen.",
-        "visual": "Geschoss fallengelassen. Nichts möglich diese Rd. Nächste Rd -30 auf alle Handlungen.",
-        "needs_review": false
-      },
-      "36-50": {
-        "tts": "Sie zerbrechen Ihr Geschoss und verlieren die Fassung. In den nächsten drei Runden erhalten Sie einen Malus von minus dreißig auf alle Handlungen.",
-        "visual": "Geschoss zerbrochen. 3 Rd -30 auf alle Handlungen.",
-        "needs_review": false
-      },
-      "51-60": {
-        "tts": "Sie lassen das Geschoss fallen und sind benommen. In der nächsten Runde sind Sie immer noch benommen.",
-        "visual": "Geschoss fallengelassen. 1 Rd ben. Nächste Rd ben.",
-        "needs_review": false
-      },
-      "61-79": {
-        "tts": "Sie misshandeln Ihre Waffe und sind zwei Runden lang benommen.",
-        "visual": "2 Rd ben.",
-        "needs_review": false
-      },
-      "80-80": {
-        "tts": "Sie haben daneben gezielt und sich selbst getroffen. Das kostet Sie fünf Treffer. Die Armbrust feuert, reißt Sie dabei aber am Ohr, was zwei Treffer pro Runde verursacht.",
-        "visual": "Sich selbst getroffen. +5T. +2 T/Rd.",
-        "needs_review": false
-      },
-      "81-86": {
-        "tts": "Ihre Bogensehne reißt. Sie benötigen zwei Runden, um eine andere Waffe zu ziehen.",
-        "visual": "Bogensehne reißt. 2 Rd Waffe ziehen.",
-        "needs_review": false
-      },
-      "87-89": {
-        "tts": "Sie zittern zu stark beim Nachladen und verstreuen alle Geschosse in einem Umkreis von drei Metern.",
-        "visual": "Alle Geschosse verstreut (3m).",
-        "needs_review": false
-      },
-      "90-90": {
-        "tts": "Ihre Waffe zersplittert. Sie sind vier Runden lang benommen.",
-        "visual": "Waffe zersplittert. 4 Rd ben.",
-        "needs_review": false
-      },
-      "91-96": {
-        "tts": "Sie lassen zu früh los, der Pfeil verfehlt um über fünf Meter. In den nächsten drei Runden erhalten Sie minus dreißig auf alle Handlungen.",
-        "visual": "Pfeil verfehlt (5m). 3 Rd -30 auf alle Handlungen.",
-        "needs_review": false
-      },
-      "97-99": {
-        "tts": "Sie halten den Bogen wie einen Knüppel. Beim Aufheben treten Sie ihn eineinhalb Meter weg. Drei Runden lang sind Sie benommen.",
-        "visual": "Bogen 1.5m weggetreten. 3 Rd ben.",
-        "needs_review": false
-      },
-      "100-100": {
-        "tts": "Sie verreißen die Waffe. Das Projektil streift Ihre Hand: Sie erleiden plus acht Treffer und zusätzlich plus zwei Treffer pro Runde. Sechs Runden lang sind Sie benommen.",
-        "visual": "Projektil streift Hand. +8T. +2 T/Rd. 6 Rd ben.",
-        "needs_review": false
-      },
-      "101-106": {
-        "tts": "Sie rutschen aus und fallen hin. Der Schuss geht völlig ins Blaue. Fünf Runden lang sind Sie benommen.",
-        "visual": "Ausgerutscht, hingefallen. 5 Rd ben.",
-        "needs_review": false
-      },
-      "107-109": {
-        "tts": "Ein Projektilteil streift beim Schuss Ihr Auge: Sie erleiden plus fünf Treffer, erhalten minus zwanzig auf alle Handlungen und sind zwei Runden lang benommen.",
-        "visual": "Projektilteil streift Auge. +5T. -20 auf alle Handlungen. 2 Rd ben.",
-        "needs_review": false
-      },
-      "110-110": {
-        "tts": "Die Spitze verhakt sich und bricht ab. Das Objekt erhält kritischen Stichschaden des Typs A, falls dies möglich ist.",
-        "visual": "Krit. Stichschaden Typ A, falls möglich.",
-        "needs_review": false
-      },
-      "111-116": {
-        "tts": "Beim Zielen löst sich der Schuss. Würfeln Sie einen unmodifizierten Angriff auf den nächsten zufälligen Kämpfer.",
-        "visual": "Würfel unmod. Angriff auf nächsten zufälligen Kämpfer.",
-        "needs_review": false
-      },
-      "117-119": {
-        "tts": "Mitten im Kampf legen Sie den Finger vor den Bolzen: Ihr Finger wird abgetrennt. Sie erleiden plus vier Treffer und zusätzlich plus zwei Treffer pro Runde.",
-        "visual": "Finger abgetrennt. +4T. +2 T/Rd.",
-        "needs_review": false
-      },
-      "120-999": {
-        "tts": "Sie nageln Ihren Fuß mit einem Bolzen am Boden fest: Sie erleiden plus zehn Treffer und zusätzlich plus zwei Treffer pro Runde. Außerdem erhalten Sie minus dreißig auf alle Handlungen.",
-        "visual": "Fuß festgenagelt. +10T. +2 T/Rd. -30 auf alle Handlungen.",
-        "needs_review": false
-      }
-    },
-    "Zauber": {
-      "-100-5": {
-        "tts": "Überanstrengung stört die Konzentration. In dieser Runde ist kein Zauber möglich, aber es werden keine Magiepunkte verloren.",
-        "visual": "Kein Zauber diese Rd. Keine MP verloren.",
-        "needs_review": false
-      },
-      "5-20": {
-        "tts": "Zweifel. In der nächsten Runde kann kein Zauber vorbereitet oder ausgesprochen werden.",
-        "visual": "Nächste Rd kein Zauber vorbereiten/aussprechen.",
-        "needs_review": false
-      },
-      "21-35": {
-        "tts": "Bei der Vorbereitung ist ein kleiner Fehler unterlaufen. Der Zauber verzögert sich um eine Runde. In den nächsten zwei Runden gibt es einen Malus von minus zwanzig auf Manöver.",
-        "visual": "Zauber verzögert 1 Rd. 2 Rd -20 auf Manöver.",
-        "needs_review": false
-      },
-      "36-50": {
-        "tts": "Fehler. In dieser Runde kann nicht mehr gezaubert werden, es werden jedoch keine Magiepunkte verloren.",
-        "visual": "Kein Zauber diese Rd. Keine MP verloren.",
-        "needs_review": false
-      },
-      "51-60": {
-        "tts": "Überlastet. Der Zauber verpufft wirkungslos; die eingesetzten Magiepunkte sind verloren. Das Ziel ist eine Runde lang benommen.",
-        "visual": "MP verloren. Ziel 1 Rd ben.",
-        "needs_review": false
-      },
-      "61-79": {
-        "tts": "Unbewusste Angst hebt die Wirkung auf; die Magiepunkte sind verloren. Das Ziel ist zwei Runden lang benommen.",
-        "visual": "MP verloren. Ziel 2 Rd ben.",
-        "needs_review": false
-      },
-      "80-80": {
-        "tts": "Der Zauber richtet sich gegen Sie selbst: Sie erleiden plus fünfzehn Treffer. Sie werden zu Boden geworfen und sind eine Stunde lang benommen.",
-        "visual": "+15T. Zu Boden. 1 Std ben.",
-        "needs_review": false
-      },
-      "81-86": {
-        "tts": "Ernstlich überlastet. In dieser Runde kann nicht gezaubert werden, es werden jedoch keine Magiepunkte verloren.",
-        "visual": "Kein Zauber diese Rd. Keine MP verloren.",
-        "needs_review": false
-      },
-      "87-89": {
-        "tts": "Der Spruch entlädt sich gegen Sie und überlastet Ihre Sinne: Sie erleiden plus zwanzig Treffer und sind zehn Minuten lang taub und blind.",
-        "visual": "+20T. 10 Min taub/blind.",
-        "needs_review": false
-      },
-      "90-90": {
-        "tts": "Leichter Schlaganfall durch Überlastung: Sie erleiden plus zwanzig Treffer und sind zwölf Stunden lang ohnmächtig.",
-        "visual": "+20T. 12 Std ohnmächtig.",
-        "needs_review": false
-      },
-      "91-96": {
-        "tts": "Der Zauberspruch geht vollkommen daneben. Plus fünf Treffer. Drei Runden benommen.",
-        "visual": "+5T. 3 Rd ben.",
-        "needs_review": false
-      },
-      "97-99": {
-        "tts": "Die Essenz des Ziels wirft den Zauber auf Sie zurück. Das Ziel wird zum Angreifer, Sie sind das Ziel. Vier Runden benommen.",
-        "visual": "Zauber zurück (Ziel Angreifer). 4 Rd ben.",
-        "needs_review": false
-      },
-      "100-100": {
-        "tts": "Identitätskrise. Zwei Wochen lang nicht zauberfähig.",
-        "visual": "2 Wochen nicht zauberfähig.",
-        "needs_review": false
-      },
-      "101-106": {
-        "tts": "Geistige Überbeanspruchung. Der Zauber entlädt sich unkontrolliert. Plus zehn Treffer. Sie werden zu Boden geworfen und sind sechs Runden benommen.",
-        "visual": "+10T. Zu Boden. 6 Rd ben.",
-        "needs_review": false
-      },
-      "107-109": {
-        "tts": "Der Zauber entlädt sich gegen Sie selbst. Drei Wochen lang können Sie nicht zaubern. Plus fünfundzwanzig Treffer. Drei Stunden bewusstlos.",
-        "visual": "3 Wochen kein Zauber. +25T. 3 Std bewusstlos.",
-        "needs_review": false
-      },
-      "110-110": {
-        "tts": "Schwerer Schlaganfall. Von der Hüfte abwärts gelähmt.",
-        "visual": "Von der Hüfte abwärts gelähmt.",
-        "needs_review": false
-      },
-      "111-116": {
-        "tts": "Außer Kontrolle. Der Zauber wirkt fünf Meter rechts vom Ziel. Alle dazwischen werden unmodifiziert angegriffen. Drei Runden benommen.",
-        "visual": "Zauber 5m rechts. Dazw. unmod. Angriff. 3 Rd ben.",
-        "needs_review": false
-      },
-      "117-119": {
-        "tts": "Außer Kontrolle. Der Zauber wirkt fünf Meter links vom Ziel. Alle dazwischen werden unmodifiziert angegriffen. Drei Runden benommen.",
-        "visual": "Zauber 5m links. Dazw. unmod. Angriff. 3 Rd ben.",
-        "needs_review": false
-      },
-      "120-999": {
-        "tts": "Nervenzusammenbruch. Der Zauber wirkt in entgegengesetzter Richtung.",
-        "visual": "Zauber wirkt entgegengesetzt.",
-        "needs_review": false
-      }
-    },
-    "Manöver": {
-      "-100-5": {
-        "tts": "Sie haben Zweifel und warten eine Runde ab.",
-        "visual": "1 Rd abwarten.",
-        "needs_review": false
-      },
-      "5-20": {
-        "tts": "Sie rutschen aus und stürzen mit dreißig Prozent Wahrscheinlichkeit zu Boden. In den nächsten zwei Runden erhalten Sie einen Malus von minus zwanzig auf Manöver.",
-        "visual": "30% zu Boden. 2 Rd -20 auf Manöver.",
-        "needs_review": false
-      },
-      "21-35": {
-        "tts": "Sie stolpern und stürzen mit fünfundvierzig Prozent Wahrscheinlichkeit. In den nächsten zwei Runden erhalten Sie einen Malus von minus dreißig auf Manöver.",
-        "visual": "45% zu Boden. 2 Rd -30 auf Manöver.",
-        "needs_review": false
-      },
-      "36-50": {
-        "tts": "Sie stoßen sich den Zeh und fallen mit sechzig Prozent Wahrscheinlichkeit hin. Dies verursacht plus drei Treffer. Zusätzlich erhalten Sie einen Malus von minus zehn auf alle Handlungen.",
-        "visual": "60% zu Boden. +3T. -10 auf alle Handlungen.",
-        "needs_review": false
-      },
-      "51-60": {
-        "tts": "Sie rutschen aus und stürzen mit fünfundsiebzig Prozent Wahrscheinlichkeit. Zwei Runden lang sind Sie benommen.",
-        "visual": "75% zu Boden. 2 Rd ben.",
-        "needs_review": false
-      },
-      "61-79": {
-        "tts": "Der Zauber oder Manöverversuch richtet sich gegen Sie selbst. Sie erhalten einen Malus von minus zehn auf alle Handlungen.",
-        "visual": "Zauber/Manöver gegen selbst. -10 auf alle Handlungen.",
-        "needs_review": false
-      },
-      "80-80": {
-        "tts": "Sie werden zu Boden geworfen und sind eine Stunde benommen.",
-        "visual": "zu Boden. 1 Std ben.",
-        "needs_review": false
-      },
-      "81-86": {
-        "tts": "Sie stürzen zu Boden und erleiden plus drei Treffer. Drei Runden lang erhalten Sie einen Malus von minus zwanzig auf alle Handlungen.",
-        "visual": "zu Boden. +3T. 3 Rd -20 auf alle Handlungen.",
-        "needs_review": false
-      },
-      "87-89": {
-        "tts": "Ihr Knöchel ist verstaucht oder Sie erleiden eine Sehnenzerrung, was plus sieben Treffer verursacht. Sie erhalten einen Malus von minus zwanzig auf alle Handlungen und sind eine Runde benommen.",
-        "visual": "Knöchel verstaucht/Sehnenzerrung. +7T. -20 auf alle Handlungen. 1 Rd ben.",
-        "needs_review": false
-      },
-      "90-90": {
-        "tts": "Sie stürzen und erleiden einen Beinbruch, was plus acht Treffer verursacht. Sie erhalten einen Malus von minus dreißig auf alle Handlungen und sind drei Runden benommen.",
-        "visual": "Beinbruch. +8T. -30 auf alle Handlungen. 3 Rd ben.",
-        "needs_review": false
-      },
-      "91-96": {
-        "tts": "Ein Sturz mit Schädelprellung verursacht plus zwölf Treffer. Sie erhalten minus zwanzig auf alle Handlungen und sind drei Runden lang benommen.",
-        "visual": "Schädelprellung. +12T. -20 auf alle Handlungen. 3 Rd ben.",
-        "needs_review": false
-      },
-      "97-99": {
-        "tts": "Ein unglücklicher Sturz führt zu einem Armbruch. Sie erleiden plus vierzehn Treffer, erhalten minus dreißig auf alle Handlungen und sind vier Runden lang benommen.",
-        "visual": "Armbruch. +14T. -30 auf alle Handlungen. 4 Rd ben.",
-        "needs_review": false
-      },
-      "100-100": {
-        "tts": "Sie brechen sich beide Arme beim Abfangen. Dies verursacht plus dreißig Treffer und weitere plus zwei Treffer pro Runde. Sie sind sechs Runden lang benommen.",
-        "visual": "beide Arme gebrochen. +30T. +2 T/Rd. 6 Rd ben.",
-        "needs_review": false
-      },
-      "101-106": {
-        "tts": "Beim Fallen erleiden Sie einen Beinbruch. Dies verursacht plus fünfzehn Treffer. Sie erhalten minus fünfzig auf alle Handlungen und sind drei Runden lang benommen.",
-        "visual": "Beinbruch. +15T. -50 auf alle Handlungen. 3 Rd ben.",
-        "needs_review": false
-      },
-      "107-109": {
-        "tts": "Ihre Kniescheibe zersplittert beim Sturz. Dies verursacht plus zehn Treffer. Sie erhalten minus fünfzig auf alle Handlungen und sind vier Runden lang benommen.",
-        "visual": "Kniescheibe zersplittert. +10T. -50 auf alle Handlungen. 4 Rd ben.",
-        "needs_review": false
-      },
-      "110-110": {
-        "tts": "Sie prallen mit dem Kopf zuerst auf und fallen für ein Jahr ins Koma.",
-        "visual": "Koma für 1 Jahr.",
-        "needs_review": false
-      },
-      "111-116": {
-        "tts": "Sie prallen unglücklich auf die Wirbelsäule auf und sind von der Hüfte abwärts gelähmt. Sie erleiden plus dreißig Treffer.",
-        "visual": "gelähmt Hüfte abwärts. +30T.",
-        "needs_review": false
-      },
-      "117-119": {
-        "tts": "Ein schwerer Sturz führt zu einer Lähmung vom Kopf abwärts. Sie erleiden plus zwanzig Treffer.",
-        "visual": "gelähmt Kopf abwärts. +20T.",
-        "needs_review": false
-      },
-      "120-999": {
-        "tts": "Beim Aufschlag erleiden Sie einen Schädelbasisbruch, der sofort tödlich ist.",
-        "visual": "sofort tödlich.",
-        "needs_review": false
-      }
-    }
-  },
   "Elektro": {
     "audioFile": "elektro.mp3",
     "A": {
@@ -7539,6 +7148,397 @@
         "tts": "Ein Schlag zerbröselt die Hüfte. Der Gegner fällt um, versucht aufzustehen und fällt sofort wieder um. Dies ist innerhalb von sechs Runden tödlich. Zusätzlich fünfunddreißig Treffer. Er ist zwei Runden lang benommen. Minus dreißig auf alle Aktionen.",
         "visual": "Fällt um. Tödlich in 6 Rd. +35T. 2 Rd ben. -30 auf alle Aktionen.",
         "needs_review": true
+      }
+    }
+  },
+  "Allgemeine Patzer": {
+    "audioFile": "patzer.mp3",
+    "Nahkampf": {
+      "80": {
+        "tts": "Durch Ungeschick fügen Sie sich einen Kritischen Hieb Klasse B zu. Hat der Gegner eine Klingenwaffe benutzt, zerbricht Ihre.",
+        "visual": "Kritischer Hieb Klasse B. Gegner Klingenwaffe, eigene Waffe zerbricht.",
+        "needs_review": false
+      },
+      "90": {
+        "tts": "Falsch gedacht und schlecht gemacht: Ihre Waffe zerbricht und trifft Sie selbst; das entspricht einem Kritischen Hieb Klasse C.",
+        "visual": "Waffe zerbricht. Krit Hieb Kl C.",
+        "needs_review": false
+      },
+      "100": {
+        "tts": "Sie prellen sich eine Rippe, deswegen erhalten Sie auf alle weiteren Handlungen minus sechzig. Ihr Gegner ist zwei Runden lang vor Lachen benommen.",
+        "visual": "Rippe geprellt. -60 auf alle weiteren Handlungen. Gegner 2 Rd ben.",
+        "needs_review": false
+      },
+      "110": {
+        "tts": "Sie stolpern und sind fünf Runden lang benommen. Reiten Sie gerade, fliegen Sie zehn Meter weit und erhalten bei der Landung einen Kritischen Hieb C.",
+        "visual": "5 Rd ben. Kritischer Hieb C.",
+        "needs_review": false
+      },
+      "-100-5": {
+        "tts": "Sie haben sich nicht ganz in der Gewalt und können in dieser Runde keine weiteren Handlungen mehr unternehmen.",
+        "visual": "Keine weiteren Handlungen diese Rd.",
+        "needs_review": false
+      },
+      "6-20": {
+        "tts": "Sie rutschen aus. Falls Sie eine nicht magische Handwaffe führen, zerbricht diese.",
+        "visual": "Rutscht aus. Nicht-magische Handwaffe zerbricht.",
+        "needs_review": false
+      },
+      "21-35": {
+        "tts": "Schlechte Ausführung. Sie verpassen die Gelegenheit und müssen zwei Treffer einstecken.",
+        "visual": "+2T.",
+        "needs_review": false
+      },
+      "36-50": {
+        "tts": "Die Waffe rutscht Ihnen aus der Hand. Es dauert eine Runde, eine neue zu ziehen, beziehungsweise zwei Runden, die alte Waffe aufzuheben.",
+        "visual": "Waffe fallengelassen. 1 Rd neue Waffe ziehen. ODER 2 Rd alte Waffe aufheben.",
+        "needs_review": false
+      },
+      "51-65": {
+        "tts": "Sie sind außer Atem und müssen kürzer treten. In den nächsten beiden Runden erhalten Sie minus vierzig auf alle Handlungen.",
+        "visual": "2 Rd -40 auf alle Aktionen.",
+        "needs_review": false
+      },
+      "66-79": {
+        "tts": "Sie stolpern ungeschickt und sind zwei Runden lang benommen.",
+        "visual": "2 Rd ben.",
+        "needs_review": false
+      },
+      "81-86": {
+        "tts": "Sie beißen sich vor Aufregung auf die Zunge und sind zwei Runden lang benommen.",
+        "visual": "2 Rd ben.",
+        "needs_review": false
+      },
+      "87-89": {
+        "tts": "Sie verlieren Ihre Waffe aus der Hand und ebenso den Draht zur Realität; Sie sind drei Runden lang benommen.",
+        "visual": "Waffe verloren. 3 Rd ben.",
+        "needs_review": false
+      },
+      "91-96": {
+        "tts": "Sie sind besonders ungeschickt mit Ihrer Waffe: Kritischer Hieb der Klasse B für jeden befreundeten Charakter in Ihrer Umgebung.",
+        "visual": "Krit Hieb Kl B für jeden befreundeten Char in Umgebung.",
+        "needs_review": false
+      },
+      "97-99": {
+        "tts": "Sie stolpern über eine tote, unsichtbare Schildkröte. Dies verwirrt Sie sehr und Sie sind drei Runden lang benommen.",
+        "visual": "3 Rd ben.",
+        "needs_review": false
+      },
+      "101-106": {
+        "tts": "Sie stolpern und spießen sich dabei fast selbst auf. Sie sind drei Runden lang benommen. Ist es eine Stangenwaffe, zerbricht der Schaft.",
+        "visual": "3 Rd ben. Stangenwaffe: Schaft zerbricht.",
+        "needs_review": false
+      },
+      "107-109": {
+        "tts": "Sie zerbrechen Ihre Waffe durch vollkommene Unfähigkeit und sind daher vier Runden lang benommen.",
+        "visual": "Waffe zerbricht. 4 Rd ben.",
+        "needs_review": false
+      },
+      "111-116": {
+        "tts": "Ihr (vielleicht nur imaginäres) Reittier bäumt sich urplötzlich auf. Sie sind drei Runden lang benommen. Fangen sich dann aber wieder.",
+        "visual": "3 Rd ben.",
+        "needs_review": false
+      },
+      "117-119": {
+        "tts": "Sie sind uneins mit Ihrem Reittier (oder wenn Sie zu Fuss unterwegs sind, mit Ihrem anderen Ich). Sie erhalten drei Runden lang eine Modifikation von minus neunzig auf alle Handlungen.",
+        "visual": "3 Rd -90 auf alle Handlungen.",
+        "needs_review": false
+      },
+      "120+": {
+        "tts": "Sie fallen vom Rücken Ihres (vielleicht nur imaginären) Reittieres und müssen einen Kritischen Hieb der Klasse D hinnehmen.",
+        "visual": "Kritischer Hieb Kl. D.",
+        "needs_review": false
+      }
+    },
+    "Fernkampf": {
+      "80": {
+        "tts": "Sie zielen daneben und fügen sich selbst fünf Treffer zu. Außer bei der Armbrust fliegt der Pfeil zwar los, reißt Ihnen dabei aber fast das Ohr ab; zwei Treffer pro Runde.",
+        "visual": "+5T (sich selbst). Außer Armbrust: +2 T/Rd.",
+        "needs_review": false
+      },
+      "90": {
+        "tts": "Ihre Waffe zersplittert. Sie sind vier Runden lang benommen.",
+        "visual": "Waffe zersplittert. 4 Rd ben.",
+        "needs_review": false
+      },
+      "100": {
+        "tts": "Sie verreißen ihre Waffe und das Projektil streift Ihre Hand. Diese fällt erstmal aus. Sie müssen acht Treffer und zusätzlich zwei Treffer pro Runde hinnehmen.",
+        "visual": "Hand unbrauchbar. +8T. +2 T/Rd.",
+        "needs_review": false
+      },
+      "110": {
+        "tts": "Die Spitze der Waffe verhakt sich und bricht ab. Falls möglich, fügt dies dem Gegenstand einen Kritischen Stich-Schaden der Klasse A zu.",
+        "visual": "Gegenstand: Kritischer Stich-Schaden Kl. A.",
+        "needs_review": false
+      },
+      "-100-5": {
+        "tts": "Sie haben sich nicht ganz in der Gewalt. Sie können in dieser Runde keine weiteren Handlungen unternehmen.",
+        "visual": "Keine weiteren Handlungen diese Rd.",
+        "needs_review": false
+      },
+      "6-20": {
+        "tts": "Sie sind zu nervös zum Laden. Sie können diese Runde nichts mehr tun.",
+        "visual": "Keine Handlungen diese Rd.",
+        "needs_review": false
+      },
+      "21-35": {
+        "tts": "Sie lassen Ihr Geschoss fallen. Sie können diese Runde nichts mehr tun und erhalten in der nächsten eine Modifikation von minus dreißig auf alle Handlungen.",
+        "visual": "Geschoss fallengelassen. Keine Handlungen diese Rd. Nächste Rd -30 auf alle Handlungen.",
+        "needs_review": false
+      },
+      "36-50": {
+        "tts": "Sie zerbrechen Ihr Geschoss und verlieren die Fassung. In den nächsten drei Runden erhalten Sie eine Modifikation von minus dreißig auf alle Handlungen.",
+        "visual": "Geschoss zerbrochen. Nächste 3 Rd -30 auf alle Handlungen.",
+        "needs_review": false
+      },
+      "51-65": {
+        "tts": "Sie lassen Ihr Geschoss fallen. Sie sind diese und die nächste Runde benommen und versuchen sich darüber klar zu werden, ob Sie es aufheben sollen.",
+        "visual": "Geschoss fallengelassen. 2 Rd ben.",
+        "needs_review": false
+      },
+      "66-79": {
+        "tts": "Sie misshandeln Ihre Waffe im wahrsten Sinne des Wortes. Sie sind zwei Runden lang benommen.",
+        "visual": "2 Rd ben.",
+        "needs_review": false
+      },
+      "81-86": {
+        "tts": "Die Sehne Ihres Bogens reißt. Es dauert zwei Runden, eine andere Waffe zu ziehen. Die gerissene Sehne können Sie innerhalb von sechs Runden wieder herstellen.",
+        "visual": "Bogensehne reißt. 2 Rd andere Waffe ziehen. Sehne in 6 Rd herstellbar.",
+        "needs_review": false
+      },
+      "87-89": {
+        "tts": "Sie zittern zu stark beim Nachladen. Dabei verstreuen sie all Ihre Geschosse in einem Umkreis von drei Metern.",
+        "visual": "Geschosse verstreut 3m Umkreis.",
+        "needs_review": false
+      },
+      "91-96": {
+        "tts": "Sie lassen Ihren Pfeil zu früh fliegen, er verfehlt das Ziel um über fünf Meter. Sie erhalten die nächsten drei Runden lang eine Modifikation von minus dreißig auf alle Handlungen.",
+        "visual": "-30 auf alle Handlungen 3 Rd.",
+        "needs_review": false
+      },
+      "97-99": {
+        "tts": "Sie halten Ihren Bogen für einen Knüppel. Er gleitet Ihnen aus den Fingern. Beim Versuch, ihn wieder aufzuheben, treten Sie ihn anderthalb Meter von sich weg.",
+        "visual": "Bogen fallengelassen.",
+        "needs_review": false
+      },
+      "101-106": {
+        "tts": "Sie rutschen aus und fallen hin, der Schuss geht völlig ins Blaue. Sie sind fünf Runden lang benommen.",
+        "visual": "5 Rd ben.",
+        "needs_review": false
+      },
+      "107-109": {
+        "tts": "Ein Teil des Projektils streift beim Abschuss Ihr Auge. Sie müssen fünf Treffer hinnehmen, erhalten minus zwanzig auf alle Handlungen und sind zwei Runden lang benommen.",
+        "visual": "+5T. -20 auf alle Handlungen. 2 Rd ben.",
+        "needs_review": false
+      },
+      "111-116": {
+        "tts": "Während Sie noch zielen, geht Ihnen die Waffe los. Würfeln Sie einen unmodifizierten Angriff auf den Ihnen am nächsten stehenden Kämpfer aus.",
+        "visual": "Unmod. Angriff auf nächsten Kämpfer.",
+        "needs_review": false
+      },
+      "117-119": {
+        "tts": "Gedankenverloren legen Sie mitten im Kampf Ihren Finger direkt vor den Bolzen. Das kostet Sie Ihren Finger und vier Treffer sowie zwei Treffer pro Runde.",
+        "visual": "Finger verloren. +4T. +2 T/Rd.",
+        "needs_review": false
+      },
+      "120+": {
+        "tts": "Sie rutschen aus und nageln Ihren Fuß mit einem Ihrer Bolzen am Boden fest. Sie erhalten zehn Treffer, zwei Treffer pro Runde, minus dreißig auf alles und sind drei Runden lang benommen.",
+        "visual": "+10T. +2 T/Rd. -30 auf alles. 3 Rd ben.",
+        "needs_review": false
+      }
+    },
+    "Zauber": {
+      "80": {
+        "tts": "Der Zauberspruch richtet sich gegen Sie selbst. Sie erhalten plus fünfzehn Treffer. Sie werden zu Boden geworfen und sind eine Stunde lang benommen.",
+        "visual": "Zauberspruch gegen sich selbst. +15T. Zu Boden geworfen. 1 Std ben.",
+        "needs_review": false
+      },
+      "90": {
+        "tts": "Die Überlastung ruft einen leichten Schlaganfall hervor. Sie erhalten plus zwanzig Treffer. Sie sind zwölf Stunden lang ohnmächtig.",
+        "visual": "+20T. 12 Std ohnmächtig.",
+        "needs_review": false
+      },
+      "100": {
+        "tts": "Sie erleiden eine Identitätskrise. Als Folge können Sie zwei Wochen lang nicht mehr zaubern.",
+        "visual": "2 Wochen nicht zaubern.",
+        "needs_review": false
+      },
+      "110": {
+        "tts": "Die Überlastung ruft einen schweren Schlaganfall bei Ihnen hervor. Sie sind von der Hüfte an abwärts gelähmt.",
+        "visual": "Von Hüfte abwärts gelähmt.",
+        "needs_review": false
+      },
+      "-100-5": {
+        "tts": "Überanstrengung stört Ihre Konzentration. Sie können zwar nicht zaubern, verlieren aber auch keine Magiepunkte.",
+        "visual": "Nicht zaubern. Keine MP-Verlust.",
+        "needs_review": false
+      },
+      "6-20": {
+        "tts": "Sie haben Zweifel. Sie können in der nächsten Runde keinen Zauberspruch vorbereiten oder aussprechen.",
+        "visual": "Nächste Rd kein Zauber vorbereiten/aussprechen.",
+        "needs_review": false
+      },
+      "21-35": {
+        "tts": "Bei der Zaubervorbereitung unterläuft Ihnen ein kleiner Fehler. Der Zauberspruch wird um eine Runde verzögert.",
+        "visual": "Zauberspruch 1 Rd verzögert.",
+        "needs_review": false
+      },
+      "36-50": {
+        "tts": "Sie begehen einen Fehler und können in dieser Runde nicht mehr zaubern, verlieren aber keine Magiepunkte. Sie erhalten in den nächsten drei Runden minus dreißig auf alle Handlungen.",
+        "visual": "Diese Rd nicht zaubern. Keine MP-Verlust. Nächste 3 Rd -30 auf alle Handlungen.",
+        "needs_review": false
+      },
+      "51-65": {
+        "tts": "Sie sind überlastet. Der Zauberspruch verpufft wirkungslos; die eingesetzten Magiepunkte sind verloren. Sie sind eine Runde lang benommen.",
+        "visual": "Zauberspruch wirkungslos. Magiepunkte verloren. 1 Rd ben.",
+        "needs_review": false
+      },
+      "66-79": {
+        "tts": "Unbewusste Angst hebt die Wirkung des Zauberspruches auf, die eingesetzten Magiepunkte sind verloren. Sie sind zwei Runden lang benommen.",
+        "visual": "Zauberspruch wirkungslos. Magiepunkte verloren. 2 Rd ben.",
+        "needs_review": false
+      },
+      "81-86": {
+        "tts": "Sie sind ernstlich überlastet. Sie können in dieser Runde nicht mehr zaubern, verlieren aber keine Magiepunkte. Sie sind drei Runden lang benommen.",
+        "visual": "nicht mehr zaubern diese Rd. 3 Rd ben.",
+        "needs_review": false
+      },
+      "87-89": {
+        "tts": "Der Spruch entlädt sich gegen Sie und überlastet Ihre Sinne. Sie erhalten plus zwanzig Treffer. Sie sind zehn Minuten lang taub und blind.",
+        "visual": "+20T. 10 Min taub/blind.",
+        "needs_review": false
+      },
+      "91-96": {
+        "tts": "Der Zauberspruch geht vollkommen daneben. Sie erhalten plus fünf Treffer. Sie sind drei Runden lang benommen.",
+        "visual": "+5T. 3 Rd ben.",
+        "needs_review": false
+      },
+      "97-99": {
+        "tts": "Die Essenz des Ziels wirft den Zauberspruch auf Sie zurück. Nun ist der Gegner der Angreifer und Sie selbst sind das Ziel.",
+        "visual": "Zauber reflektiert. Ziel/Angreifer vertauscht.",
+        "needs_review": false
+      },
+      "101-106": {
+        "tts": "Durch geistige Überbeanspruchung entlädt sich Ihr Zauberspruch unkontrolliert. Sie erhalten plus zehn Treffer. Sie werden zu Boden geworfen und sind sechs Runden lang benommen.",
+        "visual": "+10T. Zu Boden geworfen. 6 Rd ben.",
+        "needs_review": false
+      },
+      "107-109": {
+        "tts": "Der Zauberspruch entlädt sich gegen Sie selbst. Sie können drei Wochen lang nicht mehr zaubern. Sie erhalten plus fünfundzwanzig Treffer. Sie sind drei Stunden lang bewusstlos.",
+        "visual": "3 Wochen nicht zaubern. +25T. 3 Std bewusstlos.",
+        "needs_review": false
+      },
+      "111-116": {
+        "tts": "Ihr Zauberspruch gerät außer Kontrolle und wirkt fünf Meter rechts vom Ziel. Jeder dazwischen wird unmodifiziert angegriffen. Sie sind drei Runden lang benommen.",
+        "visual": "Spruch 5m rechts vom Ziel. Dazwischen unmod. Angriff. 3 Rd ben.",
+        "needs_review": false
+      },
+      "117-119": {
+        "tts": "Ihr Zauberspruch gerät außer Kontrolle und wirkt fünf Meter links vom Ziel. Jeder dazwischen wird unmodifiziert angegriffen. Sie sind drei Runden lang benommen.",
+        "visual": "Spruch 5m links vom Ziel. Dazwischen unmod. Angriff. 3 Rd ben.",
+        "needs_review": false
+      },
+      "120+": {
+        "tts": "Nervenzusammenbruch: Ihr Zauberspruch entfaltet seine Wirkung genau in entgegengesetzter Richtung. Sie können dreizehn Monate lang nicht mehr zaubern.",
+        "visual": "13 Monate nicht mehr zaubern.",
+        "needs_review": false
+      }
+    },
+    "Manöver": {
+      "80": {
+        "tts": "Sie verstauchen sich den Knöchel. Sie erhalten plus fünf Treffer. Sie erhalten eine Modifikation von minus zehn auf alle Handlungen.",
+        "visual": "Knöchel verstaucht. +5T. -10 auf alle Aktionen.",
+        "needs_review": false
+      },
+      "90": {
+        "tts": "Sie stürzen und brechen sich dabei ein Bein. Sie erhalten plus acht Treffer. Sie erhalten eine Modifikation von minus dreißig auf alte Handlungen und sind drei Runden lang benommen.",
+        "visual": "Bein gebrochen. +8T. -30 auf alle Handlungen. 3 Rd ben.",
+        "needs_review": false
+      },
+      "100": {
+        "tts": "Sie versuchen, Ihren Sturz aufzufangen, und brechen sich dabei beide Arme. Sie erhalten plus dreißig Treffer. Sie sind sechs Runden lang benommen.",
+        "visual": "Beide Arme gebrochen. +30T. 6 Rd ben.",
+        "needs_review": false
+      },
+      "110": {
+        "tts": "Wo auch immer Sie gerade hin fliegen, Sie landen mit dem Kopf zuerst und verfallen in ein einjähriges Koma.",
+        "visual": "Einjähriges Koma.",
+        "needs_review": false
+      },
+      "-100-5": {
+        "tts": "Sie zögern zu lange und lassen die Gelegenheit ungenutzt verstreichen.",
+        "visual": "Manöver verpasst.",
+        "needs_review": false
+      },
+      "6-20": {
+        "tts": "Sie haben Zweifel und entscheiden sich, lieber noch eine Runde zu warten.",
+        "visual": "Manöver aufgeschoben.",
+        "needs_review": false
+      },
+      "21-35": {
+        "tts": "Sie rutschen aus und stürzen mit einer Wahrscheinlichkeit von dreißig Prozent zu Boden. Alle Ihre Manöver in den nächsten beiden Runden werden um minus zwanzig modifiziert.",
+        "visual": "30% zu Boden. Nächste 2 Rd -20 auf alle Manöver.",
+        "needs_review": false
+      },
+      "36-50": {
+        "tts": "Sie stolpern und stürzen mit einer Wahrscheinlichkeit von fünfundvierzig Prozent zu Boden. Sie erhalten eine Modifikation von minus dreißig auf alle Handlungen.",
+        "visual": "45% zu Boden fallen. -30 auf alle Aktionen.",
+        "needs_review": false
+      },
+      "51-65": {
+        "tts": "Sie stoßen sich den Zeh und fallen mit einer Wahrscheinlichkeit von sechzig Prozent hin. Pluss drei Treffer.Sie erhalten eine Modifikation von minus zehn auf alle Handlungen.",
+        "visual": "60% zu Boden fallen. +3T. -10 auf alle Aktionen.",
+        "needs_review": false
+      },
+      "66-79": {
+        "tts": "Sie rutschen aus und stürzen mit einer Wahrscheinlichkeit von fünfundsiebzig Prozent zu Boden. Sie sind zwei Runden lang benommen.",
+        "visual": "75% zu Boden fallen. 2 Rd ben.",
+        "needs_review": false
+      },
+      "81-86": {
+        "tts": "Sie stürzen zu Boden. Sie erhalten plus drei Treffer. Sie erhalten drei Runden lang auf alle Handlungen eine Modifikation von minus zwanzig.",
+        "visual": "+3T. 3 Rd -20 auf alle Handlungen.",
+        "needs_review": false
+      },
+      "87-89": {
+        "tts": "Sie verstauchen sich den Knöchel: Sehnenzerrung. Sie erhalten plus sieben Treffer. Sie erhalten eine Modifikation von minus zwanzig auf alte Handlungen und sind eine Runde lang benommen.",
+        "visual": "+7T. -20 auf alle Handlungen. 1 Rd ben.",
+        "needs_review": false
+      },
+      "91-96": {
+        "tts": "Sie stürzen und brechen sich dabei die Hüfte. Sie erhalten plus zwölf Treffer. Sie erhalten eine Modifikation von minus zwanzig auf alte Handlungen und sind drei Runden lang benommen.",
+        "visual": "Hüfte gebrochen. +12T. -20 auf alle Handlungen. 3 Rd ben.",
+        "needs_review": false
+      },
+      "97-99": {
+        "tts": "Sie fallen unglücklich und brechen sich den Arm. Sie erhalten plus vierzehn Treffer. Sie erhalten eine Modifikation von minus dreißig auf alle Handlungen und sind vier Runden lang benommen.",
+        "visual": "Arm gebrochen. +14T. -30 auf alle Handlungen. 4 Rd ben.",
+        "needs_review": false
+      },
+      "101-106": {
+        "tts": "Beim Fallen brechen Sie sich ein Bein. Sie erhalten plus fünfzehn Treffer. Sie erhalten eine Modifikation von minus fünfzig auf alle Handlungen und sind drei Runden lang benommen.",
+        "visual": "Bein gebrochen. +15T. -50 auf alle Handlungen. 3 Rd ben.",
+        "needs_review": false
+      },
+      "107-109": {
+        "tts": "Ihre Kniescheibe splittert beim Sturz. Sie erhalten plus zehn Treffer. Sie erhalten eine Modifikation von minus fünfzig auf alle Handlungen und sind vier Runden lang benommen.",
+        "visual": "Kniescheibe splittert. +10T. -50 auf alle Handlungen. 4 Rd ben.",
+        "needs_review": false
+      },
+      "111-116": {
+        "tts": "Sie prallen unglücklich mit Ihrer Wirbelsäule auf dem Boden auf und sind von der Hüfte abwärts gelähmt. Sie erhalten plus dreißig Treffer.",
+        "visual": "Von Hüfte abwärts gelähmt. +30T.",
+        "needs_review": false
+      },
+      "117-119": {
+        "tts": "Der schwere Sturz hat eine Lähmung zur Folge, und zwar vom Kopf an abwärts. Sie erhalten plus zwanzig Treffer.",
+        "visual": "Von Kopf abwärts gelähmt. +20T.",
+        "needs_review": false
+      },
+      "120+": {
+        "tts": "Beim Fallen schlagen Sie mit dem Kopf hart auf und sterben an einem Schädelbasisbruch.",
+        "visual": "Stirbt.",
+        "needs_review": false
       }
     }
   }

@@ -6,6 +6,10 @@
     "serve": "npx serve -l 3333",
     "generate-audio": "node scripts/generate_audio_elevenlabs.js",
     "clean-tables": "node scripts/clean_tables_with_gemini.js",
+    "extract-patzer": "node scripts/extract_patzer_pdf.js",
+    "minify-patzer": "node scripts/minify_patzer_visual.js",
+    "merge-patzer": "node scripts/merge_patzer_into_tables_processed.js",
+    "sync-patzer-ranges": "node scripts/apply_patzer_range_labels.js",
     "minify-visual": "node scripts/minify_visual_text.js"
   },
   "dependencies": {

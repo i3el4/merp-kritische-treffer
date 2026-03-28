@@ -2,6 +2,9 @@
 /**
  * Minifiziert die "visual" Texte in tables_processed.json via Gemini API.
  * Liest TTS-Texte, extrahiert nur Crunch/Spielmechaniken und speichert als tables_final.json.
+ *
+ * Für Allgemeine Patzer (patzer_tables.json → Allgemeine Patzer) dieselbe Crunch-Logik:
+ * scripts/minify_patzer_visual.js, danach scripts/merge_patzer_into_tables_processed.js
  */
 
 require('dotenv').config({ path: require('path').join(__dirname, '../private/.env') });

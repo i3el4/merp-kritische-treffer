@@ -3,8 +3,8 @@
 
 import { state } from './state.js';
 import { $ } from './dom.js';
-import { CRIT_ICONS, URLS, PATZER_KATEGORIEN, PATZER_MATERIAL_MODS, PATZER_SCHWIERIGKEIT_MODS } from './constants.js';
-import { calculateAttack, lookupCritEntry, lookupPatzerEntry, mapCritName, adjustWeaponFontSizes } from './logic.js';
+import { CRIT_ICONS, URLS, PATZER_CONTEXT_MODS } from './constants.js';
+import { calculateAttack, lookupCritEntry, mapCritName, adjustWeaponFontSizes } from './logic.js';
 import { playCritAudio, tryStartBgAudio } from './audio.js';
 import { chip } from './dom.js';
 import { applySchaden, applySchadenCharakter, getGegnerById, getSpielerById, getNpcById, getAktuelleRunde } from './campaigns.js';
@@ -200,6 +200,8 @@ export function setupEventListeners() {
     // Event-Listener für Nebentreffer-Berechnung
     $('#calcSide').addEventListener('click', calculateSide);
     $('#calcPatzer')?.addEventListener('click', calculatePatzer);
+    $('#patzerKategorie')?.addEventListener('change', populatePatzerModifikationSelect);
+    populatePatzerModifikationSelect();
 
     initCritEditOverlay();
 
@@ -425,32 +427,72 @@ function calculateSide() {
     }
 }
 
+/**
+ * Füllt die Modifikations-Optionen passend zur gewählten Tabellenspalte.
+ */
+function populatePatzerModifikationSelect() {
+    const kat = $('#patzerKategorie')?.value || 'Nahkampf';
+    const sel = $('#patzerModifikation');
+    if (!sel) return;
+    const list = PATZER_CONTEXT_MODS[kat] || [];
+    sel.innerHTML = '';
+    list.forEach((o) => {
+        const opt = document.createElement('option');
+        opt.value = o.id;
+        const m = o.mod >= 0 ? `+${o.mod}` : `${o.mod}`;
+        opt.textContent = `${o.label} (${m})`;
+        opt.dataset.mod = String(o.mod);
+        sel.appendChild(opt);
+    });
+}
+
 function calculatePatzer() {
-    const kat = $('#patzerKategorie')?.value || 'allgemein';
-    const material = $('#patzerMaterial')?.value || 'normal';
-    const schwierigkeit = $('#patzerSchwierigkeit')?.value || 'normal';
-    const rollRaw = parseInt($('#patzerRoll')?.value, 10);
+    const kat = $('#patzerKategorie')?.value || 'Nahkampf';
+    const modSel = $('#patzerModifikation');
+    const selectedOpt = modSel?.selectedOptions?.[0];
+    const contextMod = selectedOpt ? parseInt(selectedOpt.dataset.mod || '0', 10) : 0;
+    const rollRaw = parseInt(String($('#patzerRoll')?.value ?? '').trim(), 10);
     const out = $('#patzerOut .result');
     const kpi = $('#patzerKpi');
     if (!out || !kpi) return;
     kpi.innerHTML = '';
+    out.classList.remove('crit-prominent');
     if (Number.isNaN(rollRaw) || rollRaw < 1) {
-        out.textContent = 'Bitte einen gültigen Wurf (>= 1) eingeben.';
+        out.textContent = 'Bitte einen gültigen Wurf (ganze Zahl ≥ 1) eingeben.';
         return;
     }
-    const katMod = PATZER_KATEGORIEN.find(x => x.id === kat)?.mod || 0;
-    const matMod = PATZER_MATERIAL_MODS.find(x => x.id === material)?.mod || 0;
-    const schMod = PATZER_SCHWIERIGKEIT_MODS.find(x => x.id === schwierigkeit)?.mod || 0;
-    const finalRoll = Math.max(1, rollRaw + katMod + matMod + schMod);
-    const entry = lookupPatzerEntry('allgemein', finalRoll);
-    const text = entry?.text || 'Kein Patzer-Eintrag gefunden.';
+    const finalRoll = rollRaw + contextMod;
+    const found = lookupCritEntry('Allgemeine Patzer', kat, finalRoll);
+    if (!found) {
+        out.textContent = 'Kein Patzer-Eintrag für diesen effektiven Wurf.';
+        kpi.append(chip(`Basis: ${rollRaw}`));
+        kpi.append(chip(`Modifikation: ${contextMod >= 0 ? '+' : ''}${contextMod}`));
+        kpi.append(chip(`Effektiv: ${finalRoll}`));
+        return;
+    }
+    const visualText = found.entry.visual;
+    const ttsText = found.entry.tts;
+    const key = found.key;
     kpi.append(chip(`Basis: ${rollRaw}`));
-    kpi.append(chip(`Kategorie: ${katMod >= 0 ? '+' : ''}${katMod}`));
-    kpi.append(chip(`Material: ${matMod >= 0 ? '+' : ''}${matMod}`));
-    kpi.append(chip(`Schwierigkeit: ${schMod >= 0 ? '+' : ''}${schMod}`));
-    kpi.append(chip(`Final: ${finalRoll}`));
-    out.textContent = text;
-    state.lastPatzerResult = { rollRaw, finalRoll, text, kat, material, schwierigkeit };
+    kpi.append(chip(`Modifikation: ${contextMod >= 0 ? '+' : ''}${contextMod}`));
+    kpi.append(chip(`Effektiv: ${finalRoll}`));
+    kpi.append(chip(`Bereich: ${key}`));
+    appendCritIcon(kpi, 'Allgemeine Patzer');
+    out.textContent = visualText;
+    out.classList.add('crit-prominent');
+    state.lastPatzerResult = {
+        rollRaw,
+        finalRoll,
+        contextMod,
+        kat,
+        key,
+        visual: visualText,
+        tts: ttsText
+    };
+    playCritAudio('Allgemeine Patzer', kat, key, ttsText);
+    if (state.isBgMusicPlaying) {
+        tryStartBgAudio('Allgemeine Patzer');
+    }
 }
 
 /**
