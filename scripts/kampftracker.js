@@ -784,46 +784,6 @@ function renderCharakterZeile() {
   });
 }
 
-/** Patzer: Charakter wählen (SL) bzw. Hinweis auf Profil-Charakter (Spieler). */
-function renderPatzerCharakterSelect() {
-  const row = $('#patzerCharakterRow');
-  const sel = $('#patzerCharakterSelect');
-  const hint = $('#patzerCharakterHint');
-  if (!row || !sel) return;
-  const charaktere = getCharaktere();
-  const prev = sel.value;
-  sel.innerHTML = '';
-  const opt0 = document.createElement('option');
-  opt0.value = '';
-  opt0.textContent = '(Charakter wählen)';
-  sel.appendChild(opt0);
-  charaktere.forEach(c => {
-    const opt = document.createElement('option');
-    opt.value = c.id;
-    opt.textContent = c.typ === 'npc' ? `${c.name} (NPC)` : c.name;
-    sel.appendChild(opt);
-  });
-  if (prev && charaktere.some(c => c.id === prev)) sel.value = prev;
-  else if (state.selectedCharakterId && charaktere.some(c => c.id === state.selectedCharakterId)) {
-    sel.value = state.selectedCharakterId;
-  } else sel.value = '';
-
-  if (getRole() === ROLES.SPIELLEITER) {
-    row.hidden = charaktere.length === 0;
-    sel.hidden = false;
-    if (hint) hint.hidden = true;
-  } else {
-    row.hidden = true;
-    if (hint) {
-      hint.hidden = false;
-      const c = charaktere.find(x => x.id === state.selectedCharakterId);
-      hint.textContent = c
-        ? `Patzer wird für deinen Charakter „${c.name}“ ausgewertet und verrechnet.`
-        : 'Kein Charakter gewählt — im Startbildschirm oder unter Profil Kampagne und Charakter wählen, um Patzer zu verrechnen.';
-    }
-  }
-}
-
 function renderUserProfileIcon() {
   const iconEl = $('#userProfileIcon');
   const charItem = $('#userProfileCharakter');
@@ -1685,7 +1645,6 @@ function render() {
   renderHistorieArchiv();
   renderDbAnzeige();
   renderCharakterZeile();
-  renderPatzerCharakterSelect();
   renderUserProfileIcon();
   renderRunde();
   renderSpielerCharakterView();

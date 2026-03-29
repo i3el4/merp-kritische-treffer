@@ -11,7 +11,6 @@ import { applySchaden, applySchadenCharakter, getGegnerById, getSpielerById, get
 import { refreshKampftracker } from './kampftracker.js';
 import { parseCritText } from './critParser.js';
 import { setCorrection, deleteCorrection, exportCorrections } from './critCorrections.js';
-import { getRole, ROLES } from './role.js';
 
 /**
  * Fügt das Krit-Icon in die KPI-Zeile ein (falls vorhanden).
@@ -125,7 +124,7 @@ function initCritEditOverlay() {
  * @param {HTMLElement} wrapContainer Der Wrap-Container (z.B. #critApplyWrap)
  * @param {'attack'|'crit'} quelle
  * @param {{ tp?: number, ben?: number, benoPar?: number, oPar?: number, init?: number, tpPerRound?: number, ko?: boolean }} [parsedOverride] Bei 'crit': geparstes Objekt direkt übergeben
- * @param {{ zielIds?: string[], tpOverride?: number, beschreibungOverride?: string, vonCharakter?: { id: string, name: string } | null }} [applyOpts] Optional: Ziele und Text überschreiben (z. B. Patzer auf gewählten Charakter)
+ * @param {{ zielIds?: string[], tpOverride?: number, beschreibungOverride?: string, vonCharakter?: { id: string, name: string } | null }} [applyOpts] Optional: Ziele/Text/Attribution überschreiben
  */
 function appendApplySchadenButton(wrapContainer, quelle, parsedOverride = null, applyOpts = null) {
     if (!wrapContainer) return;
@@ -456,14 +455,6 @@ function populatePatzerModifikationSelect() {
     });
 }
 
-/** Spieler: Profil-Charakter; Spielleiter: Auswahl im Patzer-Bereich. */
-function getPatzerBetroffenerId() {
-    if (getRole() === ROLES.SPIELLEITER) {
-        return String($('#patzerCharakterSelect')?.value ?? '').trim() || null;
-    }
-    return state.selectedCharakterId || null;
-}
-
 function clearPatzerApplyState() {
     state.lastPatzerTp = 0;
     state.lastPatzerParsed = null;
@@ -510,11 +501,6 @@ function calculatePatzer() {
     kpi.append(chip(`Modifikation: ${contextMod >= 0 ? '+' : ''}${contextMod}`));
     kpi.append(chip(`Effektiv: ${finalRoll}`));
     kpi.append(chip(`Bereich: ${key}`));
-    const betroffenerId = getPatzerBetroffenerId();
-    if (betroffenerId) {
-        const name = getSpielerById(betroffenerId)?.name || getNpcById(betroffenerId)?.name;
-        if (name) kpi.append(chip(`Charakter: ${name}`));
-    }
     appendCritIcon(kpi, 'Allgemeine Patzer');
     out.textContent = visualText;
     out.classList.add('crit-prominent');
@@ -527,23 +513,11 @@ function calculatePatzer() {
         visual: visualText,
         tts: ttsText
     };
-    const applyWrap = $('#patzerApplyWrap');
-    if (betroffenerId) {
-        appendApplySchadenButton(applyWrap, 'crit', parsed, {
-            zielIds: [betroffenerId],
-            tpOverride: parsed.tp,
-            beschreibungOverride: `Patzer: ${visualText}`,
-            vonCharakter: null
-        });
-    } else if (applyWrap) {
-        const p = document.createElement('p');
-        p.className = 'muted';
-        p.style.marginTop = '8px';
-        p.textContent = getRole() === ROLES.SPIELLEITER
-            ? 'Kein Charakter gewählt — oben „Charakter (Patzer auswerten)“ ausfüllen, um TP/Status zu verrechnen.'
-            : 'Kein Charakter im Profil — Kampagne und Charakter wählen, um TP/Status zu verrechnen.';
-        applyWrap.appendChild(p);
-    }
+    appendApplySchadenButton($('#patzerApplyWrap'), 'crit', parsed, {
+        tpOverride: parsed.tp,
+        beschreibungOverride: `Patzer: ${visualText}`,
+        vonCharakter: null
+    });
     playCritAudio('Allgemeine Patzer', kat, key, ttsText);
     if (state.isBgMusicPlaying) {
         tryStartBgAudio('Allgemeine Patzer');
