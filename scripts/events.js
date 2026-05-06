@@ -3,7 +3,7 @@
 
 import { state } from './state.js';
 import { $ } from './dom.js';
-import { CRIT_ICONS, URLS, PATZER_CONTEXT_MODS } from './constants.js';
+import { URLS, PATZER_CONTEXT_MODS, resolveCritIcon } from './constants.js';
 import { calculateAttack, lookupCritEntry, mapCritName, adjustWeaponFontSizes } from './logic.js';
 import { playCritAudio, tryStartBgAudio } from './audio.js';
 import { chip } from './dom.js';
@@ -18,7 +18,7 @@ import { setCorrection, deleteCorrection, exportCorrections } from './critCorrec
  * @param {string} typ Der Krit-Typ (z.B. Stich, Elektro)
  */
 function appendCritIcon(kpi, typ) {
-    const iconFile = CRIT_ICONS[typ];
+    const iconFile = resolveCritIcon(typ) || (String(typ).startsWith('Englisch_') ? 'stich.png' : null);
     if (iconFile) {
         const img = document.createElement('img');
         const iconPath = URLS.ICONS_BASE_PATH + iconFile;
@@ -216,19 +216,6 @@ export function setupEventListeners() {
 
     // Event-Listener für den Reset-Button
     $('#resetBtn').addEventListener('click', resetApp);
-
-    // Fallback-Gegnertyp-Dropdown aktualisiert den Krit-Typ
-    $('#fallbackGegnerTyp')?.addEventListener('change', () => {
-        const gt = $('#fallbackGegnerTyp').value;
-        if (gt === 'gross') {
-            $('#critType').value = 'Grosse Wesen';
-        } else if (gt === 'gewaltig') {
-            $('#critType').value = 'Gewaltige Wesen';
-        } else {
-            $('#critType').value = state.autoCrit.typ || '';
-        }
-        $('#critType').dispatchEvent(new Event('change'));
-    });
 
     // Event-Listener, wenn sich der Krit-Typ ändert
     $('#critType')?.addEventListener('change', handleCritTypeChange);

@@ -328,41 +328,6 @@ header > div:first-child {
   font-family: 'Aniron', Georgia, serif;
 }
 
-/* Fallback-Dropdowns für RK + Gegnertyp (wenn kein Ziel gewählt) */
-/* Kein width:100% hier – neben .ziel-section würde sonst die Zielspalte auf ~0 schrumpfen (Icons stapeln sich). */
-.rk-fallback-section {
-  box-sizing: border-box;
-}
-.rk-fallback-section[hidden] {
-  display: none !important;
-}
-.rk-fallback-details summary {
-  cursor: pointer;
-  font-size: 12px;
-  color: var(--muted);
-  font-family: 'Aniron', Georgia, serif;
-  user-select: none;
-  list-style-position: outside;
-  padding-inline-start: 1.1em;
-}
-.rk-fallback-details summary:hover {
-  color: var(--text);
-}
-.rk-fallback-row {
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
-  align-items: flex-end;
-}
-.rk-fallback-row > div {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-.rk-fallback-row select {
-  min-width: 120px;
-}
-
 /*
   ========================================
   WAFFEN- & RÜSTUNGS-AUSWAHL
@@ -452,6 +417,46 @@ header > div:first-child {
   }
 }
 
+/* Angriffsklasse: schwebend über dem gewählten Naturangriff (position + top/left via JS) */
+.weapon-size-popover {
+  position: fixed;
+  z-index: 250;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 12px;
+  min-width: 168px;
+  max-width: min(92vw, 280px);
+  background: rgba(45, 40, 36, 0.94);
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  pointer-events: auto;
+}
+
+.weapon-size-popover[hidden] {
+  display: none !important;
+}
+
+.weapon-size-popover label {
+  margin: 0;
+  font-size: 11px;
+  color: var(--muted);
+  font-family: 'Aniron', Georgia, serif;
+}
+
+.weapon-size-popover select {
+  width: 100%;
+  min-height: 36px;
+  font-size: 15px;
+  color: var(--text);
+  background: rgba(20, 18, 16, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  padding: 6px 8px;
+}
+
 .weapon-grid button span {
   position: relative;
   z-index: 1;
@@ -508,7 +513,19 @@ header > div:first-child {
 .weapon-grid button[data-weapon="MAINEGAUCHE"] { background-image: url('../assets/icons/dolch.png'); }
 .weapon-grid button[data-weapon="KURZBOGEN"] { background-image: url('../assets/icons/kurzbogen.png'); }
 .weapon-grid button[data-weapon="SCHLEUDER"] { background-image: url('../assets/icons/schleuder.png'); }
-.weapon-grid button[data-weapon="ZWEIHÄNDER"] { background-image: url('../assets/icons/axt\ \(2h\).png'); }
+.weapon-grid button[data-weapon="ZWEIHÄNDER"] { background-image: url('../assets/icons/Zweihandschwert.png'); }
+.weapon-grid button[data-weapon="BEISSEN"] { background-image: url('../assets/icons/beissen.png'); }
+.weapon-grid button[data-weapon="FEGEN"] { background-image: url('../assets/icons/fegen.png'); }
+.weapon-grid button[data-weapon="GREIFEN"] { background-image: url('../assets/icons/greifen.png'); }
+.weapon-grid button[data-weapon="HORN"] { background-image: url('../assets/icons/horn.png'); }
+.weapon-grid button[data-weapon="KLEINTIERE"] { background-image: url('../assets/icons/kleintiere.png'); }
+.weapon-grid button[data-weapon="KRATZEN"] { background-image: url('../assets/icons/kratzen.png'); }
+.weapon-grid button[data-weapon="PIEKSEN"] { background-image: url('../assets/icons/pieksen.png'); }
+.weapon-grid button[data-weapon="QUETSCHEN"] { background-image: url('../assets/icons/quetschen.png'); }
+.weapon-grid button[data-weapon="RAMMEN"] { background-image: url('../assets/icons/rammen.png'); }
+.weapon-grid button[data-weapon="SCHLAGEN"] { background-image: url('../assets/icons/schlagen.png'); }
+.weapon-grid button[data-weapon="STECHEN"] { background-image: url('../assets/icons/stechen.png'); }
+.weapon-grid button[data-weapon="TRAMPEL"] { background-image: url('../assets/icons/trampel.png'); }
 
 
 /*
@@ -568,15 +585,6 @@ header > div:first-child {
   max-width: 100%;
 }
 
-/* Fallback rechts daneben oder umbrechend; nie volle Zeilenbreite erzwingen */
-.ziel-rk-row > .rk-fallback-section {
-  flex: 0 1 260px;
-  min-width: min(100%, 200px);
-  max-width: 100%;
-  align-self: flex-start;
-}
-
-
 /* Angreifer + Angriffswert + Buttons in einer Zeile */
 .selection-container > .angriff-bottom-row {
   display: flex;
@@ -613,11 +621,6 @@ header > div:first-child {
   .ziel-rk-row > .ziel-section {
     flex-basis: auto;
     min-width: 0;
-  }
-
-  .ziel-rk-row > .rk-fallback-section {
-    flex: 1 1 100%;
-    max-width: 100%;
   }
 
   .selection-container > .angriff-bottom-row {

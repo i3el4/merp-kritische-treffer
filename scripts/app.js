@@ -257,6 +257,11 @@ async function loadData() {
             delete critCategories['Patzer'];
         }
 
+        const engKeys = Object.keys(tables || {}).filter((k) => k.startsWith('Englisch_')).sort();
+        if (engKeys.length) {
+            critCategories['Naturangriffe'] = engKeys;
+        }
+
         for (const [groupName, keys] of Object.entries(critCategories)) {
             const optgroup = document.createElement('optgroup');
             optgroup.label = groupName;
@@ -265,7 +270,27 @@ async function loadData() {
                 if (tables[key]) {
                     const opt = document.createElement('option');
                     opt.value = key;
-                    opt.textContent = key.replace(/_/g, ' ');
+                    if (key.startsWith('Englisch_')) {
+                        const raw = key.replace(/^Englisch_/, '').replace(/[_:]+/g, ' ').replace(/\s+/g, ' ').trim();
+                        const lower = raw.toLowerCase();
+                        if (lower.includes('feger') && (lower.includes('wuerfe') || lower.includes('würfe'))) opt.textContent = 'Feger und Würfe';
+                        else if (lower.includes('greifen') || lower.includes('griff')) opt.textContent = 'Greifen';
+                        else if (lower.includes('aus dem gleichgewicht') || lower.includes('ungleichgewicht')) opt.textContent = 'Ungleichgewicht';
+                        else if (lower.includes('ausbalancier')) opt.textContent = 'Ausbalancieren';
+                        else if (lower.includes('kleine tiere')) opt.textContent = 'Kleine Tiere';
+                        else if (lower.includes('winzige tier')) opt.textContent = 'Winzige Tiere';
+                        else if (lower.includes('ringkampf') || lower.includes('ringen')) opt.textContent = 'Ringkampf';
+                        else if (lower.includes('schlag') || lower.includes('schlaege') || lower.includes('schläge')) opt.textContent = 'Schläge';
+                        else {
+                            opt.textContent = raw
+                                .replace(/kritische\s+treffer(?:tabelle|(?:\s+tabelle)?)?/gi, '')
+                                .replace(/kampfkunst|kampfsport|martial arts/gi, '')
+                                .replace(/\s+/g, ' ')
+                                .trim();
+                        }
+                    } else {
+                        opt.textContent = key.replace(/_/g, ' ');
+                    }
                     optgroup.appendChild(opt);
                 }
             });

@@ -1,0 +1,2852 @@
+[
+  {
+    "tabelle": "Kritische Treffertabelle des Ungleichgewichts",
+    "kategorie": "A",
+    "wuerfelwurf": "01-05",
+    "tts_text": "Nichts Besonderes zusätzlich. Plus null Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle des Ungleichgewichts",
+    "kategorie": "A",
+    "wuerfelwurf": "06-10",
+    "tts_text": "Entschuldige Kumpel, vielleicht nächstes Mal."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle des Ungleichgewichts",
+    "kategorie": "A",
+    "wuerfelwurf": "11-15",
+    "tts_text": "Streifender Treffer. Plus drei Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle des Ungleichgewichts",
+    "kategorie": "A",
+    "wuerfelwurf": "16-20",
+    "tts_text": "Der Gegner muss in der nächsten Runde parieren. Plus drei Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle des Ungleichgewichts",
+    "kategorie": "A",
+    "wuerfelwurf": "21-35",
+    "tts_text": "Auf Linie, aber schwach. Der Gegner muss in der nächsten Runde parieren. Plus vier Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle des Ungleichgewichts",
+    "kategorie": "A",
+    "wuerfelwurf": "36-45",
+    "tts_text": "Die Konzentration des Gegners ist gebrochen. Du erhältst die Initiative für die nächste Runde. Plus vier Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle des Ungleichgewichts",
+    "kategorie": "A",
+    "wuerfelwurf": "46-50",
+    "tts_text": "Rückentreffer. Der Gegner muss in der nächsten Runde mit Minus zehn parieren. Guter, streifender Schuss."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle des Ungleichgewichts",
+    "kategorie": "A",
+    "wuerfelwurf": "51-55",
+    "tts_text": "Brusttreffer stößt den Gegner zurück. Der Gegner muss in der nächsten Runde mit Minus zwanzig parieren. Plus fünf Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle des Ungleichgewichts",
+    "kategorie": "A",
+    "wuerfelwurf": "56-60",
+    "tts_text": "Streifender Beintreffer. Wenn der Gegner Beinrüstung hat, Plus fünf Treffer. Wenn nicht, Plus sieben Treffer und der Gegner ist in der nächsten Runde benommen."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle des Ungleichgewichts",
+    "kategorie": "A",
+    "wuerfelwurf": "61-65",
+    "tts_text": "Armtreffer. Der Gegner ist für die nächste Runde benommen. Plus sechs Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle des Ungleichgewichts",
+    "kategorie": "A",
+    "wuerfelwurf": "66",
+    "tts_text": "Schultertreffer lässt den Gegner taumeln. Plus sieben Treffer. Der Gegner ist für zwei Runden benommen und kann nicht parieren, während er das Gleichgewicht wiedererlangt."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle des Ungleichgewichts",
+    "kategorie": "A",
+    "wuerfelwurf": "67-70",
+    "tts_text": "Brusttreffer bringt den Gegner aus dem Gleichgewicht. Plus sechs Treffer. Der Gegner ist aus dem Gleichgewicht und kämpft für zwei Runden mit Minus fünfzig."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle des Ungleichgewichts",
+    "kategorie": "A",
+    "wuerfelwurf": "71-75",
+    "tts_text": "Schlag gegen das Unterbein des Gegners. Der Gegner ist für zwei Runden benommen. Plus sieben Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle des Ungleichgewichts",
+    "kategorie": "A",
+    "wuerfelwurf": "76-80",
+    "tts_text": "Schlag gegen den Schildarm. Wenn der Gegner einen Schild hat, wird dieser weggerissen und Plus acht Treffer. Wenn nicht, Plus zwölf Treffer und der Gegner ist für zwei Runden benommen."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle des Ungleichgewichts",
+    "kategorie": "A",
+    "wuerfelwurf": "81-85",
+    "tts_text": "Seitentreffer. Plus zwölf Treffer. Der Gegner ist benommen und kann in der nächsten Runde nicht parieren. Addiere Plus zehn zu deinem nächsten Wurf."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle des Ungleichgewichts",
+    "kategorie": "A",
+    "wuerfelwurf": "86-90",
+    "tts_text": "Schlag auf den Rücken. Der Gegner stolpert fünf Fuß seitwärts und ist für drei Runden benommen. Plus dreizehn Treffer. Addiere Plus zwanzig zu deinem nächsten Wurf."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle des Ungleichgewichts",
+    "kategorie": "A",
+    "wuerfelwurf": "91-95",
+    "tts_text": "Kopfschlag bricht dem Gegner die Nase. Wenn der Gegner einen Helm hat, ist er für drei Runden benommen. Wenn nicht, ist der Gegner für mindestens zwei Stunden bewusstlos geschlagen."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle des Ungleichgewichts",
+    "kategorie": "A",
+    "wuerfelwurf": "96-99",
+    "tts_text": "Gut platzierter Schlag lässt den Gegner auf das Gesicht fallen. Plus zehn Treffer. Der Gegner ist benommen und kann für drei Runden nicht parieren."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle des Ungleichgewichts",
+    "kategorie": "A",
+    "wuerfelwurf": "100",
+    "tts_text": "Brutaler Hüftschlag wirft den Gegner zu Boden, zerreißt Sehnen und zerschmettert das Gelenk. Der Gegner ist benommen und kann für neun Stunden nicht parieren. Das Bein ist nutzlos, der Gegner Minus neunzig."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "B",
+    "wuerfelwurf": "01-05",
+    "tts_text": "Ziemlich schwach. Plus null Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "B",
+    "wuerfelwurf": "06-10",
+    "tts_text": "Plus eins Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "B",
+    "wuerfelwurf": "11-15",
+    "tts_text": "Lahmer Seitenhieb. Plus vier Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "B",
+    "wuerfelwurf": "16-20",
+    "tts_text": "Streifender Seitenhieb. Plus vier Treffer. Der Gegner muss in der nächsten Runde parieren."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "B",
+    "wuerfelwurf": "21-35",
+    "tts_text": "Der Gegner ist aus dem Gleichgewicht und in der nächsten Runde auf Minus zwanzig. Plus fünf Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "B",
+    "wuerfelwurf": "36-45",
+    "tts_text": "Beinschlag bringt den Gegner ins Wanken. Plus fünf Treffer. Du erhältst Initiative in der nächsten Runde. Der Gegner ist für zwei Runden auf Minus fünf."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "B",
+    "wuerfelwurf": "46-50",
+    "tts_text": "Rückentreffer zwingt den Gegner in der nächsten Runde auf Minus zwanzig zu parieren. Plus fünf Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "B",
+    "wuerfelwurf": "51-55",
+    "tts_text": "Schlag betäubt den Gegner für die nächste Runde. Plus fünf Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "B",
+    "wuerfelwurf": "56-60",
+    "tts_text": "Oberschenkel-Treffer prellt den Gegner. Plus sechs Treffer. Der Gegner muss in der nächsten Runde auf Minus dreißig parieren."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "B",
+    "wuerfelwurf": "61-65",
+    "tts_text": "Unterarm-Treffer entwaffnet den Gegner. Plus sechs Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "B",
+    "wuerfelwurf": "66",
+    "tts_text": "Ellenbogen-Treffer lähmt den Unterarm des Gegners. Plus acht Treffer. Der Gegner lässt seine Waffe fallen, ist benommen und kann für zwei Runden nicht parieren."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "B",
+    "wuerfelwurf": "67-70",
+    "tts_text": "Treffer auf die Brust des Gegners. Plus sieben Treffer. Der verwirrte Gegner ist benommen und kann in der nächsten Runde nicht parieren."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "B",
+    "wuerfelwurf": "71-75",
+    "tts_text": "Schlag prellt die Wade des Gegners. Plus neun Treffer. Der Gegner ist in der nächsten Runde benommen. Der Gegner ist auf Minus zehn."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "B",
+    "wuerfelwurf": "76-80",
+    "tts_text": "Treffer auf den Schildarm des Gegners. Der Gegner ist für zwei Runden benommen und wird fünf Fuß zurückgeschleudert. Plus zehn Treffer. Prellung des Gegners auf Minus zehn."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "B",
+    "wuerfelwurf": "81-85",
+    "tts_text": "Treffer auf die Seite des Gegners. Der Gegner wird drei Fuß zur Seite geschleudert und ist für drei Runden benommen. Plus fünfzehn Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "B",
+    "wuerfelwurf": "86-90",
+    "tts_text": "Treffer auf den Rücken des Gegners schleudert ihn zehn Fuß zur Seite. Plus zwölf Treffer. Der Gegner ist benommen und kann für zwei Runden nicht parieren."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "B",
+    "wuerfelwurf": "91-95",
+    "tts_text": "Treffer auf die Seite des Kopfes des Gegners zerquetscht den Ohrbereich. Der Gegner ist für sechs Runden benommen. Plus neun Treffer. Der Gegner ist für drei Wochen auf Minus fünfzig wegen beeinträchtigtem Gleichgewicht."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "B",
+    "wuerfelwurf": "96-99",
+    "tts_text": "Seitenhieb lässt den Gegner ungeschickt in eine peinliche Bauchlage stolpern. Der Gegner ist benommen und kann für sechs Runden nicht parieren."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "B",
+    "wuerfelwurf": "100",
+    "tts_text": "Inspirierter Rückentreffer schleudert den Gegner zehn Fuß weit und auf sein Gesicht. Schwere Nervenschäden. Der Gegner ist von der Taille abwärts gelähmt."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "C",
+    "wuerfelwurf": "01-05",
+    "tts_text": "Nein."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "C",
+    "wuerfelwurf": "06-10",
+    "tts_text": "Plus eins Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "C",
+    "wuerfelwurf": "11-15",
+    "tts_text": "Schwacher Schlag. Plus fünf Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "C",
+    "wuerfelwurf": "16-20",
+    "tts_text": "Seitenhieb. Der Gegner muss in der nächsten Runde parieren. Plus fünf Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "C",
+    "wuerfelwurf": "21-35",
+    "tts_text": "Brusttreffer. Der Gegner ist in der nächsten Runde benommen. Plus sechs Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "C",
+    "wuerfelwurf": "36-45",
+    "tts_text": "Schlag ins Bein. Der Gegner ist in der nächsten Runde auf Minus vierzig. Plus fünf Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "C",
+    "wuerfelwurf": "46-50",
+    "tts_text": "Schlag in den unteren Rücken. Der Gegner taumelt und ist benommen und kann in der nächsten Runde nicht parieren. Plus fünf Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "C",
+    "wuerfelwurf": "51-55",
+    "tts_text": "Explosion taumelt den Gegner. Plus sechs Treffer und der Gegner ist benommen und kann in der nächsten Runde nicht parieren."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "C",
+    "wuerfelwurf": "56-60",
+    "tts_text": "Übersprungener Wadenhieb. Wenn der Gegner Beinrüstung hat, Plus sieben Treffer. Wenn nicht, Plus neun Treffer, der Gegner ist zwei Runden benommen und bewegt sich auf Minus zehn."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "C",
+    "wuerfelwurf": "61-65",
+    "tts_text": "Schultertreffer entwaffnet den Gegner und lässt ihn zwei Runden benommen zurück. Plus sechs Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "C",
+    "wuerfelwurf": "66",
+    "tts_text": "Kniestoß wirft den Gegner nieder. Der Gegner ist auf Minus achtzig wegen gebrochenem Knie und ist benommen und kann drei Runden nicht parieren. Plus neun Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "C",
+    "wuerfelwurf": "67-70",
+    "tts_text": "Treffer in die Brust. Der Gegner ist auf Minus zwanzig wegen gebrochener Rippen. Plus acht Treffer. Der Gegner ist zwei Runden benommen."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "C",
+    "wuerfelwurf": "71-75",
+    "tts_text": "Das Bein des Gegners ist geprellt. Plus zehn Treffer. Der Gegner ist benommen und kann in der nächsten Runde nicht parieren. Der Gegner agiert auf Minus zwanzig."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "C",
+    "wuerfelwurf": "76-80",
+    "tts_text": "Treffer auf den Waffenarm des Gegners. Der Gegner wird fünf Fuß zurückgeworfen und ist drei Runden benommen. Plus elf Treffer. Leichter Bruch. Der Gegner ist auf Minus fünfundzwanzig."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "C",
+    "wuerfelwurf": "81-85",
+    "tts_text": "Seitenhieb wirft den Gegner fünf Fuß seitwärts. Der Gegner lässt alles fallen, was er in seiner Schildhand trägt (und jeden Schild) und ist sechs Runden benommen."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "C",
+    "wuerfelwurf": "86-90",
+    "tts_text": "Präziser Rückenhieb wirft den Gegner nieder. Der Gegner ist entwaffnet und sechs Runden benommen. Plus vierzehn Treffer. Addiere Plus zwanzig auf deinen nächsten Wurf."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "C",
+    "wuerfelwurf": "91-95",
+    "tts_text": "Seitenhieb schleudert den Gegner zehn Fuß seitwärts. Der Gegner muss in den nächsten drei Runden auf der entsprechenden Patzertabelle würfeln. Plus acht Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "C",
+    "wuerfelwurf": "96-99",
+    "tts_text": "Geschmeidiger und flotter Schlag zwingt den Gegner in die Knie. Wenn der Gegner eine Einhandwaffe benutzt, wird sie zehn Fuß nach hinten geschleudert. Der Gegner ist vierundzwanzig Stunden benommen."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "C",
+    "wuerfelwurf": "100",
+    "tts_text": "Oberer Brusttreffer schleudert den Gegner zehn Fuß seitwärts. Der Gegner fällt hin und bricht beide Arme. Der Gegner fällt für zwei Monate ins Koma."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "D",
+    "wuerfelwurf": "01-05",
+    "tts_text": "Plus zwei Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "D",
+    "wuerfelwurf": "06-10",
+    "tts_text": "Plus drei Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "D",
+    "wuerfelwurf": "11-15",
+    "tts_text": "Rückwärtsschlag. Plus sechs Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "D",
+    "wuerfelwurf": "16-20",
+    "tts_text": "Schlag auf die Seite des Feindes. Der Feind ist in der nächsten Runde bei Minus zehn. Plus sieben Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "D",
+    "wuerfelwurf": "21-35",
+    "tts_text": "Der Schlag ist schwach, betäubt den Feind aber für die nächste Runde. Plus acht Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "D",
+    "wuerfelwurf": "36-45",
+    "tts_text": "Waden-Treffer. Der verletzte Muskel des Feindes beeinträchtigt Manöver um Minus fünfundzwanzig. Sie erhalten in der nächsten Runde die Initiative. Plus sieben Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "D",
+    "wuerfelwurf": "46-50",
+    "tts_text": "Schlag auf den Rücken lässt den Feind schleudern. Plus acht Treffer und der Feind ist benommen und kann in der nächsten Runde nicht parieren."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "D",
+    "wuerfelwurf": "51-55",
+    "tts_text": "Brust-Treffer raubt dem Feind den Atem. Plus zehn Treffer. Der Feind ist benommen und kann in der nächsten Runde nicht parieren."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "D",
+    "wuerfelwurf": "56-60",
+    "tts_text": "Oberschenkel-Treffer. Plus zwölf Treffer. Der Feind ist für zwei Runden benommen. Sie haben in den nächsten drei Runden die Initiative."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "D",
+    "wuerfelwurf": "61-65",
+    "tts_text": "Arm-Treffer entwaffnet den Feind. Der Feind ist für zwei Runden benommen. Addieren Sie zwanzig zu Ihrer nächsten Aktion. Plus sieben Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "D",
+    "wuerfelwurf": "66",
+    "tts_text": "Harter Schlag. Wenn der Feind einen Helm trägt, wird er zehn Fuß zurückgeschleudert und ist für sechs Runden benommen. Wenn nicht, ist der Feind für vierundzwanzig Stunden bewusstlos."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "D",
+    "wuerfelwurf": "67-70",
+    "tts_text": "Schulter-Treffer lässt den Feind schleudern. Plus zehn Treffer. Der Feind ist bei Minus fünfundzwanzig aufgrund eines gebrochenen Schlüsselbeins und ist benommen und kann in der nächsten Runde nicht parieren."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "D",
+    "wuerfelwurf": "71-75",
+    "tts_text": "Schlag bricht dem Feind das Bein. Der Feind bewegt sich bei Minus fünfundsiebzig. Plus zwölf Treffer. Der Feind ist benommen und kann in der nächsten Runde nicht parieren."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "D",
+    "wuerfelwurf": "76-80",
+    "tts_text": "Starker Schlag auf den Waffenarm des Feindes. Der Feind wird zehn Fuß zurückgeschleudert. Plus zehn Treffer. Der Feind ist bei Minus fünfundzwanzig und lässt die Waffe fallen. Der Feind ist für drei Runden benommen."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "D",
+    "wuerfelwurf": "81-85",
+    "tts_text": "Treffer auf die Schildseite des Feindes schleudert ihn fünf Fuß seitwärts. Der Feind bricht sich den Knöchel und fällt hin. Der Feind ist bei Minus fünfzig. Plus elf Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "D",
+    "wuerfelwurf": "86-90",
+    "tts_text": "Brutaler Rückenschlag wirft den Feind zu Boden. Plus zwölf Treffer. Der Feind ist entwaffnet und benommen und kann für vier Runden nicht parieren."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "D",
+    "wuerfelwurf": "91-95",
+    "tts_text": "Treffer auf den Arm des Feindes. Wenn der Feind einen Schild trägt, verliert er ihn und erleidet plus zehn Treffer. Wenn nicht, ist der Arm des Feindes nutzlos und er ist für neun Runden benommen."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "D",
+    "wuerfelwurf": "96-99",
+    "tts_text": "Treffer auf den Kopf des Feindes schleudert ihn zehn Fuß rückwärts. Wenn er einen Helm trägt, plus neun Treffer, der Helm wird zerstört, und der Feind ist sechs Runden benommen. Wenn nicht, fällt der Feind für vier Wochen ins Koma."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Aus dem Gleichgewicht bringen",
+    "kategorie": "D",
+    "wuerfelwurf": "100",
+    "tts_text": "Wilder Schlag auf den Kopf des Feindes wirft ihn zu Boden. Der Feind fällt ins Koma und stirbt in zwölf Runden aufgrund einer durchtrennten Vene. Addieren Sie zwanzig zu Ihrem nächsten Wurf."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Ausbalancieren",
+    "kategorie": "E",
+    "wuerfelwurf": "01-05",
+    "tts_text": "Plus zwei Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Ausbalancieren",
+    "kategorie": "E",
+    "wuerfelwurf": "06-10",
+    "tts_text": "Plus fünf Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Ausbalancieren",
+    "kategorie": "E",
+    "wuerfelwurf": "11-15",
+    "tts_text": "Schlag in den Rücken. Plus sieben Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Ausbalancieren",
+    "kategorie": "E",
+    "wuerfelwurf": "16-20",
+    "tts_text": "Seitenhieb. Der Gegner ist in der nächsten Runde bei Minus zwanzig. Plus acht Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Ausbalancieren",
+    "kategorie": "E",
+    "wuerfelwurf": "21-35",
+    "tts_text": "Der Schlag bricht dem Gegner eine Rippe. Der Gegner ist benommen und in der nächsten Runde bei Minus zehn. Plus neun Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Ausbalancieren",
+    "kategorie": "E",
+    "wuerfelwurf": "36-45",
+    "tts_text": "Harter, streifender Schlag auf das Bein. Wenn der Gegner Beinrüstung trägt: Plus zehn Treffer. Wenn nicht: Plus zwölf Treffer, und der Gegner ist für zwei Runden benommen."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Ausbalancieren",
+    "kategorie": "E",
+    "wuerfelwurf": "46-50",
+    "tts_text": "Starker Rückenhieb bringt den Gegner ins Wanken. Plus zwölf Treffer. Der Gegner ist benommen und kann leider in der nächsten Runde nicht parieren."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Ausbalancieren",
+    "kategorie": "E",
+    "wuerfelwurf": "51-55",
+    "tts_text": "Der Gegner wird zu Boden geschlagen. Plus zwölf Treffer. Der Gegner ist benommen und kann leider in der nächsten Runde nicht parieren."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Ausbalancieren",
+    "kategorie": "E",
+    "wuerfelwurf": "56-60",
+    "tts_text": "Streifender Schlag auf das Bein. Der Gegner ist für drei Runden benommen. Plus vierzehn Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Ausbalancieren",
+    "kategorie": "E",
+    "wuerfelwurf": "61-65",
+    "tts_text": "Schlag auf die Schulter schleudert den Gegner herum. Plus dreizehn Treffer. Der Gegner ist benommen und kann für zwei Runden nicht parieren."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Ausbalancieren",
+    "kategorie": "E",
+    "wuerfelwurf": "66",
+    "tts_text": "Harter Schlag. Der Gegner wird zu Boden geschlagen und ist bewusstlos. Plus dreißig Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Ausbalancieren",
+    "kategorie": "E",
+    "wuerfelwurf": "67-70",
+    "tts_text": "Schulterschlag bringt den Gegner zu Fall. Der Gegner ist benommen und kann für zwei Runden nicht parieren und ist wegen eines leichten Bruchs bei Minus zehn."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Ausbalancieren",
+    "kategorie": "E",
+    "wuerfelwurf": "71-75",
+    "tts_text": "Harter Schlag auf den Oberschenkel des Gegners wirft ihn zu Boden. Plus fünfzehn Treffer. Der Gegner ist benommen und kann für drei Runden nicht parieren."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Ausbalancieren",
+    "kategorie": "E",
+    "wuerfelwurf": "76-80",
+    "tts_text": "Schlag auf den Schildarm des Gegners. Der Gegner stolpert drei Fuß zurück und fällt hin. Plus fünfzehn Treffer. Der Gegner ist benommen und kann für vier Runden nicht parieren und ist entwaffnet."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Ausbalancieren",
+    "kategorie": "E",
+    "wuerfelwurf": "81-85",
+    "tts_text": "Großartiger Seitentreffer bringt den Gegner zu Fall. Der Gegner bricht sich das Bein und rollt fünf Fuß. Der Gegner ist bei Minus fünfzig, ist benommen und kann für sechs Runden nicht parieren."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Ausbalancieren",
+    "kategorie": "E",
+    "wuerfelwurf": "86-90",
+    "tts_text": "Grausamer Kopfschlag. Der Gegner sieht Sterne. Plus zwanzig Treffer. Der Gegner wird zehn Fuß nach hinten geschleudert und ist benommen und kann für zwölf Runden nicht parieren."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Ausbalancieren",
+    "kategorie": "E",
+    "wuerfelwurf": "91-95",
+    "tts_text": "Schlag auf die Schildschulter des Gegners. Wenn der Gegner einen Schild hat, ist er für sechs Runden benommen. Wenn nicht, wird er zu Boden geschlagen, hat einen nutzlosen Arm und fällt in Ohnmacht."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Ausbalancieren",
+    "kategorie": "E",
+    "wuerfelwurf": "96-99",
+    "tts_text": "Gezielter Schlag bricht dem Gegner den Nacken. Der Gegner fällt fünf Fuß zurück, dreht sich und stolpert zu Boden. Der Gegner stirbt innerhalb von drei Runden an Schock und Ersticken."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Ausbalancieren",
+    "kategorie": "E",
+    "wuerfelwurf": "100",
+    "tts_text": "Furchterregender Schlag auf die Schläfe des Gegners wirft ihn zwanzig Fuß zurück. Der Gegner stirbt sofort. Addiere Plus zwanzig auf deine nächsten drei Würfe. Sei jetzt nett."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "A",
+    "wuerfelwurf": "01-05",
+    "tts_text": "Zweifelhafter Treffer. Plus null Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "A",
+    "wuerfelwurf": "06-10",
+    "tts_text": "Zip."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "A",
+    "wuerfelwurf": "11-15",
+    "tts_text": "Sieht schlecht aus. Plus null Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "A",
+    "wuerfelwurf": "16-20",
+    "tts_text": "Plus eins Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "A",
+    "wuerfelwurf": "21-35",
+    "tts_text": "Grausamer Schlag. Plus zwei Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "A",
+    "wuerfelwurf": "36-45",
+    "tts_text": "Schlechte Ausführung. Du verlierst eine Klaue und kämpfst für zwei Runden mit Abzug von minus fünf. Der Gegner erleidet plus vier Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "A",
+    "wuerfelwurf": "46-50",
+    "tts_text": "Springender Brusttreffer erzielt plus drei Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "A",
+    "wuerfelwurf": "51-55",
+    "tts_text": "Springender Brusttreffer erzielt plus drei Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "A",
+    "wuerfelwurf": "56-60",
+    "tts_text": "Leichte Oberschenkelwunde. Der Gegner erleidet pro Runde plus eins Treffer. Plus eins Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "A",
+    "wuerfelwurf": "61-65",
+    "tts_text": "Leichte Unterarmwunde. Der Gegner erleidet pro Runde plus zwei Treffer. Plus zwei Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "A",
+    "wuerfelwurf": "66",
+    "tts_text": "Beintreffer. Der Gegner ist benommen und kann nächste Runde nicht parieren. Plus vier Treffer. Der Gegner erleidet pro Runde plus zwei Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "A",
+    "wuerfelwurf": "67-70",
+    "tts_text": "Schultertreffer. Der Gegner erleidet pro Runde plus eins Treffer und muss nächste Runde parieren. Plus drei Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "A",
+    "wuerfelwurf": "71-75",
+    "tts_text": "Unterschenkeltreffer. Wenn der Gegner Beinarmschutz hat, plus eins Treffer. Wenn nicht, erleidet der Gegner plus vier Treffer und pro Runde plus zwei Treffer. Der Gegner hat nächste Runde Initiative."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "A",
+    "wuerfelwurf": "76-80",
+    "tts_text": "Schwacher, aber präziser Treffer auf den Arm des Gegners. Der Gegner erleidet pro Runde plus eins Treffer und ist nächste Runde benommen. Plus drei Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "A",
+    "wuerfelwurf": "81-85",
+    "tts_text": "Treffer auf das Gesicht des Gegners. Plus vier Treffer. Der Gegner ist nächste Runde benommen und erleidet pro Runde plus zwei Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "A",
+    "wuerfelwurf": "86-90",
+    "tts_text": "Plötzlicher, gut platzierter Schlag. Der Gegner ist für zwei Runden benommen. Plus sechs Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "A",
+    "wuerfelwurf": "91-95",
+    "tts_text": "Springender Kopftreffer. Wenn der Gegner einen Helm hat, plus drei Treffer und er ist nächste Runde benommen. Wenn nicht, ist der Gegner mit Abzug von minus dreißig benommen für zwei Runden. Ohr zerrissen."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "A",
+    "wuerfelwurf": "96-99",
+    "tts_text": "Beleidigungs-Treffer auf die Nase des Gegners. Wenn der Gegner einen Vollhelm hat, ist er für zwei Runden benommen. Wenn nicht, hat der Gegner eine zerrissene Nase, erleidet pro Runde plus drei Treffer und ist für neun Runden benommen."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "A",
+    "wuerfelwurf": "100",
+    "tts_text": "Treffer auf die Augen des Gegners. Wenn der Gegner einen Vollhelm hat, ist er benommen und kann für zwei Runden nicht parieren. Wenn nicht, verliert der Gegner ein Auge, erleidet Abzug von minus fünfundsiebzig und ist benommen und kann für drei Runden nicht parieren."
+  },
+  {
+    "tabelle": "Winzige Tier kritische Treffer Tabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "01-05",
+    "tts_text": "Nicht genug. Plus null Treffer."
+  },
+  {
+    "tabelle": "Winzige Tier kritische Treffer Tabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "06-10",
+    "tts_text": "Kein Bonus. Plus null Treffer."
+  },
+  {
+    "tabelle": "Winzige Tier kritische Treffer Tabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "11-15",
+    "tts_text": "Plus eins Treffer."
+  },
+  {
+    "tabelle": "Winzige Tier kritische Treffer Tabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "16-20",
+    "tts_text": "Plus zwei Treffer."
+  },
+  {
+    "tabelle": "Winzige Tier kritische Treffer Tabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "21-35",
+    "tts_text": "Plus drei Treffer."
+  },
+  {
+    "tabelle": "Winzige Tier kritische Treffer Tabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "36-45",
+    "tts_text": "Arme Folgeleistung. Du verlierst eine Klaue und kämpfst für zwei Runden bei Plus fünf. Das Ziel erleidet Plus vier Treffer."
+  },
+  {
+    "tabelle": "Winzige Tier kritische Treffer Tabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "46-50",
+    "tts_text": "Leichte Wunde. Das Ziel erleidet Plus eins Treffer pro Runde. Plus drei Treffer."
+  },
+  {
+    "tabelle": "Winzige Tier kritische Treffer Tabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "51-55",
+    "tts_text": "Leichte Wunde. Das Ziel erleidet Plus eins Treffer pro Runde. Plus drei Treffer."
+  },
+  {
+    "tabelle": "Winzige Tier kritische Treffer Tabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "56-60",
+    "tts_text": "Oberschenkel Treffer, aber keine echte Penetration. Plus sechs Treffer."
+  },
+  {
+    "tabelle": "Winzige Tier kritische Treffer Tabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "61-65",
+    "tts_text": "Reißender Unterarm Treffer hinterlässt eine hässliche Narbe. Das Ziel erleidet Plus zwei Treffer pro Runde. Plus drei Treffer."
+  },
+  {
+    "tabelle": "Winzige Tier kritische Treffer Tabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "66",
+    "tts_text": "Waden Treffer. Das Ziel erleidet Muskelriss, ist zwei Runden benommen und liegt bei Minus zwanzig. Plus fünf Treffer."
+  },
+  {
+    "tabelle": "Winzige Tier kritische Treffer Tabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "67-70",
+    "tts_text": "Oberkörper Treffer. Das Ziel ist nächste Runde benommen. Plus vier Treffer. Das Ziel erleidet Plus eins Treffer pro Runde."
+  },
+  {
+    "tabelle": "Winzige Tier kritische Treffer Tabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "71-75",
+    "tts_text": "Treffer am Unterschenkel. Wenn das Ziel Beinpanzer hat, Plus drei Treffer. Wenn nicht, erleidet das Ziel Plus sechs Treffer, Plus zwei Treffer pro Runde und muss nächste zwei Runden parieren."
+  },
+  {
+    "tabelle": "Winzige Tier kritische Treffer Tabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "76-80",
+    "tts_text": "Starker, aber unpräziser Arm Treffer. Das Ziel erleidet Plus zwei Treffer pro Runde und liegt aufgrund einer mittelschweren Wunde bei Minus fünfzehn. Plus fünf Treffer."
+  },
+  {
+    "tabelle": "Winzige Tier kritische Treffer Tabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "81-85",
+    "tts_text": "Fliegender Gesichts Treffer. Wenn das Ziel Gesichts Rüstung hat, Plus zwei Treffer und muss nächste Runde parieren. Wenn nicht, erleidet das Ziel Plus drei Treffer pro Runde und ist für drei Runden benommen."
+  },
+  {
+    "tabelle": "Winzige Tier kritische Treffer Tabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "86-90",
+    "tts_text": "Hieb auf den Nacken des Ziels. Das Ziel erleidet Plus zwei Treffer pro Runde und ist für drei Runden benommen. Plus fünf Treffer."
+  },
+  {
+    "tabelle": "Winzige Tier kritische Treffer Tabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "91-95",
+    "tts_text": "Handgelenk Treffer. Die Wunde führt zu Plus zwei Treffer pro Runde. Das Ziel ist für drei Runden benommen und kann nächste Runde nicht parieren. Plus fünf Treffer."
+  },
+  {
+    "tabelle": "Winzige Tier kritische Treffer Tabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "96-99",
+    "tts_text": "Kopf Treffer. Das Ziel ist durch Blutung blind, erleidet Plus drei Treffer pro Runde, und ist für drei Runden benommen und kann für drei Runden nicht parieren. Das Ziel ist bei Minus vierzig, während es blutet."
+  },
+  {
+    "tabelle": "Winzige Tier kritische Treffer Tabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "100",
+    "tts_text": "Schlitzende Hals Attacke wirft das Ziel nieder. Das Ziel ist für sechs Runden benommen und kann nicht parieren, erleidet Plus drei Treffer pro Runde und kämpft bei Minus fünfzig."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "C",
+    "wuerfelwurf": "01-05",
+    "tts_text": "Sehr schwacher Treffer. Plus null Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "C",
+    "wuerfelwurf": "06-10",
+    "tts_text": "Nichts Besonderes. Plus eins Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "C",
+    "wuerfelwurf": "11-15",
+    "tts_text": "Plus eins Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "C",
+    "wuerfelwurf": "16-20",
+    "tts_text": "Plus zwei Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "C",
+    "wuerfelwurf": "21-35",
+    "tts_text": "Plus drei Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "C",
+    "wuerfelwurf": "36-45",
+    "tts_text": "Leichte Wunde. Plus zwei Treffer und das Ziel erleidet plus eins Treffer pro Runde."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "C",
+    "wuerfelwurf": "46-50",
+    "tts_text": "Leichte Brustwunde. Das Ziel erleidet plus zwei Treffer pro Runde. Plus vier Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "C",
+    "wuerfelwurf": "51-55",
+    "tts_text": "Leichte Brustwunde. Das Ziel erleidet plus zwei Treffer pro Runde. Plus vier Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "C",
+    "wuerfelwurf": "56-60",
+    "tts_text": "Leichte Oberschenkelwunde betäubt das Ziel für die nächste Runde. Plus vier Treffer und das Ziel erleidet plus zwei Treffer pro Runde."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "C",
+    "wuerfelwurf": "61-65",
+    "tts_text": "Unterarmtreffer. Das Ziel muss für zwei Runden parieren. Plus drei Treffer und das Ziel erleidet plus zwei Treffer pro Runde."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "C",
+    "wuerfelwurf": "66",
+    "tts_text": "Bizarrer Handgelenkstreffer entwaffnet das Ziel. Plus vier Treffer. Das Ziel ist benommen für die nächste Runde. Addiere plus zehn zu deinem nächsten Wurf."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "C",
+    "wuerfelwurf": "67-70",
+    "tts_text": "Treffer auf die Schulter des Ziels. Das Ziel erleidet plus zwei Treffer pro Runde. Plus fünf Treffer. Das Ziel ist in der nächsten Runde bei minus zwanzig benommen."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "C",
+    "wuerfelwurf": "71-75",
+    "tts_text": "Wadenhieb. Muskelriss. Das Ziel ist bei minus zwanzig. Die Wunde verursacht plus zwei Treffer pro Runde und betäubt es für zwei Runden."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "C",
+    "wuerfelwurf": "76-80",
+    "tts_text": "Unterarmtreffer. Muskel und Sehne durchtrennt. Das Ziel kämpft bei minus fünfundzwanzig, erleidet plus zwei Treffer pro Runde und ist für zwei Runden benommen. Plus fünf Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "C",
+    "wuerfelwurf": "81-85",
+    "tts_text": "Kopftreffer. Wenn das Ziel einen Helm trägt, plus drei Treffer und es ist in der nächsten Runde benommen. Wenn nicht, hat das Ziel eine furchtbare Narbe, erleidet plus drei Treffer pro Runde und ist bei minus vierzig."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "C",
+    "wuerfelwurf": "86-90",
+    "tts_text": "Schultertreffer wirft das Ziel herum. Das Ziel ist benommen und kann für zwei Runden nicht parieren. Plus sechs Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "C",
+    "wuerfelwurf": "91-95",
+    "tts_text": "Nackenangriff. Das Ziel ist benommen und kann für zwei Runden nicht parieren und erleidet plus zwei Treffer pro Runde. Das Ziel kämpft bei minus zwanzig. Plus drei Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "C",
+    "wuerfelwurf": "96-99",
+    "tts_text": "Hieb auf die Achillessehne des Ziels. Das Ziel wird niedergeschlagen und ist benommen und kann für drei Runden nicht parieren. Das Ziel erleidet plus eins Treffer pro Runde, operiert bei minus fünfundsiebzig."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "C",
+    "wuerfelwurf": "100",
+    "tts_text": "Bizarrer Angriff auf den Kopfbereich des Ziels, lässt das Ziel sich selbst treffen. Das Ziel muss für die nächsten drei Runden auf der entsprechenden Patzertabelle auf Spalte E würfeln. Plus acht Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "D",
+    "wuerfelwurf": "01-05",
+    "tts_text": "Ha!"
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "D",
+    "wuerfelwurf": "06-10",
+    "tts_text": "Plus ein Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "D",
+    "wuerfelwurf": "11-15",
+    "tts_text": "Plus zwei Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "D",
+    "wuerfelwurf": "16-20",
+    "tts_text": "Plus zwei Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "D",
+    "wuerfelwurf": "21-35",
+    "tts_text": "Beinstreffer. Falls der Gegner keine Beinrüstung hat, plus fünf Treffer und er erleidet einen Treffer pro Runde."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "D",
+    "wuerfelwurf": "36-45",
+    "tts_text": "Leichte Stichwunde. Plus drei Treffer und der Gegner erleidet einen Treffer pro Runde."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "D",
+    "wuerfelwurf": "46-50",
+    "tts_text": "Hiebtreffer auf des Gegners unteren Brustkorb. Falls der Gegner keine Metall-Brustpanzerung hat, plus fünf Treffer und plus drei Treffer pro Runde."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "D",
+    "wuerfelwurf": "51-55",
+    "tts_text": "Hiebtreffer auf des Gegners unteren Brustkorb. Falls der Gegner keine Metall-Brustpanzerung hat, plus fünf Treffer und plus drei Treffer pro Runde."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "D",
+    "wuerfelwurf": "56-60",
+    "tts_text": "Schenkel-Treffer betäubt den Gegner für die nächste Runde. Plus sechs Treffer und der Gegner erleidet zwei Treffer pro Runde."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "D",
+    "wuerfelwurf": "61-65",
+    "tts_text": "Unterarmwunde. Der Gegner muss zwei Runden lang parieren. Plus fünf Treffer. Der Gegner erleidet zwei Treffer pro Runde. Addiere plus zehn zu deinem nächsten Wurf."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "D",
+    "wuerfelwurf": "66",
+    "tts_text": "Erstaunlicher Kopftreffer. Falls der Gegner einen Helm hat, plus vier Treffer. Falls nicht, plus sieben Treffer und der Gegner kann sechs Runden lang nicht parieren."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "D",
+    "wuerfelwurf": "67-70",
+    "tts_text": "Oberarmtreffer. Der Gegner ist benommen und kann in der nächsten Runde nicht parieren. Der Gegner erleidet zwei Treffer pro Runde. Plus sechs Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "D",
+    "wuerfelwurf": "71-75",
+    "tts_text": "Unterschenkel-Treffer. Falls der Gegner Beinrüstung hat, plus drei Treffer und er ist in der nächsten Runde benommen. Falls nicht, der Gegner ist zwei Runden lang benommen, kann in der nächsten Runde nicht parieren."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "D",
+    "wuerfelwurf": "76-80",
+    "tts_text": "Armtreffer. Muskel und Sehne zerrissen. Der Gegner kämpft mit Minus fünfundzwanzig, erleidet zwei Treffer pro Runde und ist drei Runden lang benommen. Plus fünf Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "D",
+    "wuerfelwurf": "81-85",
+    "tts_text": "Akrobatischer Gesichtstreffer. Falls der Gegner Gesichts-Rüstung hat, plus fünf Treffer. Falls nicht, ist die Nase des Gegners zerrissen und er erleidet drei Treffer pro Runde, ist drei Runden lang benommen und hat Minus vierzig."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "D",
+    "wuerfelwurf": "86-90",
+    "tts_text": "Treffer auf den Waffenarm des Gegners. Der Gegner wird entwaffnet und ist in der nächsten Runde benommen. Plus fünf Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "D",
+    "wuerfelwurf": "91-95",
+    "tts_text": "Gut getimter Angriff zerreißt den Daumenmuskel an der Hand des Gegners. Der Gegner wird entwaffnet und ist benommen und kann zwei Runden lang nicht parieren. Der Gegner kämpft mit Minus fünfzig."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "D",
+    "wuerfelwurf": "96-99",
+    "tts_text": "Treffer auf des Gegners Augen. Falls der Gegner einen vollständigen Helm hat, ist er eine Woche lang blind und hat Minus fünfundneunzig. Falls nicht, der Gegner verliert ein Auge und ist auf dem anderen blind... und hat Minus einhundert."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "D",
+    "wuerfelwurf": "100",
+    "tts_text": "Treffer auf des Gegners Augen. Plus zehn Treffer. Der Gegner ist benommen und kann sechs Runden lang nicht parieren, erleidet zwei Treffer pro Runde und hat Minus fünfundneunzig. Permanente Blindheit."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "E",
+    "wuerfelwurf": "01-05",
+    "tts_text": "Plus zwei Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "E",
+    "wuerfelwurf": "06-10",
+    "tts_text": "Plus zwei Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "E",
+    "wuerfelwurf": "11-15",
+    "tts_text": "Schnittwunde. Plus zwei Treffer und der Gegner erleidet plus einen Treffer pro Runde."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "E",
+    "wuerfelwurf": "16-20",
+    "tts_text": "Geringfügige Wunde am Bein. Plus zwei Treffer und der Gegner erleidet plus einen Treffer pro Runde."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "E",
+    "wuerfelwurf": "21-35",
+    "tts_text": "Beintritt. Plus drei Treffer und der Gegner erleidet plus einen Treffer pro Runde."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "E",
+    "wuerfelwurf": "36-45",
+    "tts_text": "Tritt in den unteren Rücken. Plus fünf Treffer. Der Gegner muss parieren in der nächsten Runde und erleidet plus einen Treffer pro Runde."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "E",
+    "wuerfelwurf": "46-50",
+    "tts_text": "Brusttreffer. Plus sechs Treffer und der Gegner ist gezwungen, in der nächsten Runde zu parieren. Der Gegner erleidet plus zwei Treffer pro Runde."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "E",
+    "wuerfelwurf": "51-55",
+    "tts_text": "Oberschenkelwunde. Der Gegner ist benommen in der nächsten Runde. Plus sieben Treffer und der Gegner erleidet plus drei Treffer pro Runde."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "E",
+    "wuerfelwurf": "56-60",
+    "tts_text": "Schlag auf den Unterarm. Der Gegner ist benommen in der nächsten Runde und Sie erhalten Initiative für die nächsten zwei Runden. Der Gegner erleidet plus drei Treffer pro Runde. Plus sechs Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "E",
+    "wuerfelwurf": "61-65",
+    "tts_text": "Bizarrer Schlag auf die Augen zerstört ein Auge und blendet das andere Auge für zwei Tage. Der Gegner hat Minus fünfundneunzig und ist benommen für vierundzwanzig Runden."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "E",
+    "wuerfelwurf": "66",
+    "tts_text": "Inspirierter Schulterschlag zerreißt den Muskel. Der Gegner ist benommen und kann nicht parieren in der nächsten Runde. Der Gegner hat Minus zwanzig. Plus sieben Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "E",
+    "wuerfelwurf": "67-70",
+    "tts_text": "Heftige Beinwunde. Der Gegner erleidet plus vier Treffer pro Runde und ist benommen für drei Runden. Plus fünf Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "E",
+    "wuerfelwurf": "71-75",
+    "tts_text": "Gerissener Armschlag versetzt dem Gegner eine lästige Wunde. Der Gegner ist benommen und kann nicht parieren für zwei Runden und erleidet drei Treffer pro Runde."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "E",
+    "wuerfelwurf": "76-80",
+    "tts_text": "Kopfschlag. Wenn der Gegner einen Helm trägt, plus vier Treffer und er ist benommen in der nächsten Runde. Wenn nicht, der Gegner erleidet plus drei Treffer pro Runde, kämpft mit Minus fünfundzwanzig und ist benommen für neun Runden."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "E",
+    "wuerfelwurf": "81-85",
+    "tts_text": "Obere Oberschenkelwunde, Muskelriss. Der Gegner hat Minus vierzig und erleidet plus drei Treffer pro Runde. Plus vier Treffer. Der Gegner ist benommen für drei Runden, unfähig für eine Runde zu parieren."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "E",
+    "wuerfelwurf": "86-90",
+    "tts_text": "Blendender Sprung schlägt den Gegner nieder. Der Gegner ist entwaffnet und bewusstlos. Plus neun Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "E",
+    "wuerfelwurf": "91-95",
+    "tts_text": "Kopfschlag wirft den Gegner zu Boden. Der Gegner hat eine massive Gehirnerschütterung und stirbt in neun Runden an Schock und inneren Blutungen. Ein jämmerlicher Anblick."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "E",
+    "wuerfelwurf": "96-99",
+    "tts_text": "Unglaublicher Nackenschlag wirft den Gegner zu Boden. Vene und Arterie sind durchtrennt. Der Gegner erleidet plus zwanzig Treffer pro Runde und stirbt nach sechs inaktiven Runden."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle für kleine Tiere",
+    "kategorie": "E",
+    "wuerfelwurf": "100",
+    "tts_text": "Unvermeidlicher Nackenschlag wirft den Gegner zu Boden. Vene und Arterie sind durchtrennt. Der Gegner erleidet plus zwanzig Treffer pro Runde und stirbt nach sechs inaktiven Runden."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "A",
+    "wuerfelwurf": "01-05",
+    "tts_text": "Akrobatisch, aber kein zusätzlicher Schaden. Plus null Treffer."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "A",
+    "wuerfelwurf": "06-10",
+    "tts_text": "Plus eins Treffer."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "A",
+    "wuerfelwurf": "11-15",
+    "tts_text": "Du hast in der nächsten Runde Initiative. Plus eins Treffer."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "A",
+    "wuerfelwurf": "16-20",
+    "tts_text": "Der Gegner muss in der nächsten Runde parieren. Plus zwei Treffer."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "A",
+    "wuerfelwurf": "21-35",
+    "tts_text": "Feger zwingt den Gegner, in der nächsten Runde zu parieren. Plus zwei Treffer."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "A",
+    "wuerfelwurf": "36-45",
+    "tts_text": "Feger taumelt den Gegner. Der Gegner muss in der nächsten Runde auf Minus zwanzig parieren. Plus vier Treffer."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "A",
+    "wuerfelwurf": "46-50",
+    "tts_text": "Feger zwingt den Gegner, in der nächsten Runde auf Minus fünfundzwanzig zu parieren. Plus vier Treffer."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "A",
+    "wuerfelwurf": "51-55",
+    "tts_text": "Feger treibt den Gegner drei Fuß zurück. Der Gegner muss in der nächsten Runde auf Minus dreißig parieren. Plus fünf Treffer."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "A",
+    "wuerfelwurf": "56-60",
+    "tts_text": "Wurf betäubt den Gegner für eine Runde. Plus sechs Treffer."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "A",
+    "wuerfelwurf": "61-65",
+    "tts_text": "Wurf wirft den Gegner zu Boden, aber es gibt eine gute Erholung. Der Gegner ist für eine Runde benommen. Plus sieben Treffer."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "A",
+    "wuerfelwurf": "66",
+    "tts_text": "Wurf verrenkt die Schildschulter des Gegners. Der Gegner ist benommen und unfähig, drei Runden lang zu parieren, und ist auf Minus fünfzig."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "A",
+    "wuerfelwurf": "67-70",
+    "tts_text": "Harter, aber ungeschickter Wurf betäubt den Gegner für zwei Runden. Plus sieben Treffer."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "A",
+    "wuerfelwurf": "71-75",
+    "tts_text": "Sturz prellt den Oberschenkel des Gegners. Der Gegner ist benommen und unfähig, eine Runde lang zu parieren. Plus zwei Treffer. Der Gegner ist auf Minus fünf."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "A",
+    "wuerfelwurf": "76-80",
+    "tts_text": "Der Gegner landet auf dem Schildarm. Wenn der Gegner einen Schild hat, ist dieser gebrochen. Wenn nicht, ist der Arm des Gegners verstaucht, er ist auf Minus zehn, und er ist für zwei Runden benommen."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "A",
+    "wuerfelwurf": "81-85",
+    "tts_text": "Feger bringt den Gegner aus dem Gleichgewicht. Plus drei Treffer. Der Gegner ist für drei Runden benommen. Addiere Plus fünfundzwanzig zu deinem nächsten Wurf."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "A",
+    "wuerfelwurf": "86-90",
+    "tts_text": "Der Gegner landet auf dem Rücken. Muskel- und Knorpelschaden. Der Gegner erholt sich schnell, ist aber benommen und unfähig, zwei Runden lang zu parieren. Der Gegner ist auf Minus zwanzig."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "A",
+    "wuerfelwurf": "91-95",
+    "tts_text": "Wurf wirft den Gegner zu Boden und bricht ihm die Nase. Der Gegner ist auf Minus fünfundzwanzig. Plus sieben Treffer. Der Gegner ist benommen und unfähig, zwei Runden lang zu parieren."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "A",
+    "wuerfelwurf": "96-99",
+    "tts_text": "Wurf schickt den Gegner auf den Kopf zu Boden. Wenn der Gegner einen Helm hat, ist er für neun Runden benommen. Wenn nicht, ist der Gegner bewusstlos."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "A",
+    "wuerfelwurf": "100",
+    "tts_text": "Eleganter Wurf. Der Gegner ist benommen und unfähig, sechs Runden lang zu parieren. Der Gegner liegt am Boden und du kannst ihn (wenn du es wünschst) mit einem Kniestoß zum Solarplexus erledigen."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "B",
+    "wuerfelwurf": "01-05",
+    "tts_text": "Schlechte Ausführung, plus null Treffer."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "B",
+    "wuerfelwurf": "06-10",
+    "tts_text": "Plus eins Treffer."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "B",
+    "wuerfelwurf": "11-15",
+    "tts_text": "Der Gegner erleidet drei zusätzliche Treffer und Sie haben in der nächsten Runde die Initiative."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "B",
+    "wuerfelwurf": "16-20",
+    "tts_text": "Den Gegner blenden. Er muss in der nächsten Runde auf Minus Zehn parieren."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "B",
+    "wuerfelwurf": "21-35",
+    "tts_text": "Feger bringt den Gegner aus dem Gleichgewicht. Plus drei Treffer. Der Gegner muss in der nächsten Runde auf Minus Zwanzig parieren."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "B",
+    "wuerfelwurf": "36-45",
+    "tts_text": "Feger prellt das Bein des Gegners. Er agiert für drei Runden auf Minus Fünfundzwanzig. Plus drei Treffer."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "B",
+    "wuerfelwurf": "46-50",
+    "tts_text": "Feger betäubt den Gegner für eine Runde. Plus fünf Treffer."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "B",
+    "wuerfelwurf": "51-55",
+    "tts_text": "Wurf entzieht dem Gegner die Luft und er ist für eine Runde benommen. Plus sechs Treffer."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "B",
+    "wuerfelwurf": "56-60",
+    "tts_text": "Wurf betäubt den Gegner für eine Runde und verstaucht einen Finger an seiner Waffenhand. Der Gegner agiert auf Minus Zehn."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "B",
+    "wuerfelwurf": "61-65",
+    "tts_text": "Wurf wirft den Gegner zu Boden, aber er erholt sich gut. Der Gegner ist für eine Runde benommen. Plus drei Treffer. Der Gegner agiert auf Minus Zwanzig."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "B",
+    "wuerfelwurf": "66",
+    "tts_text": "Eleganter Wurf. Sie haben den Gegner fixiert, auf dem Gesicht liegend und in einem Armgriff. Plus neun Treffer. Der Gegner ist entwaffnet und bewegungsunfähig."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "B",
+    "wuerfelwurf": "67-70",
+    "tts_text": "Starker Wurf betäubt den Gegner für zwei Runden. Sie haben die Initiative für sechs Runden. Plus acht Treffer."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "B",
+    "wuerfelwurf": "71-75",
+    "tts_text": "Fall reißt Bänder im Bein des Gegners. Der Gegner agiert auf Minus Zehn. Plus fünf Treffer. Der Gegner ist für eine Runde benommen und kann nicht parieren."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "B",
+    "wuerfelwurf": "76-80",
+    "tts_text": "Der Gegner bricht den Fall mit seiner Waffenhand und verstaucht zwei Finger. Der Gegner agiert auf Minus Fünfundzwanzig und ist für zwei Runden benommen."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "B",
+    "wuerfelwurf": "81-85",
+    "tts_text": "Feger wirft den Gegner zehn Fuß zur Seite. Der Gegner ist benommen und kann für zwei Runden nicht parieren. Plus neun Treffer."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "B",
+    "wuerfelwurf": "86-90",
+    "tts_text": "Der Gegner landet auf dem Rücken und ist benommen und kann für zwei Runden nicht parieren. Gerissene Sehne und gebrochener Knochen, der Gegner agiert auf Minus Fünfundzwanzig."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "B",
+    "wuerfelwurf": "91-95",
+    "tts_text": "Fall bricht Rippen, entwaffnet den Gegner und lässt ihn zehn Fuß weit rollen. Der Gegner agiert auf Minus Dreißig und ist benommen und kann für zwölf Runden nicht parieren."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "B",
+    "wuerfelwurf": "96-99",
+    "tts_text": "Feger betäubt den Gegner; Kick entwaffnet ihn; und ein weiterer Feger wirft ihn flach auf den Rücken. Der Gegner ist bewusstlos. Plus zwanzig Treffer."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "B",
+    "wuerfelwurf": "100",
+    "tts_text": "Fabelhafter Wurf schleudert den Gegner zehn Fuß weit. Der Nacken des Gegners ist beim Aufprall gebrochen und er stirbt nach fünfzehn Fuß Rollen."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "C",
+    "wuerfelwurf": "01-05",
+    "tts_text": "Plus zwei Treffer."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "C",
+    "wuerfelwurf": "06-10",
+    "tts_text": "Plus eins Treffer."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "C",
+    "wuerfelwurf": "11-15",
+    "tts_text": "Du hast Initiative in der nächsten Runde. Plus zwanzig auf deinen nächsten Angriff. Der Gegner ist verwirrt."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "C",
+    "wuerfelwurf": "16-20",
+    "tts_text": "Der Gegner ist aus dem Gleichgewicht und muss in der nächsten Runde parieren bei Minus zwanzig. Plus drei Treffer."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "C",
+    "wuerfelwurf": "21-35",
+    "tts_text": "Feger betäubt den Gegner für eine Runde. Plus vier Treffer."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "C",
+    "wuerfelwurf": "36-45",
+    "tts_text": "Feger prellt das Bein des Gegners. Der Gegner kämpft auf Minus zehn. Du hast die Initiative in der nächsten Runde."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "C",
+    "wuerfelwurf": "46-50",
+    "tts_text": "Feger wirft den Gegner zu Boden. Plus vier Treffer. Der Gegner ist für zwei Runden benommen, während er versucht, sich zu erholen."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "C",
+    "wuerfelwurf": "51-55",
+    "tts_text": "Wurf betäubt den Gegner für zwei Runden. Plus sechs Treffer."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "C",
+    "wuerfelwurf": "56-60",
+    "tts_text": "Feger stößt den Gegner fünf Fuß zurück. Der Gegner ist benommen und kann für eine Runde nicht parieren."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "C",
+    "wuerfelwurf": "61-65",
+    "tts_text": "Wurf entwaffnet den Gegner. Plus drei Treffer. Der Gegner ist für eine Runde benommen. Wenn du weglaufen willst, ist jetzt die Zeit dafür."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "C",
+    "wuerfelwurf": "66",
+    "tts_text": "Feger zertrümmert das Knie des Gegners. Der Gegner ist benommen und kann für vier Runden nicht parieren, operiert auf Minus achtzig."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "C",
+    "wuerfelwurf": "67-70",
+    "tts_text": "Der Gegner wird fünf Fuß zurückgeschlagen und hat einen geprellten Brustmuskel. Der Gegner ist für zwei Runden benommen, ist auf Minus zehn."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "C",
+    "wuerfelwurf": "71-75",
+    "tts_text": "Wurf zieht dem Gegner einen Muskel im Bein. Der Gegner ist für zwei Runden benommen und kann in der nächsten Runde nicht parieren. Operiert auf Minus fünfundzwanzig."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "C",
+    "wuerfelwurf": "76-80",
+    "tts_text": "Der Gegner bricht den Sturz mit seiner Waffe ab und verstaucht zwei Finger. Der Gegner ist auf Minus fünfundzwanzig und ist für zwei Runden benommen."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "C",
+    "wuerfelwurf": "81-85",
+    "tts_text": "Feger schlägt den Gegner zehn Fuß zur Seite. Der Gegner ist benommen und kann für zwei Runden nicht parieren. Plus neun Treffer."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "C",
+    "wuerfelwurf": "86-90",
+    "tts_text": "Wurf schlägt den Gegner auf den Rücken. Wirbel gebrochen und der Gegner ist auf Minus fünfzig. Der Gegner ist benommen und kann für drei Runden nicht parieren."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "C",
+    "wuerfelwurf": "91-95",
+    "tts_text": "Feger wirft den Gegner zu Boden und du legst ihn in einen beinbrechenden Haltegriff. Plus neun Treffer. Der Gegner ist fixiert, benommen und kann für fünfzehn Runden nicht parieren."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "C",
+    "wuerfelwurf": "96-99",
+    "tts_text": "Wurf bricht den Schädel des Gegners. Wenn der Gegner einen Helm trägt, liegt er im Koma. Wenn nicht, stirbt er in einer Runde an Hirnschäden."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe",
+    "kategorie": "C",
+    "wuerfelwurf": "100",
+    "tts_text": "Wurf bricht dem Gegner den Rücken. Plus zwölf Treffer. Der Gegner ist vom Hals abwärts gelähmt. Plus zwanzig auf den nächsten Wurf."
+  },
+  {
+    "tabelle": "Kampfkunst: Feger und Würfe",
+    "kategorie": "D",
+    "wuerfelwurf": "01-05",
+    "tts_text": "Plus drei Treffer."
+  },
+  {
+    "tabelle": "Kampfkunst: Feger und Würfe",
+    "kategorie": "D",
+    "wuerfelwurf": "06-10",
+    "tts_text": "Plus drei Treffer."
+  },
+  {
+    "tabelle": "Kampfkunst: Feger und Würfe",
+    "kategorie": "D",
+    "wuerfelwurf": "11-15",
+    "tts_text": "Der Feind muss in der nächsten Runde parieren. Plus vier Treffer."
+  },
+  {
+    "tabelle": "Kampfkunst: Feger und Würfe",
+    "kategorie": "D",
+    "wuerfelwurf": "16-20",
+    "tts_text": "Der Feind ist eine Runde lang benommen. Plus vier Treffer."
+  },
+  {
+    "tabelle": "Kampfkunst: Feger und Würfe",
+    "kategorie": "D",
+    "wuerfelwurf": "21-35",
+    "tts_text": "Ein Feger schickt den Feind auf die Knie. Der Feind ist benommen und kann eine Runde lang nicht parieren. Plus vier Treffer."
+  },
+  {
+    "tabelle": "Kampfkunst: Feger und Würfe",
+    "kategorie": "D",
+    "wuerfelwurf": "36-45",
+    "tts_text": "Ein Feger prellt die Wade des Feindes. Der Feind agiert in der nächsten Runde mit Minus zwanzig. Plus fünf Treffer."
+  },
+  {
+    "tabelle": "Kampfkunst: Feger und Würfe",
+    "kategorie": "D",
+    "wuerfelwurf": "46-50",
+    "tts_text": "Ein Feger wirft den Feind zu Boden. Plus fünf Treffer. Der Feind ist benommen und kann eine Runde lang nicht parieren."
+  },
+  {
+    "tabelle": "Kampfkunst: Feger und Würfe",
+    "kategorie": "D",
+    "wuerfelwurf": "51-55",
+    "tts_text": "Ein Wurf bricht drei Rippen des Feindes. Der Feind ist eine Runde lang benommen und agiert mit Minus zwanzig. Plus sechs Treffer."
+  },
+  {
+    "tabelle": "Kampfkunst: Feger und Würfe",
+    "kategorie": "D",
+    "wuerfelwurf": "56-60",
+    "tts_text": "Ein Feger wirft den Feind fast zu Boden. Der Feind ist benommen und kann eine Runde lang nicht parieren. Plus sieben Treffer."
+  },
+  {
+    "tabelle": "Kampfkunst: Feger und Würfe",
+    "kategorie": "D",
+    "wuerfelwurf": "61-65",
+    "tts_text": "Ein Wurf entwaffnet den Feind und lässt ihn zwei Runden lang benommen zurück."
+  },
+  {
+    "tabelle": "Kampfkunst: Feger und Würfe",
+    "kategorie": "D",
+    "wuerfelwurf": "66",
+    "tts_text": "Ein geschmeidiger Wurf. Der Feind landet auf dem Kopf. Wenn der Feind einen Helm trägt, ist er bewusstlos. Wenn nicht, ist er von der Taille ab gelähmt."
+  },
+  {
+    "tabelle": "Kampfkunst: Feger und Würfe",
+    "kategorie": "D",
+    "wuerfelwurf": "67-70",
+    "tts_text": "Ein Wurf lässt den Feind auf seine Schildschulter fallen. Der Arm und das Schlüsselbein brechen. Plus fünf Treffer."
+  },
+  {
+    "tabelle": "Kampfkunst: Feger und Würfe",
+    "kategorie": "D",
+    "wuerfelwurf": "71-75",
+    "tts_text": "Der Feind fällt und bricht sich das Bein. Leichter Bruch, aber der Feind agiert mit Minus dreißig. Der arme Narr ist drei Runden lang benommen."
+  },
+  {
+    "tabelle": "Kampfkunst: Feger und Würfe",
+    "kategorie": "D",
+    "wuerfelwurf": "76-80",
+    "tts_text": "Ein Wurf legt den Feind auf den Rücken und bricht das Schulterblatt. Der Feind agiert mit Minus zwanzig. Plus neun Treffer. Der Feind ist benommen und kann zwei Runden lang nicht parieren."
+  },
+  {
+    "tabelle": "Kampfkunst: Feger und Würfe",
+    "kategorie": "D",
+    "wuerfelwurf": "81-85",
+    "tts_text": "Ein Bruch am Handgelenk des Waffenarms des Feindes. Der Arm ist nutzlos. Plus zehn Treffer. Feiner Handwurf."
+  },
+  {
+    "tabelle": "Kampfkunst: Feger und Würfe",
+    "kategorie": "D",
+    "wuerfelwurf": "86-90",
+    "tts_text": "Ein Wurf legt den Feind ab und Sie bringen ihn in einen stark immobilisierenden Armgriff. Der Feind ist benommen und kann sechs Runden lang nicht parieren."
+  },
+  {
+    "tabelle": "Kampfkunst: Feger und Würfe",
+    "kategorie": "D",
+    "wuerfelwurf": "91-95",
+    "tts_text": "Ein Wurf schlägt den Feind gegen eine fast harte Oberfläche. Der Feind ist bewusstlos, und Sie können einen tödlichen Tritt ausführen, wenn Sie dies wünschen."
+  },
+  {
+    "tabelle": "Kampfkunst: Feger und Würfe",
+    "kategorie": "D",
+    "wuerfelwurf": "96-99",
+    "tts_text": "Ein Wurf legt den Feind nieder. Er wird durch eine gebrochene Rippe oder seine eigene Waffe aufgespießt und stirbt in sechs Runden."
+  },
+  {
+    "tabelle": "Kampfkunst: Feger und Würfe",
+    "kategorie": "D",
+    "wuerfelwurf": "100",
+    "tts_text": "Ein Feger dreht den Feind fünf Fuß rückwärts. Die Wirbelsäule des Feindes wird gebrochen und er ist querschnittsgelähmt."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe Kritische Treffer Tabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "01-05",
+    "tts_text": "Unbalanciere den Feind. Du hast die Initiative für die nächste Runde. Plus vier Treffer."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe Kritische Treffer Tabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "06-10",
+    "tts_text": "Betäube den Feind mit deinen feinen Bewegungen. Addiere plus zehn auf deinen nächsten Angriff. Der Feind ist eine Runde lang benommen."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe Kritische Treffer Tabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "11-15",
+    "tts_text": "Feger bringt den Feind ins Stolpern. Plus zwei Treffer. Der Feind ist benommen und kann in der nächsten Runde nicht parieren."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe Kritische Treffer Tabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "16-20",
+    "tts_text": "Feger wirft den Feind zu Boden. Der Feind ist zwei Runden lang benommen."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe Kritische Treffer Tabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "21-35",
+    "tts_text": "Feger wirft den Feind zu Boden und prellt den Oberschenkel. Der Feind ist eine Runde lang benommen. Plus fünf Treffer. Der Feind ist bei Minus zwanzig."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe Kritische Treffer Tabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "36-45",
+    "tts_text": "Der Feind rutscht auf die Knie. Plus sieben Treffer. Der Feind ist zwei Runden lang benommen und kann in der nächsten Runde nicht parieren."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe Kritische Treffer Tabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "46-50",
+    "tts_text": "Wurf lässt den Feind fallen. Plus acht Treffer. Der Feind ist drei Runden lang benommen."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe Kritische Treffer Tabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "51-55",
+    "tts_text": "Überraschender Feger lässt den Feind taumeln. Der Feind ist drei Runden lang benommen. Plus neun Treffer."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe Kritische Treffer Tabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "56-60",
+    "tts_text": "Feiner Wurf. Der Feind landet auf seinem Waffenarm, ist entwaffnet und ist drei Runden lang benommen."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe Kritische Treffer Tabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "61-65",
+    "tts_text": "Perfekter Wurf schickt den Feind über deine Schulter und zehn Fuß weit fliegend. Der Feind stirbt beim Aufprall. Addiere plus zehn auf deinen nächsten Wurf."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe Kritische Treffer Tabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "66",
+    "tts_text": "Der Feind landet auf dem Schildarm. Wenn der Feind einen Schild hat, sind es plus zehn Treffer und der Schild ist zerbrochen. Wenn nicht, ist der Arm des Feindes zerschmettert. Plus zwanzig Treffer."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe Kritische Treffer Tabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "67-70",
+    "tts_text": "Der Feind fällt und bricht sich die Hüfte. Leichte Fraktur, der Feind ist jedoch bei Minus vierzig. Er ist benommen und kann in zwei Runden nicht parieren."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe Kritische Treffer Tabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "71-75",
+    "tts_text": "Wurf schickt den Feind auf seinen Ellbogen. Das Gelenk ist zerschmettert und der Arm ist nutzlos. Der Feind ist vier Runden lang benommen."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe Kritische Treffer Tabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "76-80",
+    "tts_text": "Wirf den Feind zehn Fuß. Der Feind liegt auf dem Gesicht, ist entwaffnet und benommen und kann sechs Runden lang nicht parieren."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe Kritische Treffer Tabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "81-85",
+    "tts_text": "Wirf den Feind in den nächsten Feind innerhalb von zehn Fuß. Alle Beteiligten sind benommen und können drei Runden lang nicht parieren, erleiden plus neun Treffer."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe Kritische Treffer Tabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "86-90",
+    "tts_text": "Gerissener Rollwurf schickt den Feind in die Luft. Der Feind ist entwaffnet und bewusstlos. Du springst zehn Fuß weit auf die Beine."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe Kritische Treffer Tabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "91-95",
+    "tts_text": "Sturz bricht dem Feind das Genick, tötet ihn sofort. Addiere plus fünfundzwanzig auf deinen nächsten Angriff."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe Kritische Treffer Tabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "96-99",
+    "tts_text": "Verwendest nur die Hälfte der Runde, nutzt du einen Rollwurf, um den Feind gegen die nächste harte Oberfläche zu schleudern. Der Feind stirbt, du bist auf den Beinen, mach weiter."
+  },
+  {
+    "tabelle": "Kampfkunst Feger und Würfe Kritische Treffer Tabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "100",
+    "tts_text": "Die Luftröhre des Feindes wird zerquetscht. Der Feind stirbt sofort an massivem Schock und grausamer Erstickung. Addiere plus fünfundzwanzig auf deinen nächsten Wurf."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "A",
+    "wuerfelwurf": "01-05",
+    "tts_text": "Entschuldigung. Plus eins Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "A",
+    "wuerfelwurf": "06-10",
+    "tts_text": "Plus eins Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "A",
+    "wuerfelwurf": "11-15",
+    "tts_text": "Schwacher Schlag, aber du erhältst die Initiative. Plus drei Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "A",
+    "wuerfelwurf": "16-20",
+    "tts_text": "Tritt auf die Seite des Feindes führt zu plus vier Treffern und du erhältst die Initiative für die nächste Runde."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "A",
+    "wuerfelwurf": "21-35",
+    "tts_text": "Leichter, aber gut platzierter Schlag zwingt den Feind, eine Runde lang zu parieren. Plus fünf Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "A",
+    "wuerfelwurf": "36-45",
+    "tts_text": "Milder Brusttreffer zwingt den Feind, in der nächsten Runde auf Minus zehn zu parieren. Plus sechs Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "A",
+    "wuerfelwurf": "46-50",
+    "tts_text": "Akrobatische Bewegung zwingt den Feind, in der nächsten Runde auf Minus fünfundzwanzig zu parieren. Plus sechs Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "A",
+    "wuerfelwurf": "51-55",
+    "tts_text": "Schlag auf die Hüfte betäubt den Feind für eine Runde. Plus drei Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "A",
+    "wuerfelwurf": "56-60",
+    "tts_text": "Schlag auf die untere Brust des Feindes betäubt ihn für eine Runde. Plus fünf Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "A",
+    "wuerfelwurf": "61-65",
+    "tts_text": "Schlag auf die Oberseite des Fußes des Feindes ist leicht fehlplatziert, aber schnell. Der Feind agiert auf Minus zwanzig. Plus fünf Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "A",
+    "wuerfelwurf": "66",
+    "tts_text": "Schlag auf die Achillessehne. Bösartiger Bluterguss. Der Feind ist auf Minus fünfzig. Plus sieben Treffer und der Feind ist zwei Runden lang benommen."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "A",
+    "wuerfelwurf": "67-70",
+    "tts_text": "Schwacher Speerhandschlag betäubt den Feind für zwei Runden. Plus zwei Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "A",
+    "wuerfelwurf": "71-75",
+    "tts_text": "Messerhand, Speerhand Kombination. Der Feind muss auf der Patzertabelle würfeln und ist eine Runde lang benommen."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "A",
+    "wuerfelwurf": "76-80",
+    "tts_text": "Tritt auf den Schildarm des Feindes. Wenn der Feind einen Schild hat, ist dieser zerbrochen. Wenn nicht, ist der Arm unbrauchbar und plus sechs Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "A",
+    "wuerfelwurf": "81-85",
+    "tts_text": "Tritt auf den Waffenarm des Feindes entwaffnet ihn. Plus drei Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "A",
+    "wuerfelwurf": "86-90",
+    "tts_text": "Flüssige Bewegung, gefolgt von einem Sprungtritt auf den Rücken des Feindes, wirft ihn nieder und betäubt ihn drei Runden lang."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "A",
+    "wuerfelwurf": "91-95",
+    "tts_text": "Schlag auf den Nerv im oberen Bein. Plus acht Treffer. Der Feind ist betäubt und kann für zwei Runden nicht parieren und agiert auf Minus vierzig für sechs Runden."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "A",
+    "wuerfelwurf": "96-99",
+    "tts_text": "Ein Hieb lenkt den Angriff des Feindes ab, und ein Folgeschlag wirft ihn nieder. Der Feind ist benommen und kann für drei Runden nicht parieren."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "A",
+    "wuerfelwurf": "100",
+    "tts_text": "Halskrause-Schlag. Das Innenohr des Feindes ist rupturiert. Er hört auf Minus fünfzig, agiert auf Minus fünfundsiebzig. Der Feind wird durch einen Folgeschlag bewusstlos geschlagen."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle Kampfkünste Schlag",
+    "kategorie": "B",
+    "wuerfelwurf": "01-05",
+    "tts_text": "Feine Kunstfertigkeit, aber kein zusätzlicher Schaden."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle Kampfkünste Schlag",
+    "kategorie": "B",
+    "wuerfelwurf": "06-10",
+    "tts_text": "Plus zwei Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle Kampfkünste Schlag",
+    "kategorie": "B",
+    "wuerfelwurf": "11-15",
+    "tts_text": "Milder Schlag. Du erhältst die Initiative in der nächsten Runde. Plus vier Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle Kampfkünste Schlag",
+    "kategorie": "B",
+    "wuerfelwurf": "16-20",
+    "tts_text": "Seitenangriff. Der Feind verliert die Initiative für die nächsten zwei Runden. Plus fünf Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle Kampfkünste Schlag",
+    "kategorie": "B",
+    "wuerfelwurf": "21-35",
+    "tts_text": "Starker, aber schlecht gezielter Schlag zwingt den Feind, in der nächsten Runde zu parieren. Plus sechs Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle Kampfkünste Schlag",
+    "kategorie": "B",
+    "wuerfelwurf": "36-45",
+    "tts_text": "Brusttreffer. Der Feind muss in der nächsten Runde mit Minus zwanzig parieren. Plus sieben Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle Kampfkünste Schlag",
+    "kategorie": "B",
+    "wuerfelwurf": "46-50",
+    "tts_text": "Streifender Tritt gegen den Rücken des Feindes. Der Feind ist eine Runde lang benommen. Plus fünf Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle Kampfkünste Schlag",
+    "kategorie": "B",
+    "wuerfelwurf": "51-55",
+    "tts_text": "Schlag gegen die Brust des Feindes. Benommen für eine Runde. Plus sechs Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle Kampfkünste Schlag",
+    "kategorie": "B",
+    "wuerfelwurf": "56-60",
+    "tts_text": "Rückenschlag. Der Feind ist zwei Runden lang benommen. Plus drei Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle Kampfkünste Schlag",
+    "kategorie": "B",
+    "wuerfelwurf": "61-65",
+    "tts_text": "Schlag gegen den unteren Rücken des Feindes. Der Feind ist zwei Runden lang benommen. Plus sieben Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle Kampfkünste Schlag",
+    "kategorie": "B",
+    "wuerfelwurf": "66",
+    "tts_text": "Tritt gegen den Kopf des Feindes. Verstaucht den Nacken und bricht den Kiefer. Der Feind ist neun Runden lang benommen, operiert mit Minus fünfzig."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle Kampfkünste Schlag",
+    "kategorie": "B",
+    "wuerfelwurf": "67-70",
+    "tts_text": "Speerhand gegen die Brust des Feindes. Der Feind ist drei Runden lang benommen."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle Kampfkünste Schlag",
+    "kategorie": "B",
+    "wuerfelwurf": "71-75",
+    "tts_text": "Schlag gegen den Waffenarm des Feindes. Tiefer Bluterguss. Der Feind operiert mit Minus zwanzig. Plus sechs Treffer. Der Feind ist zwei Runden lang benommen."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle Kampfkünste Schlag",
+    "kategorie": "B",
+    "wuerfelwurf": "76-80",
+    "tts_text": "Schlag gegen die Kniekehle des Feindes. Beschädigt Sehnen. Der Feind ist zwei Runden lang benommen und operiert mit Minus fünfundzwanzig."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle Kampfkünste Schlag",
+    "kategorie": "B",
+    "wuerfelwurf": "81-85",
+    "tts_text": "Tritt Feindes Waffe fünf Fuß weit weg und bricht zwei Finger. Der Feind ist zwei Runden lang benommen und kämpft mit Minus zwanzig."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle Kampfkünste Schlag",
+    "kategorie": "B",
+    "wuerfelwurf": "86-90",
+    "tts_text": "Radtritt schlägt den Feind zu Boden. Zerschmettert Sehnen und zerreißt Muskeln. Der Feind ist auf Minus dreißig. Er ist auch neun Runden lang benommen."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle Kampfkünste Schlag",
+    "kategorie": "B",
+    "wuerfelwurf": "91-95",
+    "tts_text": "Tritt gegen das Knie des Feindes, zertrümmert das Gelenk. Der Feind fällt, ist auf Minus fünfundachtzig. Er ist benommen und unfähig, vier Runden lang zu parieren."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle Kampfkünste Schlag",
+    "kategorie": "B",
+    "wuerfelwurf": "96-99",
+    "tts_text": "Roundhouse-Kick schlägt den Feind bewusstlos und bricht das Schlüsselbein. Der Feind hat einen verstauchten Nacken und eine Schulter."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle Kampfkünste Schlag",
+    "kategorie": "B",
+    "wuerfelwurf": "100",
+    "tts_text": "Messerhand-Schlag gegen den Waffenarm des Feindes bricht den Knochen. Tritt gegen den unteren Rücken bricht das Rückgrat und lässt den Feind von der Taille abwärts gelähmt zurück."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "C",
+    "wuerfelwurf": "01-05",
+    "tts_text": "Plus eins Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "C",
+    "wuerfelwurf": "06-10",
+    "tts_text": "Plus zwei Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "C",
+    "wuerfelwurf": "11-15",
+    "tts_text": "Leichter Treffer. Sie haben in der nächsten Runde die Initiative. Plus fünf Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "C",
+    "wuerfelwurf": "16-20",
+    "tts_text": "Seitenhieb zwingt den Gegner, in der nächsten Runde zu parieren. Plus sechs Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "C",
+    "wuerfelwurf": "21-35",
+    "tts_text": "Tritt in die Rippen des Gegners betäubt ihn für eine Runde. Plus sechs Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "C",
+    "wuerfelwurf": "36-45",
+    "tts_text": "Clevere Finte führt zu einem Volltreffer, aber einem leichten Brusttreffer. Der Gegner ist für eine Runde betäubt. Plus acht Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "C",
+    "wuerfelwurf": "46-50",
+    "tts_text": "Schlag auf den Rücken des Gegners. Der Gegner ist betäubt und kann für eine Runde nicht parieren."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "C",
+    "wuerfelwurf": "51-55",
+    "tts_text": "Seitenhieb. Der Gegner ist betäubt und kann für eine Runde nicht parieren. Plus zwanzig auf den nächsten Angriff."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "C",
+    "wuerfelwurf": "56-60",
+    "tts_text": "Starker Radtritt schleudert den Gegner zehn Fuß in jede gewünschte Richtung. Der Gegner ist für zwei Runden betäubt. Plus acht Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "C",
+    "wuerfelwurf": "61-65",
+    "tts_text": "Schlag auf den Oberschenkel. Der Gegner hat eine tiefe Prellung und agiert auf Minus fünfundzwanzig. Plus fünf Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "C",
+    "wuerfelwurf": "66",
+    "tts_text": "Messerhand-Schlag bricht dem Gegner den Waffenarm, wodurch er nutzlos wird. Ein Folgetreffer auf das Solarplexus schlägt den Gegner bewusstlos."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "C",
+    "wuerfelwurf": "67-70",
+    "tts_text": "Starker Messerhand-Schlag auf den oberen Teil des Schildarms des Gegners. Der Arm ist gebrochen und nutzlos."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "C",
+    "wuerfelwurf": "71-75",
+    "tts_text": "Schlag auf die Rückseite des Unterschenkels. Der Gegner ist für zwei Runden betäubt und kann nicht parieren."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "C",
+    "wuerfelwurf": "76-80",
+    "tts_text": "Tritt entwaffnet den Gegner und betäubt ihn für eine Runde. Der Gegner kämpft auf Minus zehn aufgrund von Knorpelschäden."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "C",
+    "wuerfelwurf": "81-85",
+    "tts_text": "Fersenkick bricht Knochen im Fuß des Gegners. Der Gegner agiert auf Minus fünfzig; er ist auch für zwei Runden betäubt und kann nicht parieren."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "C",
+    "wuerfelwurf": "86-90",
+    "tts_text": "Tritt ins Bein durchtrennt die Achillessehne und lässt den Gegner fallen. Plus zehn Treffer. Der Gegner ist für neun Runden betäubt und agiert auf Minus achtzig."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "C",
+    "wuerfelwurf": "91-95",
+    "tts_text": "Fliegender Tritt auf den Rücken des Gegners. Sie schlagen den Gegner zu Boden, entwaffnen ihn und lassen ihn betäubt und unfähig, zwölf Runden lang zu parieren."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "C",
+    "wuerfelwurf": "96-99",
+    "tts_text": "Tritt auf das Solarplexus lässt den Gegner fallen und betäubt ihn und unfähig, dreißig Runden lang zu parieren. Plus dreißig Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "C",
+    "wuerfelwurf": "100",
+    "tts_text": "Feger legt den Gegner nieder und ein Fersenkick auf das Brustbein lässt den Brustkorb kollabieren. Der Gegner ist hilflos und stirbt in vier Runden."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport-Schläge",
+    "kategorie": "D",
+    "wuerfelwurf": "01-05",
+    "tts_text": "Plus zwei Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport-Schläge",
+    "kategorie": "D",
+    "wuerfelwurf": "06-10",
+    "tts_text": "Plus drei Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport-Schläge",
+    "kategorie": "D",
+    "wuerfelwurf": "11-15",
+    "tts_text": "Du hast die Initiative in der nächsten Runde. Plus sieben Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport-Schläge",
+    "kategorie": "D",
+    "wuerfelwurf": "16-20",
+    "tts_text": "Seitenhieb zwingt den Gegner, in der nächsten Runde zu parieren. Minus zehn in der nächsten Runde. Plus acht Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport-Schläge",
+    "kategorie": "D",
+    "wuerfelwurf": "21-35",
+    "tts_text": "Seitenhieb. Der Gegner ist in der nächsten Runde benommen und verliert die Initiative für drei Runden. Plus zwei Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport-Schläge",
+    "kategorie": "D",
+    "wuerfelwurf": "36-45",
+    "tts_text": "Brusttreffer. Der Gegner ist benommen und kann in der nächsten Runde nicht parieren. Plus fünf Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport-Schläge",
+    "kategorie": "D",
+    "wuerfelwurf": "46-50",
+    "tts_text": "Brusttreffer. Der Gegner ist benommen und kann in der nächsten Runde nicht parieren. Minus zehn in der nächsten Runde. Plus drei Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport-Schläge",
+    "kategorie": "D",
+    "wuerfelwurf": "51-55",
+    "tts_text": "Schlag auf die obere Wade verursacht tiefe Prellungen. Der Gegner agiert bei Minus fünfundzwanzig. Plus sechs Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport-Schläge",
+    "kategorie": "D",
+    "wuerfelwurf": "56-60",
+    "tts_text": "Rückwärtsschlag. Der Gegner ist für drei Runden benommen. Plus vier Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport-Schläge",
+    "kategorie": "D",
+    "wuerfelwurf": "61-65",
+    "tts_text": "Schlag auf den Nerv im oberen Bein. Der Gegner ist für zwei Runden benommen und agiert für sechs Runden bei Minus fünfundzwanzig."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport-Schläge",
+    "kategorie": "D",
+    "wuerfelwurf": "66",
+    "tts_text": "Hervorragender Zug. Die Waffe des Gegners bricht. Der Gegner ist für drei Runden benommen. Addiere Plus zwanzig auf den nächsten Wurf."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport-Schläge",
+    "kategorie": "D",
+    "wuerfelwurf": "67-70",
+    "tts_text": "Schlag auf den Spann des Gegners. Der Gegner ist für zwei Runden benommen und kann nicht parieren."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport-Schläge",
+    "kategorie": "D",
+    "wuerfelwurf": "71-75",
+    "tts_text": "Messerhand-Schlag bricht das Schlüsselbein des Gegners. Der Gegner ist für zwei Runden benommen und kann nicht parieren, agiert bei Minus fünfundzwanzig."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport-Schläge",
+    "kategorie": "D",
+    "wuerfelwurf": "76-80",
+    "tts_text": "Schlag auf den Bereich hinter dem Knie des Gegners. Sehnen- und Knorpelschaden. Der Gegner agiert bei Minus fünfundsiebzig."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport-Schläge",
+    "kategorie": "D",
+    "wuerfelwurf": "81-85",
+    "tts_text": "Tritt bricht das Bein des Gegners. Der Gegner ist für zwei Runden benommen und kann nicht parieren und agiert für fünfundsiebzig Runden bei Minus fünfundsiebzig. Plus fünf Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport-Schläge",
+    "kategorie": "D",
+    "wuerfelwurf": "86-90",
+    "tts_text": "Schlag mit offener Hand auf den Kehlkopf des Gegners (Hals) zerquetscht die Luftröhre. Der Gegner stirbt in achtzehn Runden an Schock und Ersticken."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport-Schläge",
+    "kategorie": "D",
+    "wuerfelwurf": "91-95",
+    "tts_text": "Stoß auf die Augen des Gegners blendet ihn. Halbmondtritt schleudert den Gegner zehn Fuß nach rechts oder links. Der Gegner ist bei einhundert. Er ist für zehn Runden benommen."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport-Schläge",
+    "kategorie": "D",
+    "wuerfelwurf": "96-99",
+    "tts_text": "Brutaler Kopftritt wirft den Gegner auf den Kopf. Schädelbruch ist geringfügig, aber die Gehirnerschütterung ist schwer. Der Gegner stirbt innerhalb von neun Runden an Hirnblutungen."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport-Schläge",
+    "kategorie": "D",
+    "wuerfelwurf": "100",
+    "tts_text": "Fantastischer Speerhand-Schlag findet eine Naht, dringt in den Solarplexus ein und zerreißt das Herz. Der Gegner stirbt sofort."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "E",
+    "wuerfelwurf": "01-05",
+    "tts_text": "Glancing Strike lässt den Feind dich ein wenig mehr respektieren. Plus fünf Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "E",
+    "wuerfelwurf": "06-10",
+    "tts_text": "Plus vier Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "E",
+    "wuerfelwurf": "11-15",
+    "tts_text": "Moderater Schlag betäubt den Feind für eine Runde. Plus sieben Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "E",
+    "wuerfelwurf": "16-20",
+    "tts_text": "Seitenhieb knackt die Rippen des Feindes und betäubt ihn für eine Runde. Plus fünf Treffer. Der Feind ist bei Minus zehn."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "E",
+    "wuerfelwurf": "21-35",
+    "tts_text": "Feiner Seitenhieb knackt drei Rippen. Der Feind ist bei Minus zwanzig. Plus sechs Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "E",
+    "wuerfelwurf": "36-45",
+    "tts_text": "Rückwärtsschlag betäubt den Feind eine Runde lang. Du hast eine klare Sicht auf den Rücken des Feindes für die nächste Runde."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "E",
+    "wuerfelwurf": "46-50",
+    "tts_text": "Brustschlag. Der Feind ist zwei Runden lang benommen und kann eine Runde lang nicht parieren. Plus fünf Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "E",
+    "wuerfelwurf": "51-55",
+    "tts_text": "Hüftstoß lässt den Feind herumwirbeln. Plus fünf Treffer. Der Feind ist drei Runden lang benommen."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "E",
+    "wuerfelwurf": "56-60",
+    "tts_text": "Brustschlag. Der Feind ist zwei Runden lang benommen, kann in der nächsten Runde nicht parieren und agiert bei Minus zehn."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "E",
+    "wuerfelwurf": "61-65",
+    "tts_text": "Unterarm-Schlag entwaffnet den Feind sauber. Plus drei Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "E",
+    "wuerfelwurf": "66",
+    "tts_text": "Gleichzeitige offene Handflächenschläge zerstören das Gehör und das Gleichgewicht des Feindes. Der Feind ist bei Minus fünfundneunzig. Er ist vierundzwanzig Runden lang benommen."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "E",
+    "wuerfelwurf": "67-70",
+    "tts_text": "Ellbogen zum Solarplexus und Faustschlag ins Gesicht werfen den Feind nieder. Der Feind ist drei Runden lang benommen und kann zwei Runden lang nicht parieren."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "E",
+    "wuerfelwurf": "71-75",
+    "tts_text": "Fersenstoß bricht Knochen im Fuß des Feindes. Der Feind ist bei Minus fünfzig. Plus fünf Treffer. Narr für drei Runden benommen."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "E",
+    "wuerfelwurf": "76-80",
+    "tts_text": "Frontkick zum Mittelteil krümmt den Feind. Du folgst mit einem Kniestoß, der dem Feind die Nase bricht und ihn bewusstlos schlägt."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "E",
+    "wuerfelwurf": "81-85",
+    "tts_text": "Stoß zum Knie zerschmettert das Gelenk. Der Feind fällt und ist benommen und kann sechs Runden lang nicht parieren. Der Feind ist bei Minus achtzig. Plus sechs Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "E",
+    "wuerfelwurf": "86-90",
+    "tts_text": "Roundhouse-Kick trifft die Niere des Feindes und wirft ihn nieder. Dein folgender Messerhand-Schlag bricht dem Feind das Genick. Er ist bewusstlos und stirbt in neun Runden."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "E",
+    "wuerfelwurf": "91-95",
+    "tts_text": "Stoß zum Magen zerstört eine Vielzahl von Organen. Der Feind fällt hilflos hin und stirbt in zwölf Runden. Addiere plus zehn zu deiner nächsten Runde."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "E",
+    "wuerfelwurf": "96-99",
+    "tts_text": "Doppelter Handflächenschlag zur Nase des Feindes bricht Knorpel und treibt Knochen ins Gehirn. Der Feind fällt hilflos hin und stirbt in sechs Runden."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle: Kampfsport Schläge",
+    "kategorie": "E",
+    "wuerfelwurf": "100",
+    "tts_text": "Tritt entwaffnet den Feind. Ein folgender Schlag bricht ihm das Genick und ein anschließender Flip schleudert den Feind fünf Fuß in jede gewünschte Richtung. Der Feind stirbt."
+  },
+  {
+    "tabelle": "Kritische Treffer – Greifen",
+    "kategorie": "A",
+    "wuerfelwurf": "01-05",
+    "tts_text": "Schwacher Griff. Keine Boni. Plus null Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffer – Greifen",
+    "kategorie": "A",
+    "wuerfelwurf": "06-10",
+    "tts_text": "Plus eins Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffer – Greifen",
+    "kategorie": "A",
+    "wuerfelwurf": "11-15",
+    "tts_text": "Streifender Angriff. Kein zusätzlicher Schaden, aber du hast die Initiative in der nächsten Runde. Plus zwei Treffer. Übung."
+  },
+  {
+    "tabelle": "Kritische Treffer – Greifen",
+    "kategorie": "A",
+    "wuerfelwurf": "16-20",
+    "tts_text": "Der Feind ist frei, aber du hast die Initiative in der nächsten Runde. Plus drei Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffer – Greifen",
+    "kategorie": "A",
+    "wuerfelwurf": "21-35",
+    "tts_text": "Streifender Hüfttreffer. Du hast die Initiative in der nächsten Runde. Plus fünf Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffer – Greifen",
+    "kategorie": "A",
+    "wuerfelwurf": "36-45",
+    "tts_text": "Schlag auf den unteren Rücken. Der Feind muss in der nächsten Runde parieren."
+  },
+  {
+    "tabelle": "Kritische Treffer – Greifen",
+    "kategorie": "A",
+    "wuerfelwurf": "46-50",
+    "tts_text": "Vorbeiziehender Hüfttreffer. Der Feind muss in der nächsten Runde bei Minus zwanzig parieren."
+  },
+  {
+    "tabelle": "Kritische Treffer – Greifen",
+    "kategorie": "A",
+    "wuerfelwurf": "51-55",
+    "tts_text": "Leichtes, aus dem Gleichgewicht bringendes Schlag auf die Brust. Der Feind muss in der nächsten Runde parieren. Du hast die Initiative für zwei Runden."
+  },
+  {
+    "tabelle": "Kritische Treffer – Greifen",
+    "kategorie": "A",
+    "wuerfelwurf": "56-60",
+    "tts_text": "Streifender Rückenschlag. Der Feind muss in der nächsten Runde bei Minus fünfundzwanzig parieren. Du hast die Initiative für zwei Runden."
+  },
+  {
+    "tabelle": "Kritische Treffer – Greifen",
+    "kategorie": "A",
+    "wuerfelwurf": "61-65",
+    "tts_text": "Schlag auf die Schulter. Der Feind ist benommen für eine Runde. Plus drei Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffer – Greifen",
+    "kategorie": "A",
+    "wuerfelwurf": "66",
+    "tts_text": "Griff um den Waffenarm entwaffnet den Feind. Plus zwei Treffer. Der Feind ist benommen für zwei Runden."
+  },
+  {
+    "tabelle": "Kritische Treffer – Greifen",
+    "kategorie": "A",
+    "wuerfelwurf": "67-70",
+    "tts_text": "Vorbeiziehender Brusttreffer. Der Feind entzieht sich der Umklammerung, muss aber die nächsten zwei Runden bei Minus zwanzig parieren."
+  },
+  {
+    "tabelle": "Kritische Treffer – Greifen",
+    "kategorie": "A",
+    "wuerfelwurf": "71-75",
+    "tts_text": "Der Angriff führt zu einem unsicheren Halt um den Rumpf des Feindes. Der Feind ist für zwei Runden bei Minus fünfzig. Plus fünf Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffer – Greifen",
+    "kategorie": "A",
+    "wuerfelwurf": "76-80",
+    "tts_text": "Unsicherer Halt am Rumpf des Feindes. Für die nächsten drei Runden ist der Feind bei Minus fünfzig und du hast die Initiative."
+  },
+  {
+    "tabelle": "Kritische Treffer – Greifen",
+    "kategorie": "A",
+    "wuerfelwurf": "81-85",
+    "tts_text": "Greif den Feind am Bein. Der Feind befreit sich, ist aber benommen für zwei Runden. Plus drei Treffer. Du hast die Initiative für sechs Runden."
+  },
+  {
+    "tabelle": "Kritische Treffer – Greifen",
+    "kategorie": "A",
+    "wuerfelwurf": "86-90",
+    "tts_text": "Angriff auf den Schildarm des Feindes. Wenn der Feind einen Schild hat, muss er in der nächsten Runde parieren. Wenn nicht, ist der Arm immobilisiert und der Feind ist bei Minus fünfzig."
+  },
+  {
+    "tabelle": "Kritische Treffer – Greifen",
+    "kategorie": "A",
+    "wuerfelwurf": "91-95",
+    "tts_text": "Verheddere das Bein des Feindes. Der Feind wird zu Boden geworfen, ist benommen und kann für zwei Runden nicht parieren. Plus drei Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffer – Greifen",
+    "kategorie": "A",
+    "wuerfelwurf": "96-99",
+    "tts_text": "Fessel den Feind komplett. Der Feind ist für zwölf Runden vollständig immobilisiert und für die nächsten drei Runden bei Minus sechzig. Plus sieben Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffer – Greifen",
+    "kategorie": "A",
+    "wuerfelwurf": "100",
+    "tts_text": "Beide Beine des Feindes sind verwickelt. Der Feind wird zu Boden geworfen und ist bewusstlos. Plus neun Treffer. Addiere Plus zwanzig auf deinen nächsten Wurf."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffertabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "01-05",
+    "tts_text": "Unentschlossenheit. Eine verpasste Gelegenheit. Plus ein Treffer."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffertabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "06-10",
+    "tts_text": "Plus zwei Treffer."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffertabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "11-15",
+    "tts_text": "Vorbeistreifender Treffer. Du hast die Initiative in der nächsten Runde. Plus zwei Treffer."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffertabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "16-20",
+    "tts_text": "Der Gegner wehrt den Angriff ab, muss aber eine Runde lang parieren. Plus zwei Treffer."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffertabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "21-35",
+    "tts_text": "Angriff hat Schlagkraft, aber nichts weiter. Der Gegner muss in der nächsten Runde bei Minus zwanzig parieren."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffertabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "36-45",
+    "tts_text": "Ungleichgewicht Gegner. Plus vier Treffer. Der Gegner muss in der nächsten Runde parieren. Du hast die Initiative für zwei Runden."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffertabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "46-50",
+    "tts_text": "Schlag auf die Brust betäubt den Gegner für eine Runde. Plus fünf Treffer."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffertabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "51-55",
+    "tts_text": "Schlag auf den Rücken betäubt den Gegner für eine Runde. Plus sieben Treffer."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffertabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "56-60",
+    "tts_text": "Aus dem Gleichgewicht bringender Schlag. Der Gegner befreit sich, ist aber eine Runde lang benommen. Muss die folgende Runde parieren."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffertabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "61-65",
+    "tts_text": "Schlitternder Griff um die Taille des Gegners ist schwach. Der Gegner ist für zwei Runden benommen."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffertabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "66",
+    "tts_text": "Griff um den Waffenarm des Gegners entwaffnet ihn und verstaucht sein Handgelenk. Der Gegner ist für zwei Runden benommen und kämpft bei Minus fünfundzwanzig."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffertabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "67-70",
+    "tts_text": "Bein des Gegners verstricken. Plus vier Treffer. Der Gegner ist benommen und kann eine Runde lang nicht parieren."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffertabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "71-75",
+    "tts_text": "Angriff führt zu schwachem Griff um die untere Brust des Gegners. Der Gegner ist für drei Runden bei Minus fünfzig. Plus vier Treffer."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffertabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "76-80",
+    "tts_text": "Entwirrt den Schildarm. Wenn der Gegner einen Schild hat, ist er bei Minus dreißig, bis er ihn fallen lässt. Wenn nicht, ist er bei Minus vierzig."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffertabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "81-85",
+    "tts_text": "Unsicherer Griff um die Körpermitte des Gegners. Für die nächsten sechs Runden ist der Gegner bei Minus fünfzig und du hast die Initiative."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffertabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "86-90",
+    "tts_text": "Bein des Gegners verstricken. Der Gegner wird niedergeschlagen und ist für zwei Runden benommen und kann nicht parieren. Ein gezerrter Muskel lässt den Gegner bei Minus zehn zurück."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffertabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "91-95",
+    "tts_text": "Beide Beine des Gegners sind gefesselt. Der Gegner ist bei Minus fünfundzwanzig, niedergeschlagen, entwaffnet und benommen und kann zwei Runden lang nicht parieren."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffertabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "96-99",
+    "tts_text": "Der Angriff verstrickt den Gegner vollständig. Der Gegner wird für zwei Runden benommen und kann nicht parieren, und ist bei Minus fünfzig, während er blutet."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffertabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "100",
+    "tts_text": "Angriff führt zu einem bösen Griff um den Hals des Gegners. Der Gegner wird bewusstlos geschlagen. Ein verstauchter Nacken lässt den Gegner bei Minus neunzig zurück."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffertabelle",
+    "kategorie": "C",
+    "wuerfelwurf": "01-05",
+    "tts_text": "Plus eins Treffer."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffertabelle",
+    "kategorie": "C",
+    "wuerfelwurf": "06-10",
+    "tts_text": "Plus drei Treffer."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffertabelle",
+    "kategorie": "C",
+    "wuerfelwurf": "11-15",
+    "tts_text": "Streifender Seitenangriff. Du erhältst die Initiative in der nächsten Runde. Plus vier Treffer."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffertabelle",
+    "kategorie": "C",
+    "wuerfelwurf": "16-20",
+    "tts_text": "Der Feind erholt sich, muss aber in der nächsten Runde parieren. Plus vier Treffer."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffertabelle",
+    "kategorie": "C",
+    "wuerfelwurf": "21-35",
+    "tts_text": "Streifender Angriff. Der Feind ist in einer Runde benommen. Plus zwei Treffer."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffertabelle",
+    "kategorie": "C",
+    "wuerfelwurf": "36-45",
+    "tts_text": "Schlagender Angriff. Der Feind ist in einer Runde benommen und muss in der folgenden Runde parieren."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffertabelle",
+    "kategorie": "C",
+    "wuerfelwurf": "46-50",
+    "tts_text": "Dein Angriff führt zu einem schwachen Griff um die Taille des Feindes. Der Feind ist für drei Runden bei Minus fünfundzwanzig."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffertabelle",
+    "kategorie": "C",
+    "wuerfelwurf": "51-55",
+    "tts_text": "Angriff führt zu einem rutschigen Griff um das Bein des Feindes. Der Feind ist benommen und kann in einer Runde nicht parieren."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffertabelle",
+    "kategorie": "C",
+    "wuerfelwurf": "56-60",
+    "tts_text": "Der Feind befreit sich aus dem Griff um den Oberschenkel, ist aber benommen und kann in einer Runde nicht parieren. Plus drei Treffer."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffertabelle",
+    "kategorie": "C",
+    "wuerfelwurf": "61-65",
+    "tts_text": "Griff um die Brust des Feindes. Der Feind ist für drei Runden bei Minus fünfzig. Plus drei Treffer."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffertabelle",
+    "kategorie": "C",
+    "wuerfelwurf": "66",
+    "tts_text": "Griff um beide Beine des Feindes. Der Feind rutscht weg, wird aber niedergeschlagen und ist für eine Runde anfällig. Plus fünf Treffer."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffertabelle",
+    "kategorie": "C",
+    "wuerfelwurf": "67-70",
+    "tts_text": "Waffenarm verwickeln. Falls der Feind einen Schild besitzt, ist er bei Minus fünfzig, bis er ihn fallen lässt. Andernfalls ist der Feind bei Minus fünfzig."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffertabelle",
+    "kategorie": "C",
+    "wuerfelwurf": "71-75",
+    "tts_text": "Angriff führt zu einem lockeren Griff um die Körpermitte des Feindes. Der Feind ist für zwei Runden benommen und für die nächsten drei Runden bei Minus fünfzig."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffertabelle",
+    "kategorie": "C",
+    "wuerfelwurf": "76-80",
+    "tts_text": "Waffenarm verwickeln. Der Feind ist benommen und kann für zwei Runden nicht parieren und ist in der folgenden Runde bei Minus fünfundzwanzig."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffertabelle",
+    "kategorie": "C",
+    "wuerfelwurf": "81-85",
+    "tts_text": "Griff um die Brust des Feindes bricht eine Rippe und lässt den Feind benommen und unfähig zurück, für drei Runden zu parieren. Der Feind kämpft bei Minus fünf."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffertabelle",
+    "kategorie": "C",
+    "wuerfelwurf": "86-90",
+    "tts_text": "Fuß des Feindes verwickeln. Der Feind stolpert, fällt und bricht die Schulter. Plus acht Treffer. Der Feind ist für sechs Runden benommen und kämpft bei Minus dreißig."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffertabelle",
+    "kategorie": "C",
+    "wuerfelwurf": "91-95",
+    "tts_text": "Beide Arme des Feindes an die Brust fixieren. Der Feind ist benommen und kann für vierundvierzig Runden nicht parieren, kämpft dann bei Minus fünfundneunzig."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffertabelle",
+    "kategorie": "C",
+    "wuerfelwurf": "96-99",
+    "tts_text": "Beine des Feindes verwickeln und vollständig immobilisieren. Der Feind fällt, wird entwaffnet, bricht den Waffenarm und wird bewusstlos geschlagen. Plus zwanzig Treffer."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffertabelle",
+    "kategorie": "C",
+    "wuerfelwurf": "100",
+    "tts_text": "Den Hals des Feindes packen. Falls der Feind Halspanzerung trägt, ist er bei Minus fünfundsiebzig aufgrund einer Nackenverstauchung und für drei Runden benommen. Andernfalls stirbt er an einem gebrochenen Genick."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffer",
+    "kategorie": "D",
+    "wuerfelwurf": "01-05",
+    "tts_text": "Plus zwei Treffer."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffer",
+    "kategorie": "D",
+    "wuerfelwurf": "06-10",
+    "tts_text": "Plus vier Treffer."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffer",
+    "kategorie": "D",
+    "wuerfelwurf": "11-15",
+    "tts_text": "Streifender Schlag. Der Gegner erhält Initiative in der nächsten Runde. Plus sechs Treffer."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffer",
+    "kategorie": "D",
+    "wuerfelwurf": "16-20",
+    "tts_text": "Seitenhieb bringt den Gegner aus dem Gleichgewicht. Sie haben in den nächsten zwei Runden Initiative. Plus fünf Treffer."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffer",
+    "kategorie": "D",
+    "wuerfelwurf": "21-35",
+    "tts_text": "Harter, aber fehlplatzierter Schlag. Der Gegner entgeht dem Griff, ist aber für eine Runde benommen. Plus drei Treffer."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffer",
+    "kategorie": "D",
+    "wuerfelwurf": "36-45",
+    "tts_text": "Schlag auf den Schildarm des Gegners. Wenn der Gegner einen Schild hat, plus drei Treffer. Wenn nicht, ist der Arm für sechs Runden gefangen und unbeweglich, und der Gegner ist für drei Runden benommen."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffer",
+    "kategorie": "D",
+    "wuerfelwurf": "46-50",
+    "tts_text": "Angriff führt zu schwachem Halt um die Brust des Gegners. Der Gegner ist für drei Runden bei Minus dreißig. Sie haben vier Runden Initiative."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffer",
+    "kategorie": "D",
+    "wuerfelwurf": "51-55",
+    "tts_text": "Angriff führt zu abrutschendem Griff um die Taille des Gegners. Der Gegner ist für drei Runden bei Minus fünfzig."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffer",
+    "kategorie": "D",
+    "wuerfelwurf": "56-60",
+    "tts_text": "Angriff führt zu Halt am Bein. Der Griff rutscht ab, aber der Gegner ist für drei Runden benommen. Plus sechs Treffer."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffer",
+    "kategorie": "D",
+    "wuerfelwurf": "61-65",
+    "tts_text": "Griff um die Brust des Gegners. Der Gegner ist für eine Runde benommen und handlungsunfähig, und in den folgenden zwei Runden bei Minus zwanzig."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffer",
+    "kategorie": "D",
+    "wuerfelwurf": "66",
+    "tts_text": "Griff um das Bein des Gegners wirft ihn zu Boden. Fester Griff. Der Gegner ist auf dem Boden und für zwei Runden unbeweglich. Plus sechs Treffer."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffer",
+    "kategorie": "D",
+    "wuerfelwurf": "67-70",
+    "tts_text": "Bein verwickeln. Der Gegner ist für zwei Runden benommen und handlungsunfähig in der nächsten Runde. Plus sieben Treffer."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffer",
+    "kategorie": "D",
+    "wuerfelwurf": "71-75",
+    "tts_text": "Angriff führt zu lockerem Halt um die Körpermitte des Gegners. Der Gegner ist für eine Runde benommen und handlungsunfähig, und in den folgenden drei Runden bei Minus siebzig."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffer",
+    "kategorie": "D",
+    "wuerfelwurf": "76-80",
+    "tts_text": "Waffenarm verwickeln. Der Gegner klammert sich an die Waffe, aber der Arm ist unbeweglich. Plus drei Treffer."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffer",
+    "kategorie": "D",
+    "wuerfelwurf": "81-85",
+    "tts_text": "Bein verwickeln. Der Gegner wird zu Boden geworfen, ist benommen, entwaffnet und kann für zwei Runden nicht parieren. Fall bricht den Schildarm."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffer",
+    "kategorie": "D",
+    "wuerfelwurf": "86-90",
+    "tts_text": "Beide Arme des Gegners zusammenbinden, sodass sie unbeweglich sind. Der Gegner ist für neun Runden benommen und kann nicht kämpfen. Plus sechs Treffer."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffer",
+    "kategorie": "D",
+    "wuerfelwurf": "91-95",
+    "tts_text": "Beine des Gegners vollständig verwickeln und unbeweglich machen. Der Gegner fällt und ist benommen und kann für dreißig Runden nicht parieren. Plus zehn Treffer."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffer",
+    "kategorie": "D",
+    "wuerfelwurf": "96-99",
+    "tts_text": "Griff um den Nacken des Gegners. Wenn der Gegner Nackenpanzerung trägt, ist er entwaffnet und für drei Runden benommen und handlungsunfähig. Wenn nicht, stirbt er in sechs Runden."
+  },
+  {
+    "tabelle": "Ringkampf Kritische Treffer",
+    "kategorie": "D",
+    "wuerfelwurf": "100",
+    "tts_text": "Griff um den Kopf des Gegners. Wenn der Gegner einen Helm hat, ist er benommen und handlungsunfähig für neun Runden. Wenn nicht, fällt der Gegner aufgrund eines Bruchs ins Koma."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle Ringen",
+    "kategorie": "E",
+    "wuerfelwurf": "01-05",
+    "tts_text": "Plus drei Treffer. Leichter Angriff. Du hast die Initiative für die nächste Runde. Plus fünf Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle Ringen",
+    "kategorie": "E",
+    "wuerfelwurf": "06-10",
+    "tts_text": "Lahmer Angriff, aber der Gegner muss nächste Runde parieren. Plus sechs Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle Ringen",
+    "kategorie": "E",
+    "wuerfelwurf": "11-15",
+    "tts_text": "Starker, vorbeiziehender Schlag. Der Gegner ist für eine Runde benommen. Plus drei Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle Ringen",
+    "kategorie": "E",
+    "wuerfelwurf": "16-20",
+    "tts_text": "Unzusammenhängender Angriff und ein bisschen Glück ermöglichen dem Gegner, dem Griff zu entkommen. Der Gegner ist für eine Runde benommen. Du hast die Initiative für zwei Runden."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle Ringen",
+    "kategorie": "E",
+    "wuerfelwurf": "21-35",
+    "tts_text": "Angriff auf das obere Bein. Der Gegner wird herumgewirbelt und reißt sich los, ist aber benommen und kann für eine Runde nicht parieren."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle Ringen",
+    "kategorie": "E",
+    "wuerfelwurf": "36-45",
+    "tts_text": "Der Angriff führt zu einem Griff um das Bein des Gegners. Der Gegner rutscht weg, ist aber für zwei Runden benommen und kann für die nächste Runde nicht parieren."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle Ringen",
+    "kategorie": "E",
+    "wuerfelwurf": "46-50",
+    "tts_text": "Der Gegner befreit sich aus dem Griff um den Schildarm. Der Gegner ist für zwei Runden benommen und kann für die nächste Runde nicht parieren. Plus fünf Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle Ringen",
+    "kategorie": "E",
+    "wuerfelwurf": "51-55",
+    "tts_text": "Griff um das Bein des Gegners. Der Gegner ist für eine Runde benommen und kann für eine Runde nicht parieren und liegt die nächsten drei Runden bei Minus fünfundzwanzig."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle Ringen",
+    "kategorie": "E",
+    "wuerfelwurf": "56-60",
+    "tts_text": "Angriff auf den Schildarm des Gegners. Falls der Gegner einen Schild hat, Plus sechs Treffer. Falls nicht, ist er für drei Runden benommen und kann nicht parieren. Plus sieben Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle Ringen",
+    "kategorie": "E",
+    "wuerfelwurf": "61-65",
+    "tts_text": "Griff um den Hals des Gegners und zu Boden werfen. Der Gegner hat zerrissene Nackenmuskeln, ist bei Minus zwanzig. Der Gegner ist anfällig und für drei Runden immobilisiert."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle Ringen",
+    "kategorie": "E",
+    "wuerfelwurf": "66",
+    "tts_text": "Waffenarm verwickeln. Benommen und kann für zwei Runden nicht parieren und liegt die folgende Runde bei Minus fünfundsiebzig."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle Ringen",
+    "kategorie": "E",
+    "wuerfelwurf": "67-70",
+    "tts_text": "Bein des Gegners verwickeln. Der Gegner wird zu Boden geworfen und ist für zwei Runden benommen und kann nicht parieren. Plus neun Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle Ringen",
+    "kategorie": "E",
+    "wuerfelwurf": "71-75",
+    "tts_text": "Waffenarm ringen. Der Gegner wird entwaffnet und ist für drei Runden benommen. Zerrissene Bänder und gezerrte Muskeln führen zu Minus vierzig für den Gegner."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle Ringen",
+    "kategorie": "E",
+    "wuerfelwurf": "76-80",
+    "tts_text": "Beide Arme des Gegners verwickeln und an seine Brust drücken. Der Gegner kann seine Arme nicht bewegen und seine Mobilität ist um Minus fünfundsiebzig reduziert."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle Ringen",
+    "kategorie": "E",
+    "wuerfelwurf": "81-85",
+    "tts_text": "Fuß des Gegners verwickeln. Der Gegner stolpert, fällt, bricht seine Waffe beim Aufprall und ist für zwei Runden benommen. Falls keine Brustpanzerung vorhanden ist, wirf auf die \"D\"-Zertrümmerungs-Kritik-Tabelle."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle Ringen",
+    "kategorie": "E",
+    "wuerfelwurf": "86-90",
+    "tts_text": "Beide Beine des Gegners einwickeln. Der Gegner fällt zu Boden und ist bewusstlos. Der Gegner liegt bei Minus fünfundneunzig aufgrund von zwei gebrochenen Armen und einem gebrochenen Knöchel. Plus zwanzig Treffer."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle Ringen",
+    "kategorie": "E",
+    "wuerfelwurf": "91-95",
+    "tts_text": "Der Angriff führt zu einem Würgegriff. Der Gegner kann sich nicht befreien und stirbt nach neun Runden erstaunlich hilflosen Kampfes. Grauenvoll."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle Ringen",
+    "kategorie": "E",
+    "wuerfelwurf": "96-99",
+    "tts_text": "Die Luftröhre des Gegners wird zerquetscht. Der Gegner stirbt sofort an massivem Schock und barbarischem Ersticken. Addiere Plus fünfundzwanzig zu deinem nächsten Wurf."
+  },
+  {
+    "tabelle": "Kritische Treffertabelle Ringen",
+    "kategorie": "E",
+    "wuerfelwurf": "100",
+    "tts_text": "Die Luftröhre des Gegners wird zerquetscht. Der Gegner stirbt sofort an massivem Schock und barbarischem Ersticken. Addiere Plus fünfundzwanzig zu deinem nächsten Wurf."
+  }
+]

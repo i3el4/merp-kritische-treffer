@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /**
  * Minifiziert die "visual" Texte in tables_processed.json via Gemini API.
- * Liest TTS-Texte, extrahiert nur Crunch/Spielmechaniken und speichert als tables_final.json.
+ * Standard: tables_final.json. Mit MINIFY_ENGLISH_ZUSATZ_ONLY=1 nur Keys aus
+ * merge_english_german_into_tables.js → Schreibt tables_processed.json.
  *
  * Für Allgemeine Patzer (patzer_tables.json → Allgemeine Patzer) dieselbe Crunch-Logik:
  * scripts/minify_patzer_visual.js, danach scripts/merge_patzer_into_tables_processed.js
@@ -14,7 +15,28 @@ const path = require('path');
 const { GoogleGenAI } = require('@google/genai');
 
 const INPUT_PATH = path.join(__dirname, '../assets/data/tables_processed.json');
-const OUTPUT_PATH = path.join(__dirname, '../assets/data/tables_final.json');
+const KEYLIST_PATH = path.join(__dirname, '.english_zusatz_table_keys.json');
+
+/** Wenn gesetzt: nur Tabellen aus .english_zusatz_table_keys.json, Ausgabe direkt in tables_processed.json */
+const ENGLISH_ZUSATZ_ONLY = process.env.MINIFY_ENGLISH_ZUSATZ_ONLY === '1';
+/** Standard: nur fehlende/leer visual neu minifizieren. Mit FORCE_MINIFY_ALL=1 alles neu. */
+const FORCE_MINIFY_ALL = process.env.FORCE_MINIFY_ALL === '1';
+
+function resolveOutputPath() {
+  if (!ENGLISH_ZUSATZ_ONLY) {
+    return path.join(__dirname, '../assets/data/tables_final.json');
+  }
+  if (fs.existsSync(KEYLIST_PATH)) {
+    try {
+      const list = JSON.parse(fs.readFileSync(KEYLIST_PATH, 'utf8'));
+      if (Array.isArray(list) && list.length > 0) return INPUT_PATH;
+    } catch (_) { /* ignore */ }
+  }
+  console.error('MINIFY_ENGLISH_ZUSATZ_ONLY=1 erfordert scripts/.english_zusatz_table_keys.json (nach merge).');
+  process.exit(1);
+}
+
+const OUTPUT_PATH = ENGLISH_ZUSATZ_ONLY ? resolveOutputPath() : path.join(__dirname, '../assets/data/tables_final.json');
 
 const SYSTEM_PROMPT = `Du bist ein strenger Regel-Analyst für ein deutsches Tabletop-Rollenspiel. Deine einzige Aufgabe ist es, aus längeren Vorlesetexten ALLEIN die harten Spielmechaniken (Crunch) zu extrahieren und extrem abzukürzen.
 Regeln:
@@ -75,7 +97,9 @@ async function minifyBatchWithGemini(ai, entries) {
         config: {
           systemInstruction: SYSTEM_PROMPT,
           responseMimeType: 'application/json',
-          responseJsonSchema: RESPONSE_SCHEMA
+          responseJsonSchema: RESPONSE_SCHEMA,
+          maxOutputTokens: 8192,
+          thinkingConfig: { thinkingBudget: 0 }
         }
       });
 
@@ -111,16 +135,24 @@ async function minifyBatchWithGemini(ai, entries) {
 
 /**
  * Sammelt alle Einträge in Batches (max. MAX_ENTRIES_PER_CALL pro Batch).
+ * @param {string[] | null} onlyTableNames nur diese Top-Level-Tabellen (null = alle)
  */
-function collectBatches(data) {
+function collectBatches(data, onlyTableNames) {
   const batches = [];
+  let skippedExisting = 0;
   for (const [tableName, tableData] of Object.entries(data)) {
+    if (onlyTableNames && onlyTableNames.length && !onlyTableNames.includes(tableName)) continue;
     if (typeof tableData !== 'object' || tableData === null) continue;
     for (const [catKey, catData] of Object.entries(tableData)) {
       if (catKey === 'audioFile' || typeof catData !== 'object' || catData === null) continue;
       const entries = [];
       for (const [id, entry] of Object.entries(catData)) {
         if (entry && typeof entry.tts === 'string') {
+          const hasVisual = typeof entry.visual === 'string' && entry.visual.trim().length > 0;
+          if (!FORCE_MINIFY_ALL && hasVisual) {
+            skippedExisting += 1;
+            continue;
+          }
           entries.push({ tableName, catKey, id, tts: entry.tts });
         }
       }
@@ -129,7 +161,7 @@ function collectBatches(data) {
       }
     }
   }
-  return batches;
+  return { batches, skippedExisting };
 }
 
 function saveOutput(output) {
@@ -143,12 +175,34 @@ async function main() {
     process.exit(1);
   }
 
+  let onlyTableNames = null;
+  if (ENGLISH_ZUSATZ_ONLY) {
+    if (!fs.existsSync(KEYLIST_PATH)) {
+      console.error(`Schlüsselliste fehlt: ${KEYLIST_PATH} (zuerst: npm run merge-english-tables)`);
+      process.exit(1);
+    }
+    onlyTableNames = JSON.parse(fs.readFileSync(KEYLIST_PATH, 'utf8'));
+    if (!Array.isArray(onlyTableNames) || onlyTableNames.length === 0) {
+      console.error('Schlüsselliste leer.');
+      process.exit(1);
+    }
+    console.log(`Modus: nur Englisch-Zusatz-Tabellen (${onlyTableNames.length}): ${onlyTableNames.join(', ')}\n`);
+  }
+
   const raw = fs.readFileSync(INPUT_PATH, 'utf8');
   const data = JSON.parse(raw);
   const output = JSON.parse(JSON.stringify(data));
 
   const ai = new GoogleGenAI({ apiKey });
-  const batches = collectBatches(data);
+  const { batches, skippedExisting } = collectBatches(data, onlyTableNames);
+  console.log(`Modus: ${FORCE_MINIFY_ALL ? 'alles neu minifizieren' : 'nur fehlende visual-Einträge'}\n`);
+  if (!FORCE_MINIFY_ALL) {
+    console.log(`Übersprungen (bereits visual vorhanden): ${skippedExisting}`);
+  }
+  if (batches.length === 0) {
+    console.log('Keine offenen Einträge zu minifizieren. Nichts zu tun.');
+    return;
+  }
   let processed = 0;
 
   for (let i = 0; i < batches.length; i++) {

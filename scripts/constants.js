@@ -5,6 +5,50 @@
  * Waffengruppen für die Anzeige (Reihenfolge = Anzeige-Reihenfolge).
  * Jede Gruppe enthält die Waffen-Keys aus Angriffstabellen.
  */
+/** Einheitlicher Tabellen- und Audio-Dateinamen-Schlüssel für den EN→DE-Zusatz im Krit-Dropdown */
+export const ENGLISH_SUPPLEMENT_CANONICAL_KEY = 'Englisch_Kampfkunst_Feger_Und_Wuerfe_Kritische_Treffertabelle';
+
+/** Alle Tabellen-Schlüssel für den importierten Naturangriffe-Zusatz auflösen. */
+export function resolveEnglishSupplementTableKeys(tables) {
+  const keys = Object.keys(tables || {}).filter((k) => k.startsWith('Englisch_')).sort();
+  if (keys.includes(ENGLISH_SUPPLEMENT_CANONICAL_KEY)) {
+    return [
+      ENGLISH_SUPPLEMENT_CANONICAL_KEY,
+      ...keys.filter((k) => k !== ENGLISH_SUPPLEMENT_CANONICAL_KEY)
+    ];
+  }
+  return keys;
+}
+
+/** Anzeigename für Krit-Typ-Dropdown. */
+export function formatCritTableLabel(key) {
+  if (typeof key !== 'string') return '';
+  if (key.startsWith('Englisch_')) {
+    const raw = key
+      .replace(/^Englisch_/, '')
+      .replace(/[_:]+/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+
+    const lower = raw.toLowerCase();
+    if (lower.includes('feger') && (lower.includes('wuerfe') || lower.includes('würfe'))) return 'Feger und Würfe';
+    if (lower.includes('greifen') || lower.includes('griff')) return 'Greifen';
+    if (lower.includes('aus dem gleichgewicht') || lower.includes('ungleichgewicht')) return 'Ungleichgewicht';
+    if (lower.includes('ausbalancier')) return 'Ausbalancieren';
+    if (lower.includes('kleine tiere')) return 'Kleine Tiere';
+    if (lower.includes('winzige tier')) return 'Winzige Tiere';
+    if (lower.includes('ringkampf') || lower.includes('ringen')) return 'Ringkampf';
+    if (lower.includes('schlag') || lower.includes('schlaege') || lower.includes('schläge')) return 'Schläge';
+
+    return raw
+      .replace(/kritische\s+treffer(?:tabelle|(?:\s+tabelle)?)?/gi, '')
+      .replace(/kampfkunst|kampfsport|martial arts/gi, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+  return key.replace(/_/g, ' ');
+}
+
 export const WEAPON_GROUPS = [
   { label: 'Schwerter', keys: ['BREITSCHWERT', 'FALCHION', 'KURZSCHWERT', 'MAINEGAUCHE', 'RAPIER', 'SCIMITAR', 'ZWEIHÄNDER'] },
   { label: 'Bogen', keys: ['COMPOSITEBOGEN', 'KURZBOGEN', 'LANGBOGEN'] },
@@ -12,8 +56,45 @@ export const WEAPON_GROUPS = [
   { label: 'Stangenwaffen', keys: ['STANGENWAFFE', 'KAMPFSTAB', 'LANZE', 'SPEER', 'WURFSPEER'] },
   { label: 'Äxte & Beile', keys: ['HANDAXT', 'KAMPFAXT', 'KRIEGSBEIL'] },
   { label: 'Hämmer & Keulen', keys: ['KRIEGSHAMMER', 'STREITKOLBEN', 'MORGENSTERN', 'KEULE', 'FLAIL'] },
-  { label: 'Sonstige', keys: ['DOLCH', 'BOLA', 'SCHLEUDER', 'PEITSCHE', 'PANZERFAUST'] }
+  { label: 'Sonstige', keys: ['DOLCH', 'BOLA', 'SCHLEUDER', 'PEITSCHE', 'PANZERFAUST'] },
+  {
+    label: 'Naturangriffe',
+    keys: ['BEISSEN', 'KRATZEN', 'STECHEN', 'PIEKSEN', 'HORN', 'RAMMEN', 'TRAMPEL', 'QUETSCHEN', 'GREIFEN', 'FEGEN', 'SCHLAGEN', 'KLEINTIERE']
+  }
 ];
+
+/**
+ * Naturangriffe: Basis-Tabelle + drei Varianten (Merge je nach Angriffsklasse).
+ * klein/mittel/gross = Reihenfolge der aufeinander aufbauenden Erweiterungen.
+ */
+export const WEAPON_SIZE_VARIANTS = {
+  BEISSEN: { klein: 'BEISSEN_SMALL', mittel: 'BEISSEN_MEDIUM', gross: 'BEISSEN_LARGE' },
+  KRATZEN: { klein: 'KRATZEN_SMALL', mittel: 'KRATZEN_MEDIUM', gross: 'KRATZEN_LARGE' },
+  STECHEN: { klein: 'STECHEN_SMALL', mittel: 'STECHEN_MEDIUM', gross: 'STECHEN_LARGE' },
+  PIEKSEN: { klein: 'PIEKSEN_SMALL', mittel: 'PIEKSEN_MEDIUM', gross: 'PIEKSEN_LARGE' },
+  HORN: { klein: 'HORN_SMALL', mittel: 'HORN_MEDIUM', gross: 'HORN_LARGE' },
+  RAMMEN: { klein: 'RAMMEN_SMALL', mittel: 'RAMMEN_MEDIUM', gross: 'RAMMEN_LARGE' },
+  TRAMPEL: { klein: 'TRAMPEL_SMALL', mittel: 'TRAMPEL_MEDIUM', gross: 'TRAMPEL_LARGE' },
+  QUETSCHEN: { klein: 'QUETSCHEN_SMALL', mittel: 'QUETSCHEN_MEDIUM', gross: 'QUETSCHEN_LARGE' },
+  GREIFEN: { klein: 'GREIFEN_SMALL', mittel: 'GREIFEN_MEDIUM', gross: 'GREIFEN_LARGE' },
+  FEGEN: { klein: 'FEGEN_RANK1', mittel: 'FEGEN_RANK2', gross: 'FEGEN_RANK3' },
+  SCHLAGEN: { klein: 'SCHLAGEN_RANK1', mittel: 'SCHLAGEN_RANK2', gross: 'SCHLAGEN_RANK3' },
+  KLEINTIERE: { klein: 'KLEINTIERE_NORMAL', mittel: 'KLEINTIERE_RANK1', gross: 'KLEINTIERE_RANK2' }
+};
+
+export const WEAPON_SIZE_ORDER = ['klein', 'mittel', 'gross', 'riesig'];
+
+export const WEAPON_SIZE_LABELS = {
+  klein: 'Klein',
+  mittel: 'Mittel',
+  gross: 'Gross',
+  riesig: 'Riesig'
+};
+
+/** Tabellen-Keys ohne eigenen Button (nur für Merge). */
+export const WEAPON_VARIANT_KEY_SET = new Set(
+  Object.values(WEAPON_SIZE_VARIANTS).flatMap((v) => [v.klein, v.mittel, v.gross])
+);
 
 /** Deutsche Anzeigenamen: Art (Beschreibung), orientiert an Icon-Dateinamen */
 export const WEAPON_LABELS = {
@@ -47,6 +128,18 @@ export const WEAPON_LABELS = {
   KRIEGSHAMMER: 'Hammer',
   KRIEGSBEIL: 'Kriegs-\nbeil',
   PEITSCHE: 'Peitsche',
+  BEISSEN: 'Biss',
+  FEGEN: 'Wurf',
+  GREIFEN: 'Griff',
+  HORN: 'Hörner',
+  KLEINTIERE: 'Kleintier',
+  KRATZEN: 'Klaue',
+  PIEKSEN: 'Schnabel\n/ Zange',
+  QUETSCHEN: 'Sturz',
+  RAMMEN: 'Ramm-\nstoss',
+  SCHLAGEN: 'Schlag',
+  STECHEN: 'Stachel',
+  TRAMPEL: 'Trampeln',
 };
 
 /**
@@ -68,7 +161,7 @@ export const WEAPON_ICONS = {
   FLAIL: 'Flegel.png',
   SCHWERE_ARMBRUST: 'Armbrust.png',
   WURFSPEER: 'speer.png',
-  LANZE: 'speer.png',
+  LANZE: 'Lanze.png',
   LEICHTE_ARMBRUST: 'Armbrust.png',
   LANGBOGEN: 'langbogen.png',
   STREITKOLBEN: 'Streitkolben.png',
@@ -79,13 +172,25 @@ export const WEAPON_ICONS = {
   RAPIER: 'Rapier.png',
   SCIMITAR: 'Krummsaebel.png',
   KURZBOGEN: 'kurzbogen.png',
-  KURZSCHWERT: 'Kurzschwert.png',
+  KURZSCHWERT: 'kurzschwert.png',
   SCHLEUDER: 'schleuder.png',
   SPEER: 'speer.png',
-  ZWEIHÄNDER: 'axt (2h).png',
+  ZWEIHÄNDER: 'Zweihandschwert.png',
   KRIEGSHAMMER: 'hammer.png',
   KRIEGSBEIL: 'Kriegsbeil.png',
   PEITSCHE: 'Peitsche.png',
+  BEISSEN: 'beissen.png',
+  FEGEN: 'fegen.png',
+  GREIFEN: 'greifen.png',
+  HORN: 'horn.png',
+  KLEINTIERE: 'kleintiere.png',
+  KRATZEN: 'kratzen.png',
+  PIEKSEN: 'pieksen.png',
+  QUETSCHEN: 'quetschen.png',
+  RAMMEN: 'rammen.png',
+  SCHLAGEN: 'schlagen.png',
+  STECHEN: 'stechen.png',
+  TRAMPEL: 'trampel.png',
 };
 
 /** Icon pro Krit-Typ (Haupt- und Nebentreffer) */
@@ -107,6 +212,29 @@ export const CRIT_ICONS = {
   'Grosse Wesen': 'gegner_gross.png',
   'Gewaltige Wesen': 'gegner_gewaltig.png',
 };
+
+/**
+ * Ermittelt ein passendes Icon für Krit-Tabellen, inkl. Englisch-Zusatztabellen.
+ * Nutzt zuerst exakte Treffer, danach heuristische Schlüsselwörter.
+ */
+export function resolveCritIcon(typ) {
+  if (!typ) return null;
+  if (CRIT_ICONS[typ]) return CRIT_ICONS[typ];
+  const t = String(typ).toLowerCase();
+  if (t.includes('allgemeine_patzer') || t.includes('waffenpatzer')) return 'Patzer.png';
+  if (t.includes('aus_dem_gleichgewicht') || t.includes('ungleichgewicht') || t.includes('feger')) return 'fegen.png';
+  if (t.includes('greifen') || t.includes('griffkampf')) return 'greifen.png';
+  if (t.includes('ringkampf') || t.includes('wuerfe') || t.includes('würfe')) return 'quetschen.png';
+  if (t.includes('kleine_tiere') || t.includes('winzige_tier')) return 'kleintiere.png';
+  if (t.includes('schlag') || t.includes('schlaege') || t.includes('schläge')) return 'schlagen.png';
+  if (t.includes('kratzen') || t.includes('klauen')) return 'kratzen.png';
+  if (t.includes('beissen') || t.includes('beißen') || t.includes('biss')) return 'beissen.png';
+  if (t.includes('pieksen')) return 'pieksen.png';
+  if (t.includes('stechen') || t.includes('stich')) return 'stechen.png';
+  if (t.includes('rammen')) return 'rammen.png';
+  if (t.includes('trampel')) return 'trampel.png';
+  return null;
+}
 
 export const URLS = {
   TREFFER_URL: 'assets/data/treffer_tabellen_strukturiert.json',

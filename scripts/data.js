@@ -1,16 +1,28 @@
 // data.js
 // Dieses Modul lädt die JSON-Daten und initialisiert die UI.
 
-import { URLS, WEAPON_LABELS, WEAPON_ICONS, WEAPON_GROUPS } from './constants.js';
+import {
+    URLS,
+    WEAPON_LABELS,
+    WEAPON_ICONS,
+    WEAPON_GROUPS,
+    WEAPON_VARIANT_KEY_SET,
+    WEAPON_SIZE_VARIANTS,
+    WEAPON_SIZE_ORDER,
+    WEAPON_SIZE_LABELS,
+    formatCritTableLabel,
+    resolveEnglishSupplementTableKeys
+} from './constants.js';
 import { state } from './state.js';
 import { $, $$ } from './dom.js';
-import { mapCritName, adjustWeaponFontSizes } from './logic.js';
+import { mapCritName, adjustWeaponFontSizes, clearAttackTableMergeCache } from './logic.js';
 
 // Funktion zum Laden der JSON-Daten und Initialisieren der Benutzeroberfläche.
 export async function loadData() {
     // Lädt die beiden JSON-Dateien parallel.
     const [t1, t2] = await Promise.all([fetch(URLS.TREFFER_URL), fetch(URLS.TABLES_URL)]);
     state.treffer = await t1.json();
+    clearAttackTableMergeCache();
     state.tables = await t2.json();
     try {
         const t3 = await fetch(URLS.PATZER_URL);
@@ -18,6 +30,7 @@ export async function loadData() {
     } catch { state.patzerTables = {}; }
 
     populateWeapons();
+    initWeaponSizeClassListener();
     populateCritDropdowns($('#critType'), true);
     populateCritDropdowns($('#sideType'), false);
 
@@ -41,6 +54,112 @@ export async function loadData() {
         sideSel.dispatchEvent(new Event('change'));
     }
 
+}
+
+function hideWeaponSizePopover() {
+    const wrap = $('#weaponSizeWrap');
+    if (wrap) {
+        wrap.hidden = true;
+        delete wrap.dataset.anchorWeapon;
+    }
+}
+
+function positionWeaponSizePopover(anchorBtn) {
+    const wrap = $('#weaponSizeWrap');
+    if (!wrap || !anchorBtn || wrap.hidden) return;
+    const r = anchorBtn.getBoundingClientRect();
+    const left = r.left + r.width / 2;
+    const top = r.top - 6;
+    wrap.style.left = `${Math.round(left)}px`;
+    wrap.style.top = `${Math.round(top)}px`;
+    wrap.style.transform = 'translate(-50%, -100%)';
+    wrap.dataset.anchorWeapon = anchorBtn.dataset.weapon || '';
+}
+
+let weaponPopoverResizeBound = false;
+function bindWeaponPopoverResizeOnce() {
+    if (weaponPopoverResizeBound) return;
+    weaponPopoverResizeBound = true;
+    window.addEventListener('resize', () => {
+        const wrap = $('#weaponSizeWrap');
+        if (!wrap || wrap.hidden || !wrap.dataset.anchorWeapon) return;
+        const btn = document.querySelector(`#weaponWrap button[data-weapon="${wrap.dataset.anchorWeapon}"]`);
+        if (btn) positionWeaponSizePopover(btn);
+    });
+}
+
+let weaponPopoverOutsideBound = false;
+function bindWeaponPopoverOutsideDismissOnce() {
+    if (weaponPopoverOutsideBound) return;
+    weaponPopoverOutsideBound = true;
+    document.addEventListener(
+        'pointerdown',
+        (ev) => {
+            const wrap = $('#weaponSizeWrap');
+            if (!wrap || wrap.hidden) return;
+            if (wrap.contains(ev.target)) return;
+            if (ev.target.closest?.('#weaponWrap')) return;
+            hideWeaponSizePopover();
+        },
+        true
+    );
+}
+
+function showWeaponSizePopover(weaponKey, anchorBtn) {
+    const wrap = $('#weaponSizeWrap');
+    const sel = $('#weaponSizeClass');
+    if (!wrap || !sel || !anchorBtn) return;
+
+    bindWeaponPopoverResizeOnce();
+    bindWeaponPopoverOutsideDismissOnce();
+
+    sel.innerHTML = '';
+    WEAPON_SIZE_ORDER.forEach((key) => {
+        const opt = document.createElement('option');
+        opt.value = key;
+        opt.textContent = WEAPON_SIZE_LABELS[key];
+        sel.appendChild(opt);
+    });
+
+    const previous = state.selectedSizeClass;
+    const valid = previous && WEAPON_SIZE_ORDER.includes(previous);
+    sel.value = valid ? previous : 'klein';
+    state.selectedSizeClass = sel.value;
+
+    wrap.hidden = false;
+    positionWeaponSizePopover(anchorBtn);
+    requestAnimationFrame(() => positionWeaponSizePopover(anchorBtn));
+    try {
+        sel.focus({ preventScroll: true });
+    } catch (_) {
+        sel.focus();
+    }
+}
+
+/**
+ * Naturangriffe: Popover nur beim Klick über dem Button (anchorBtn), danach ausblenden.
+ */
+function syncWeaponSizeUI(weaponKey, anchorBtn = null) {
+    if (!WEAPON_SIZE_VARIANTS[weaponKey]) {
+        hideWeaponSizePopover();
+        state.selectedSizeClass = null;
+        return;
+    }
+    if (anchorBtn) {
+        showWeaponSizePopover(weaponKey, anchorBtn);
+    } else {
+        hideWeaponSizePopover();
+    }
+}
+
+export function initWeaponSizeClassListener() {
+    const sel = $('#weaponSizeClass');
+    if (!sel || sel.dataset.bound === '1') return;
+    sel.dataset.bound = '1';
+    sel.addEventListener('change', () => {
+        state.selectedSizeClass = sel.value;
+        hideWeaponSizePopover();
+    });
 }
 
 // Erzeugt die Buttons für die Waffen (gruppiert).
@@ -71,6 +190,7 @@ function populateWeapons() {
             $$('#weaponWrap button').forEach(x => x.classList.remove('active'));
             btn.classList.add('active');
             state.selectedWeapon = k;
+            syncWeaponSizeUI(k, btn);
         });
 
         return btn;
@@ -78,15 +198,17 @@ function populateWeapons() {
 
     const verwendeteKeys = new Set();
 
+    const noVariantKey = (k) => !WEAPON_VARIANT_KEY_SET.has(k);
+
     for (const group of WEAPON_GROUPS) {
-        const keysInGruppe = group.keys.filter(k => verfuegbareWaffen.has(k));
+        const keysInGruppe = group.keys.filter(k => verfuegbareWaffen.has(k) && noVariantKey(k));
         keysInGruppe.forEach(k => {
             verwendeteKeys.add(k);
             wSelWrap.appendChild(createWeaponBtn(k));
         });
     }
 
-    const fehlende = [...verfuegbareWaffen].filter(k => !verwendeteKeys.has(k)).sort();
+    const fehlende = [...verfuegbareWaffen].filter(k => !verwendeteKeys.has(k) && noVariantKey(k)).sort();
     fehlende.forEach(k => wSelWrap.appendChild(createWeaponBtn(k)));
 
     const ersteWaffe = (() => {
@@ -103,6 +225,7 @@ function populateWeapons() {
             state.selectedWeapon = ersteWaffe;
         }
     }
+    syncWeaponSizeUI(state.selectedWeapon);
     // Sofort messen (gleicher Task wie DOM) — sonst ein Frame mit CSS-Fallback (14px) → sichtbarer Sprung nach unten.
     void wSelWrap.offsetHeight;
     adjustWeaponFontSizes();
@@ -145,13 +268,18 @@ function populateCritDropdowns(dropdown, isMainCrit = true) {
         delete critCategories['Patzer'];
     }
 
+    const englishSupplementKeys = resolveEnglishSupplementTableKeys(state.tables);
+    if (englishSupplementKeys.length) {
+        critCategories['Naturangriffe'] = englishSupplementKeys;
+    }
+
     for (const [groupName, keys] of Object.entries(critCategories)) {
         const optgroup = document.createElement('optgroup');
         optgroup.label = groupName;
 
         keys.forEach(key => {
             if (state.tables[key]) {
-                optgroup.appendChild(createOption(key, key.replace(/_/g, ' ')));
+                optgroup.appendChild(createOption(key, formatCritTableLabel(key)));
             }
         });
 

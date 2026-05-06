@@ -7541,5 +7541,2629 @@
         "needs_review": false
       }
     }
+  },
+  "Englisch_Kampfkunst_Feger_Und_Wuerfe_Kritische_Treffertabelle": {
+    "audioFile": "stich.mp3",
+    "A": {},
+    "B": {},
+    "C": {},
+    "D": {
+      "66": {
+        "tts": "Sanfter Wurf. Der Gegner landet auf dem Kopf. Wenn der Gegner einen Helm trägt, ist er bewusstlos. Wenn nicht, ist er von der Taille abwärts gelähmt.",
+        "visual": "Helm: K.O. Kein Helm: gelähmt (Taille abwärts).",
+        "needs_review": false
+      },
+      "100": {
+        "tts": "Feger lässt den Gegner fünf Fuß nach hinten verdreht fliegen. Die Wirbelsäule des Gegners wird gebrochen und er ist querschnittsgelähmt.",
+        "visual": "5 ft nach hinten. Wirbelsäule gebrochen. Querschnittsgelähmt.",
+        "needs_review": false
+      },
+      "1-5": {
+        "tts": "Plus zwei Treffer.",
+        "visual": "+2T.",
+        "needs_review": false
+      },
+      "6-10": {
+        "tts": "Plus drei Treffer.",
+        "visual": "+3T.",
+        "needs_review": false
+      },
+      "11-15": {
+        "tts": "Der Gegner muss in der nächsten Runde parieren. Plus vier Treffer.",
+        "visual": "Nächste Rd parieren. +4T.",
+        "needs_review": false
+      },
+      "16-20": {
+        "tts": "Der Gegner ist für eine Runde benommen. Plus vier Treffer.",
+        "visual": "1 Rd ben. +4T.",
+        "needs_review": false
+      },
+      "21-35": {
+        "tts": "Feger trifft das Knie des Gegners. Der Gegner ist für eine Runde benommen und kann für eine Runde nicht parieren. Plus vier Treffer.",
+        "visual": "1 Rd benoPar. +4T.",
+        "needs_review": false
+      },
+      "36-45": {
+        "tts": "Feger trifft die Wade des Gegners. Der Gegner operiert mit Minus zwanzig. Plus fünf Treffer.",
+        "visual": "-20. +5T.",
+        "needs_review": false
+      },
+      "46-50": {
+        "tts": "Feger lässt den Gegner fallen. Plus fünf Treffer. Der Gegner ist benommen und kann für eine Runde nicht parieren.",
+        "visual": "Niedergeschlagen. 1 Rd benoPar. +5T.",
+        "needs_review": false
+      },
+      "51-55": {
+        "tts": "Wurf bricht drei Rippen des Gegners. Der Gegner ist für eine Runde benommen und operiert mit Minus zwanzig. Plus sechs Treffer.",
+        "visual": "3 Rippenbruch. 1 Rd ben. -20. +6T.",
+        "needs_review": false
+      },
+      "56-60": {
+        "tts": "Feger bringt den Gegner fast zu Fall. Der Gegner ist benommen und kann für eine Runde nicht parieren. Plus sieben Treffer.",
+        "visual": "1 Rd benoPar. +7T.",
+        "needs_review": false
+      },
+      "61-65": {
+        "tts": "Wurf entwaffnet den Gegner und lässt ihn für zwei Runden benommen zurück.",
+        "visual": "Entwaffnet. 2 Rd ben.",
+        "needs_review": false
+      },
+      "67-70": {
+        "tts": "Wurf trifft die Schildschulter des Gegners. Bricht Arm und Schlüsselbein. Plus fünf Treffer.",
+        "visual": "Arm & Schlüsselbein gebrochen. +5T.",
+        "needs_review": false
+      },
+      "71-75": {
+        "tts": "Der Gegner fällt und bricht ein Bein. Leichter Bruch, aber der Gegner operiert mit Minus dreißig. Der arme Narr ist für drei Runden benommen.",
+        "visual": "Beinbruch. -30. 3 Rd ben.",
+        "needs_review": false
+      },
+      "76-80": {
+        "tts": "Wurf bringt den Gegner auf den Rücken und bricht das Schulterblatt. Der Gegner operiert mit Minus zwanzig. Plus neun Treffer. Der Gegner ist benommen und kann für zwei Runden nicht parieren.",
+        "visual": "Schulterblatt gebrochen. -20. +9T. 2 Rd benoPar.",
+        "needs_review": false
+      },
+      "81-85": {
+        "tts": "Bricht das Handgelenk des Gegners am Waffenarm. Der Arm ist nutzlos. Plus zehn Treffer. Präziser Handwurf.",
+        "visual": "Handgelenk am Waffenarm bricht. Arm nutzlos. +10T. Präziser Handwurf.",
+        "needs_review": false
+      },
+      "86-90": {
+        "tts": "Wurf bringt den Gegner zu Fall und Sie bringen ihn in einen stark immobilisierenden Armgriff. Der Gegner ist benommen und kann für sechs Runden nicht parieren.",
+        "visual": "Gegner zu Fall gebracht, Armgriff. 6 Rd benoPar.",
+        "needs_review": false
+      },
+      "91-95": {
+        "tts": "Wurf schlägt den Gegner gegen eine beinahe harte Oberfläche. Der Gegner wird bewusstlos geschlagen und Sie können einen tödlichen Tritt anwenden, wenn Sie es wünschen.",
+        "visual": "Gegner gegen harte Oberfläche geschlagen. Bewusstlos. Tödlicher Tritt möglich.",
+        "needs_review": false
+      },
+      "96-99": {
+        "tts": "Wurf lässt den Gegner fallen. Er wird von gebrochenen Rippen oder seiner eigenen Waffe aufgespießt und stirbt in sechs Runden.",
+        "visual": "Gegner fällt. Gebrochene Rippen/eigene Waffe aufgespießt. Stirbt in 6 Rd.",
+        "needs_review": false
+      }
+    },
+    "E": {}
+  },
+  "Englisch_Kritische_Treffertabelle_Des_Ungleichgewichts": {
+    "audioFile": "stich.mp3",
+    "A": {
+      "66": {
+        "tts": "Schultertreffer lässt den Gegner taumeln. Plus sieben Treffer. Der Gegner ist für zwei Runden benommen und kann nicht parieren, während er das Gleichgewicht wiedererlangt.",
+        "visual": "+7T. 2 Rd benoPar.",
+        "needs_review": false
+      },
+      "100": {
+        "tts": "Brutaler Hüftschlag wirft den Gegner zu Boden, zerreißt Sehnen und zerschmettert das Gelenk. Der Gegner ist benommen und kann für neun Stunden nicht parieren. Das Bein ist nutzlos, der Gegner Minus neunzig.",
+        "visual": "9 Std benoPar. Bein nutzlos. -90.",
+        "needs_review": false
+      },
+      "1-5": {
+        "tts": "Nichts Besonderes zusätzlich. Plus null Treffer.",
+        "visual": "+0T.",
+        "needs_review": false
+      },
+      "6-10": {
+        "tts": "Entschuldige Kumpel, vielleicht nächstes Mal.",
+        "visual": "Keine Regelmechanik.",
+        "needs_review": false
+      },
+      "11-15": {
+        "tts": "Streifender Treffer. Plus drei Treffer.",
+        "visual": "+3T.",
+        "needs_review": false
+      },
+      "16-20": {
+        "tts": "Der Gegner muss in der nächsten Runde parieren. Plus drei Treffer.",
+        "visual": "Gegner muss nächste Rd parieren. +3T.",
+        "needs_review": false
+      },
+      "21-35": {
+        "tts": "Auf Linie, aber schwach. Der Gegner muss in der nächsten Runde parieren. Plus vier Treffer.",
+        "visual": "Gegner muss nächste Rd parieren. +4T.",
+        "needs_review": false
+      },
+      "36-45": {
+        "tts": "Die Konzentration des Gegners ist gebrochen. Du erhältst die Initiative für die nächste Runde. Plus vier Treffer.",
+        "visual": "Du erhältst Initiative für nächste Rd. +4T.",
+        "needs_review": false
+      },
+      "46-50": {
+        "tts": "Rückentreffer. Der Gegner muss in der nächsten Runde mit Minus zehn parieren. Guter, streifender Schuss.",
+        "visual": "Gegner muss nächste Rd mit -10 parieren.",
+        "needs_review": false
+      },
+      "51-55": {
+        "tts": "Brusttreffer stößt den Gegner zurück. Der Gegner muss in der nächsten Runde mit Minus zwanzig parieren. Plus fünf Treffer.",
+        "visual": "Gegner muss nächste Rd mit -20 parieren. +5T.",
+        "needs_review": false
+      },
+      "56-60": {
+        "tts": "Streifender Beintreffer. Wenn der Gegner Beinrüstung hat, Plus fünf Treffer. Wenn nicht, Plus sieben Treffer und der Gegner ist in der nächsten Runde benommen.",
+        "visual": "Wenn Beinrüstung: +5T. Wenn nicht: +7T. Gegner nächste Rd ben.",
+        "needs_review": false
+      },
+      "61-65": {
+        "tts": "Armtreffer. Der Gegner ist für die nächste Runde benommen. Plus sechs Treffer.",
+        "visual": "Gegner nächste Rd ben. +6T.",
+        "needs_review": false
+      },
+      "67-70": {
+        "tts": "Brusttreffer bringt den Gegner aus dem Gleichgewicht. Plus sechs Treffer. Der Gegner ist aus dem Gleichgewicht und kämpft für zwei Runden mit Minus fünfzig.",
+        "visual": "+6T. Gegner 2 Rd -50.",
+        "needs_review": false
+      },
+      "71-75": {
+        "tts": "Schlag gegen das Unterbein des Gegners. Der Gegner ist für zwei Runden benommen. Plus sieben Treffer.",
+        "visual": "Gegner 2 Rd ben. +7T.",
+        "needs_review": false
+      },
+      "76-80": {
+        "tts": "Schlag gegen den Schildarm. Wenn der Gegner einen Schild hat, wird dieser weggerissen und Plus acht Treffer. Wenn nicht, Plus zwölf Treffer und der Gegner ist für zwei Runden benommen.",
+        "visual": "Wenn Schild: Schild weggerissen. +8T. Wenn nicht: +12T. Gegner 2 Rd ben.",
+        "needs_review": false
+      },
+      "81-85": {
+        "tts": "Seitentreffer. Plus zwölf Treffer. Der Gegner ist benommen und kann in der nächsten Runde nicht parieren. Addiere Plus zehn zu deinem nächsten Wurf.",
+        "visual": "+12T. 1 Rd benoPar. +10 auf nächsten Wurf.",
+        "needs_review": false
+      },
+      "86-90": {
+        "tts": "Schlag auf den Rücken. Der Gegner stolpert fünf Fuß seitwärts und ist für drei Runden benommen. Plus dreizehn Treffer. Addiere Plus zwanzig zu deinem nächsten Wurf.",
+        "visual": "Stolpert 5ft seitwärts. 3 Rd ben. +13T. +20 auf nächsten Wurf.",
+        "needs_review": false
+      },
+      "91-95": {
+        "tts": "Kopfschlag bricht dem Gegner die Nase. Wenn der Gegner einen Helm hat, ist er für drei Runden benommen. Wenn nicht, ist der Gegner für mindestens zwei Stunden bewusstlos geschlagen.",
+        "visual": "Helm: 3 Rd ben. Kein Helm: min. 2 Std. bewusstlos.",
+        "needs_review": false
+      },
+      "96-99": {
+        "tts": "Gut platzierter Schlag lässt den Gegner auf das Gesicht fallen. Plus zehn Treffer. Der Gegner ist benommen und kann für drei Runden nicht parieren.",
+        "visual": "+10T. 3 Rd benoPar.",
+        "needs_review": false
+      }
+    },
+    "B": {},
+    "C": {},
+    "D": {},
+    "E": {}
+  },
+  "Englisch_Kritische_Treffertabelle:_Aus_Dem_Gleichgewicht_Bringen": {
+    "audioFile": "stich.mp3",
+    "A": {},
+    "B": {
+      "66": {
+        "tts": "Ellenbogen-Treffer lähmt den Unterarm des Gegners. Plus acht Treffer. Der Gegner lässt seine Waffe fallen, ist benommen und kann für zwei Runden nicht parieren.",
+        "visual": "+8T. Waffe fallengelassen. 2 Rd benoPar.",
+        "needs_review": false
+      },
+      "100": {
+        "tts": "Inspirierter Rückentreffer schleudert den Gegner zehn Fuß weit und auf sein Gesicht. Schwere Nervenschäden. Der Gegner ist von der Taille abwärts gelähmt.",
+        "visual": "Gegner 10ft weggeschleudert, auf Gesicht. Von Taille abwärts gelähmt.",
+        "needs_review": false
+      },
+      "1-5": {
+        "tts": "Ziemlich schwach. Plus null Treffer.",
+        "visual": "+0T.",
+        "needs_review": false
+      },
+      "6-10": {
+        "tts": "Plus eins Treffer.",
+        "visual": "+1T.",
+        "needs_review": false
+      },
+      "11-15": {
+        "tts": "Lahmer Seitenhieb. Plus vier Treffer.",
+        "visual": "+4T.",
+        "needs_review": false
+      },
+      "16-20": {
+        "tts": "Streifender Seitenhieb. Plus vier Treffer. Der Gegner muss in der nächsten Runde parieren.",
+        "visual": "+4T. Gegner muss nächste Rd parieren.",
+        "needs_review": false
+      },
+      "21-35": {
+        "tts": "Der Gegner ist aus dem Gleichgewicht und in der nächsten Runde auf Minus zwanzig. Plus fünf Treffer.",
+        "visual": "-20 nächste Rd. +5T.",
+        "needs_review": false
+      },
+      "36-45": {
+        "tts": "Beinschlag bringt den Gegner ins Wanken. Plus fünf Treffer. Du erhältst Initiative in der nächsten Runde. Der Gegner ist für zwei Runden auf Minus fünf.",
+        "visual": "+5T. Du Initiative nächste Rd. Gegner 2 Rd -5.",
+        "needs_review": false
+      },
+      "46-50": {
+        "tts": "Rückentreffer zwingt den Gegner in der nächsten Runde auf Minus zwanzig zu parieren. Plus fünf Treffer.",
+        "visual": "Gegner muss nächste Rd -20 parieren. +5T.",
+        "needs_review": false
+      },
+      "51-55": {
+        "tts": "Schlag betäubt den Gegner für die nächste Runde. Plus fünf Treffer.",
+        "visual": "Gegner nächste Rd ben. +5T.",
+        "needs_review": false
+      },
+      "56-60": {
+        "tts": "Oberschenkel-Treffer prellt den Gegner. Plus sechs Treffer. Der Gegner muss in der nächsten Runde auf Minus dreißig parieren.",
+        "visual": "+6T. Gegner muss nächste Rd -30 parieren.",
+        "needs_review": false
+      },
+      "61-65": {
+        "tts": "Unterarm-Treffer entwaffnet den Gegner. Plus sechs Treffer.",
+        "visual": "+6T. Gegner entwaffnet.",
+        "needs_review": false
+      },
+      "67-70": {
+        "tts": "Treffer auf die Brust des Gegners. Plus sieben Treffer. Der verwirrte Gegner ist benommen und kann in der nächsten Runde nicht parieren.",
+        "visual": "+7T. Gegner ben, oPar nächste Rd.",
+        "needs_review": false
+      },
+      "71-75": {
+        "tts": "Schlag prellt die Wade des Gegners. Plus neun Treffer. Der Gegner ist in der nächsten Runde benommen. Der Gegner ist auf Minus zehn.",
+        "visual": "+9T. Gegner nächste Rd ben. Gegner -10.",
+        "needs_review": false
+      },
+      "76-80": {
+        "tts": "Treffer auf den Schildarm des Gegners. Der Gegner ist für zwei Runden benommen und wird fünf Fuß zurückgeschleudert. Plus zehn Treffer. Prellung des Gegners auf Minus zehn.",
+        "visual": "2 Rd ben. 5ft zurückgeschleudert. +10T. -10 Prellung.",
+        "needs_review": false
+      },
+      "81-85": {
+        "tts": "Treffer auf die Seite des Gegners. Der Gegner wird drei Fuß zur Seite geschleudert und ist für drei Runden benommen. Plus fünfzehn Treffer.",
+        "visual": "3 Fuss zur Seite geschleudert. 3 Rd ben. +15T.",
+        "needs_review": false
+      },
+      "86-90": {
+        "tts": "Treffer auf den Rücken des Gegners schleudert ihn zehn Fuß zur Seite. Plus zwölf Treffer. Der Gegner ist benommen und kann für zwei Runden nicht parieren.",
+        "visual": "10 Fuss zur Seite geschleudert. +12T. 2 Rd benoPar.",
+        "needs_review": false
+      },
+      "91-95": {
+        "tts": "Treffer auf die Seite des Kopfes des Gegners zerquetscht den Ohrbereich. Der Gegner ist für sechs Runden benommen. Plus neun Treffer. Der Gegner ist für drei Wochen auf Minus fünfzig wegen beeinträchtigtem Gleichgewicht.",
+        "visual": "6 Rd ben. +9T. 3 Wo -50 (Gleichgewicht beeinträchtigt).",
+        "needs_review": false
+      },
+      "96-99": {
+        "tts": "Seitenhieb lässt den Gegner ungeschickt in eine peinliche Bauchlage stolpern. Der Gegner ist benommen und kann für sechs Runden nicht parieren.",
+        "visual": "6 Rd benoPar.",
+        "needs_review": false
+      }
+    },
+    "C": {
+      "66": {
+        "tts": "Kniestoß wirft den Gegner nieder. Der Gegner ist auf Minus achtzig wegen gebrochenem Knie und ist benommen und kann drei Runden nicht parieren. Plus neun Treffer.",
+        "visual": "Gegner nieder. -80 (gebrochenes Knie). 3 Rd benoPar. +9T.",
+        "needs_review": false
+      },
+      "100": {
+        "tts": "Oberer Brusttreffer schleudert den Gegner zehn Fuß seitwärts. Der Gegner fällt hin und bricht beide Arme. Der Gegner fällt für zwei Monate ins Koma.",
+        "visual": "Gegner 10ft seitwärts geschleudert. Gegner fällt hin. Beide Arme gebrochen. 2 Monate Koma.",
+        "needs_review": false
+      },
+      "1-5": {
+        "tts": "Nein.",
+        "visual": "Nein.",
+        "needs_review": false
+      },
+      "6-10": {
+        "tts": "Plus eins Treffer.",
+        "visual": "+1T.",
+        "needs_review": false
+      },
+      "11-15": {
+        "tts": "Schwacher Schlag. Plus fünf Treffer.",
+        "visual": "+5T.",
+        "needs_review": false
+      },
+      "16-20": {
+        "tts": "Seitenhieb. Der Gegner muss in der nächsten Runde parieren. Plus fünf Treffer.",
+        "visual": "Gegner muss nächste Rd parieren. +5T.",
+        "needs_review": false
+      },
+      "21-35": {
+        "tts": "Brusttreffer. Der Gegner ist in der nächsten Runde benommen. Plus sechs Treffer.",
+        "visual": "Gegner 1 Rd ben. +6T.",
+        "needs_review": false
+      },
+      "36-45": {
+        "tts": "Schlag ins Bein. Der Gegner ist in der nächsten Runde auf Minus vierzig. Plus fünf Treffer.",
+        "visual": "Gegner 1 Rd -40. +5T.",
+        "needs_review": false
+      },
+      "46-50": {
+        "tts": "Schlag in den unteren Rücken. Der Gegner taumelt und ist benommen und kann in der nächsten Runde nicht parieren. Plus fünf Treffer.",
+        "visual": "Gegner 1 Rd benoPar. +5T.",
+        "needs_review": false
+      },
+      "51-55": {
+        "tts": "Explosion taumelt den Gegner. Plus sechs Treffer und der Gegner ist benommen und kann in der nächsten Runde nicht parieren.",
+        "visual": "+6T. Gegner 1 Rd benoPar.",
+        "needs_review": false
+      },
+      "56-60": {
+        "tts": "Übersprungener Wadenhieb. Wenn der Gegner Beinrüstung hat, Plus sieben Treffer. Wenn nicht, Plus neun Treffer, der Gegner ist zwei Runden benommen und bewegt sich auf Minus zehn.",
+        "visual": "Wenn Gegner Beinrüstung: +7T. Wenn nicht: +9T. 2 Rd ben. -10 Bewegung.",
+        "needs_review": false
+      },
+      "61-65": {
+        "tts": "Schultertreffer entwaffnet den Gegner und lässt ihn zwei Runden benommen zurück. Plus sechs Treffer.",
+        "visual": "Gegner entwaffnet. 2 Rd ben. +6T.",
+        "needs_review": false
+      },
+      "67-70": {
+        "tts": "Treffer in die Brust. Der Gegner ist auf Minus zwanzig wegen gebrochener Rippen. Plus acht Treffer. Der Gegner ist zwei Runden benommen.",
+        "visual": "-20 (gebrochene Rippen). +8T. 2 Rd ben.",
+        "needs_review": false
+      },
+      "71-75": {
+        "tts": "Das Bein des Gegners ist geprellt. Plus zehn Treffer. Der Gegner ist benommen und kann in der nächsten Runde nicht parieren. Der Gegner agiert auf Minus zwanzig.",
+        "visual": "+10T. Gegner 1 Rd benoPar. -20.",
+        "needs_review": false
+      },
+      "76-80": {
+        "tts": "Treffer auf den Waffenarm des Gegners. Der Gegner wird fünf Fuß zurückgeworfen und ist drei Runden benommen. Plus elf Treffer. Leichter Bruch. Der Gegner ist auf Minus fünfundzwanzig.",
+        "visual": "Gegner 5ft zurückgeworfen. 3 Rd ben. +11T. Leichter Bruch. -25.",
+        "needs_review": false
+      },
+      "81-85": {
+        "tts": "Seitenhieb wirft den Gegner fünf Fuß seitwärts. Der Gegner lässt alles fallen, was er in seiner Schildhand trägt (und jeden Schild) und ist sechs Runden benommen.",
+        "visual": "Gegner 5 Fuß seitwärts. Lässt alles in Schildhand (und Schild) fallen. 6 Rd ben.",
+        "needs_review": false
+      },
+      "86-90": {
+        "tts": "Präziser Rückenhieb wirft den Gegner nieder. Der Gegner ist entwaffnet und sechs Runden benommen. Plus vierzehn Treffer. Addiere Plus zwanzig auf deinen nächsten Wurf.",
+        "visual": "Gegner nieder. Entwaffnet. 6 Rd ben. +14T. +20 auf nächsten Wurf.",
+        "needs_review": false
+      },
+      "91-95": {
+        "tts": "Seitenhieb schleudert den Gegner zehn Fuß seitwärts. Der Gegner muss in den nächsten drei Runden auf der entsprechenden Patzertabelle würfeln. Plus acht Treffer.",
+        "visual": "Gegner 10 Fuß seitwärts. Muss in 3 Rd auf Patzertabelle würfeln. +8T.",
+        "needs_review": false
+      },
+      "96-99": {
+        "tts": "Geschmeidiger und flotter Schlag zwingt den Gegner in die Knie. Wenn der Gegner eine Einhandwaffe benutzt, wird sie zehn Fuß nach hinten geschleudert. Der Gegner ist vierundzwanzig Stunden benommen.",
+        "visual": "Gegner in die Knie. Wenn Einhandwaffe, 10 Fuß nach hinten geschleudert. 24 Std ben.",
+        "needs_review": false
+      }
+    },
+    "D": {
+      "66": {
+        "tts": "Harter Schlag. Wenn der Feind einen Helm trägt, wird er zehn Fuß zurückgeschleudert und ist für sechs Runden benommen. Wenn nicht, ist der Feind für vierundzwanzig Stunden bewusstlos.",
+        "visual": "Wenn Helm: 10ft zurückgeschleudert, 6 Rd ben. Wenn nicht: 24 Std bewusstlos.",
+        "needs_review": false
+      },
+      "100": {
+        "tts": "Wilder Schlag auf den Kopf des Feindes wirft ihn zu Boden. Der Feind fällt ins Koma und stirbt in zwölf Runden aufgrund einer durchtrennten Vene. Addieren Sie zwanzig zu Ihrem nächsten Wurf.",
+        "visual": "Feind fällt, Koma, stirbt in 12 Rd (durchtrennte Vene). +20 auf nächsten Wurf.",
+        "needs_review": false
+      },
+      "1-5": {
+        "tts": "Plus zwei Treffer.",
+        "visual": "+2T.",
+        "needs_review": false
+      },
+      "6-10": {
+        "tts": "Plus drei Treffer.",
+        "visual": "+3T.",
+        "needs_review": false
+      },
+      "11-15": {
+        "tts": "Rückwärtsschlag. Plus sechs Treffer.",
+        "visual": "+6T.",
+        "needs_review": false
+      },
+      "16-20": {
+        "tts": "Schlag auf die Seite des Feindes. Der Feind ist in der nächsten Runde bei Minus zehn. Plus sieben Treffer.",
+        "visual": "Nächste Rd -10. +7T.",
+        "needs_review": false
+      },
+      "21-35": {
+        "tts": "Der Schlag ist schwach, betäubt den Feind aber für die nächste Runde. Plus acht Treffer.",
+        "visual": "Nächste Rd ben. +8T.",
+        "needs_review": false
+      },
+      "36-45": {
+        "tts": "Waden-Treffer. Der verletzte Muskel des Feindes beeinträchtigt Manöver um Minus fünfundzwanzig. Sie erhalten in der nächsten Runde die Initiative. Plus sieben Treffer.",
+        "visual": "Manöver -25. Nächste Rd Initiative. +7T.",
+        "needs_review": false
+      },
+      "46-50": {
+        "tts": "Schlag auf den Rücken lässt den Feind schleudern. Plus acht Treffer und der Feind ist benommen und kann in der nächsten Runde nicht parieren.",
+        "visual": "+8T. Nächste Rd benoPar.",
+        "needs_review": false
+      },
+      "51-55": {
+        "tts": "Brust-Treffer raubt dem Feind den Atem. Plus zehn Treffer. Der Feind ist benommen und kann in der nächsten Runde nicht parieren.",
+        "visual": "+10T. Nächste Rd benoPar.",
+        "needs_review": false
+      },
+      "56-60": {
+        "tts": "Oberschenkel-Treffer. Plus zwölf Treffer. Der Feind ist für zwei Runden benommen. Sie haben in den nächsten drei Runden die Initiative.",
+        "visual": "+12T. 2 Rd ben. Nächste 3 Rd Initiative.",
+        "needs_review": false
+      },
+      "61-65": {
+        "tts": "Arm-Treffer entwaffnet den Feind. Der Feind ist für zwei Runden benommen. Addieren Sie zwanzig zu Ihrer nächsten Aktion. Plus sieben Treffer.",
+        "visual": "Entwaffnet. 2 Rd ben. +20 auf nächste Aktion. +7T.",
+        "needs_review": false
+      },
+      "67-70": {
+        "tts": "Schulter-Treffer lässt den Feind schleudern. Plus zehn Treffer. Der Feind ist bei Minus fünfundzwanzig aufgrund eines gebrochenen Schlüsselbeins und ist benommen und kann in der nächsten Runde nicht parieren.",
+        "visual": "+10T. -25 (gebrochenes Schlüsselbein). Nächste Rd benoPar.",
+        "needs_review": false
+      },
+      "71-75": {
+        "tts": "Schlag bricht dem Feind das Bein. Der Feind bewegt sich bei Minus fünfundsiebzig. Plus zwölf Treffer. Der Feind ist benommen und kann in der nächsten Runde nicht parieren.",
+        "visual": "Bewegung -75. +12T. Nächste Rd benoPar.",
+        "needs_review": false
+      },
+      "76-80": {
+        "tts": "Starker Schlag auf den Waffenarm des Feindes. Der Feind wird zehn Fuß zurückgeschleudert. Plus zehn Treffer. Der Feind ist bei Minus fünfundzwanzig und lässt die Waffe fallen. Der Feind ist für drei Runden benommen.",
+        "visual": "10ft zurückgeschleudert. +10T. -25. Waffe fallengelassen. 3 Rd ben.",
+        "needs_review": false
+      },
+      "81-85": {
+        "tts": "Treffer auf die Schildseite des Feindes schleudert ihn fünf Fuß seitwärts. Der Feind bricht sich den Knöchel und fällt hin. Der Feind ist bei Minus fünfzig. Plus elf Treffer.",
+        "visual": "5 Fuß seitwärts geschleudert. Knöchel gebrochen. Niedergeschlagen. -50. +11T.",
+        "needs_review": false
+      },
+      "86-90": {
+        "tts": "Brutaler Rückenschlag wirft den Feind zu Boden. Plus zwölf Treffer. Der Feind ist entwaffnet und benommen und kann für vier Runden nicht parieren.",
+        "visual": "Zu Boden geworfen. +12T. Entwaffnet. 4 Rd benoPar.",
+        "needs_review": false
+      },
+      "91-95": {
+        "tts": "Treffer auf den Arm des Feindes. Wenn der Feind einen Schild trägt, verliert er ihn und erleidet plus zehn Treffer. Wenn nicht, ist der Arm des Feindes nutzlos und er ist für neun Runden benommen.",
+        "visual": "Schildträger: Schild verloren, +10T. Kein Schild: Arm unbrauchbar, 9 Rd ben.",
+        "needs_review": false
+      },
+      "96-99": {
+        "tts": "Treffer auf den Kopf des Feindes schleudert ihn zehn Fuß rückwärts. Wenn er einen Helm trägt, plus neun Treffer, der Helm wird zerstört, und der Feind ist sechs Runden benommen. Wenn nicht, fällt der Feind für vier Wochen ins Koma.",
+        "visual": "10 Fuß rückwärts geschleudert. Helmträger: +9T, Helm zerstört, 6 Rd ben. Kein Helm: 4 Wochen Koma.",
+        "needs_review": false
+      }
+    },
+    "E": {}
+  },
+  "Englisch_Kritische_Treffertabelle:_Ausbalancieren": {
+    "audioFile": "stich.mp3",
+    "A": {},
+    "B": {},
+    "C": {},
+    "D": {},
+    "E": {
+      "66": {
+        "tts": "Harter Schlag. Der Gegner wird zu Boden geschlagen und ist bewusstlos. Plus dreißig Treffer.",
+        "visual": "Niedergeschlagen, K.O.. +30T.",
+        "needs_review": false
+      },
+      "100": {
+        "tts": "Furchterregender Schlag auf die Schläfe des Gegners wirft ihn zwanzig Fuß zurück. Der Gegner stirbt sofort. Addiere Plus zwanzig auf deine nächsten drei Würfe. Sei jetzt nett.",
+        "visual": "20ft zurückgeworfen. Stirbt. +20 auf nächste 3 Würfe.",
+        "needs_review": false
+      },
+      "1-5": {
+        "tts": "Plus zwei Treffer.",
+        "visual": "+2T.",
+        "needs_review": false
+      },
+      "6-10": {
+        "tts": "Plus fünf Treffer.",
+        "visual": "+5T.",
+        "needs_review": false
+      },
+      "11-15": {
+        "tts": "Schlag in den Rücken. Plus sieben Treffer.",
+        "visual": "+7T.",
+        "needs_review": false
+      },
+      "16-20": {
+        "tts": "Seitenhieb. Der Gegner ist in der nächsten Runde bei Minus zwanzig. Plus acht Treffer.",
+        "visual": "-20 nächste Rd. +8T.",
+        "needs_review": false
+      },
+      "21-35": {
+        "tts": "Der Schlag bricht dem Gegner eine Rippe. Der Gegner ist benommen und in der nächsten Runde bei Minus zehn. Plus neun Treffer.",
+        "visual": "Benommen. -10 nächste Rd. +9T.",
+        "needs_review": false
+      },
+      "36-45": {
+        "tts": "Harter, streifender Schlag auf das Bein. Wenn der Gegner Beinrüstung trägt: Plus zehn Treffer. Wenn nicht: Plus zwölf Treffer, und der Gegner ist für zwei Runden benommen.",
+        "visual": "Wenn Beinrüstung: +10T. Wenn nicht: +12T. 2 Rd ben.",
+        "needs_review": false
+      },
+      "46-50": {
+        "tts": "Starker Rückenhieb bringt den Gegner ins Wanken. Plus zwölf Treffer. Der Gegner ist benommen und kann leider in der nächsten Runde nicht parieren.",
+        "visual": "+12T. 1 Rd benoPar.",
+        "needs_review": false
+      },
+      "51-55": {
+        "tts": "Der Gegner wird zu Boden geschlagen. Plus zwölf Treffer. Der Gegner ist benommen und kann leider in der nächsten Runde nicht parieren.",
+        "visual": "Niedergeschlagen. +12T. 1 Rd benoPar.",
+        "needs_review": false
+      },
+      "56-60": {
+        "tts": "Streifender Schlag auf das Bein. Der Gegner ist für drei Runden benommen. Plus vierzehn Treffer.",
+        "visual": "3 Rd ben. +14T.",
+        "needs_review": false
+      },
+      "61-65": {
+        "tts": "Schlag auf die Schulter schleudert den Gegner herum. Plus dreizehn Treffer. Der Gegner ist benommen und kann für zwei Runden nicht parieren.",
+        "visual": "+13T. 2 Rd benoPar.",
+        "needs_review": false
+      },
+      "67-70": {
+        "tts": "Schulterschlag bringt den Gegner zu Fall. Der Gegner ist benommen und kann für zwei Runden nicht parieren und ist wegen eines leichten Bruchs bei Minus zehn.",
+        "visual": "Niedergeschlagen. 2 Rd benoPar. -10 (leichter Bruch).",
+        "needs_review": false
+      },
+      "71-75": {
+        "tts": "Harter Schlag auf den Oberschenkel des Gegners wirft ihn zu Boden. Plus fünfzehn Treffer. Der Gegner ist benommen und kann für drei Runden nicht parieren.",
+        "visual": "Niedergeschlagen. +15T. 3 Rd benoPar.",
+        "needs_review": false
+      },
+      "76-80": {
+        "tts": "Schlag auf den Schildarm des Gegners. Der Gegner stolpert drei Fuß zurück und fällt hin. Plus fünfzehn Treffer. Der Gegner ist benommen und kann für vier Runden nicht parieren und ist entwaffnet.",
+        "visual": "3ft zurück, hingefallen. +15T. 4 Rd benoPar. Entwaffnet.",
+        "needs_review": false
+      },
+      "81-85": {
+        "tts": "Großartiger Seitentreffer bringt den Gegner zu Fall. Der Gegner bricht sich das Bein und rollt fünf Fuß. Der Gegner ist bei Minus fünfzig, ist benommen und kann für sechs Runden nicht parieren.",
+        "visual": "Gegner bricht Bein. Gegner rollt 5 Fuß. -50. 6 Rd benoPar.",
+        "needs_review": false
+      },
+      "86-90": {
+        "tts": "Grausamer Kopfschlag. Der Gegner sieht Sterne. Plus zwanzig Treffer. Der Gegner wird zehn Fuß nach hinten geschleudert und ist benommen und kann für zwölf Runden nicht parieren.",
+        "visual": "+20T. Gegner 10 Fuß zurück. 12 Rd benoPar.",
+        "needs_review": false
+      },
+      "91-95": {
+        "tts": "Schlag auf die Schildschulter des Gegners. Wenn der Gegner einen Schild hat, ist er für sechs Runden benommen. Wenn nicht, wird er zu Boden geschlagen, hat einen nutzlosen Arm und fällt in Ohnmacht.",
+        "visual": "Wenn Schild: 6 Rd ben. Wenn nicht: Niedergeschlagen. Arm unbrauchbar. Ohnmächtig.",
+        "needs_review": false
+      },
+      "96-99": {
+        "tts": "Gezielter Schlag bricht dem Gegner den Nacken. Der Gegner fällt fünf Fuß zurück, dreht sich und stolpert zu Boden. Der Gegner stirbt innerhalb von drei Runden an Schock und Ersticken.",
+        "visual": "Gegner bricht Nacken. Gegner 5 Fuß zurück. Stolpert zu Boden. Stirbt in 3 Runden.",
+        "needs_review": false
+      }
+    }
+  },
+  "Englisch_Kritische_Treffertabelle_Fuer_Kleine_Tiere": {
+    "audioFile": "stich.mp3",
+    "A": {
+      "66": {
+        "tts": "Beintreffer. Der Gegner ist benommen und kann nächste Runde nicht parieren. Plus vier Treffer. Der Gegner erleidet pro Runde plus zwei Treffer.",
+        "visual": "1 Rd benoPar. +4T. +2 T/Rd.",
+        "needs_review": false
+      },
+      "100": {
+        "tts": "Treffer auf die Augen des Gegners. Wenn der Gegner einen Vollhelm hat, ist er benommen und kann für zwei Runden nicht parieren. Wenn nicht, verliert der Gegner ein Auge, erleidet Abzug von minus fünfundsiebzig und ist benommen und kann für drei Runden nicht parieren.",
+        "visual": "Mit Vollhelm: 2 Rd benoPar. Ohne Vollhelm: 1 Auge verloren, -75, 3 Rd benoPar.",
+        "needs_review": false
+      },
+      "1-5": {
+        "tts": "Zweifelhafter Treffer. Plus null Treffer.",
+        "visual": "+0T.",
+        "needs_review": false
+      },
+      "6-10": {
+        "tts": "Zip.",
+        "visual": "",
+        "needs_review": false
+      },
+      "11-15": {
+        "tts": "Sieht schlecht aus. Plus null Treffer.",
+        "visual": "+0T.",
+        "needs_review": false
+      },
+      "16-20": {
+        "tts": "Plus eins Treffer.",
+        "visual": "+1T.",
+        "needs_review": false
+      },
+      "21-35": {
+        "tts": "Grausamer Schlag. Plus zwei Treffer.",
+        "visual": "+2T.",
+        "needs_review": false
+      },
+      "36-45": {
+        "tts": "Schlechte Ausführung. Du verlierst eine Klaue und kämpfst für zwei Runden mit Abzug von minus fünf. Der Gegner erleidet plus vier Treffer.",
+        "visual": "1 Klaue verloren. -5 für 2 Rd. +4T.",
+        "needs_review": false
+      },
+      "46-50": {
+        "tts": "Springender Brusttreffer erzielt plus drei Treffer.",
+        "visual": "+3T.",
+        "needs_review": false
+      },
+      "51-55": {
+        "tts": "Springender Brusttreffer erzielt plus drei Treffer.",
+        "visual": "+3T.",
+        "needs_review": false
+      },
+      "56-60": {
+        "tts": "Leichte Oberschenkelwunde. Der Gegner erleidet pro Runde plus eins Treffer. Plus eins Treffer.",
+        "visual": "+1 T/Rd. +1T.",
+        "needs_review": false
+      },
+      "61-65": {
+        "tts": "Leichte Unterarmwunde. Der Gegner erleidet pro Runde plus zwei Treffer. Plus zwei Treffer.",
+        "visual": "+2 T/Rd. +2T.",
+        "needs_review": false
+      },
+      "67-70": {
+        "tts": "Schultertreffer. Der Gegner erleidet pro Runde plus eins Treffer und muss nächste Runde parieren. Plus drei Treffer.",
+        "visual": "+1 T/Rd. Nächste Rd parieren. +3T.",
+        "needs_review": false
+      },
+      "71-75": {
+        "tts": "Unterschenkeltreffer. Wenn der Gegner Beinarmschutz hat, plus eins Treffer. Wenn nicht, erleidet der Gegner plus vier Treffer und pro Runde plus zwei Treffer. Der Gegner hat nächste Runde Initiative.",
+        "visual": "Mit Beinarmschutz: +1T. Ohne Beinarmschutz: +4T, +2 T/Rd. Nächste Rd Initiative.",
+        "needs_review": false
+      },
+      "76-80": {
+        "tts": "Schwacher, aber präziser Treffer auf den Arm des Gegners. Der Gegner erleidet pro Runde plus eins Treffer und ist nächste Runde benommen. Plus drei Treffer.",
+        "visual": "+1 T/Rd. Nächste Rd ben. +3T.",
+        "needs_review": false
+      },
+      "81-85": {
+        "tts": "Treffer auf das Gesicht des Gegners. Plus vier Treffer. Der Gegner ist nächste Runde benommen und erleidet pro Runde plus zwei Treffer.",
+        "visual": "+4T. 1 Rd ben. +2T/Rd.",
+        "needs_review": false
+      },
+      "86-90": {
+        "tts": "Plötzlicher, gut platzierter Schlag. Der Gegner ist für zwei Runden benommen. Plus sechs Treffer.",
+        "visual": "2 Rd ben. +6T.",
+        "needs_review": false
+      },
+      "91-95": {
+        "tts": "Springender Kopftreffer. Wenn der Gegner einen Helm hat, plus drei Treffer und er ist nächste Runde benommen. Wenn nicht, ist der Gegner mit Abzug von minus dreißig benommen für zwei Runden. Ohr zerrissen.",
+        "visual": "Mit Helm: +3T. 1 Rd ben. Ohne Helm: -30 ben für 2 Rd. Ohr zerrissen.",
+        "needs_review": false
+      },
+      "96-99": {
+        "tts": "Beleidigungs-Treffer auf die Nase des Gegners. Wenn der Gegner einen Vollhelm hat, ist er für zwei Runden benommen. Wenn nicht, hat der Gegner eine zerrissene Nase, erleidet pro Runde plus drei Treffer und ist für neun Runden benommen.",
+        "visual": "Mit Vollhelm: 2 Rd ben. Ohne Vollhelm: Nase zerrissen. +3T/Rd. 9 Rd ben.",
+        "needs_review": false
+      }
+    },
+    "B": {},
+    "C": {
+      "66": {
+        "tts": "Bizarrer Handgelenkstreffer entwaffnet das Ziel. Plus vier Treffer. Das Ziel ist benommen für die nächste Runde. Addiere plus zehn zu deinem nächsten Wurf.",
+        "visual": "Gegenstand fallengelassen. +4T. 1 Rd ben. +10 auf nächsten Wurf.",
+        "needs_review": false
+      },
+      "100": {
+        "tts": "Bizarrer Angriff auf den Kopfbereich des Ziels, lässt das Ziel sich selbst treffen. Das Ziel muss für die nächsten drei Runden auf der entsprechenden Patzertabelle auf Spalte E würfeln. Plus acht Treffer.",
+        "visual": "Ziel trifft sich selbst. 3 Rd Patzertabelle Spalte E. +8T.",
+        "needs_review": false
+      },
+      "1-5": {
+        "tts": "Sehr schwacher Treffer. Plus null Treffer.",
+        "visual": "Leichter Treffer. +0T.",
+        "needs_review": false
+      },
+      "6-10": {
+        "tts": "Nichts Besonderes. Plus eins Treffer.",
+        "visual": "Leichter Treffer. +1T.",
+        "needs_review": false
+      },
+      "11-15": {
+        "tts": "Plus eins Treffer.",
+        "visual": "Leichter Treffer. +1T.",
+        "needs_review": false
+      },
+      "16-20": {
+        "tts": "Plus zwei Treffer.",
+        "visual": "Leichter Treffer. +2T.",
+        "needs_review": false
+      },
+      "21-35": {
+        "tts": "Plus drei Treffer.",
+        "visual": "Leichter Treffer. +3T.",
+        "needs_review": false
+      },
+      "36-45": {
+        "tts": "Leichte Wunde. Plus zwei Treffer und das Ziel erleidet plus eins Treffer pro Runde.",
+        "visual": "Leichte Wunde. +2T. +1 T/Rd.",
+        "needs_review": false
+      },
+      "46-50": {
+        "tts": "Leichte Brustwunde. Das Ziel erleidet plus zwei Treffer pro Runde. Plus vier Treffer.",
+        "visual": "Leichte Brustwunde. +2 T/Rd. +4T.",
+        "needs_review": false
+      },
+      "51-55": {
+        "tts": "Leichte Brustwunde. Das Ziel erleidet plus zwei Treffer pro Runde. Plus vier Treffer.",
+        "visual": "Leichte Brustwunde. +2 T/Rd. +4T.",
+        "needs_review": false
+      },
+      "56-60": {
+        "tts": "Leichte Oberschenkelwunde betäubt das Ziel für die nächste Runde. Plus vier Treffer und das Ziel erleidet plus zwei Treffer pro Runde.",
+        "visual": "Leichte Oberschenkelwunde. 1 Rd ben. +4T. +2 T/Rd.",
+        "needs_review": false
+      },
+      "61-65": {
+        "tts": "Unterarmtreffer. Das Ziel muss für zwei Runden parieren. Plus drei Treffer und das Ziel erleidet plus zwei Treffer pro Runde.",
+        "visual": "Unterarmtreffer. 2 Rd parieren. +3T. +2 T/Rd.",
+        "needs_review": false
+      },
+      "67-70": {
+        "tts": "Treffer auf die Schulter des Ziels. Das Ziel erleidet plus zwei Treffer pro Runde. Plus fünf Treffer. Das Ziel ist in der nächsten Runde bei minus zwanzig benommen.",
+        "visual": "Schultertreffer. +2 T/Rd. +5T. -20 ben in nächster Rd.",
+        "needs_review": false
+      },
+      "71-75": {
+        "tts": "Wadenhieb. Muskelriss. Das Ziel ist bei minus zwanzig. Die Wunde verursacht plus zwei Treffer pro Runde und betäubt es für zwei Runden.",
+        "visual": "Wadenhieb. Muskelriss. -20. +2 T/Rd. 2 Rd ben.",
+        "needs_review": false
+      },
+      "76-80": {
+        "tts": "Unterarmtreffer. Muskel und Sehne durchtrennt. Das Ziel kämpft bei minus fünfundzwanzig, erleidet plus zwei Treffer pro Runde und ist für zwei Runden benommen. Plus fünf Treffer.",
+        "visual": "Unterarmtreffer. Muskel/Sehne durchtrennt. -25. +2 T/Rd. 2 Rd ben. +5T.",
+        "needs_review": false
+      },
+      "81-85": {
+        "tts": "Kopftreffer. Wenn das Ziel einen Helm trägt, plus drei Treffer und es ist in der nächsten Runde benommen. Wenn nicht, hat das Ziel eine furchtbare Narbe, erleidet plus drei Treffer pro Runde und ist bei minus vierzig.",
+        "visual": "Helm: +3T, 1 Rd ben. Kein Helm: Narbe, +3 T/Rd, -40.",
+        "needs_review": false
+      },
+      "86-90": {
+        "tts": "Schultertreffer wirft das Ziel herum. Das Ziel ist benommen und kann für zwei Runden nicht parieren. Plus sechs Treffer.",
+        "visual": "2 Rd benoPar. +6T.",
+        "needs_review": false
+      },
+      "91-95": {
+        "tts": "Nackenangriff. Das Ziel ist benommen und kann für zwei Runden nicht parieren und erleidet plus zwei Treffer pro Runde. Das Ziel kämpft bei minus zwanzig. Plus drei Treffer.",
+        "visual": "2 Rd benoPar. +2 T/Rd. -20. +3T.",
+        "needs_review": false
+      },
+      "96-99": {
+        "tts": "Hieb auf die Achillessehne des Ziels. Das Ziel wird niedergeschlagen und ist benommen und kann für drei Runden nicht parieren. Das Ziel erleidet plus eins Treffer pro Runde, operiert bei minus fünfundsiebzig.",
+        "visual": "Niedergeschlagen. 3 Rd benoPar. +1 T/Rd. -75.",
+        "needs_review": false
+      }
+    },
+    "D": {
+      "66": {
+        "tts": "Erstaunlicher Kopftreffer. Falls der Gegner einen Helm hat, plus vier Treffer. Falls nicht, plus sieben Treffer und der Gegner kann sechs Runden lang nicht parieren.",
+        "visual": "Helm: +4T. oHelm: +7T. 6 Rd oPar.",
+        "needs_review": false
+      },
+      "100": {
+        "tts": "Treffer auf des Gegners Augen. Plus zehn Treffer. Der Gegner ist benommen und kann sechs Runden lang nicht parieren, erleidet zwei Treffer pro Runde und hat Minus fünfundneunzig. Permanente Blindheit.",
+        "visual": "+10T. 6 Rd benoPar. +2 T/Rd. -95. Permanent Blind.",
+        "needs_review": false
+      },
+      "1-5": {
+        "tts": "Ha!",
+        "visual": "",
+        "needs_review": false
+      },
+      "6-10": {
+        "tts": "Plus ein Treffer.",
+        "visual": "+1T.",
+        "needs_review": false
+      },
+      "11-15": {
+        "tts": "Plus zwei Treffer.",
+        "visual": "+2T.",
+        "needs_review": false
+      },
+      "16-20": {
+        "tts": "Plus zwei Treffer.",
+        "visual": "+2T.",
+        "needs_review": false
+      },
+      "21-35": {
+        "tts": "Beinstreffer. Falls der Gegner keine Beinrüstung hat, plus fünf Treffer und er erleidet einen Treffer pro Runde.",
+        "visual": "oBeinrüstung: +5T. +1 T/Rd.",
+        "needs_review": false
+      },
+      "36-45": {
+        "tts": "Leichte Stichwunde. Plus drei Treffer und der Gegner erleidet einen Treffer pro Runde.",
+        "visual": "+3T. +1 T/Rd.",
+        "needs_review": false
+      },
+      "46-50": {
+        "tts": "Hiebtreffer auf des Gegners unteren Brustkorb. Falls der Gegner keine Metall-Brustpanzerung hat, plus fünf Treffer und plus drei Treffer pro Runde.",
+        "visual": "oMetall-Brustpanzerung: +5T. +3 T/Rd.",
+        "needs_review": false
+      },
+      "51-55": {
+        "tts": "Hiebtreffer auf des Gegners unteren Brustkorb. Falls der Gegner keine Metall-Brustpanzerung hat, plus fünf Treffer und plus drei Treffer pro Runde.",
+        "visual": "oMetall-Brustpanzerung: +5T. +3 T/Rd.",
+        "needs_review": false
+      },
+      "56-60": {
+        "tts": "Schenkel-Treffer betäubt den Gegner für die nächste Runde. Plus sechs Treffer und der Gegner erleidet zwei Treffer pro Runde.",
+        "visual": "1 Rd ben. +6T. +2 T/Rd.",
+        "needs_review": false
+      },
+      "61-65": {
+        "tts": "Unterarmwunde. Der Gegner muss zwei Runden lang parieren. Plus fünf Treffer. Der Gegner erleidet zwei Treffer pro Runde. Addiere plus zehn zu deinem nächsten Wurf.",
+        "visual": "2 Rd parieren. +5T. +2 T/Rd. +10 auf nächsten Wurf.",
+        "needs_review": false
+      },
+      "67-70": {
+        "tts": "Oberarmtreffer. Der Gegner ist benommen und kann in der nächsten Runde nicht parieren. Der Gegner erleidet zwei Treffer pro Runde. Plus sechs Treffer.",
+        "visual": "1 Rd benoPar. +2 T/Rd. +6T.",
+        "needs_review": false
+      },
+      "71-75": {
+        "tts": "Unterschenkel-Treffer. Falls der Gegner Beinrüstung hat, plus drei Treffer und er ist in der nächsten Runde benommen. Falls nicht, der Gegner ist zwei Runden lang benommen, kann in der nächsten Runde nicht parieren.",
+        "visual": "Beinrüstung: +3T. 1 Rd ben. oBeinrüstung: 2 Rd ben. 1 Rd oPar.",
+        "needs_review": false
+      },
+      "76-80": {
+        "tts": "Armtreffer. Muskel und Sehne zerrissen. Der Gegner kämpft mit Minus fünfundzwanzig, erleidet zwei Treffer pro Runde und ist drei Runden lang benommen. Plus fünf Treffer.",
+        "visual": "-25. +2 T/Rd. 3 Rd ben. +5T.",
+        "needs_review": false
+      },
+      "81-85": {
+        "tts": "Akrobatischer Gesichtstreffer. Falls der Gegner Gesichts-Rüstung hat, plus fünf Treffer. Falls nicht, ist die Nase des Gegners zerrissen und er erleidet drei Treffer pro Runde, ist drei Runden lang benommen und hat Minus vierzig.",
+        "visual": "Gesichts-Rüstung: +5T. Keine Gesichts-Rüstung: Nase zerrissen, +3 T/Rd, 3 Rd ben, -40.",
+        "needs_review": false
+      },
+      "86-90": {
+        "tts": "Treffer auf den Waffenarm des Gegners. Der Gegner wird entwaffnet und ist in der nächsten Runde benommen. Plus fünf Treffer.",
+        "visual": "Entwaffnet. 1 Rd ben. +5T.",
+        "needs_review": false
+      },
+      "91-95": {
+        "tts": "Gut getimter Angriff zerreißt den Daumenmuskel an der Hand des Gegners. Der Gegner wird entwaffnet und ist benommen und kann zwei Runden lang nicht parieren. Der Gegner kämpft mit Minus fünfzig.",
+        "visual": "Entwaffnet. 2 Rd benoPar. -50.",
+        "needs_review": false
+      },
+      "96-99": {
+        "tts": "Treffer auf des Gegners Augen. Falls der Gegner einen vollständigen Helm hat, ist er eine Woche lang blind und hat Minus fünfundneunzig. Falls nicht, der Gegner verliert ein Auge und ist auf dem anderen blind... und hat Minus einhundert.",
+        "visual": "Voller Helm: 1 Woche blind, -95. Kein Helm: 1 Auge verloren, anderes blind, -100.",
+        "needs_review": false
+      }
+    },
+    "E": {
+      "66": {
+        "tts": "Inspirierter Schulterschlag zerreißt den Muskel. Der Gegner ist benommen und kann nicht parieren in der nächsten Runde. Der Gegner hat Minus zwanzig. Plus sieben Treffer.",
+        "visual": "1 Rd benoPar. -20. +7T.",
+        "needs_review": false
+      },
+      "100": {
+        "tts": "Unvermeidlicher Nackenschlag wirft den Gegner zu Boden. Vene und Arterie sind durchtrennt. Der Gegner erleidet plus zwanzig Treffer pro Runde und stirbt nach sechs inaktiven Runden.",
+        "visual": "Niedergeschlagen. +20 T/Rd. Stirbt nach 6 Rd.",
+        "needs_review": false
+      },
+      "1-5": {
+        "tts": "Plus zwei Treffer.",
+        "visual": "+2T.",
+        "needs_review": false
+      },
+      "6-10": {
+        "tts": "Plus zwei Treffer.",
+        "visual": "+2T.",
+        "needs_review": false
+      },
+      "11-15": {
+        "tts": "Schnittwunde. Plus zwei Treffer und der Gegner erleidet plus einen Treffer pro Runde.",
+        "visual": "+2T. +1 T/Rd.",
+        "needs_review": false
+      },
+      "16-20": {
+        "tts": "Geringfügige Wunde am Bein. Plus zwei Treffer und der Gegner erleidet plus einen Treffer pro Runde.",
+        "visual": "+2T. +1 T/Rd.",
+        "needs_review": false
+      },
+      "21-35": {
+        "tts": "Beintritt. Plus drei Treffer und der Gegner erleidet plus einen Treffer pro Runde.",
+        "visual": "+3T. +1 T/Rd.",
+        "needs_review": false
+      },
+      "36-45": {
+        "tts": "Tritt in den unteren Rücken. Plus fünf Treffer. Der Gegner muss parieren in der nächsten Runde und erleidet plus einen Treffer pro Runde.",
+        "visual": "+5T. Muss 1 Rd parieren. +1 T/Rd.",
+        "needs_review": false
+      },
+      "46-50": {
+        "tts": "Brusttreffer. Plus sechs Treffer und der Gegner ist gezwungen, in der nächsten Runde zu parieren. Der Gegner erleidet plus zwei Treffer pro Runde.",
+        "visual": "+6T. Gezwungen, 1 Rd zu parieren. +2 T/Rd.",
+        "needs_review": false
+      },
+      "51-55": {
+        "tts": "Oberschenkelwunde. Der Gegner ist benommen in der nächsten Runde. Plus sieben Treffer und der Gegner erleidet plus drei Treffer pro Runde.",
+        "visual": "1 Rd ben. +7T. +3 T/Rd.",
+        "needs_review": false
+      },
+      "56-60": {
+        "tts": "Schlag auf den Unterarm. Der Gegner ist benommen in der nächsten Runde und Sie erhalten Initiative für die nächsten zwei Runden. Der Gegner erleidet plus drei Treffer pro Runde. Plus sechs Treffer.",
+        "visual": "1 Rd ben. Initiative für 2 Rd. +3 T/Rd. +6T.",
+        "needs_review": false
+      },
+      "61-65": {
+        "tts": "Bizarrer Schlag auf die Augen zerstört ein Auge und blendet das andere Auge für zwei Tage. Der Gegner hat Minus fünfundneunzig und ist benommen für vierundzwanzig Runden.",
+        "visual": "Ein Auge zerstört. Anderes Auge 2 Tage blind. -95. 24 Rd ben.",
+        "needs_review": false
+      },
+      "67-70": {
+        "tts": "Heftige Beinwunde. Der Gegner erleidet plus vier Treffer pro Runde und ist benommen für drei Runden. Plus fünf Treffer.",
+        "visual": "+4 T/Rd. 3 Rd ben. +5T.",
+        "needs_review": false
+      },
+      "71-75": {
+        "tts": "Gerissener Armschlag versetzt dem Gegner eine lästige Wunde. Der Gegner ist benommen und kann nicht parieren für zwei Runden und erleidet drei Treffer pro Runde.",
+        "visual": "2 Rd benoPar. +3 T/Rd.",
+        "needs_review": false
+      },
+      "76-80": {
+        "tts": "Kopfschlag. Wenn der Gegner einen Helm trägt, plus vier Treffer und er ist benommen in der nächsten Runde. Wenn nicht, der Gegner erleidet plus drei Treffer pro Runde, kämpft mit Minus fünfundzwanzig und ist benommen für neun Runden.",
+        "visual": "Helm: +4T. 1 Rd ben. Kein Helm: +3 T/Rd. -25. 9 Rd ben.",
+        "needs_review": false
+      },
+      "81-85": {
+        "tts": "Obere Oberschenkelwunde, Muskelriss. Der Gegner hat Minus vierzig und erleidet plus drei Treffer pro Runde. Plus vier Treffer. Der Gegner ist benommen für drei Runden, unfähig für eine Runde zu parieren.",
+        "visual": "-40. +3 T/Rd. +4T. 3 Rd benoPar.",
+        "needs_review": false
+      },
+      "86-90": {
+        "tts": "Blendender Sprung schlägt den Gegner nieder. Der Gegner ist entwaffnet und bewusstlos. Plus neun Treffer.",
+        "visual": "Entwaffnet. Bewusstlos. +9T.",
+        "needs_review": false
+      },
+      "91-95": {
+        "tts": "Kopfschlag wirft den Gegner zu Boden. Der Gegner hat eine massive Gehirnerschütterung und stirbt in neun Runden an Schock und inneren Blutungen. Ein jämmerlicher Anblick.",
+        "visual": "Stirbt in 9 Rd.",
+        "needs_review": false
+      },
+      "96-99": {
+        "tts": "Unglaublicher Nackenschlag wirft den Gegner zu Boden. Vene und Arterie sind durchtrennt. Der Gegner erleidet plus zwanzig Treffer pro Runde und stirbt nach sechs inaktiven Runden.",
+        "visual": "+20 T/Rd. Stirbt in 6 inaktiven Rd.",
+        "needs_review": false
+      }
+    }
+  },
+  "Englisch_Winzige_Tier_Kritische_Treffer_Tabelle": {
+    "audioFile": "stich.mp3",
+    "A": {},
+    "B": {
+      "66": {
+        "tts": "Waden Treffer. Das Ziel erleidet Muskelriss, ist zwei Runden benommen und liegt bei Minus zwanzig. Plus fünf Treffer.",
+        "visual": "+5T. Muskelriss. 2 Rd ben. -20.",
+        "needs_review": false
+      },
+      "100": {
+        "tts": "Schlitzende Hals Attacke wirft das Ziel nieder. Das Ziel ist für sechs Runden benommen und kann nicht parieren, erleidet Plus drei Treffer pro Runde und kämpft bei Minus fünfzig.",
+        "visual": "Ziel nieder. 6 Rd benoPar. +3 T/Rd. -50.",
+        "needs_review": false
+      },
+      "1-5": {
+        "tts": "Nicht genug. Plus null Treffer.",
+        "visual": "+0T.",
+        "needs_review": false
+      },
+      "6-10": {
+        "tts": "Kein Bonus. Plus null Treffer.",
+        "visual": "+0T.",
+        "needs_review": false
+      },
+      "11-15": {
+        "tts": "Plus eins Treffer.",
+        "visual": "+1T.",
+        "needs_review": false
+      },
+      "16-20": {
+        "tts": "Plus zwei Treffer.",
+        "visual": "+2T.",
+        "needs_review": false
+      },
+      "21-35": {
+        "tts": "Plus drei Treffer.",
+        "visual": "+3T.",
+        "needs_review": false
+      },
+      "36-45": {
+        "tts": "Arme Folgeleistung. Du verlierst eine Klaue und kämpfst für zwei Runden bei Plus fünf. Das Ziel erleidet Plus vier Treffer.",
+        "visual": "+4T. Verliere 1 Klaue. 2 Rd +5.",
+        "needs_review": false
+      },
+      "46-50": {
+        "tts": "Leichte Wunde. Das Ziel erleidet Plus eins Treffer pro Runde. Plus drei Treffer.",
+        "visual": "+3T. +1 T/Rd.",
+        "needs_review": false
+      },
+      "51-55": {
+        "tts": "Leichte Wunde. Das Ziel erleidet Plus eins Treffer pro Runde. Plus drei Treffer.",
+        "visual": "+3T. +1 T/Rd.",
+        "needs_review": false
+      },
+      "56-60": {
+        "tts": "Oberschenkel Treffer, aber keine echte Penetration. Plus sechs Treffer.",
+        "visual": "+6T.",
+        "needs_review": false
+      },
+      "61-65": {
+        "tts": "Reißender Unterarm Treffer hinterlässt eine hässliche Narbe. Das Ziel erleidet Plus zwei Treffer pro Runde. Plus drei Treffer.",
+        "visual": "+3T. +2 T/Rd.",
+        "needs_review": false
+      },
+      "67-70": {
+        "tts": "Oberkörper Treffer. Das Ziel ist nächste Runde benommen. Plus vier Treffer. Das Ziel erleidet Plus eins Treffer pro Runde.",
+        "visual": "+4T. Nächste Rd ben. +1 T/Rd.",
+        "needs_review": false
+      },
+      "71-75": {
+        "tts": "Treffer am Unterschenkel. Wenn das Ziel Beinpanzer hat, Plus drei Treffer. Wenn nicht, erleidet das Ziel Plus sechs Treffer, Plus zwei Treffer pro Runde und muss nächste zwei Runden parieren.",
+        "visual": "Wenn Beinpanzer: +3T. Sonst: +6T. +2 T/Rd. Nächste 2 Rd oPar.",
+        "needs_review": false
+      },
+      "76-80": {
+        "tts": "Starker, aber unpräziser Arm Treffer. Das Ziel erleidet Plus zwei Treffer pro Runde und liegt aufgrund einer mittelschweren Wunde bei Minus fünfzehn. Plus fünf Treffer.",
+        "visual": "+5T. +2 T/Rd. -15.",
+        "needs_review": false
+      },
+      "81-85": {
+        "tts": "Fliegender Gesichts Treffer. Wenn das Ziel Gesichts Rüstung hat, Plus zwei Treffer und muss nächste Runde parieren. Wenn nicht, erleidet das Ziel Plus drei Treffer pro Runde und ist für drei Runden benommen.",
+        "visual": "Gesichts Rüstung: +2T, muss nächste Rd parieren. Ohne Gesichts Rüstung: +3 T/Rd, 3 Rd ben.",
+        "needs_review": false
+      },
+      "86-90": {
+        "tts": "Hieb auf den Nacken des Ziels. Das Ziel erleidet Plus zwei Treffer pro Runde und ist für drei Runden benommen. Plus fünf Treffer.",
+        "visual": "+2 T/Rd, 3 Rd ben. +5T.",
+        "needs_review": false
+      },
+      "91-95": {
+        "tts": "Handgelenk Treffer. Die Wunde führt zu Plus zwei Treffer pro Runde. Das Ziel ist für drei Runden benommen und kann nächste Runde nicht parieren. Plus fünf Treffer.",
+        "visual": "+2 T/Rd. 3 Rd benoPar. +5T.",
+        "needs_review": false
+      },
+      "96-99": {
+        "tts": "Kopf Treffer. Das Ziel ist durch Blutung blind, erleidet Plus drei Treffer pro Runde, und ist für drei Runden benommen und kann für drei Runden nicht parieren. Das Ziel ist bei Minus vierzig, während es blutet.",
+        "visual": "Blind durch Blutung. +3 T/Rd. 3 Rd benoPar. -40 während Blutung.",
+        "needs_review": false
+      }
+    },
+    "C": {},
+    "D": {},
+    "E": {}
+  },
+  "Englisch_Kampfkunst_Feger_Und_Wuerfe": {
+    "audioFile": "stich.mp3",
+    "A": {
+      "66": {
+        "tts": "Wurf verrenkt die Schildschulter des Gegners. Der Gegner ist benommen und unfähig, drei Runden lang zu parieren, und ist auf Minus fünfzig.",
+        "visual": "3 Rd benoPar. -50.",
+        "needs_review": false
+      },
+      "100": {
+        "tts": "Eleganter Wurf. Der Gegner ist benommen und unfähig, sechs Runden lang zu parieren. Der Gegner liegt am Boden und du kannst ihn (wenn du es wünschst) mit einem Kniestoß zum Solarplexus erledigen.",
+        "visual": "6 Rd benoPar. Gegner am Boden.",
+        "needs_review": false
+      },
+      "1-5": {
+        "tts": "Akrobatisch, aber kein zusätzlicher Schaden. Plus null Treffer.",
+        "visual": "+0T.",
+        "needs_review": false
+      },
+      "6-10": {
+        "tts": "Plus eins Treffer.",
+        "visual": "+1T.",
+        "needs_review": false
+      },
+      "11-15": {
+        "tts": "Du hast in der nächsten Runde Initiative. Plus eins Treffer.",
+        "visual": "Nächste Rd Initiative. +1T.",
+        "needs_review": false
+      },
+      "16-20": {
+        "tts": "Der Gegner muss in der nächsten Runde parieren. Plus zwei Treffer.",
+        "visual": "Gegner muss nächste Rd parieren. +2T.",
+        "needs_review": false
+      },
+      "21-35": {
+        "tts": "Feger zwingt den Gegner, in der nächsten Runde zu parieren. Plus zwei Treffer.",
+        "visual": "Gegner muss nächste Rd parieren. +2T.",
+        "needs_review": false
+      },
+      "36-45": {
+        "tts": "Feger taumelt den Gegner. Der Gegner muss in der nächsten Runde auf Minus zwanzig parieren. Plus vier Treffer.",
+        "visual": "Gegner muss nächste Rd -20 parieren. +4T.",
+        "needs_review": false
+      },
+      "46-50": {
+        "tts": "Feger zwingt den Gegner, in der nächsten Runde auf Minus fünfundzwanzig zu parieren. Plus vier Treffer.",
+        "visual": "Gegner muss nächste Rd -25 parieren. +4T.",
+        "needs_review": false
+      },
+      "51-55": {
+        "tts": "Feger treibt den Gegner drei Fuß zurück. Der Gegner muss in der nächsten Runde auf Minus dreißig parieren. Plus fünf Treffer.",
+        "visual": "Gegner 3 Fuß zurück. Gegner muss nächste Rd -30 parieren. +5T.",
+        "needs_review": false
+      },
+      "56-60": {
+        "tts": "Wurf betäubt den Gegner für eine Runde. Plus sechs Treffer.",
+        "visual": "1 Rd ben. +6T.",
+        "needs_review": false
+      },
+      "61-65": {
+        "tts": "Wurf wirft den Gegner zu Boden, aber es gibt eine gute Erholung. Der Gegner ist für eine Runde benommen. Plus sieben Treffer.",
+        "visual": "Gegner am Boden. 1 Rd ben. +7T.",
+        "needs_review": false
+      },
+      "67-70": {
+        "tts": "Harter, aber ungeschickter Wurf betäubt den Gegner für zwei Runden. Plus sieben Treffer.",
+        "visual": "2 Rd ben. +7T.",
+        "needs_review": false
+      },
+      "71-75": {
+        "tts": "Sturz prellt den Oberschenkel des Gegners. Der Gegner ist benommen und unfähig, eine Runde lang zu parieren. Plus zwei Treffer. Der Gegner ist auf Minus fünf.",
+        "visual": "1 Rd benoPar. +2T. -5.",
+        "needs_review": false
+      },
+      "76-80": {
+        "tts": "Der Gegner landet auf dem Schildarm. Wenn der Gegner einen Schild hat, ist dieser gebrochen. Wenn nicht, ist der Arm des Gegners verstaucht, er ist auf Minus zehn, und er ist für zwei Runden benommen.",
+        "visual": "Schild gebrochen ODER Arm verstaucht, -10, 2 Rd ben.",
+        "needs_review": false
+      },
+      "81-85": {
+        "tts": "Feger bringt den Gegner aus dem Gleichgewicht. Plus drei Treffer. Der Gegner ist für drei Runden benommen. Addiere Plus fünfundzwanzig zu deinem nächsten Wurf.",
+        "visual": "+3T. 3 Rd ben. +25 auf nächsten Wurf.",
+        "needs_review": false
+      },
+      "86-90": {
+        "tts": "Der Gegner landet auf dem Rücken. Muskel- und Knorpelschaden. Der Gegner erholt sich schnell, ist aber benommen und unfähig, zwei Runden lang zu parieren. Der Gegner ist auf Minus zwanzig.",
+        "visual": "2 Rd benoPar. -20.",
+        "needs_review": false
+      },
+      "91-95": {
+        "tts": "Wurf wirft den Gegner zu Boden und bricht ihm die Nase. Der Gegner ist auf Minus fünfundzwanzig. Plus sieben Treffer. Der Gegner ist benommen und unfähig, zwei Runden lang zu parieren.",
+        "visual": "-25. +7T. 2 Rd benoPar.",
+        "needs_review": false
+      },
+      "96-99": {
+        "tts": "Wurf schickt den Gegner auf den Kopf zu Boden. Wenn der Gegner einen Helm hat, ist er für neun Runden benommen. Wenn nicht, ist der Gegner bewusstlos.",
+        "visual": "Helm: 9 Rd ben. Ohne Helm: K.O.",
+        "needs_review": false
+      }
+    },
+    "B": {
+      "66": {
+        "tts": "Eleganter Wurf. Sie haben den Gegner fixiert, auf dem Gesicht liegend und in einem Armgriff. Plus neun Treffer. Der Gegner ist entwaffnet und bewegungsunfähig.",
+        "visual": "+9T. Entwaffnet. Bewegungsunfähig.",
+        "needs_review": false
+      },
+      "100": {
+        "tts": "Fabelhafter Wurf schleudert den Gegner zehn Fuß weit. Der Nacken des Gegners ist beim Aufprall gebrochen und er stirbt nach fünfzehn Fuß Rollen.",
+        "visual": "Gegner stirbt.",
+        "needs_review": false
+      },
+      "1-5": {
+        "tts": "Schlechte Ausführung, plus null Treffer.",
+        "visual": "+0T.",
+        "needs_review": false
+      },
+      "6-10": {
+        "tts": "Plus eins Treffer.",
+        "visual": "+1T.",
+        "needs_review": false
+      },
+      "11-15": {
+        "tts": "Der Gegner erleidet drei zusätzliche Treffer und Sie haben in der nächsten Runde die Initiative.",
+        "visual": "+3T. Initiative nächste Rd.",
+        "needs_review": false
+      },
+      "16-20": {
+        "tts": "Den Gegner blenden. Er muss in der nächsten Runde auf Minus Zehn parieren.",
+        "visual": "Nächste Rd -10 auf Parade.",
+        "needs_review": false
+      },
+      "21-35": {
+        "tts": "Feger bringt den Gegner aus dem Gleichgewicht. Plus drei Treffer. Der Gegner muss in der nächsten Runde auf Minus Zwanzig parieren.",
+        "visual": "+3T. Nächste Rd -20 auf Parade.",
+        "needs_review": false
+      },
+      "36-45": {
+        "tts": "Feger prellt das Bein des Gegners. Er agiert für drei Runden auf Minus Fünfundzwanzig. Plus drei Treffer.",
+        "visual": "-25 auf Aktionen für 3 Runden. +3T.",
+        "needs_review": false
+      },
+      "46-50": {
+        "tts": "Feger betäubt den Gegner für eine Runde. Plus fünf Treffer.",
+        "visual": "1 Rd ben. +5T.",
+        "needs_review": false
+      },
+      "51-55": {
+        "tts": "Wurf entzieht dem Gegner die Luft und er ist für eine Runde benommen. Plus sechs Treffer.",
+        "visual": "1 Rd ben. +6T.",
+        "needs_review": false
+      },
+      "56-60": {
+        "tts": "Wurf betäubt den Gegner für eine Runde und verstaucht einen Finger an seiner Waffenhand. Der Gegner agiert auf Minus Zehn.",
+        "visual": "1 Rd ben. -10.",
+        "needs_review": false
+      },
+      "61-65": {
+        "tts": "Wurf wirft den Gegner zu Boden, aber er erholt sich gut. Der Gegner ist für eine Runde benommen. Plus drei Treffer. Der Gegner agiert auf Minus Zwanzig.",
+        "visual": "1 Rd ben. +3T. -20.",
+        "needs_review": false
+      },
+      "67-70": {
+        "tts": "Starker Wurf betäubt den Gegner für zwei Runden. Sie haben die Initiative für sechs Runden. Plus acht Treffer.",
+        "visual": "2 Rd ben. Initiative für 6 Runden. +8T.",
+        "needs_review": false
+      },
+      "71-75": {
+        "tts": "Fall reißt Bänder im Bein des Gegners. Der Gegner agiert auf Minus Zehn. Plus fünf Treffer. Der Gegner ist für eine Runde benommen und kann nicht parieren.",
+        "visual": "-10. +5T. 1 Rd benoPar.",
+        "needs_review": false
+      },
+      "76-80": {
+        "tts": "Der Gegner bricht den Fall mit seiner Waffenhand und verstaucht zwei Finger. Der Gegner agiert auf Minus Fünfundzwanzig und ist für zwei Runden benommen.",
+        "visual": "-25. 2 Rd ben.",
+        "needs_review": false
+      },
+      "81-85": {
+        "tts": "Feger wirft den Gegner zehn Fuß zur Seite. Der Gegner ist benommen und kann für zwei Runden nicht parieren. Plus neun Treffer.",
+        "visual": "Gegner 10 Fuß zur Seite. 2 Rd benoPar. +9T.",
+        "needs_review": false
+      },
+      "86-90": {
+        "tts": "Der Gegner landet auf dem Rücken und ist benommen und kann für zwei Runden nicht parieren. Gerissene Sehne und gebrochener Knochen, der Gegner agiert auf Minus Fünfundzwanzig.",
+        "visual": "Gegner landet auf Rücken. 2 Rd benoPar. Gerissene Sehne, gebrochener Knochen. -25.",
+        "needs_review": false
+      },
+      "91-95": {
+        "tts": "Fall bricht Rippen, entwaffnet den Gegner und lässt ihn zehn Fuß weit rollen. Der Gegner agiert auf Minus Dreißig und ist benommen und kann für zwölf Runden nicht parieren.",
+        "visual": "Rippenbruch, entwaffnet. Gegner 10 Fuß weit rollen. -30. 12 Rd benoPar.",
+        "needs_review": false
+      },
+      "96-99": {
+        "tts": "Feger betäubt den Gegner; Kick entwaffnet ihn; und ein weiterer Feger wirft ihn flach auf den Rücken. Der Gegner ist bewusstlos. Plus zwanzig Treffer.",
+        "visual": "Gegner betäubt, entwaffnet, flach auf Rücken. K.O. +20T.",
+        "needs_review": false
+      }
+    },
+    "C": {
+      "66": {
+        "tts": "Feger zertrümmert das Knie des Gegners. Der Gegner ist benommen und kann für vier Runden nicht parieren, operiert auf Minus achtzig.",
+        "visual": "4 Rd benoPar. -80.",
+        "needs_review": false
+      },
+      "100": {
+        "tts": "Wurf bricht dem Gegner den Rücken. Plus zwölf Treffer. Der Gegner ist vom Hals abwärts gelähmt. Plus zwanzig auf den nächsten Wurf.",
+        "visual": "+12T. Gelähmt (Hals abwärts). +20 auf nächsten Wurf.",
+        "needs_review": false
+      },
+      "1-5": {
+        "tts": "Plus zwei Treffer.",
+        "visual": "+2T.",
+        "needs_review": false
+      },
+      "6-10": {
+        "tts": "Plus eins Treffer.",
+        "visual": "+1T.",
+        "needs_review": false
+      },
+      "11-15": {
+        "tts": "Du hast Initiative in der nächsten Runde. Plus zwanzig auf deinen nächsten Angriff. Der Gegner ist verwirrt.",
+        "visual": "Initiative nächste Rd. +20 auf nächsten Angriff. Verwirrt.",
+        "needs_review": false
+      },
+      "16-20": {
+        "tts": "Der Gegner ist aus dem Gleichgewicht und muss in der nächsten Runde parieren bei Minus zwanzig. Plus drei Treffer.",
+        "visual": "Gegner aus dem Gleichgewicht. Nächste Rd parieren -20. +3T.",
+        "needs_review": false
+      },
+      "21-35": {
+        "tts": "Feger betäubt den Gegner für eine Runde. Plus vier Treffer.",
+        "visual": "1 Rd ben. +4T.",
+        "needs_review": false
+      },
+      "36-45": {
+        "tts": "Feger prellt das Bein des Gegners. Der Gegner kämpft auf Minus zehn. Du hast die Initiative in der nächsten Runde.",
+        "visual": "Gegner -10. Initiative nächste Rd.",
+        "needs_review": false
+      },
+      "46-50": {
+        "tts": "Feger wirft den Gegner zu Boden. Plus vier Treffer. Der Gegner ist für zwei Runden benommen, während er versucht, sich zu erholen.",
+        "visual": "Gegner zu Boden. +4T. 2 Rd ben.",
+        "needs_review": false
+      },
+      "51-55": {
+        "tts": "Wurf betäubt den Gegner für zwei Runden. Plus sechs Treffer.",
+        "visual": "2 Rd ben. +6T.",
+        "needs_review": false
+      },
+      "56-60": {
+        "tts": "Feger stößt den Gegner fünf Fuß zurück. Der Gegner ist benommen und kann für eine Runde nicht parieren.",
+        "visual": "Gegner 5 Fuß zurück. 1 Rd benoPar.",
+        "needs_review": false
+      },
+      "61-65": {
+        "tts": "Wurf entwaffnet den Gegner. Plus drei Treffer. Der Gegner ist für eine Runde benommen. Wenn du weglaufen willst, ist jetzt die Zeit dafür.",
+        "visual": "Gegner entwaffnet. +3T. 1 Rd ben.",
+        "needs_review": false
+      },
+      "67-70": {
+        "tts": "Der Gegner wird fünf Fuß zurückgeschlagen und hat einen geprellten Brustmuskel. Der Gegner ist für zwei Runden benommen, ist auf Minus zehn.",
+        "visual": "Gegner 5 Fuß zurück. Geprellter Brustmuskel. 2 Rd ben. -10.",
+        "needs_review": false
+      },
+      "71-75": {
+        "tts": "Wurf zieht dem Gegner einen Muskel im Bein. Der Gegner ist für zwei Runden benommen und kann in der nächsten Runde nicht parieren. Operiert auf Minus fünfundzwanzig.",
+        "visual": "2 Rd benoPar (nächste Rd). -25.",
+        "needs_review": false
+      },
+      "76-80": {
+        "tts": "Der Gegner bricht den Sturz mit seiner Waffe ab und verstaucht zwei Finger. Der Gegner ist auf Minus fünfundzwanzig und ist für zwei Runden benommen.",
+        "visual": "Verstauchte Finger. -25. 2 Rd ben.",
+        "needs_review": false
+      },
+      "81-85": {
+        "tts": "Feger schlägt den Gegner zehn Fuß zur Seite. Der Gegner ist benommen und kann für zwei Runden nicht parieren. Plus neun Treffer.",
+        "visual": "Gegner 10 Fuß zur Seite. +9T. 2 Rd benoPar.",
+        "needs_review": false
+      },
+      "86-90": {
+        "tts": "Wurf schlägt den Gegner auf den Rücken. Wirbel gebrochen und der Gegner ist auf Minus fünfzig. Der Gegner ist benommen und kann für drei Runden nicht parieren.",
+        "visual": "Wirbel gebrochen. -50. 3 Rd benoPar.",
+        "needs_review": false
+      },
+      "91-95": {
+        "tts": "Feger wirft den Gegner zu Boden und du legst ihn in einen beinbrechenden Haltegriff. Plus neun Treffer. Der Gegner ist fixiert, benommen und kann für fünfzehn Runden nicht parieren.",
+        "visual": "+9T. Gegner fixiert. 15 Rd benoPar.",
+        "needs_review": false
+      },
+      "96-99": {
+        "tts": "Wurf bricht den Schädel des Gegners. Wenn der Gegner einen Helm trägt, liegt er im Koma. Wenn nicht, stirbt er in einer Runde an Hirnschäden.",
+        "visual": "Schädel gebrochen. Helm: Koma. Kein Helm: Stirbt in 1 Rd.",
+        "needs_review": false
+      }
+    },
+    "D": {},
+    "E": {}
+  },
+  "Englisch_Kampfkunst:_Feger_Und_Wuerfe": {
+    "audioFile": "stich.mp3",
+    "A": {},
+    "B": {},
+    "C": {},
+    "D": {
+      "66": {
+        "tts": "Ein geschmeidiger Wurf. Der Feind landet auf dem Kopf. Wenn der Feind einen Helm trägt, ist er bewusstlos. Wenn nicht, ist er von der Taille ab gelähmt.",
+        "visual": "Helm: bewusstlos. Kein Helm: gelähmt (Taille abwärts).",
+        "needs_review": false
+      },
+      "100": {
+        "tts": "Ein Feger dreht den Feind fünf Fuß rückwärts. Die Wirbelsäule des Feindes wird gebrochen und er ist querschnittsgelähmt.",
+        "visual": "Feind 5ft rückwärts. Wirbelsäule gebrochen. Querschnittsgelähmt.",
+        "needs_review": false
+      },
+      "1-5": {
+        "tts": "Plus drei Treffer.",
+        "visual": "+3T.",
+        "needs_review": false
+      },
+      "6-10": {
+        "tts": "Plus drei Treffer.",
+        "visual": "+3T.",
+        "needs_review": false
+      },
+      "11-15": {
+        "tts": "Der Feind muss in der nächsten Runde parieren. Plus vier Treffer.",
+        "visual": "Feind muss nächste Rd parieren. +4T.",
+        "needs_review": false
+      },
+      "16-20": {
+        "tts": "Der Feind ist eine Runde lang benommen. Plus vier Treffer.",
+        "visual": "1 Rd ben. +4T.",
+        "needs_review": false
+      },
+      "21-35": {
+        "tts": "Ein Feger schickt den Feind auf die Knie. Der Feind ist benommen und kann eine Runde lang nicht parieren. Plus vier Treffer.",
+        "visual": "1 Rd benoPar. +4T.",
+        "needs_review": false
+      },
+      "36-45": {
+        "tts": "Ein Feger prellt die Wade des Feindes. Der Feind agiert in der nächsten Runde mit Minus zwanzig. Plus fünf Treffer.",
+        "visual": "Nächste Rd -20 Aktionen. +5T.",
+        "needs_review": false
+      },
+      "46-50": {
+        "tts": "Ein Feger wirft den Feind zu Boden. Plus fünf Treffer. Der Feind ist benommen und kann eine Runde lang nicht parieren.",
+        "visual": "+5T. 1 Rd benoPar.",
+        "needs_review": false
+      },
+      "51-55": {
+        "tts": "Ein Wurf bricht drei Rippen des Feindes. Der Feind ist eine Runde lang benommen und agiert mit Minus zwanzig. Plus sechs Treffer.",
+        "visual": "3 Rippen gebrochen. 1 Rd ben. -20 Aktionen. +6T.",
+        "needs_review": false
+      },
+      "56-60": {
+        "tts": "Ein Feger wirft den Feind fast zu Boden. Der Feind ist benommen und kann eine Runde lang nicht parieren. Plus sieben Treffer.",
+        "visual": "1 Rd benoPar. +7T.",
+        "needs_review": false
+      },
+      "61-65": {
+        "tts": "Ein Wurf entwaffnet den Feind und lässt ihn zwei Runden lang benommen zurück.",
+        "visual": "Feind entwaffnet. 2 Rd ben.",
+        "needs_review": false
+      },
+      "67-70": {
+        "tts": "Ein Wurf lässt den Feind auf seine Schildschulter fallen. Der Arm und das Schlüsselbein brechen. Plus fünf Treffer.",
+        "visual": "Arm & Schlüsselbein gebrochen. +5T.",
+        "needs_review": false
+      },
+      "71-75": {
+        "tts": "Der Feind fällt und bricht sich das Bein. Leichter Bruch, aber der Feind agiert mit Minus dreißig. Der arme Narr ist drei Runden lang benommen.",
+        "visual": "Bein gebrochen (leicht). -30 Aktionen. 3 Rd ben.",
+        "needs_review": false
+      },
+      "76-80": {
+        "tts": "Ein Wurf legt den Feind auf den Rücken und bricht das Schulterblatt. Der Feind agiert mit Minus zwanzig. Plus neun Treffer. Der Feind ist benommen und kann zwei Runden lang nicht parieren.",
+        "visual": "Schulterblatt gebrochen. -20 Aktionen. +9T. 2 Rd benoPar.",
+        "needs_review": false
+      },
+      "81-85": {
+        "tts": "Ein Bruch am Handgelenk des Waffenarms des Feindes. Der Arm ist nutzlos. Plus zehn Treffer. Feiner Handwurf.",
+        "visual": "Arm unbrauchbar. +10T.",
+        "needs_review": false
+      },
+      "86-90": {
+        "tts": "Ein Wurf legt den Feind ab und Sie bringen ihn in einen stark immobilisierenden Armgriff. Der Feind ist benommen und kann sechs Runden lang nicht parieren.",
+        "visual": "6 Rd benoPar.",
+        "needs_review": false
+      },
+      "91-95": {
+        "tts": "Ein Wurf schlägt den Feind gegen eine fast harte Oberfläche. Der Feind ist bewusstlos, und Sie können einen tödlichen Tritt ausführen, wenn Sie dies wünschen.",
+        "visual": "K.O. Tödlicher Tritt möglich.",
+        "needs_review": false
+      },
+      "96-99": {
+        "tts": "Ein Wurf legt den Feind nieder. Er wird durch eine gebrochene Rippe oder seine eigene Waffe aufgespießt und stirbt in sechs Runden.",
+        "visual": "stirbt in 6 Runden.",
+        "needs_review": false
+      }
+    },
+    "E": {}
+  },
+  "Englisch_Kampfkunst_Feger_Und_Wuerfe_Kritische_Treffer_Tabelle": {
+    "audioFile": "stich.mp3",
+    "A": {},
+    "B": {},
+    "C": {},
+    "D": {},
+    "E": {
+      "66": {
+        "tts": "Der Feind landet auf dem Schildarm. Wenn der Feind einen Schild hat, sind es plus zehn Treffer und der Schild ist zerbrochen. Wenn nicht, ist der Arm des Feindes zerschmettert. Plus zwanzig Treffer.",
+        "visual": "Wenn Schild: +10T, Schild zerbrochen. Wenn kein Schild: Arm zerschmettert. +20T.",
+        "needs_review": false
+      },
+      "100": {
+        "tts": "Die Luftröhre des Feindes wird zerquetscht. Der Feind stirbt sofort an massivem Schock und grausamer Erstickung. Addiere plus fünfundzwanzig auf deinen nächsten Wurf.",
+        "visual": "Luftröhre zerquetscht. Feind stirbt. +25 auf nächsten Wurf.",
+        "needs_review": false
+      },
+      "1-5": {
+        "tts": "Unbalanciere den Feind. Du hast die Initiative für die nächste Runde. Plus vier Treffer.",
+        "visual": "Initiative für nächste Rd. +4T.",
+        "needs_review": false
+      },
+      "6-10": {
+        "tts": "Betäube den Feind mit deinen feinen Bewegungen. Addiere plus zehn auf deinen nächsten Angriff. Der Feind ist eine Runde lang benommen.",
+        "visual": "+10 auf nächsten Angriff. 1 Rd ben.",
+        "needs_review": false
+      },
+      "11-15": {
+        "tts": "Feger bringt den Feind ins Stolpern. Plus zwei Treffer. Der Feind ist benommen und kann in der nächsten Runde nicht parieren.",
+        "visual": "+2T. 1 Rd benoPar.",
+        "needs_review": false
+      },
+      "16-20": {
+        "tts": "Feger wirft den Feind zu Boden. Der Feind ist zwei Runden lang benommen.",
+        "visual": "2 Rd ben.",
+        "needs_review": false
+      },
+      "21-35": {
+        "tts": "Feger wirft den Feind zu Boden und prellt den Oberschenkel. Der Feind ist eine Runde lang benommen. Plus fünf Treffer. Der Feind ist bei Minus zwanzig.",
+        "visual": "1 Rd ben. +5T. -20.",
+        "needs_review": false
+      },
+      "36-45": {
+        "tts": "Der Feind rutscht auf die Knie. Plus sieben Treffer. Der Feind ist zwei Runden lang benommen und kann in der nächsten Runde nicht parieren.",
+        "visual": "+7T. 2 Rd benoPar.",
+        "needs_review": false
+      },
+      "46-50": {
+        "tts": "Wurf lässt den Feind fallen. Plus acht Treffer. Der Feind ist drei Runden lang benommen.",
+        "visual": "+8T. 3 Rd ben.",
+        "needs_review": false
+      },
+      "51-55": {
+        "tts": "Überraschender Feger lässt den Feind taumeln. Der Feind ist drei Runden lang benommen. Plus neun Treffer.",
+        "visual": "3 Rd ben. +9T.",
+        "needs_review": false
+      },
+      "56-60": {
+        "tts": "Feiner Wurf. Der Feind landet auf seinem Waffenarm, ist entwaffnet und ist drei Runden lang benommen.",
+        "visual": "Waffenarm, entwaffnet. 3 Rd ben.",
+        "needs_review": false
+      },
+      "61-65": {
+        "tts": "Perfekter Wurf schickt den Feind über deine Schulter und zehn Fuß weit fliegend. Der Feind stirbt beim Aufprall. Addiere plus zehn auf deinen nächsten Wurf.",
+        "visual": "Feind stirbt. +10 auf nächsten Wurf.",
+        "needs_review": false
+      },
+      "67-70": {
+        "tts": "Der Feind fällt und bricht sich die Hüfte. Leichte Fraktur, der Feind ist jedoch bei Minus vierzig. Er ist benommen und kann in zwei Runden nicht parieren.",
+        "visual": "Hüfte gebrochen. -40. 2 Rd benoPar.",
+        "needs_review": false
+      },
+      "71-75": {
+        "tts": "Wurf schickt den Feind auf seinen Ellbogen. Das Gelenk ist zerschmettert und der Arm ist nutzlos. Der Feind ist vier Runden lang benommen.",
+        "visual": "Gelenk zerschmettert, Arm nutzlos. 4 Rd ben.",
+        "needs_review": false
+      },
+      "76-80": {
+        "tts": "Wirf den Feind zehn Fuß. Der Feind liegt auf dem Gesicht, ist entwaffnet und benommen und kann sechs Runden lang nicht parieren.",
+        "visual": "10 Fuß Wurf. Entwaffnet. 6 Rd benoPar.",
+        "needs_review": false
+      },
+      "81-85": {
+        "tts": "Wirf den Feind in den nächsten Feind innerhalb von zehn Fuß. Alle Beteiligten sind benommen und können drei Runden lang nicht parieren, erleiden plus neun Treffer.",
+        "visual": "Feind in nächsten Feind (innerh. 10 Fuß) werfen. Alle Beteiligten 3 Rd benoPar, +9T.",
+        "needs_review": false
+      },
+      "86-90": {
+        "tts": "Gerissener Rollwurf schickt den Feind in die Luft. Der Feind ist entwaffnet und bewusstlos. Du springst zehn Fuß weit auf die Beine.",
+        "visual": "Feind entwaffnet, K.O.. Du springst 10 Fuß weit auf die Beine.",
+        "needs_review": false
+      },
+      "91-95": {
+        "tts": "Sturz bricht dem Feind das Genick, tötet ihn sofort. Addiere plus fünfundzwanzig auf deinen nächsten Angriff.",
+        "visual": "Feind stirbt sofort. +25 auf nächsten Angriff.",
+        "needs_review": false
+      },
+      "96-99": {
+        "tts": "Verwendest nur die Hälfte der Runde, nutzt du einen Rollwurf, um den Feind gegen die nächste harte Oberfläche zu schleudern. Der Feind stirbt, du bist auf den Beinen, mach weiter.",
+        "visual": "Aktion braucht halbe Runde. Feind stirbt. Du stehst.",
+        "needs_review": false
+      }
+    }
+  },
+  "Englisch_Kritische_Treffertabelle:_Kampfsport_Schlaege": {
+    "audioFile": "stich.mp3",
+    "A": {
+      "66": {
+        "tts": "Schlag auf die Achillessehne. Bösartiger Bluterguss. Der Feind ist auf Minus fünfzig. Plus sieben Treffer und der Feind ist zwei Runden lang benommen.",
+        "visual": "-50. +7T. 2 Rd ben.",
+        "needs_review": false
+      },
+      "100": {
+        "tts": "Halskrause-Schlag. Das Innenohr des Feindes ist rupturiert. Er hört auf Minus fünfzig, agiert auf Minus fünfundsiebzig. Der Feind wird durch einen Folgeschlag bewusstlos geschlagen.",
+        "visual": "Hören -50. Agieren -75. Folgeschlag K.O.",
+        "needs_review": false
+      },
+      "1-5": {
+        "tts": "Entschuldigung. Plus eins Treffer.",
+        "visual": "+1T.",
+        "needs_review": false
+      },
+      "6-10": {
+        "tts": "Plus eins Treffer.",
+        "visual": "+1T.",
+        "needs_review": false
+      },
+      "11-15": {
+        "tts": "Schwacher Schlag, aber du erhältst die Initiative. Plus drei Treffer.",
+        "visual": "+3T. Initiative.",
+        "needs_review": false
+      },
+      "16-20": {
+        "tts": "Tritt auf die Seite des Feindes führt zu plus vier Treffern und du erhältst die Initiative für die nächste Runde.",
+        "visual": "+4T. Initiative nächste Rd.",
+        "needs_review": false
+      },
+      "21-35": {
+        "tts": "Leichter, aber gut platzierter Schlag zwingt den Feind, eine Runde lang zu parieren. Plus fünf Treffer.",
+        "visual": "+5T. 1 Rd parieren.",
+        "needs_review": false
+      },
+      "36-45": {
+        "tts": "Milder Brusttreffer zwingt den Feind, in der nächsten Runde auf Minus zehn zu parieren. Plus sechs Treffer.",
+        "visual": "+6T. Nächste Rd parieren -10.",
+        "needs_review": false
+      },
+      "46-50": {
+        "tts": "Akrobatische Bewegung zwingt den Feind, in der nächsten Runde auf Minus fünfundzwanzig zu parieren. Plus sechs Treffer.",
+        "visual": "+6T. Nächste Rd parieren -25.",
+        "needs_review": false
+      },
+      "51-55": {
+        "tts": "Schlag auf die Hüfte betäubt den Feind für eine Runde. Plus drei Treffer.",
+        "visual": "+3T. 1 Rd ben.",
+        "needs_review": false
+      },
+      "56-60": {
+        "tts": "Schlag auf die untere Brust des Feindes betäubt ihn für eine Runde. Plus fünf Treffer.",
+        "visual": "+5T. 1 Rd ben.",
+        "needs_review": false
+      },
+      "61-65": {
+        "tts": "Schlag auf die Oberseite des Fußes des Feindes ist leicht fehlplatziert, aber schnell. Der Feind agiert auf Minus zwanzig. Plus fünf Treffer.",
+        "visual": "+5T. Agieren -20.",
+        "needs_review": false
+      },
+      "67-70": {
+        "tts": "Schwacher Speerhandschlag betäubt den Feind für zwei Runden. Plus zwei Treffer.",
+        "visual": "+2T. 2 Rd ben.",
+        "needs_review": false
+      },
+      "71-75": {
+        "tts": "Messerhand, Speerhand Kombination. Der Feind muss auf der Patzertabelle würfeln und ist eine Runde lang benommen.",
+        "visual": "Patzertabelle. 1 Rd ben.",
+        "needs_review": false
+      },
+      "76-80": {
+        "tts": "Tritt auf den Schildarm des Feindes. Wenn der Feind einen Schild hat, ist dieser zerbrochen. Wenn nicht, ist der Arm unbrauchbar und plus sechs Treffer.",
+        "visual": "Schild zerbrochen ODER Arm unbrauchbar. +6T.",
+        "needs_review": false
+      },
+      "81-85": {
+        "tts": "Tritt auf den Waffenarm des Feindes entwaffnet ihn. Plus drei Treffer.",
+        "visual": "Waffe fallengelassen. +3T.",
+        "needs_review": false
+      },
+      "86-90": {
+        "tts": "Flüssige Bewegung, gefolgt von einem Sprungtritt auf den Rücken des Feindes, wirft ihn nieder und betäubt ihn drei Runden lang.",
+        "visual": "Niedergeschlagen. 3 Rd ben.",
+        "needs_review": false
+      },
+      "91-95": {
+        "tts": "Schlag auf den Nerv im oberen Bein. Plus acht Treffer. Der Feind ist betäubt und kann für zwei Runden nicht parieren und agiert auf Minus vierzig für sechs Runden.",
+        "visual": "+8T. 2 Rd benoPar. -40 f\nr 6 Rd.",
+        "needs_review": false
+      },
+      "96-99": {
+        "tts": "Ein Hieb lenkt den Angriff des Feindes ab, und ein Folgeschlag wirft ihn nieder. Der Feind ist benommen und kann für drei Runden nicht parieren.",
+        "visual": "Niedergeschlagen. 3 Rd benoPar.",
+        "needs_review": false
+      }
+    },
+    "B": {},
+    "C": {
+      "66": {
+        "tts": "Messerhand-Schlag bricht dem Gegner den Waffenarm, wodurch er nutzlos wird. Ein Folgetreffer auf das Solarplexus schlägt den Gegner bewusstlos.",
+        "visual": "Waffenarm unbrauchbar. K.O.",
+        "needs_review": false
+      },
+      "100": {
+        "tts": "Feger legt den Gegner nieder und ein Fersenkick auf das Brustbein lässt den Brustkorb kollabieren. Der Gegner ist hilflos und stirbt in vier Runden.",
+        "visual": "Niedergeschlagen. Hilflos. Stirbt in 4 Rd.",
+        "needs_review": false
+      },
+      "1-5": {
+        "tts": "Plus eins Treffer.",
+        "visual": "_1T",
+        "needs_review": false
+      },
+      "6-10": {
+        "tts": "Plus zwei Treffer.",
+        "visual": "_2T",
+        "needs_review": false
+      },
+      "11-15": {
+        "tts": "Leichter Treffer. Sie haben in der nächsten Runde die Initiative. Plus fünf Treffer.",
+        "visual": "_5T. Initiative nächste Rd.",
+        "needs_review": false
+      },
+      "16-20": {
+        "tts": "Seitenhieb zwingt den Gegner, in der nächsten Runde zu parieren. Plus sechs Treffer.",
+        "visual": "_6T. Gegner muss nächste Rd parieren.",
+        "needs_review": false
+      },
+      "21-35": {
+        "tts": "Tritt in die Rippen des Gegners betäubt ihn für eine Runde. Plus sechs Treffer.",
+        "visual": "_6T. 1 Rd ben.",
+        "needs_review": false
+      },
+      "36-45": {
+        "tts": "Clevere Finte führt zu einem Volltreffer, aber einem leichten Brusttreffer. Der Gegner ist für eine Runde betäubt. Plus acht Treffer.",
+        "visual": "_8T. 1 Rd ben.",
+        "needs_review": false
+      },
+      "46-50": {
+        "tts": "Schlag auf den Rücken des Gegners. Der Gegner ist betäubt und kann für eine Runde nicht parieren.",
+        "visual": "1 Rd benoPar.",
+        "needs_review": false
+      },
+      "51-55": {
+        "tts": "Seitenhieb. Der Gegner ist betäubt und kann für eine Runde nicht parieren. Plus zwanzig auf den nächsten Angriff.",
+        "visual": "1 Rd benoPar. _20 auf nächsten Angriff.",
+        "needs_review": false
+      },
+      "56-60": {
+        "tts": "Starker Radtritt schleudert den Gegner zehn Fuß in jede gewünschte Richtung. Der Gegner ist für zwei Runden betäubt. Plus acht Treffer.",
+        "visual": "_8T. Gegner 10 Fuß weggeschleudert. 2 Rd ben.",
+        "needs_review": false
+      },
+      "61-65": {
+        "tts": "Schlag auf den Oberschenkel. Der Gegner hat eine tiefe Prellung und agiert auf Minus fünfundzwanzig. Plus fünf Treffer.",
+        "visual": "_5T. -25 auf Aktionen.",
+        "needs_review": false
+      },
+      "67-70": {
+        "tts": "Starker Messerhand-Schlag auf den oberen Teil des Schildarms des Gegners. Der Arm ist gebrochen und nutzlos.",
+        "visual": "Schildarm gebrochen/nutzlos.",
+        "needs_review": false
+      },
+      "71-75": {
+        "tts": "Schlag auf die Rückseite des Unterschenkels. Der Gegner ist für zwei Runden betäubt und kann nicht parieren.",
+        "visual": "2 Rd benoPar.",
+        "needs_review": false
+      },
+      "76-80": {
+        "tts": "Tritt entwaffnet den Gegner und betäubt ihn für eine Runde. Der Gegner kämpft auf Minus zehn aufgrund von Knorpelschäden.",
+        "visual": "Gegner entwaffnet. 1 Rd ben. -10 auf Kampf.",
+        "needs_review": false
+      },
+      "81-85": {
+        "tts": "Fersenkick bricht Knochen im Fuß des Gegners. Der Gegner agiert auf Minus fünfzig; er ist auch für zwei Runden betäubt und kann nicht parieren.",
+        "visual": "Knochenbruch Fuß. -50. 2 Rd benoPar.",
+        "needs_review": false
+      },
+      "86-90": {
+        "tts": "Tritt ins Bein durchtrennt die Achillessehne und lässt den Gegner fallen. Plus zehn Treffer. Der Gegner ist für neun Runden betäubt und agiert auf Minus achtzig.",
+        "visual": "Achillessehne durchtrennt. Gegner fällt. +10T. 9 Rd ben. -80.",
+        "needs_review": false
+      },
+      "91-95": {
+        "tts": "Fliegender Tritt auf den Rücken des Gegners. Sie schlagen den Gegner zu Boden, entwaffnen ihn und lassen ihn betäubt und unfähig, zwölf Runden lang zu parieren.",
+        "visual": "Gegner fällt. Entwaffnet. 12 Rd benoPar.",
+        "needs_review": false
+      },
+      "96-99": {
+        "tts": "Tritt auf das Solarplexus lässt den Gegner fallen und betäubt ihn und unfähig, dreißig Runden lang zu parieren. Plus dreißig Treffer.",
+        "visual": "Gegner fällt. 30 Rd benoPar. +30T.",
+        "needs_review": false
+      }
+    },
+    "D": {},
+    "E": {
+      "66": {
+        "tts": "Gleichzeitige offene Handflächenschläge zerstören das Gehör und das Gleichgewicht des Feindes. Der Feind ist bei Minus fünfundneunzig. Er ist vierundzwanzig Runden lang benommen.",
+        "visual": "-95. 24 Rd ben.",
+        "needs_review": false
+      },
+      "100": {
+        "tts": "Tritt entwaffnet den Feind. Ein folgender Schlag bricht ihm das Genick und ein anschließender Flip schleudert den Feind fünf Fuß in jede gewünschte Richtung. Der Feind stirbt.",
+        "visual": "Feind entwaffnet. Genickbruch. Feind stirbt. Feind 5ft schleudern.",
+        "needs_review": false
+      },
+      "1-5": {
+        "tts": "Glancing Strike lässt den Feind dich ein wenig mehr respektieren. Plus fünf Treffer.",
+        "visual": "+5T.",
+        "needs_review": false
+      },
+      "6-10": {
+        "tts": "Plus vier Treffer.",
+        "visual": "+4T.",
+        "needs_review": false
+      },
+      "11-15": {
+        "tts": "Moderater Schlag betäubt den Feind für eine Runde. Plus sieben Treffer.",
+        "visual": "+7T. 1 Rd ben.",
+        "needs_review": false
+      },
+      "16-20": {
+        "tts": "Seitenhieb knackt die Rippen des Feindes und betäubt ihn für eine Runde. Plus fünf Treffer. Der Feind ist bei Minus zehn.",
+        "visual": "+5T. 1 Rd ben. -10.",
+        "needs_review": false
+      },
+      "21-35": {
+        "tts": "Feiner Seitenhieb knackt drei Rippen. Der Feind ist bei Minus zwanzig. Plus sechs Treffer.",
+        "visual": "+6T. -20.",
+        "needs_review": false
+      },
+      "36-45": {
+        "tts": "Rückwärtsschlag betäubt den Feind eine Runde lang. Du hast eine klare Sicht auf den Rücken des Feindes für die nächste Runde.",
+        "visual": "1 Rd ben. Nächste Rd klare Sicht auf Feindrücken.",
+        "needs_review": false
+      },
+      "46-50": {
+        "tts": "Brustschlag. Der Feind ist zwei Runden lang benommen und kann eine Runde lang nicht parieren. Plus fünf Treffer.",
+        "visual": "+5T. 2 Rd ben. 1 Rd oPar.",
+        "needs_review": false
+      },
+      "51-55": {
+        "tts": "Hüftstoß lässt den Feind herumwirbeln. Plus fünf Treffer. Der Feind ist drei Runden lang benommen.",
+        "visual": "+5T. 3 Rd ben.",
+        "needs_review": false
+      },
+      "56-60": {
+        "tts": "Brustschlag. Der Feind ist zwei Runden lang benommen, kann in der nächsten Runde nicht parieren und agiert bei Minus zehn.",
+        "visual": "2 Rd ben. Nächste Rd oPar. -10.",
+        "needs_review": false
+      },
+      "61-65": {
+        "tts": "Unterarm-Schlag entwaffnet den Feind sauber. Plus drei Treffer.",
+        "visual": "+3T. Feind entwaffnet.",
+        "needs_review": false
+      },
+      "67-70": {
+        "tts": "Ellbogen zum Solarplexus und Faustschlag ins Gesicht werfen den Feind nieder. Der Feind ist drei Runden lang benommen und kann zwei Runden lang nicht parieren.",
+        "visual": "Feind niedergeschlagen. 3 Rd ben. 2 Rd oPar.",
+        "needs_review": false
+      },
+      "71-75": {
+        "tts": "Fersenstoß bricht Knochen im Fuß des Feindes. Der Feind ist bei Minus fünfzig. Plus fünf Treffer. Narr für drei Runden benommen.",
+        "visual": "+5T. -50. 3 Rd ben.",
+        "needs_review": false
+      },
+      "76-80": {
+        "tts": "Frontkick zum Mittelteil krümmt den Feind. Du folgst mit einem Kniestoß, der dem Feind die Nase bricht und ihn bewusstlos schlägt.",
+        "visual": "Feind K.O.",
+        "needs_review": false
+      },
+      "81-85": {
+        "tts": "Stoß zum Knie zerschmettert das Gelenk. Der Feind fällt und ist benommen und kann sechs Runden lang nicht parieren. Der Feind ist bei Minus achtzig. Plus sechs Treffer.",
+        "visual": "Gegner fällt. 6 Rd benoPar. -80. +6T.",
+        "needs_review": false
+      },
+      "86-90": {
+        "tts": "Roundhouse-Kick trifft die Niere des Feindes und wirft ihn nieder. Dein folgender Messerhand-Schlag bricht dem Feind das Genick. Er ist bewusstlos und stirbt in neun Runden.",
+        "visual": "Gegner nieder. K.O. Tod in 9 Rd.",
+        "needs_review": false
+      },
+      "91-95": {
+        "tts": "Stoß zum Magen zerstört eine Vielzahl von Organen. Der Feind fällt hilflos hin und stirbt in zwölf Runden. Addiere plus zehn zu deiner nächsten Runde.",
+        "visual": "Gegner fällt hilflos. Tod in 12 Rd. +10 auf nächste Runde.",
+        "needs_review": false
+      },
+      "96-99": {
+        "tts": "Doppelter Handflächenschlag zur Nase des Feindes bricht Knorpel und treibt Knochen ins Gehirn. Der Feind fällt hilflos hin und stirbt in sechs Runden.",
+        "visual": "Gegner fällt hilflos. Tod in 6 Rd.",
+        "needs_review": false
+      }
+    }
+  },
+  "Englisch_Kritische_Treffertabelle_Kampfkuenste_Schlag": {
+    "audioFile": "stich.mp3",
+    "A": {},
+    "B": {
+      "66": {
+        "tts": "Tritt gegen den Kopf des Feindes. Verstaucht den Nacken und bricht den Kiefer. Der Feind ist neun Runden lang benommen, operiert mit Minus fünfzig.",
+        "visual": "+9T. 9 Rd ben. -50 auf alle Aktionen.",
+        "needs_review": false
+      },
+      "100": {
+        "tts": "Messerhand-Schlag gegen den Waffenarm des Feindes bricht den Knochen. Tritt gegen den unteren Rücken bricht das Rückgrat und lässt den Feind von der Taille abwärts gelähmt zurück.",
+        "visual": "Waffenarm gebrochen. Rückgrat gebrochen. Von Taille abwärts gelähmt.",
+        "needs_review": false
+      },
+      "1-5": {
+        "tts": "Feine Kunstfertigkeit, aber kein zusätzlicher Schaden.",
+        "visual": "Kein zusätzlicher Schaden.",
+        "needs_review": false
+      },
+      "6-10": {
+        "tts": "Plus zwei Treffer.",
+        "visual": "+2T.",
+        "needs_review": false
+      },
+      "11-15": {
+        "tts": "Milder Schlag. Du erhältst die Initiative in der nächsten Runde. Plus vier Treffer.",
+        "visual": "+4T. Initiative nächste Runde.",
+        "needs_review": false
+      },
+      "16-20": {
+        "tts": "Seitenangriff. Der Feind verliert die Initiative für die nächsten zwei Runden. Plus fünf Treffer.",
+        "visual": "+5T. Gegner verliert Initiative 2 Rd.",
+        "needs_review": false
+      },
+      "21-35": {
+        "tts": "Starker, aber schlecht gezielter Schlag zwingt den Feind, in der nächsten Runde zu parieren. Plus sechs Treffer.",
+        "visual": "+6T. Gegner muss nächste Rd parieren.",
+        "needs_review": false
+      },
+      "36-45": {
+        "tts": "Brusttreffer. Der Feind muss in der nächsten Runde mit Minus zwanzig parieren. Plus sieben Treffer.",
+        "visual": "+7T. Gegner muss nächste Rd mit -20 parieren.",
+        "needs_review": false
+      },
+      "46-50": {
+        "tts": "Streifender Tritt gegen den Rücken des Feindes. Der Feind ist eine Runde lang benommen. Plus fünf Treffer.",
+        "visual": "+5T. 1 Rd ben.",
+        "needs_review": false
+      },
+      "51-55": {
+        "tts": "Schlag gegen die Brust des Feindes. Benommen für eine Runde. Plus sechs Treffer.",
+        "visual": "+6T. 1 Rd ben.",
+        "needs_review": false
+      },
+      "56-60": {
+        "tts": "Rückenschlag. Der Feind ist zwei Runden lang benommen. Plus drei Treffer.",
+        "visual": "+3T. 2 Rd ben.",
+        "needs_review": false
+      },
+      "61-65": {
+        "tts": "Schlag gegen den unteren Rücken des Feindes. Der Feind ist zwei Runden lang benommen. Plus sieben Treffer.",
+        "visual": "+7T. 2 Rd ben.",
+        "needs_review": false
+      },
+      "67-70": {
+        "tts": "Speerhand gegen die Brust des Feindes. Der Feind ist drei Runden lang benommen.",
+        "visual": "3 Rd ben.",
+        "needs_review": false
+      },
+      "71-75": {
+        "tts": "Schlag gegen den Waffenarm des Feindes. Tiefer Bluterguss. Der Feind operiert mit Minus zwanzig. Plus sechs Treffer. Der Feind ist zwei Runden lang benommen.",
+        "visual": "+6T. 2 Rd ben. -20 auf alle Aktionen.",
+        "needs_review": false
+      },
+      "76-80": {
+        "tts": "Schlag gegen die Kniekehle des Feindes. Beschädigt Sehnen. Der Feind ist zwei Runden lang benommen und operiert mit Minus fünfundzwanzig.",
+        "visual": "2 Rd ben. -25 auf alle Aktionen.",
+        "needs_review": false
+      },
+      "81-85": {
+        "tts": "Tritt Feindes Waffe fünf Fuß weit weg und bricht zwei Finger. Der Feind ist zwei Runden lang benommen und kämpft mit Minus zwanzig.",
+        "visual": "Waffe 5 ft weggetreten. 2 Finger gebrochen. 2 Rd ben. -20 Kampf.",
+        "needs_review": false
+      },
+      "86-90": {
+        "tts": "Radtritt schlägt den Feind zu Boden. Zerschmettert Sehnen und zerreißt Muskeln. Der Feind ist auf Minus dreißig. Er ist auch neun Runden lang benommen.",
+        "visual": "Feind zu Boden geschlagen. Sehnen/Muskeln zerrissen. -30. 9 Rd ben.",
+        "needs_review": false
+      },
+      "91-95": {
+        "tts": "Tritt gegen das Knie des Feindes, zertrümmert das Gelenk. Der Feind fällt, ist auf Minus fünfundachtzig. Er ist benommen und unfähig, vier Runden lang zu parieren.",
+        "visual": "Knie zertrümmert. Feind fällt. -85. 4 Rd benoPar.",
+        "needs_review": false
+      },
+      "96-99": {
+        "tts": "Roundhouse-Kick schlägt den Feind bewusstlos und bricht das Schlüsselbein. Der Feind hat einen verstauchten Nacken und eine Schulter.",
+        "visual": "K.O. Schlüsselbein gebrochen. Nacken verstaucht. Schulter verstaucht.",
+        "needs_review": false
+      }
+    },
+    "C": {},
+    "D": {},
+    "E": {}
+  },
+  "Englisch_Kritische_Treffertabelle:_Kampfsport-schlaege": {
+    "audioFile": "stich.mp3",
+    "A": {},
+    "B": {},
+    "C": {},
+    "D": {
+      "66": {
+        "tts": "Hervorragender Zug. Die Waffe des Gegners bricht. Der Gegner ist für drei Runden benommen. Addiere Plus zwanzig auf den nächsten Wurf.",
+        "visual": "Waffe bricht. 3 Rd ben. +20 auf nächsten Wurf.",
+        "needs_review": false
+      },
+      "100": {
+        "tts": "Fantastischer Speerhand-Schlag findet eine Naht, dringt in den Solarplexus ein und zerreißt das Herz. Der Gegner stirbt sofort.",
+        "visual": "Gegner stirbt sofort.",
+        "needs_review": false
+      },
+      "1-5": {
+        "tts": "Plus zwei Treffer.",
+        "visual": "+2T.",
+        "needs_review": false
+      },
+      "6-10": {
+        "tts": "Plus drei Treffer.",
+        "visual": "+3T.",
+        "needs_review": false
+      },
+      "11-15": {
+        "tts": "Du hast die Initiative in der nächsten Runde. Plus sieben Treffer.",
+        "visual": "Initiative nächste Rd. +7T.",
+        "needs_review": false
+      },
+      "16-20": {
+        "tts": "Seitenhieb zwingt den Gegner, in der nächsten Runde zu parieren. Minus zehn in der nächsten Runde. Plus acht Treffer.",
+        "visual": "Gegner muss nächste Rd parieren. -10 nächste Rd. +8T.",
+        "needs_review": false
+      },
+      "21-35": {
+        "tts": "Seitenhieb. Der Gegner ist in der nächsten Runde benommen und verliert die Initiative für drei Runden. Plus zwei Treffer.",
+        "visual": "Gegner nächste Rd ben. Initiative verloren für 3 Rd. +2T.",
+        "needs_review": false
+      },
+      "36-45": {
+        "tts": "Brusttreffer. Der Gegner ist benommen und kann in der nächsten Runde nicht parieren. Plus fünf Treffer.",
+        "visual": "Gegner ben. Nächste Rd oPar. +5T.",
+        "needs_review": false
+      },
+      "46-50": {
+        "tts": "Brusttreffer. Der Gegner ist benommen und kann in der nächsten Runde nicht parieren. Minus zehn in der nächsten Runde. Plus drei Treffer.",
+        "visual": "Gegner ben. Nächste Rd oPar. -10 nächste Rd. +3T.",
+        "needs_review": false
+      },
+      "51-55": {
+        "tts": "Schlag auf die obere Wade verursacht tiefe Prellungen. Der Gegner agiert bei Minus fünfundzwanzig. Plus sechs Treffer.",
+        "visual": "Gegner agiert bei -25. +6T.",
+        "needs_review": false
+      },
+      "56-60": {
+        "tts": "Rückwärtsschlag. Der Gegner ist für drei Runden benommen. Plus vier Treffer.",
+        "visual": "3 Rd ben. +4T.",
+        "needs_review": false
+      },
+      "61-65": {
+        "tts": "Schlag auf den Nerv im oberen Bein. Der Gegner ist für zwei Runden benommen und agiert für sechs Runden bei Minus fünfundzwanzig.",
+        "visual": "2 Rd ben. Agiert 6 Rd bei -25.",
+        "needs_review": false
+      },
+      "67-70": {
+        "tts": "Schlag auf den Spann des Gegners. Der Gegner ist für zwei Runden benommen und kann nicht parieren.",
+        "visual": "2 Rd benoPar.",
+        "needs_review": false
+      },
+      "71-75": {
+        "tts": "Messerhand-Schlag bricht das Schlüsselbein des Gegners. Der Gegner ist für zwei Runden benommen und kann nicht parieren, agiert bei Minus fünfundzwanzig.",
+        "visual": "2 Rd benoPar. Agiert bei -25.",
+        "needs_review": false
+      },
+      "76-80": {
+        "tts": "Schlag auf den Bereich hinter dem Knie des Gegners. Sehnen- und Knorpelschaden. Der Gegner agiert bei Minus fünfundsiebzig.",
+        "visual": "Gegner agiert bei -75.",
+        "needs_review": false
+      },
+      "81-85": {
+        "tts": "Tritt bricht das Bein des Gegners. Der Gegner ist für zwei Runden benommen und kann nicht parieren und agiert für fünfundsiebzig Runden bei Minus fünfundsiebzig. Plus fünf Treffer.",
+        "visual": "+5T. 2 Rd benoPar. -75 auf Aktionen für 75 Rd.",
+        "needs_review": false
+      },
+      "86-90": {
+        "tts": "Schlag mit offener Hand auf den Kehlkopf des Gegners (Hals) zerquetscht die Luftröhre. Der Gegner stirbt in achtzehn Runden an Schock und Ersticken.",
+        "visual": "Gegner stirbt in 18 Rd an Schock/Ersticken.",
+        "needs_review": false
+      },
+      "91-95": {
+        "tts": "Stoß auf die Augen des Gegners blendet ihn. Halbmondtritt schleudert den Gegner zehn Fuß nach rechts oder links. Der Gegner ist bei einhundert. Er ist für zehn Runden benommen.",
+        "visual": "Gegner ist geblendet. Gegner 10 Fuß weggeschleudert. Gegner 100. 10 Rd ben.",
+        "needs_review": false
+      },
+      "96-99": {
+        "tts": "Brutaler Kopftritt wirft den Gegner auf den Kopf. Schädelbruch ist geringfügig, aber die Gehirnerschütterung ist schwer. Der Gegner stirbt innerhalb von neun Runden an Hirnblutungen.",
+        "visual": "Gegner stirbt in 9 Rd an Hirnblutungen.",
+        "needs_review": false
+      }
+    },
+    "E": {}
+  },
+  "Englisch_Kritische_Treffer_–_Greifen": {
+    "audioFile": "stich.mp3",
+    "A": {
+      "66": {
+        "tts": "Griff um den Waffenarm entwaffnet den Feind. Plus zwei Treffer. Der Feind ist benommen für zwei Runden.",
+        "visual": "Waffe fallengelassen. +2T. 2 Rd ben.",
+        "needs_review": false
+      },
+      "100": {
+        "tts": "Beide Beine des Feindes sind verwickelt. Der Feind wird zu Boden geworfen und ist bewusstlos. Plus neun Treffer. Addiere Plus zwanzig auf deinen nächsten Wurf.",
+        "visual": "Niedergeschlagen. K.O. +9T. +20 auf nächsten Wurf.",
+        "needs_review": false
+      },
+      "1-5": {
+        "tts": "Schwacher Griff. Keine Boni. Plus null Treffer.",
+        "visual": "oBoni. +0T.",
+        "needs_review": false
+      },
+      "6-10": {
+        "tts": "Plus eins Treffer.",
+        "visual": "+1T.",
+        "needs_review": false
+      },
+      "11-15": {
+        "tts": "Streifender Angriff. Kein zusätzlicher Schaden, aber du hast die Initiative in der nächsten Runde. Plus zwei Treffer. Übung.",
+        "visual": "Initiative nächste Rd. +2T.",
+        "needs_review": false
+      },
+      "16-20": {
+        "tts": "Der Feind ist frei, aber du hast die Initiative in der nächsten Runde. Plus drei Treffer.",
+        "visual": "Initiative nächste Rd. +3T.",
+        "needs_review": false
+      },
+      "21-35": {
+        "tts": "Streifender Hüfttreffer. Du hast die Initiative in der nächsten Runde. Plus fünf Treffer.",
+        "visual": "Initiative nächste Rd. +5T.",
+        "needs_review": false
+      },
+      "36-45": {
+        "tts": "Schlag auf den unteren Rücken. Der Feind muss in der nächsten Runde parieren.",
+        "visual": "Feind muss in nächster Rd parieren.",
+        "needs_review": false
+      },
+      "46-50": {
+        "tts": "Vorbeiziehender Hüfttreffer. Der Feind muss in der nächsten Runde bei Minus zwanzig parieren.",
+        "visual": "Feind muss in nächster Rd -20 parieren.",
+        "needs_review": false
+      },
+      "51-55": {
+        "tts": "Leichtes, aus dem Gleichgewicht bringendes Schlag auf die Brust. Der Feind muss in der nächsten Runde parieren. Du hast die Initiative für zwei Runden.",
+        "visual": "Feind muss in nächster Rd parieren. Initiative 2 Rd.",
+        "needs_review": false
+      },
+      "56-60": {
+        "tts": "Streifender Rückenschlag. Der Feind muss in der nächsten Runde bei Minus fünfundzwanzig parieren. Du hast die Initiative für zwei Runden.",
+        "visual": "Feind muss in nächster Rd -25 parieren. Initiative 2 Rd.",
+        "needs_review": false
+      },
+      "61-65": {
+        "tts": "Schlag auf die Schulter. Der Feind ist benommen für eine Runde. Plus drei Treffer.",
+        "visual": "1 Rd ben. +3T.",
+        "needs_review": false
+      },
+      "67-70": {
+        "tts": "Vorbeiziehender Brusttreffer. Der Feind entzieht sich der Umklammerung, muss aber die nächsten zwei Runden bei Minus zwanzig parieren.",
+        "visual": "Feind muss nächste 2 Rd -20 parieren.",
+        "needs_review": false
+      },
+      "71-75": {
+        "tts": "Der Angriff führt zu einem unsicheren Halt um den Rumpf des Feindes. Der Feind ist für zwei Runden bei Minus fünfzig. Plus fünf Treffer.",
+        "visual": "Feind 2 Rd -50. +5T.",
+        "needs_review": false
+      },
+      "76-80": {
+        "tts": "Unsicherer Halt am Rumpf des Feindes. Für die nächsten drei Runden ist der Feind bei Minus fünfzig und du hast die Initiative.",
+        "visual": "Feind 3 Rd -50. Initiative 3 Rd.",
+        "needs_review": false
+      },
+      "81-85": {
+        "tts": "Greif den Feind am Bein. Der Feind befreit sich, ist aber benommen für zwei Runden. Plus drei Treffer. Du hast die Initiative für sechs Runden.",
+        "visual": "+3T. 2 Rd ben. Initiative 6 Rd.",
+        "needs_review": false
+      },
+      "86-90": {
+        "tts": "Angriff auf den Schildarm des Feindes. Wenn der Feind einen Schild hat, muss er in der nächsten Runde parieren. Wenn nicht, ist der Arm immobilisiert und der Feind ist bei Minus fünfzig.",
+        "visual": "Schild: nächste Rd parieren. Kein Schild: Arm immobilisiert. -50.",
+        "needs_review": false
+      },
+      "91-95": {
+        "tts": "Verheddere das Bein des Feindes. Der Feind wird zu Boden geworfen, ist benommen und kann für zwei Runden nicht parieren. Plus drei Treffer.",
+        "visual": "Zu Boden geworfen. 2 Rd benoPar. +3T.",
+        "needs_review": false
+      },
+      "96-99": {
+        "tts": "Fessel den Feind komplett. Der Feind ist für zwölf Runden vollständig immobilisiert und für die nächsten drei Runden bei Minus sechzig. Plus sieben Treffer.",
+        "visual": "12 Rd immobilisiert. 3 Rd -60. +7T.",
+        "needs_review": false
+      }
+    },
+    "B": {},
+    "C": {},
+    "D": {},
+    "E": {}
+  },
+  "Englisch_Ringkampf_Kritische_Treffertabelle": {
+    "audioFile": "stich.mp3",
+    "A": {},
+    "B": {
+      "66": {
+        "tts": "Griff um den Waffenarm des Gegners entwaffnet ihn und verstaucht sein Handgelenk. Der Gegner ist für zwei Runden benommen und kämpft bei Minus fünfundzwanzig.",
+        "visual": "Gegner entwaffnet. Handgelenk verstaucht. 2 Rd ben. -25 auf Aktionen.",
+        "needs_review": false
+      },
+      "100": {
+        "tts": "Angriff führt zu einem bösen Griff um den Hals des Gegners. Der Gegner wird bewusstlos geschlagen. Ein verstauchter Nacken lässt den Gegner bei Minus neunzig zurück.",
+        "visual": "Gegner bewusstlos. Nacken verstaucht. -90 auf Aktionen.",
+        "needs_review": false
+      },
+      "1-5": {
+        "tts": "Unentschlossenheit. Eine verpasste Gelegenheit. Plus ein Treffer.",
+        "visual": "+1T.",
+        "needs_review": false
+      },
+      "6-10": {
+        "tts": "Plus zwei Treffer.",
+        "visual": "+2T.",
+        "needs_review": false
+      },
+      "11-15": {
+        "tts": "Vorbeistreifender Treffer. Du hast die Initiative in der nächsten Runde. Plus zwei Treffer.",
+        "visual": "+2T. Initiative nächste Rd.",
+        "needs_review": false
+      },
+      "16-20": {
+        "tts": "Der Gegner wehrt den Angriff ab, muss aber eine Runde lang parieren. Plus zwei Treffer.",
+        "visual": "+2T. Gegner 1 Rd parieren.",
+        "needs_review": false
+      },
+      "21-35": {
+        "tts": "Angriff hat Schlagkraft, aber nichts weiter. Der Gegner muss in der nächsten Runde bei Minus zwanzig parieren.",
+        "visual": "Gegner nächste Rd -20 parieren.",
+        "needs_review": false
+      },
+      "36-45": {
+        "tts": "Ungleichgewicht Gegner. Plus vier Treffer. Der Gegner muss in der nächsten Runde parieren. Du hast die Initiative für zwei Runden.",
+        "visual": "+4T. Gegner nächste Rd parieren. Initiative 2 Rd.",
+        "needs_review": false
+      },
+      "46-50": {
+        "tts": "Schlag auf die Brust betäubt den Gegner für eine Runde. Plus fünf Treffer.",
+        "visual": "+5T. Gegner 1 Rd ben.",
+        "needs_review": false
+      },
+      "51-55": {
+        "tts": "Schlag auf den Rücken betäubt den Gegner für eine Runde. Plus sieben Treffer.",
+        "visual": "+7T. Gegner 1 Rd ben.",
+        "needs_review": false
+      },
+      "56-60": {
+        "tts": "Aus dem Gleichgewicht bringender Schlag. Der Gegner befreit sich, ist aber eine Runde lang benommen. Muss die folgende Runde parieren.",
+        "visual": "Gegner 1 Rd ben. Nächste Rd parieren.",
+        "needs_review": false
+      },
+      "61-65": {
+        "tts": "Schlitternder Griff um die Taille des Gegners ist schwach. Der Gegner ist für zwei Runden benommen.",
+        "visual": "Gegner 2 Rd ben.",
+        "needs_review": false
+      },
+      "67-70": {
+        "tts": "Bein des Gegners verstricken. Plus vier Treffer. Der Gegner ist benommen und kann eine Runde lang nicht parieren.",
+        "visual": "+4T. Gegner 1 Rd benoPar.",
+        "needs_review": false
+      },
+      "71-75": {
+        "tts": "Angriff führt zu schwachem Griff um die untere Brust des Gegners. Der Gegner ist für drei Runden bei Minus fünfzig. Plus vier Treffer.",
+        "visual": "+4T. Gegner 3 Rd -50.",
+        "needs_review": false
+      },
+      "76-80": {
+        "tts": "Entwirrt den Schildarm. Wenn der Gegner einen Schild hat, ist er bei Minus dreißig, bis er ihn fallen lässt. Wenn nicht, ist er bei Minus vierzig.",
+        "visual": "Gegner mit Schild: -30 bis fallen gelassen. Ohne Schild: -40.",
+        "needs_review": false
+      },
+      "81-85": {
+        "tts": "Unsicherer Griff um die Körpermitte des Gegners. Für die nächsten sechs Runden ist der Gegner bei Minus fünfzig und du hast die Initiative.",
+        "visual": "6 Rd -50. Du hast Initiative.",
+        "needs_review": false
+      },
+      "86-90": {
+        "tts": "Bein des Gegners verstricken. Der Gegner wird niedergeschlagen und ist für zwei Runden benommen und kann nicht parieren. Ein gezerrter Muskel lässt den Gegner bei Minus zehn zurück.",
+        "visual": "Niedergeschlagen. 2 Rd benoPar. -10.",
+        "needs_review": false
+      },
+      "91-95": {
+        "tts": "Beide Beine des Gegners sind gefesselt. Der Gegner ist bei Minus fünfundzwanzig, niedergeschlagen, entwaffnet und benommen und kann zwei Runden lang nicht parieren.",
+        "visual": "-25. Niedergeschlagen. Entwaffnet. 2 Rd benoPar.",
+        "needs_review": false
+      },
+      "96-99": {
+        "tts": "Der Angriff verstrickt den Gegner vollständig. Der Gegner wird für zwei Runden benommen und kann nicht parieren, und ist bei Minus fünfzig, während er blutet.",
+        "visual": "2 Rd benoPar. -50. Blutend.",
+        "needs_review": false
+      }
+    },
+    "C": {
+      "66": {
+        "tts": "Griff um beide Beine des Feindes. Der Feind rutscht weg, wird aber niedergeschlagen und ist für eine Runde anfällig. Plus fünf Treffer.",
+        "visual": "Niedergeschlagen. 1 Rd ben. +5T.",
+        "needs_review": false
+      },
+      "100": {
+        "tts": "Den Hals des Feindes packen. Falls der Feind Halspanzerung trägt, ist er bei Minus fünfundsiebzig aufgrund einer Nackenverstauchung und für drei Runden benommen. Andernfalls stirbt er an einem gebrochenen Genick.",
+        "visual": "Falls Halspanzerung: -75. 3 Rd ben. Andernfalls: stirbt.",
+        "needs_review": false
+      },
+      "1-5": {
+        "tts": "Plus eins Treffer.",
+        "visual": "+1T.",
+        "needs_review": false
+      },
+      "6-10": {
+        "tts": "Plus drei Treffer.",
+        "visual": "+3T.",
+        "needs_review": false
+      },
+      "11-15": {
+        "tts": "Streifender Seitenangriff. Du erhältst die Initiative in der nächsten Runde. Plus vier Treffer.",
+        "visual": "Initiative nächste Rd. +4T.",
+        "needs_review": false
+      },
+      "16-20": {
+        "tts": "Der Feind erholt sich, muss aber in der nächsten Runde parieren. Plus vier Treffer.",
+        "visual": "Nächste Rd parieren. +4T.",
+        "needs_review": false
+      },
+      "21-35": {
+        "tts": "Streifender Angriff. Der Feind ist in einer Runde benommen. Plus zwei Treffer.",
+        "visual": "1 Rd ben. +2T.",
+        "needs_review": false
+      },
+      "36-45": {
+        "tts": "Schlagender Angriff. Der Feind ist in einer Runde benommen und muss in der folgenden Runde parieren.",
+        "visual": "1 Rd ben. Nächste Rd parieren.",
+        "needs_review": false
+      },
+      "46-50": {
+        "tts": "Dein Angriff führt zu einem schwachen Griff um die Taille des Feindes. Der Feind ist für drei Runden bei Minus fünfundzwanzig.",
+        "visual": "3 Rd -25.",
+        "needs_review": false
+      },
+      "51-55": {
+        "tts": "Angriff führt zu einem rutschigen Griff um das Bein des Feindes. Der Feind ist benommen und kann in einer Runde nicht parieren.",
+        "visual": "1 Rd benoPar.",
+        "needs_review": false
+      },
+      "56-60": {
+        "tts": "Der Feind befreit sich aus dem Griff um den Oberschenkel, ist aber benommen und kann in einer Runde nicht parieren. Plus drei Treffer.",
+        "visual": "1 Rd benoPar. +3T.",
+        "needs_review": false
+      },
+      "61-65": {
+        "tts": "Griff um die Brust des Feindes. Der Feind ist für drei Runden bei Minus fünfzig. Plus drei Treffer.",
+        "visual": "3 Rd -50. +3T.",
+        "needs_review": false
+      },
+      "67-70": {
+        "tts": "Waffenarm verwickeln. Falls der Feind einen Schild besitzt, ist er bei Minus fünfzig, bis er ihn fallen lässt. Andernfalls ist der Feind bei Minus fünfzig.",
+        "visual": "Falls Schild: -50 bis fallen gelassen. Andernfalls: -50.",
+        "needs_review": false
+      },
+      "71-75": {
+        "tts": "Angriff führt zu einem lockeren Griff um die Körpermitte des Feindes. Der Feind ist für zwei Runden benommen und für die nächsten drei Runden bei Minus fünfzig.",
+        "visual": "2 Rd ben. 3 Rd -50.",
+        "needs_review": false
+      },
+      "76-80": {
+        "tts": "Waffenarm verwickeln. Der Feind ist benommen und kann für zwei Runden nicht parieren und ist in der folgenden Runde bei Minus fünfundzwanzig.",
+        "visual": "2 Rd benoPar. Nächste Rd -25.",
+        "needs_review": false
+      },
+      "81-85": {
+        "tts": "Griff um die Brust des Feindes bricht eine Rippe und lässt den Feind benommen und unfähig zurück, für drei Runden zu parieren. Der Feind kämpft bei Minus fünf.",
+        "visual": "3 Rd benoPar. -5 auf Kampf.",
+        "needs_review": false
+      },
+      "86-90": {
+        "tts": "Fuß des Feindes verwickeln. Der Feind stolpert, fällt und bricht die Schulter. Plus acht Treffer. Der Feind ist für sechs Runden benommen und kämpft bei Minus dreißig.",
+        "visual": "+8T. 6 Rd ben. -30 auf Kampf.",
+        "needs_review": false
+      },
+      "91-95": {
+        "tts": "Beide Arme des Feindes an die Brust fixieren. Der Feind ist benommen und kann für vierundvierzig Runden nicht parieren, kämpft dann bei Minus fünfundneunzig.",
+        "visual": "44 Rd benoPar. -95 auf Kampf.",
+        "needs_review": false
+      },
+      "96-99": {
+        "tts": "Beine des Feindes verwickeln und vollständig immobilisieren. Der Feind fällt, wird entwaffnet, bricht den Waffenarm und wird bewusstlos geschlagen. Plus zwanzig Treffer.",
+        "visual": "immobilisiert. entwaffnet. K.O. +20T.",
+        "needs_review": false
+      }
+    },
+    "D": {},
+    "E": {}
+  },
+  "Englisch_Ringkampf_Kritische_Treffer": {
+    "audioFile": "stich.mp3",
+    "A": {},
+    "B": {},
+    "C": {},
+    "D": {
+      "66": {
+        "tts": "Griff um das Bein des Gegners wirft ihn zu Boden. Fester Griff. Der Gegner ist auf dem Boden und für zwei Runden unbeweglich. Plus sechs Treffer.",
+        "visual": "Gegner auf Boden, 2 Rd unbeweglich. +6T.",
+        "needs_review": false
+      },
+      "100": {
+        "tts": "Griff um den Kopf des Gegners. Wenn der Gegner einen Helm hat, ist er benommen und handlungsunfähig für neun Runden. Wenn nicht, fällt der Gegner aufgrund eines Bruchs ins Koma.",
+        "visual": "Mit Helm: 9 Rd ben, handlungsunfähig. Ohne Helm: Koma (Bruch).",
+        "needs_review": false
+      },
+      "1-5": {
+        "tts": "Plus zwei Treffer.",
+        "visual": "+2T.",
+        "needs_review": false
+      },
+      "6-10": {
+        "tts": "Plus vier Treffer.",
+        "visual": "+4T.",
+        "needs_review": false
+      },
+      "11-15": {
+        "tts": "Streifender Schlag. Der Gegner erhält Initiative in der nächsten Runde. Plus sechs Treffer.",
+        "visual": "+6T. Gegner Init in nächster Rd.",
+        "needs_review": false
+      },
+      "16-20": {
+        "tts": "Seitenhieb bringt den Gegner aus dem Gleichgewicht. Sie haben in den nächsten zwei Runden Initiative. Plus fünf Treffer.",
+        "visual": "+5T. Du Init in nächsten 2 Rd.",
+        "needs_review": false
+      },
+      "21-35": {
+        "tts": "Harter, aber fehlplatzierter Schlag. Der Gegner entgeht dem Griff, ist aber für eine Runde benommen. Plus drei Treffer.",
+        "visual": "+3T. Gegner 1 Rd ben.",
+        "needs_review": false
+      },
+      "36-45": {
+        "tts": "Schlag auf den Schildarm des Gegners. Wenn der Gegner einen Schild hat, plus drei Treffer. Wenn nicht, ist der Arm für sechs Runden gefangen und unbeweglich, und der Gegner ist für drei Runden benommen.",
+        "visual": "Schild: +3T. Kein Schild: Arm 6 Rd gefangen/unbeweglich, Gegner 3 Rd ben.",
+        "needs_review": false
+      },
+      "46-50": {
+        "tts": "Angriff führt zu schwachem Halt um die Brust des Gegners. Der Gegner ist für drei Runden bei Minus dreißig. Sie haben vier Runden Initiative.",
+        "visual": "Gegner 3 Rd -30. Du 4 Rd Init.",
+        "needs_review": false
+      },
+      "51-55": {
+        "tts": "Angriff führt zu abrutschendem Griff um die Taille des Gegners. Der Gegner ist für drei Runden bei Minus fünfzig.",
+        "visual": "Gegner 3 Rd -50.",
+        "needs_review": false
+      },
+      "56-60": {
+        "tts": "Angriff führt zu Halt am Bein. Der Griff rutscht ab, aber der Gegner ist für drei Runden benommen. Plus sechs Treffer.",
+        "visual": "+6T. Gegner 3 Rd ben.",
+        "needs_review": false
+      },
+      "61-65": {
+        "tts": "Griff um die Brust des Gegners. Der Gegner ist für eine Runde benommen und handlungsunfähig, und in den folgenden zwei Runden bei Minus zwanzig.",
+        "visual": "Gegner 1 Rd ben/handlungsunfähig, folgende 2 Rd -20.",
+        "needs_review": false
+      },
+      "67-70": {
+        "tts": "Bein verwickeln. Der Gegner ist für zwei Runden benommen und handlungsunfähig in der nächsten Runde. Plus sieben Treffer.",
+        "visual": "+7T. Gegner 2 Rd ben/handlungsunfähig in nächster Rd.",
+        "needs_review": false
+      },
+      "71-75": {
+        "tts": "Angriff führt zu lockerem Halt um die Körpermitte des Gegners. Der Gegner ist für eine Runde benommen und handlungsunfähig, und in den folgenden drei Runden bei Minus siebzig.",
+        "visual": "Gegner 1 Rd ben/handlungsunfähig, folgende 3 Rd -70.",
+        "needs_review": false
+      },
+      "76-80": {
+        "tts": "Waffenarm verwickeln. Der Gegner klammert sich an die Waffe, aber der Arm ist unbeweglich. Plus drei Treffer.",
+        "visual": "+3T. Waffenarm unbeweglich.",
+        "needs_review": false
+      },
+      "81-85": {
+        "tts": "Bein verwickeln. Der Gegner wird zu Boden geworfen, ist benommen, entwaffnet und kann für zwei Runden nicht parieren. Fall bricht den Schildarm.",
+        "visual": "Gegner zu Boden. Benommen. Entwaffnet. 2 Rd benoPar. Schildarm gebrochen.",
+        "needs_review": false
+      },
+      "86-90": {
+        "tts": "Beide Arme des Gegners zusammenbinden, sodass sie unbeweglich sind. Der Gegner ist für neun Runden benommen und kann nicht kämpfen. Plus sechs Treffer.",
+        "visual": "Beide Arme unbeweglich. 9 Rd ben. oKampf. +6T.",
+        "needs_review": false
+      },
+      "91-95": {
+        "tts": "Beine des Gegners vollständig verwickeln und unbeweglich machen. Der Gegner fällt und ist benommen und kann für dreißig Runden nicht parieren. Plus zehn Treffer.",
+        "visual": "Beine unbeweglich. Gegner fällt. Benommen. 30 Rd benoPar. +10T.",
+        "needs_review": false
+      },
+      "96-99": {
+        "tts": "Griff um den Nacken des Gegners. Wenn der Gegner Nackenpanzerung trägt, ist er entwaffnet und für drei Runden benommen und handlungsunfähig. Wenn nicht, stirbt er in sechs Runden.",
+        "visual": "Wenn Nackenpanzerung: Entwaffnet. 3 Rd ben. Handlungsunfähig. Wenn nicht: Stirbt in 6 Rd.",
+        "needs_review": false
+      }
+    },
+    "E": {}
+  },
+  "Englisch_Kritische_Treffertabelle_Ringen": {
+    "audioFile": "stich.mp3",
+    "A": {},
+    "B": {},
+    "C": {},
+    "D": {},
+    "E": {
+      "66": {
+        "tts": "Waffenarm verwickeln. Benommen und kann für zwei Runden nicht parieren und liegt die folgende Runde bei Minus fünfundsiebzig.",
+        "visual": "2 Rd benoPar. -75 nächste Rd.",
+        "needs_review": false
+      },
+      "100": {
+        "tts": "Die Luftröhre des Gegners wird zerquetscht. Der Gegner stirbt sofort an massivem Schock und barbarischem Ersticken. Addiere Plus fünfundzwanzig zu deinem nächsten Wurf.",
+        "visual": "Sofort tot. +25 auf nächsten Wurf.",
+        "needs_review": false
+      },
+      "1-5": {
+        "tts": "Plus drei Treffer. Leichter Angriff. Du hast die Initiative für die nächste Runde. Plus fünf Treffer.",
+        "visual": "+3T. Ini nächste Rd. +5T.",
+        "needs_review": false
+      },
+      "6-10": {
+        "tts": "Lahmer Angriff, aber der Gegner muss nächste Runde parieren. Plus sechs Treffer.",
+        "visual": "+6T. Gegner muss nächste Rd parieren.",
+        "needs_review": false
+      },
+      "11-15": {
+        "tts": "Starker, vorbeiziehender Schlag. Der Gegner ist für eine Runde benommen. Plus drei Treffer.",
+        "visual": "1 Rd ben. +3T.",
+        "needs_review": false
+      },
+      "16-20": {
+        "tts": "Unzusammenhängender Angriff und ein bisschen Glück ermöglichen dem Gegner, dem Griff zu entkommen. Der Gegner ist für eine Runde benommen. Du hast die Initiative für zwei Runden.",
+        "visual": "1 Rd ben. Ini 2 Rd.",
+        "needs_review": false
+      },
+      "21-35": {
+        "tts": "Angriff auf das obere Bein. Der Gegner wird herumgewirbelt und reißt sich los, ist aber benommen und kann für eine Runde nicht parieren.",
+        "visual": "1 Rd benoPar.",
+        "needs_review": false
+      },
+      "36-45": {
+        "tts": "Der Angriff führt zu einem Griff um das Bein des Gegners. Der Gegner rutscht weg, ist aber für zwei Runden benommen und kann für die nächste Runde nicht parieren.",
+        "visual": "2 Rd benoPar.",
+        "needs_review": false
+      },
+      "46-50": {
+        "tts": "Der Gegner befreit sich aus dem Griff um den Schildarm. Der Gegner ist für zwei Runden benommen und kann für die nächste Runde nicht parieren. Plus fünf Treffer.",
+        "visual": "2 Rd benoPar. +5T.",
+        "needs_review": false
+      },
+      "51-55": {
+        "tts": "Griff um das Bein des Gegners. Der Gegner ist für eine Runde benommen und kann für eine Runde nicht parieren und liegt die nächsten drei Runden bei Minus fünfundzwanzig.",
+        "visual": "1 Rd benoPar. -25 für 3 Rd.",
+        "needs_review": false
+      },
+      "56-60": {
+        "tts": "Angriff auf den Schildarm des Gegners. Falls der Gegner einen Schild hat, Plus sechs Treffer. Falls nicht, ist er für drei Runden benommen und kann nicht parieren. Plus sieben Treffer.",
+        "visual": "Schild: +6T. Kein Schild: 3 Rd benoPar. +7T.",
+        "needs_review": false
+      },
+      "61-65": {
+        "tts": "Griff um den Hals des Gegners und zu Boden werfen. Der Gegner hat zerrissene Nackenmuskeln, ist bei Minus zwanzig. Der Gegner ist anfällig und für drei Runden immobilisiert.",
+        "visual": "-20. 3 Rd immobilisiert.",
+        "needs_review": false
+      },
+      "67-70": {
+        "tts": "Bein des Gegners verwickeln. Der Gegner wird zu Boden geworfen und ist für zwei Runden benommen und kann nicht parieren. Plus neun Treffer.",
+        "visual": "2 Rd benoPar. +9T.",
+        "needs_review": false
+      },
+      "71-75": {
+        "tts": "Waffenarm ringen. Der Gegner wird entwaffnet und ist für drei Runden benommen. Zerrissene Bänder und gezerrte Muskeln führen zu Minus vierzig für den Gegner.",
+        "visual": "Entwaffnet. 3 Rd ben. -40.",
+        "needs_review": false
+      },
+      "76-80": {
+        "tts": "Beide Arme des Gegners verwickeln und an seine Brust drücken. Der Gegner kann seine Arme nicht bewegen und seine Mobilität ist um Minus fünfundsiebzig reduziert.",
+        "visual": "Arme unbeweglich. -75 Mobilität.",
+        "needs_review": false
+      },
+      "81-85": {
+        "tts": "Fuß des Gegners verwickeln. Der Gegner stolpert, fällt, bricht seine Waffe beim Aufprall und ist für zwei Runden benommen. Falls keine Brustpanzerung vorhanden ist, wirf auf die \"D\"-Zertrümmerungs-Kritik-Tabelle.",
+        "visual": "Gegner fällt. Waffe zerbricht. 2 Rd ben. Falls o. Brustpanzerung: wirf auf \"D\"-Zertrümmerungs-Krit-Tabelle.",
+        "needs_review": false
+      },
+      "86-90": {
+        "tts": "Beide Beine des Gegners einwickeln. Der Gegner fällt zu Boden und ist bewusstlos. Der Gegner liegt bei Minus fünfundneunzig aufgrund von zwei gebrochenen Armen und einem gebrochenen Knöchel. Plus zwanzig Treffer.",
+        "visual": "Gegner fällt K.O. -95 (2x Arm gebrochen, Knöchel gebrochen). +20T.",
+        "needs_review": false
+      },
+      "91-95": {
+        "tts": "Der Angriff führt zu einem Würgegriff. Der Gegner kann sich nicht befreien und stirbt nach neun Runden erstaunlich hilflosen Kampfes. Grauenvoll.",
+        "visual": "Würgegriff. Gegner stirbt nach 9 Rd.",
+        "needs_review": false
+      },
+      "96-99": {
+        "tts": "Die Luftröhre des Gegners wird zerquetscht. Der Gegner stirbt sofort an massivem Schock und barbarischem Ersticken. Addiere Plus fünfundzwanzig zu deinem nächsten Wurf.",
+        "visual": "Luftröhre zerquetscht. Gegner stirbt sofort. +25 auf nächsten Wurf.",
+        "needs_review": false
+      }
+    }
   }
 }

@@ -5,6 +5,8 @@ let treffer = null;
 let tables = null;
 let patzerTables = null;
 let selectedWeapon = null;
+/** Nur bei Naturangriffen: 'klein' | 'mittel' | 'gross' | 'riesig'; sonst null */
+let selectedSizeClass = null;
 let autoCrit = {
     typ: '',
     kat: ''
@@ -48,6 +50,12 @@ export const state = {
     },
     set selectedWeapon(value) {
         selectedWeapon = value;
+    },
+    get selectedSizeClass() {
+        return selectedSizeClass;
+    },
+    set selectedSizeClass(value) {
+        selectedSizeClass = value;
     },
     get autoCrit() {
         return autoCrit;

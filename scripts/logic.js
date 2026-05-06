@@ -2,7 +2,7 @@
 // Dieses Modul enthält die Kernlogik für die Berechnungen.
 
 import { state } from './state.js';
-import { WEAPON_LABELS } from './constants.js';
+import { WEAPON_LABELS, WEAPON_SIZE_VARIANTS, WEAPON_SIZE_LABELS, DEFAULT_RK } from './constants.js';
 import { getCorrection } from './critCorrections.js';
 import { $, $$ } from './dom.js';
 import { playCritAudio, tryStartBgAudio } from './audio.js';
@@ -130,6 +130,62 @@ function floorKey(obj, target) {
     return best;
 }
 
+/** Cache für gemergte Naturangriffs-Tabellen (Schlüssel: `${weaponKey}|${sizeClass}`). */
+const attackTableMergeCache = new Map();
+
+export function clearAttackTableMergeCache() {
+    attackTableMergeCache.clear();
+}
+
+function variantTableKeysForSizeClass(sizeClass, variants) {
+    const { klein, mittel, gross } = variants;
+    if (sizeClass === 'klein') return [klein];
+    if (sizeClass === 'mittel') return [klein, mittel];
+    if (sizeClass === 'gross' || sizeClass === 'riesig') return [klein, mittel, gross];
+    return [klein];
+}
+
+/**
+ * Liefert den Angriffsblock (mit RK-Zeilen): bei Naturangriffen Merge aus Basis + Varianten.
+ */
+export function resolveAttackTable(weaponKey, sizeClass) {
+    const tabellen = state.treffer?.Angriffstabellen;
+    const base = tabellen?.[weaponKey];
+    if (!base?.RK) return base;
+
+    const variants = WEAPON_SIZE_VARIANTS[weaponKey];
+    if (!variants) return base;
+
+    const sc = sizeClass || 'klein';
+    const cacheKey = `${weaponKey}|${sc}`;
+    if (attackTableMergeCache.has(cacheKey)) {
+        return attackTableMergeCache.get(cacheKey);
+    }
+
+    const vKeys = variantTableKeysForSizeClass(sc, variants);
+    const rkSet = new Set(Object.keys(base.RK));
+    for (const vk of vKeys) {
+        const rkExt = tabellen?.[vk]?.RK;
+        if (rkExt && typeof rkExt === 'object') {
+            Object.keys(rkExt).forEach((rk) => rkSet.add(rk));
+        }
+    }
+
+    const mergedRK = {};
+    for (const rk of rkSet) {
+        const row = { ...(base.RK[rk] || {}) };
+        for (const vk of vKeys) {
+            const ext = tabellen?.[vk]?.RK?.[rk];
+            if (ext && typeof ext === 'object') Object.assign(row, ext);
+        }
+        mergedRK[rk] = row;
+    }
+
+    const merged = { ...base, RK: mergedRK };
+    attackTableMergeCache.set(cacheKey, merged);
+    return merged;
+}
+
 /**
  * Berechnet den Angriff und die Trefferpunkte.
  */
@@ -141,7 +197,7 @@ export function calculateAttack() {
     const ziel = zielGegner || zielChar?.char;
     const rk = ziel
         ? Math.max(1, Math.min(20, parseInt(ziel.rk, 10) || 20))
-        : parseInt($('#fallbackRk')?.value || '3', 10);
+        : DEFAULT_RK;
     const attack = parseInt($('#attack').value, 10);
     const out = $('#attackOut');
     const kpi = $('#attackKpi');
@@ -152,7 +208,10 @@ export function calculateAttack() {
     res.classList.remove('muted');
     state.lastAttackTp = 0;
 
-    const weaponBlock = state.treffer?.Angriffstabellen?.[weaponKey];
+    const sizeClassNat = WEAPON_SIZE_VARIANTS[weaponKey]
+        ? (state.selectedSizeClass || 'klein')
+        : null;
+    const weaponBlock = resolveAttackTable(weaponKey, sizeClassNat);
     if (!weaponKey || !weaponBlock?.RK) {
         res.textContent = '⚠️ Keine Angriffsdaten gefunden.';
         return;
@@ -181,6 +240,10 @@ export function calculateAttack() {
         res.textContent = 'Kein Schaden bei Angriffswert ≤ 0.';
         const waffeChip = (WEAPON_LABELS[weaponKey] || weaponKey.replace(/_/g, ' ')).replace(/\n/g, ' ');
         kpi.append(chip(`Waffe: ${waffeChip}`));
+        if (WEAPON_SIZE_VARIANTS[weaponKey]) {
+            const kl = WEAPON_SIZE_LABELS[state.selectedSizeClass || 'klein'] || state.selectedSizeClass;
+            kpi.append(chip(`Klasse: ${kl}`));
+        }
         kpi.append(chip(`RK: ${rk}`));
         kpi.append(chip(`Angriffswert: ${attack}`));
         return;
@@ -215,9 +278,7 @@ export function calculateAttack() {
         remainingAttack -= 150;
     }
 
-    const gegnerTyp = ziel
-        ? (ziel.gegnerTyp || 'normal')
-        : ($('#fallbackGegnerTyp')?.value || 'normal');
+    const gegnerTyp = ziel ? (ziel.gegnerTyp || 'normal') : 'normal';
     let minKat = 'A';
     if (gegnerTyp === 'gross') minKat = 'B';
     if (gegnerTyp === 'gewaltig') minKat = 'D';
@@ -239,12 +300,16 @@ export function calculateAttack() {
     }
 
     state.autoCrit = {
-        typ: mapCritName(firstKrit.typ) || firstKrit.typ || '',
+        typ: resolveAutoCritTableKey(firstKrit.typ, weaponKey),
         kat: firstKrit.kat || ''
     };
 
     const label = (WEAPON_LABELS[weaponKey] || weaponKey.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase())).replace(/\n/g, ' ');
     kpi.append(chip(`Waffe: ${label}`));
+    if (WEAPON_SIZE_VARIANTS[weaponKey]) {
+        const kl = WEAPON_SIZE_LABELS[state.selectedSizeClass || 'klein'] || state.selectedSizeClass;
+        kpi.append(chip(`Klasse: ${kl}`));
+    }
     kpi.append(chip(`RK: ${rk}`));
     kpi.append(chip(`Angriffswert: ${attack}`));
 
@@ -401,4 +466,53 @@ export function mapCritName(kurz) {
     if (keys.includes(base)) return base;
     const alt = keys.find(k => k.toLowerCase().startsWith(base.toLowerCase()));
     return alt || '';
+}
+
+function findEnglishCritTableByKeywords(keywords = []) {
+    const keys = Object.keys(state.tables || {}).filter((k) => String(k).startsWith('Englisch_'));
+    if (!keys.length) return '';
+    const lowered = keys.map((k) => ({ key: k, l: k.toLowerCase() }));
+    const match = lowered.find(({ l }) => keywords.some((kw) => l.includes(kw)));
+    return match?.key || '';
+}
+
+function resolveAutoCritTableKey(rawTyp, weaponKey) {
+    let typ = String(rawTyp || '').trim().toUpperCase();
+    const weapon = String(weaponKey || '').trim().toUpperCase();
+
+    // Viele Naturangriffs-Codes kommen als "F*" (z.B. FP/FK/FU/FG/FS); für die
+    // Tabellenwahl reicht der Basistyp ohne Präfix.
+    if (typ.length >= 2 && typ.startsWith('F')) typ = typ.slice(1);
+
+    // Direkte Zuordnung über Krit-Typ-Kürzel aus Angriffstabelle
+    if (typ === 'MS') {
+        if (weapon === 'SCHLAGEN') return findEnglishCritTableByKeywords(['schlag', 'schlaege', 'schläge']);
+        return findEnglishCritTableByKeywords(['feger', 'wuerfe', 'würfe']);
+    }
+    if (typ === 'MA') {
+        return findEnglishCritTableByKeywords(['schlag', 'schlaege', 'schläge']);
+    }
+    if (typ === 'G') {
+        return findEnglishCritTableByKeywords(['greifen', 'griff', 'ringkampf', 'ringen']);
+    }
+    if (typ === 'U') {
+        return findEnglishCritTableByKeywords(['gleichgewicht', 'ungleichgewicht', 'ausbalancier']);
+    }
+    if (typ === 'TA' || typ === 'T') {
+        return findEnglishCritTableByKeywords(['tiere', 'tier']);
+    }
+
+    // Klassische Kürzel/Namen erst NACH den Naturangriff-Codes mappen,
+    // sonst wird z.B. "G" fälschlich zu "Grosse/Gewaltige Wesen".
+    const mapped = mapCritName(typ) || mapCritName(rawTyp);
+    if (mapped) return mapped;
+
+    // Fallback über gewählte Naturangriffs-Waffe nur dann, wenn kein explizites
+    // (gemapptes) Ziel wie "Grosse/Gewaltige Wesen" ermittelt wurde.
+    if (weapon === 'FEGEN') return findEnglishCritTableByKeywords(['feger', 'wuerfe', 'würfe']);
+    if (weapon === 'SCHLAGEN') return findEnglishCritTableByKeywords(['schlag', 'schlaege', 'schläge']);
+    if (weapon === 'GREIFEN') return findEnglishCritTableByKeywords(['greifen', 'griff', 'ringkampf', 'ringen']);
+    if (weapon === 'KLEINTIERE') return findEnglishCritTableByKeywords(['tiere', 'tier']);
+
+    return rawTyp || '';
 }

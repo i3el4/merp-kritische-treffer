@@ -13,6 +13,7 @@ const { GoogleGenAI } = require('@google/genai');
 
 const INPUT_PATH = path.join(__dirname, '../assets/data/tables_processed.json');
 const OUTPUT_PATH = path.join(__dirname, '../assets/data/tables_clean.json');
+const ENGLISH_TABLE_PREFIX = 'Englisch_';
 
 const SYSTEM_PROMPT = `Du bist ein Lektor für ein deutsches Fantasy-Rollenspiel (Rolemaster). Deine Aufgabe ist es, fehlerhafte OCR-Texte von kritischen Treffern in perfekt lesbaren Vorlesetext (TTS) zu übersetzen.
 Regeln:
@@ -53,6 +54,12 @@ const ZAHLWOERTER = {
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function parseArgs(argv) {
+  return {
+    all: argv.includes('--all')
+  };
 }
 
 const PAUSE_BETWEEN_CALLS_MS = 500;
@@ -174,9 +181,11 @@ async function cleanBatchWithGemini(ai, entries) {
  * Sammelt alle Einträge pro Tabelle/Kategorie und gibt Batches zurück.
  * Jeder Batch enthält maximal MAX_ENTRIES_PER_CALL Einträge (z.B. 10).
  */
-function collectBatches(data) {
+function collectBatches(data, options = {}) {
+  const { all = false } = options;
   const batches = [];
   for (const [tableName, tableData] of Object.entries(data)) {
+    if (!all && !String(tableName).startsWith(ENGLISH_TABLE_PREFIX)) continue;
     if (typeof tableData !== 'object' || tableData === null) continue;
     for (const [catKey, catData] of Object.entries(tableData)) {
       if (catKey === 'audioFile' || typeof catData !== 'object' || catData === null) continue;
@@ -206,6 +215,7 @@ function isBatchComplete(output, tableName, catKey, entries) {
 }
 
 async function main() {
+  const { all } = parseArgs(process.argv.slice(2));
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     console.error('GEMINI_API_KEY fehlt in .env');
@@ -222,7 +232,14 @@ async function main() {
   }
 
   const ai = new GoogleGenAI({ apiKey });
-  const batches = collectBatches(data);
+  const batches = collectBatches(data, { all });
+  const modeLabel = all ? 'alle Tabellen' : `nur Tabellen mit Prefix "${ENGLISH_TABLE_PREFIX}"`;
+  console.log(`Bereinigungsmodus: ${modeLabel}\n`);
+
+  if (!batches.length) {
+    console.log('Keine passenden Tabellen/Batches gefunden. Nichts zu tun.');
+    return;
+  }
 
   for (const batch of batches) {
     const { tableName, catKey, entries } = batch;

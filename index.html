@@ -350,46 +350,6 @@
                 <div id="simulatorZielListe" class="ziel-liste"></div>
                 <span id="simulatorZielInfo" class="ziel-info muted"></span>
               </div>
-              <div id="rkFallback" class="rk-fallback-section">
-                <details class="rk-fallback-details">
-                  <summary>Ohne Ziel: Rüstungsklasse &amp; Gegnertyp</summary>
-                  <div class="rk-fallback-row">
-                    <div>
-                      <label for="fallbackGegnerTyp">Gegnertyp</label>
-                      <select id="fallbackGegnerTyp">
-                        <option value="normal" selected>Normal</option>
-                        <option value="gross">Gross</option>
-                        <option value="gewaltig">Gewaltig</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label for="fallbackRk">Rüstungsklasse</label>
-                      <select id="fallbackRk">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3" selected>3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                        <option value="11">11</option>
-                        <option value="12">12</option>
-                        <option value="13">13</option>
-                        <option value="14">14</option>
-                        <option value="15">15</option>
-                        <option value="16">16</option>
-                        <option value="17">17</option>
-                        <option value="18">18</option>
-                        <option value="19">19</option>
-                        <option value="20">20</option>
-                      </select>
-                    </div>
-                  </div>
-                </details>
-              </div>
             </div>
 
             <div class="angriff-bottom-row">
@@ -788,6 +748,12 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Angriffsklasse (Naturangriffe): schwebend über dem gewählten Button, wird per JS positioniert -->
+  <div id="weaponSizeWrap" class="weapon-size-popover" hidden>
+    <label for="weaponSizeClass">Angriffsklasse</label>
+    <select id="weaponSizeClass"></select>
   </div>
 
   <audio id="bgAudio" loop></audio>

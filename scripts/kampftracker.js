@@ -402,12 +402,7 @@ function applyZielToSimulator() {
   const g = firstId ? getGegnerById(firstId) : null;
   const charInfo = !g && firstId ? getCharakterById(firstId) : null;
   const ziel = g || charInfo?.char;
-  const fallback = $('#rkFallback');
-  if (!ziel) {
-    if (fallback) fallback.hidden = false;
-    return;
-  }
-  if (fallback) fallback.hidden = true;
+  if (!ziel) return;
   const typ = ziel.gegnerTyp || 'normal';
   if (typ === 'gross') $('#critType').value = 'Grosse Wesen';
   else if (typ === 'gewaltig') $('#critType').value = 'Gewaltige Wesen';
@@ -688,17 +683,8 @@ function renderZielAnzeige() {
   syncRkFallbackSichtbarkeit();
 }
 
-/** RK-Fallback nur ausblenden, wenn ein gültiges erstes Ziel gewählt ist (ohne critType bei jedem Render zu überschreiben). */
-function syncRkFallbackSichtbarkeit() {
-  const fb = $('#rkFallback');
-  if (!fb) return;
-  const ids = state.selectedGegnerIds || [];
-  const firstId = ids[0] || null;
-  const g = firstId ? getGegnerById(firstId) : null;
-  const charInfo = !g && firstId ? getCharakterById(firstId) : null;
-  const ziel = g || charInfo?.char;
-  fb.hidden = !!ziel;
-}
+/** Früher: RK-/Gegnertyp ohne Ziel — UI entfernt, Platzhalter für Aufrufe aus dem Renderer. */
+function syncRkFallbackSichtbarkeit() {}
 
 function adjustZielNameFontSizes() {
   const btns = $$('.ziel-select-btn-round');
@@ -1913,7 +1899,6 @@ function initRundeUI() {
 }
 
 export function initKampftracker() {
-  document.querySelector('#rkFallback .rk-fallback-details')?.removeAttribute('open');
   initKampagnenUI();
   initCharAddForm();
   initGegnerUI();
