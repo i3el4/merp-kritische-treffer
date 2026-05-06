@@ -469,7 +469,10 @@ export function mapCritName(kurz) {
 }
 
 function findEnglishCritTableByKeywords(keywords = []) {
-    const keys = Object.keys(state.tables || {}).filter((k) => String(k).startsWith('Englisch_'));
+    const keys = Object.keys(state.tables || {}).filter((k) =>
+        String(k).startsWith('Englisch_') ||
+        ['Ungleichgewicht', 'Kleine_Tiere', 'Feger_Und_Wuerfe', 'Schlaege', 'Greifen_Ringkampf'].includes(String(k))
+    );
     if (!keys.length) return '';
     const lowered = keys.map((k) => ({ key: k, l: k.toLowerCase() }));
     const match = lowered.find(({ l }) => keywords.some((kw) => l.includes(kw)));
@@ -486,20 +489,20 @@ function resolveAutoCritTableKey(rawTyp, weaponKey) {
 
     // Direkte Zuordnung über Krit-Typ-Kürzel aus Angriffstabelle
     if (typ === 'MS') {
-        if (weapon === 'SCHLAGEN') return findEnglishCritTableByKeywords(['schlag', 'schlaege', 'schläge']);
-        return findEnglishCritTableByKeywords(['feger', 'wuerfe', 'würfe']);
+        if (weapon === 'SCHLAGEN') return findEnglishCritTableByKeywords(['schlag', 'schlaege', 'schläge', 'striking']);
+        return findEnglishCritTableByKeywords(['feger', 'wuerfe', 'würfe', 'sweeps_and_throws']);
     }
     if (typ === 'MA') {
-        return findEnglishCritTableByKeywords(['schlag', 'schlaege', 'schläge']);
+        return findEnglishCritTableByKeywords(['schlag', 'schlaege', 'schläge', 'striking']);
     }
     if (typ === 'G') {
-        return findEnglishCritTableByKeywords(['greifen', 'griff', 'ringkampf', 'ringen']);
+        return findEnglishCritTableByKeywords(['grappling', 'greifen', 'griff', 'ringkampf', 'ringen']);
     }
     if (typ === 'U') {
-        return findEnglishCritTableByKeywords(['gleichgewicht', 'ungleichgewicht', 'ausbalancier']);
+        return findEnglishCritTableByKeywords(['unbalancing', 'gleichgewicht', 'ungleichgewicht', 'ausbalancier']);
     }
     if (typ === 'TA' || typ === 'T') {
-        return findEnglishCritTableByKeywords(['tiere', 'tier']);
+        return findEnglishCritTableByKeywords(['tiny_animal', 'tiere', 'tier']);
     }
 
     // Klassische Kürzel/Namen erst NACH den Naturangriff-Codes mappen,
@@ -509,10 +512,10 @@ function resolveAutoCritTableKey(rawTyp, weaponKey) {
 
     // Fallback über gewählte Naturangriffs-Waffe nur dann, wenn kein explizites
     // (gemapptes) Ziel wie "Grosse/Gewaltige Wesen" ermittelt wurde.
-    if (weapon === 'FEGEN') return findEnglishCritTableByKeywords(['feger', 'wuerfe', 'würfe']);
-    if (weapon === 'SCHLAGEN') return findEnglishCritTableByKeywords(['schlag', 'schlaege', 'schläge']);
-    if (weapon === 'GREIFEN') return findEnglishCritTableByKeywords(['greifen', 'griff', 'ringkampf', 'ringen']);
-    if (weapon === 'KLEINTIERE') return findEnglishCritTableByKeywords(['tiere', 'tier']);
+    if (weapon === 'FEGEN') return findEnglishCritTableByKeywords(['feger', 'wuerfe', 'würfe', 'sweeps_and_throws']);
+    if (weapon === 'SCHLAGEN') return findEnglishCritTableByKeywords(['schlag', 'schlaege', 'schläge', 'striking']);
+    if (weapon === 'GREIFEN') return findEnglishCritTableByKeywords(['grappling', 'greifen', 'griff', 'ringkampf', 'ringen']);
+    if (weapon === 'KLEINTIERE') return findEnglishCritTableByKeywords(['tiny_animal', 'tiere', 'tier']);
 
     return rawTyp || '';
 }

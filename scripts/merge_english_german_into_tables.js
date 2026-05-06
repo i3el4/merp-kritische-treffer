@@ -3,7 +3,7 @@
  * Übernimmt assets/data/english_to_german_tables.json (flaches Array) nach
  * assets/data/tables_processed.json als verschachtelte Krit-Struktur.
  *
- * Tabellen-Schlüssel: "Englisch_" + dateiname-sicherer Name (wie generate_audio_elevenlabs.js).
+ * Tabellen-Schlüssel: kanonische, sprachneutrale Namen (deutsch).
  * Schreibt scripts/.english_zusatz_table_keys.json für npm run minify-visual-english.
  *
  * Usage: node scripts/merge_english_german_into_tables.js
@@ -16,13 +16,13 @@ const SOURCE = path.join(__dirname, '../assets/data/english_to_german_tables.jso
 const TABLES = path.join(__dirname, '../assets/data/tables_processed.json');
 const KEYS_OUT = path.join(__dirname, '.english_zusatz_table_keys.json');
 
-/** Gleiche Logik wie generate_audio_elevenlabs.js / audio.js für konsistente MP3-Dateinamen */
-function sanitizeTypForAudio(typ) {
-  let s = String(typ).trim();
-  s = s.replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss');
-  s = s.replace(/\s+/g, '_');
-  return s.split('_').map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join('_');
-}
+const CANONICAL_EN_TABLE_KEYS = {
+  UNBALANCING: 'Ungleichgewicht',
+  TINY_ANIMAL: 'Kleine_Tiere',
+  SWEEPS_THROWS: 'Feger_Und_Wuerfe',
+  STRIKING: 'Schlaege',
+  GRAPPLING: 'Greifen_Ringkampf'
+};
 
 function sanitizeRangeForFile(rangeKey) {
   let s = String(rangeKey).trim();
@@ -41,8 +41,43 @@ function sanitizeRangeForFile(rangeKey) {
   return Number.isNaN(n) ? s : String(n);
 }
 
+function normalizeForMatch(s) {
+  return String(s || '')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[–—]/g, '-')
+    .replace(/[_:]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
 function toTableKey(germanTitle) {
-  return `Englisch_${sanitizeTypForAudio(germanTitle)}`;
+  const t = normalizeForMatch(germanTitle);
+  if (t.includes('aus dem gleichgewicht') || t.includes('ungleichgewicht') || t.includes('ausbalancier')) {
+    return CANONICAL_EN_TABLE_KEYS.UNBALANCING;
+  }
+  if (t.includes('winzige tier') || t.includes('kleine tiere') || t.includes('tiny animal')) {
+    return CANONICAL_EN_TABLE_KEYS.TINY_ANIMAL;
+  }
+  if (t.includes('feger') || t.includes('wuerfe') || t.includes('wurfe') || t.includes('sweeps') || t.includes('throws')) {
+    return CANONICAL_EN_TABLE_KEYS.SWEEPS_THROWS;
+  }
+  if (
+    t.includes('kampfsport schlaege') ||
+    t.includes('kampfsport schlage') ||
+    t.includes('kampfsport-schlaege') ||
+    t.includes('kampfsport-schlage') ||
+    t.includes('kampfkuenste schlag') ||
+    t.includes('kampfkunste schlag') ||
+    t.includes('striking')
+  ) {
+    return CANONICAL_EN_TABLE_KEYS.STRIKING;
+  }
+  if (t.includes('greifen') || t.includes('ringkampf') || t.includes('ringen') || t.includes('grappling')) {
+    return CANONICAL_EN_TABLE_KEYS.GRAPPLING;
+  }
+  return '';
 }
 
 function main() {
@@ -67,6 +102,7 @@ function main() {
     if (!tabelle || !['A', 'B', 'C', 'D', 'E'].includes(kat) || rawRange == null || tts == null) continue;
 
     const tableKey = toTableKey(tabelle);
+    if (!tableKey) continue;
     newKeys.add(tableKey);
 
     if (!tables[tableKey]) {

@@ -5,24 +5,32 @@
  * Waffengruppen für die Anzeige (Reihenfolge = Anzeige-Reihenfolge).
  * Jede Gruppe enthält die Waffen-Keys aus Angriffstabellen.
  */
-/** Einheitlicher Tabellen- und Audio-Dateinamen-Schlüssel für den EN→DE-Zusatz im Krit-Dropdown */
-export const ENGLISH_SUPPLEMENT_CANONICAL_KEY = 'Englisch_Kampfkunst_Feger_Und_Wuerfe_Kritische_Treffertabelle';
+/** Kanonische Tabellen-Keys für den Naturangriffe-Zusatz. */
+export const SUPPLEMENT_CANONICAL_KEYS = [
+  'Ungleichgewicht',
+  'Kleine_Tiere',
+  'Feger_Und_Wuerfe',
+  'Schlaege',
+  'Greifen_Ringkampf'
+];
 
 /** Alle Tabellen-Schlüssel für den importierten Naturangriffe-Zusatz auflösen. */
 export function resolveEnglishSupplementTableKeys(tables) {
-  const keys = Object.keys(tables || {}).filter((k) => k.startsWith('Englisch_')).sort();
-  if (keys.includes(ENGLISH_SUPPLEMENT_CANONICAL_KEY)) {
-    return [
-      ENGLISH_SUPPLEMENT_CANONICAL_KEY,
-      ...keys.filter((k) => k !== ENGLISH_SUPPLEMENT_CANONICAL_KEY)
-    ];
-  }
-  return keys;
+  const keys = Object.keys(tables || {});
+  const preferred = SUPPLEMENT_CANONICAL_KEYS.filter((k) => keys.includes(k));
+  const legacy = keys.filter((k) => k.startsWith('Englisch_')).sort();
+  return [...preferred, ...legacy.filter((k) => !preferred.includes(k))];
 }
 
 /** Anzeigename für Krit-Typ-Dropdown. */
 export function formatCritTableLabel(key) {
   if (typeof key !== 'string') return '';
+  if (key === 'Ungleichgewicht') return 'Ungleichgewicht';
+  if (key === 'Kleine_Tiere') return 'Kleine Tiere';
+  if (key === 'Feger_Und_Wuerfe') return 'Feger & Würfe';
+  if (key === 'Schlaege') return 'Schläge';
+  if (key === 'Greifen_Ringkampf') return 'Greifen / Ringkampf';
+
   if (key.startsWith('Englisch_')) {
     const raw = key
       .replace(/^Englisch_/, '')
@@ -221,11 +229,12 @@ export function resolveCritIcon(typ) {
   if (CRIT_ICONS[typ]) return CRIT_ICONS[typ];
   const t = String(typ).toLowerCase();
   if (t.includes('allgemeine_patzer') || t.includes('waffenpatzer')) return 'Patzer.png';
-  if (t.includes('aus_dem_gleichgewicht') || t.includes('ungleichgewicht') || t.includes('feger')) return 'fegen.png';
-  if (t.includes('greifen') || t.includes('griffkampf')) return 'greifen.png';
+  if (t.includes('aus_dem_gleichgewicht') || t.includes('ungleichgewicht') || t.includes('ausbalancier') || t.includes('unbalancing') || t.includes('feger')) return 'fegen.png';
+  if (t.includes('greifen') || t.includes('griffkampf') || t.includes('grappling')) return 'greifen.png';
   if (t.includes('ringkampf') || t.includes('wuerfe') || t.includes('würfe')) return 'quetschen.png';
-  if (t.includes('kleine_tiere') || t.includes('winzige_tier')) return 'kleintiere.png';
-  if (t.includes('schlag') || t.includes('schlaege') || t.includes('schläge')) return 'schlagen.png';
+  if (t.includes('kleine_tiere') || t.includes('winzige_tier') || t.includes('tiny_animal')) return 'kleintiere.png';
+  if (t.includes('schlag') || t.includes('schlaege') || t.includes('schläge') || t.includes('striking')) return 'schlagen.png';
+  if (t.includes('sweeps_and_throws')) return 'fegen.png';
   if (t.includes('kratzen') || t.includes('klauen')) return 'kratzen.png';
   if (t.includes('beissen') || t.includes('beißen') || t.includes('biss')) return 'beissen.png';
   if (t.includes('pieksen')) return 'pieksen.png';

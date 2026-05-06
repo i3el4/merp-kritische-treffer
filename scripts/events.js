@@ -18,7 +18,9 @@ import { setCorrection, deleteCorrection, exportCorrections } from './critCorrec
  * @param {string} typ Der Krit-Typ (z.B. Stich, Elektro)
  */
 function appendCritIcon(kpi, typ) {
-    const iconFile = resolveCritIcon(typ) || (String(typ).startsWith('Englisch_') ? 'stich.png' : null);
+    const isSupplement = String(typ).startsWith('Englisch_')
+        || ['Ungleichgewicht', 'Kleine_Tiere', 'Feger_Und_Wuerfe', 'Schlaege', 'Greifen_Ringkampf'].includes(String(typ));
+    const iconFile = resolveCritIcon(typ) || (isSupplement ? 'stich.png' : null);
     if (iconFile) {
         const img = document.createElement('img');
         const iconPath = URLS.ICONS_BASE_PATH + iconFile;
@@ -273,7 +275,11 @@ export function setupEventListeners() {
 function calculateCrit() {
     const roll = parseInt($('#critRoll').value, 10);
     const typSel = $('#critType').value || state.autoCrit.typ;
-    const katSel = $('#critCat').value || state.autoCrit.kat;
+    const rawKatSel = $('#critCat').value || state.autoCrit.kat;
+    const katSel = resolveLookupCategory(typSel, rawKatSel);
+    if (katSel && $('#critCat').value !== katSel) {
+        $('#critCat').value = katSel;
+    }
 
     const out = $('#critOut');
     const kpi = $('#critKpi');
@@ -350,7 +356,11 @@ function calculateCrit() {
  */
 function calculateSide() {
     const typ = $('#sideType').value;
-    const kat = $('#sideCat').value;
+    const rawKat = $('#sideCat').value;
+    const kat = resolveLookupCategory(typ, rawKat);
+    if (kat && $('#sideCat').value !== kat) {
+        $('#sideCat').value = kat;
+    }
     const roll = parseInt($('#sideRoll').value, 10);
 
     const out = $('#sideOut');
@@ -557,6 +567,27 @@ function handleCritTypeChange() {
     updateCritCatDropdown();
 }
 
+function hasCategoryEntries(table, category) {
+    const cat = table?.[category];
+    if (!cat || typeof cat !== 'object') return false;
+    return Object.keys(cat).length > 0;
+}
+
+function firstNonEmptyCategory(table) {
+    if (!table || typeof table !== 'object') return '';
+    const categories = Object.keys(table).filter(k => k !== 'audioFile');
+    return categories.find((k) => hasCategoryEntries(table, k)) || '';
+}
+
+function resolveLookupCategory(tableKey, preferredCategory) {
+    const table = state.tables?.[tableKey];
+    if (!table) return preferredCategory || '';
+    if (preferredCategory && hasCategoryEntries(table, preferredCategory)) return preferredCategory;
+    const fallback = firstNonEmptyCategory(table);
+    if (fallback) return fallback;
+    return preferredCategory || '';
+}
+
 /**
  * Aktualisiert das Krit-Kategorie-Dropdown.
  */
@@ -574,7 +605,8 @@ function updateCritCatDropdown() {
         });
     }
     if (critCatDropdown.options.length > 0) {
-        critCatDropdown.value = critCatDropdown.options[0].value;
+        const preferred = resolveLookupCategory(selectedTableKey, critCatDropdown.options[0].value);
+        critCatDropdown.value = preferred || critCatDropdown.options[0].value;
     }
 }
 
@@ -593,6 +625,10 @@ function handleSideTypeChange() {
             opt.textContent = cat;
             sideCatDropdown.appendChild(opt);
         });
+    }
+    if (sideCatDropdown.options.length > 0) {
+        const preferred = resolveLookupCategory(selectedSideTable, sideCatDropdown.options[0].value);
+        sideCatDropdown.value = preferred || sideCatDropdown.options[0].value;
     }
 }
 
