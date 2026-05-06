@@ -265,32 +265,36 @@ async function loadData() {
         for (const [groupName, keys] of Object.entries(critCategories)) {
             const optgroup = document.createElement('optgroup');
             optgroup.label = groupName;
+            const seenLabels = new Set();
 
             keys.forEach(key => {
                 if (tables[key]) {
                     const opt = document.createElement('option');
                     opt.value = key;
+                    let label = '';
                     if (key.startsWith('Englisch_')) {
                         const raw = key.replace(/^Englisch_/, '').replace(/[_:]+/g, ' ').replace(/\s+/g, ' ').trim();
                         const lower = raw.toLowerCase();
-                        if (lower.includes('feger') && (lower.includes('wuerfe') || lower.includes('würfe'))) opt.textContent = 'Feger und Würfe';
-                        else if (lower.includes('greifen') || lower.includes('griff')) opt.textContent = 'Greifen';
-                        else if (lower.includes('aus dem gleichgewicht') || lower.includes('ungleichgewicht')) opt.textContent = 'Ungleichgewicht';
-                        else if (lower.includes('ausbalancier')) opt.textContent = 'Ausbalancieren';
-                        else if (lower.includes('kleine tiere')) opt.textContent = 'Kleine Tiere';
-                        else if (lower.includes('winzige tier')) opt.textContent = 'Winzige Tiere';
-                        else if (lower.includes('ringkampf') || lower.includes('ringen')) opt.textContent = 'Ringkampf';
-                        else if (lower.includes('schlag') || lower.includes('schlaege') || lower.includes('schläge')) opt.textContent = 'Schläge';
+                        if (lower.includes('feger') && (lower.includes('wuerfe') || lower.includes('würfe'))) label = 'Feger & Würfe';
+                        else if (lower.includes('greifen') || lower.includes('griff')) label = 'Greifen';
+                        else if (lower.includes('aus dem gleichgewicht') || lower.includes('ungleichgewicht') || lower.includes('ausbalancier')) label = 'Ungleichgewicht';
+                        else if (lower.includes('kleine tiere') || lower.includes('winzige tier')) label = 'Kleine Tiere';
+                        else if (lower.includes('ringkampf') || lower.includes('ringen')) label = 'Ringkampf';
+                        else if (lower.includes('schlag') || lower.includes('schlaege') || lower.includes('schläge')) label = 'Schläge';
                         else {
-                            opt.textContent = raw
+                            label = raw
                                 .replace(/kritische\s+treffer(?:tabelle|(?:\s+tabelle)?)?/gi, '')
                                 .replace(/kampfkunst|kampfsport|martial arts/gi, '')
                                 .replace(/\s+/g, ' ')
                                 .trim();
                         }
                     } else {
-                        opt.textContent = key.replace(/_/g, ' ');
+                        label = key.replace(/_/g, ' ');
                     }
+                    const dedupeKey = `${groupName}|${label}`;
+                    if (seenLabels.has(dedupeKey)) return;
+                    seenLabels.add(dedupeKey);
+                    opt.textContent = label;
                     optgroup.appendChild(opt);
                 }
             });

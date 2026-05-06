@@ -31,12 +31,11 @@ export function formatCritTableLabel(key) {
       .trim();
 
     const lower = raw.toLowerCase();
-    if (lower.includes('feger') && (lower.includes('wuerfe') || lower.includes('würfe'))) return 'Feger und Würfe';
+    if (lower.includes('feger') && (lower.includes('wuerfe') || lower.includes('würfe'))) return 'Feger & Würfe';
     if (lower.includes('greifen') || lower.includes('griff')) return 'Greifen';
     if (lower.includes('aus dem gleichgewicht') || lower.includes('ungleichgewicht')) return 'Ungleichgewicht';
-    if (lower.includes('ausbalancier')) return 'Ausbalancieren';
-    if (lower.includes('kleine tiere')) return 'Kleine Tiere';
-    if (lower.includes('winzige tier')) return 'Winzige Tiere';
+    if (lower.includes('ausbalancier')) return 'Ungleichgewicht';
+    if (lower.includes('kleine tiere') || lower.includes('winzige tier')) return 'Kleine Tiere';
     if (lower.includes('ringkampf') || lower.includes('ringen')) return 'Ringkampf';
     if (lower.includes('schlag') || lower.includes('schlaege') || lower.includes('schläge')) return 'Schläge';
 

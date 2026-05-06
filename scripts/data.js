@@ -276,10 +276,15 @@ function populateCritDropdowns(dropdown, isMainCrit = true) {
     for (const [groupName, keys] of Object.entries(critCategories)) {
         const optgroup = document.createElement('optgroup');
         optgroup.label = groupName;
+        const seenLabels = new Set();
 
         keys.forEach(key => {
             if (state.tables[key]) {
-                optgroup.appendChild(createOption(key, formatCritTableLabel(key)));
+                const label = formatCritTableLabel(key);
+                const dedupeKey = `${groupName}|${label}`;
+                if (seenLabels.has(dedupeKey)) return;
+                seenLabels.add(dedupeKey);
+                optgroup.appendChild(createOption(key, label));
             }
         });
 
