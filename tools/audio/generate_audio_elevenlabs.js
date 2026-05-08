@@ -7,10 +7,10 @@
  *   npm install axios dotenv
  *   Erstelle .env mit ELEVENLABS_API_KEY und ELEVENLABS_VOICE_ID
  *   Optional: ELEVENLABS_SPEECH_SPEED (Standard 1.1) — 1.0 = normal, >1 schneller (typ. bis ca. 1.2)
- *   node scripts/generate_audio_elevenlabs.js
+ *   npm run generate-audio
  */
 
-require('dotenv').config({ path: require('path').join(__dirname, '../private/.env') });
+require('dotenv').config({ path: require('path').join(__dirname, '../../private/.env') });
 require('dotenv').config(); // Fallback: .env im Projektroot
 const axios = require('axios');
 const fs = require('fs');
@@ -26,47 +26,8 @@ const SPEECH_SPEED = (() => {
     if (Number.isNaN(raw)) return 1.1;
     return Math.min(1.2, Math.max(0.7, raw));
 })();
-const DATA_PATH = path.join(__dirname, '../assets/data/tables_processed.json');
-const OUTPUT_DIR = path.join(__dirname, '../assets/audio/krit');
-
-/**
- * Konvertiert Krit-Typ zu dateinamen-tauglichem Präfix.
- */
-function sanitizeTypForAudio(typ) {
-    let s = String(typ).trim();
-    s = s.replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss');
-    s = s.replace(/\s+/g, '_');
-    return s.split('_').map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join('_');
-}
-
-/**
- * Bereinigt den Bereichsschlüssel für den Dateinamen.
- */
-function sanitizeRangeForFile(rangeKey) {
-    let s = String(rangeKey).trim();
-    s = s.replace(/[–—]/g, '-').replace(/\s+/g, '');
-    if (s.endsWith('+')) {
-        const num = parseInt(s.slice(0, -1), 10);
-        return isNaN(num) ? s : num + '+';
-    }
-    if (s.includes('-')) {
-        const [a, b] = s.split('-');
-        const nz = (x) => String(parseInt(x, 10) || '0');
-        return nz(a) + '-' + nz(b);
-    }
-    s = s.replace(/[≤≥]/g, '');
-    return String(parseInt(s, 10) || s);
-}
-
-/**
- * Erstellt den Dateinamen: [Tabelle]_[Kategorie]_[Wertebereich].mp3
- */
-function buildFilename(tabelle, kategorie, wertebereich) {
-    const safeTyp = sanitizeTypForAudio(tabelle);
-    const safeKat = String(kategorie).trim().toUpperCase();
-    const safeRange = sanitizeRangeForFile(wertebereich);
-    return `${safeTyp}_${safeKat}_${safeRange}.mp3`;
-}
+const DATA_PATH = path.join(__dirname, '../../assets/data/tables_processed.json');
+const OUTPUT_DIR = path.join(__dirname, '../../assets/audio/krit');
 
 /**
  * Ruft ElevenLabs TTS auf und speichert die MP3.
@@ -135,6 +96,8 @@ async function generateAndSave(text, filePath) {
 }
 
 async function main() {
+    const { buildCritAudioRelativePath } = await import(path.join(__dirname, '../../scripts/audioNaming.mjs'));
+
     if (!API_KEY || !VOICE_ID) {
         console.error('Fehler: ELEVENLABS_API_KEY und ELEVENLABS_VOICE_ID müssen in .env gesetzt sein.');
         process.exit(1);
@@ -168,8 +131,11 @@ async function main() {
                 const text = eintrag.tts;
                 if (text == null || String(text).trim() === '') continue;
 
-                const filename = buildFilename(tabelle, kategorie, wertebereich);
-                const filePath = path.join(OUTPUT_DIR, filename);
+                const relativePath = buildCritAudioRelativePath(tabelle, kategorie, wertebereich);
+                if (!relativePath) continue;
+                const filePath = path.join(__dirname, '../../assets/audio', relativePath);
+                const filename = relativePath.replace(/^krit\//, '');
+                fs.mkdirSync(path.dirname(filePath), { recursive: true });
 
                 if (fs.existsSync(filePath)) {
                     console.log(`Skipping ${filename} - already exists`);

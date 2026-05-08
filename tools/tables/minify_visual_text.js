@@ -8,13 +8,13 @@
  * scripts/minify_patzer_visual.js, danach scripts/merge_patzer_into_tables_processed.js
  */
 
-require('dotenv').config({ path: require('path').join(__dirname, '../private/.env') });
+require('dotenv').config({ path: require('path').join(__dirname, '../../private/.env') });
 require('dotenv').config(); // Fallback: .env im Projektroot
 const fs = require('fs');
 const path = require('path');
 const { GoogleGenAI } = require('@google/genai');
 
-const INPUT_PATH = path.join(__dirname, '../assets/data/tables_processed.json');
+const INPUT_PATH = path.join(__dirname, '../../assets/data/tables_processed.json');
 const KEYLIST_PATH = path.join(__dirname, '.english_zusatz_table_keys.json');
 
 /** Wenn gesetzt: nur Tabellen aus .english_zusatz_table_keys.json, Ausgabe direkt in tables_processed.json */
@@ -24,7 +24,7 @@ const FORCE_MINIFY_ALL = process.env.FORCE_MINIFY_ALL === '1';
 
 function resolveOutputPath() {
   if (!ENGLISH_ZUSATZ_ONLY) {
-    return path.join(__dirname, '../assets/data/tables_final.json');
+    return path.join(__dirname, '../../assets/data/_pipeline/tables_final.json');
   }
   if (fs.existsSync(KEYLIST_PATH)) {
     try {
@@ -32,11 +32,11 @@ function resolveOutputPath() {
       if (Array.isArray(list) && list.length > 0) return INPUT_PATH;
     } catch (_) { /* ignore */ }
   }
-  console.error('MINIFY_ENGLISH_ZUSATZ_ONLY=1 erfordert scripts/.english_zusatz_table_keys.json (nach merge).');
+  console.error('MINIFY_ENGLISH_ZUSATZ_ONLY=1 erfordert tools/tables/.english_zusatz_table_keys.json (nach merge).');
   process.exit(1);
 }
 
-const OUTPUT_PATH = ENGLISH_ZUSATZ_ONLY ? resolveOutputPath() : path.join(__dirname, '../assets/data/tables_final.json');
+const OUTPUT_PATH = ENGLISH_ZUSATZ_ONLY ? resolveOutputPath() : path.join(__dirname, '../../assets/data/_pipeline/tables_final.json');
 
 const SYSTEM_PROMPT = `Du bist ein strenger Regel-Analyst für ein deutsches Tabletop-Rollenspiel. Deine einzige Aufgabe ist es, aus längeren Vorlesetexten ALLEIN die harten Spielmechaniken (Crunch) zu extrahieren und extrem abzukürzen.
 Regeln:

@@ -1,19 +1,19 @@
 #!/usr/bin/env node
 /**
- * Übernimmt assets/data/patzer_tables.json (tts_text + visual) nach
+ * Übernimmt assets/data/_pipeline/patzer_tables.json (tts_text + visual) nach
  * assets/data/tables_processed.json → Abschnitt "Allgemeine Patzer".
  *
  * Die ersten 19 Zeilen pro PDF-Spalte werden auf die bestehenden Bereichs-Schlüssel
  * (wie bisher im Simulator) gemappt. Weitere Zeilen (Modifikatoren) landen in
- * assets/data/patzer_modifiers.json — dort nicht per Würfelbereich, nur Referenz.
+ * assets/data/_pipeline/patzer_modifiers.json — dort nicht per Würfelbereich, nur Referenz.
  */
 
 const fs = require('fs');
 const path = require('path');
 
-const PATZER_PATH = path.join(__dirname, '../assets/data/patzer_tables.json');
-const TABLES_PATH = path.join(__dirname, '../assets/data/tables_processed.json');
-const MODIFIERS_OUT = path.join(__dirname, '../assets/data/patzer_modifiers.json');
+const PATZER_PATH = path.join(__dirname, '../../assets/data/_pipeline/patzer_tables.json');
+const TABLES_PATH = path.join(__dirname, '../../assets/data/tables_processed.json');
+const MODIFIERS_OUT = path.join(__dirname, '../../assets/data/_pipeline/patzer_modifiers.json');
 
 /**
  * Kanonische Würfelbereiche (Patzer-Tabelle) — Reihenfolge = Reihenfolge der Zeilen in patzer_tables.

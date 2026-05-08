@@ -1,20 +1,20 @@
 #!/usr/bin/env node
 /**
- * Erzeugt kompakte "visual"-Texte aus patzer_tables.json (tts_text) — gleiche Crunch-Regeln
- * wie scripts/minify_visual_text.js (System-Prompt bewusst synchron halten).
+ * Erzeugt kompakte "visual"-Texte aus _pipeline/patzer_tables.json (tts_text) — gleiche Crunch-Regeln
+ * wie tools/tables/minify_visual_text.js (System-Prompt bewusst synchron halten).
  *
- * Schreibt assets/data/patzer_tables.json um (Feld "visual" pro Eintrag).
+ * Schreibt assets/data/_pipeline/patzer_tables.json um (Feld "visual" pro Eintrag).
  * Anschließend: npm run merge-patzer
  */
 
-require('dotenv').config({ path: require('path').join(__dirname, '../private/.env') });
+require('dotenv').config({ path: require('path').join(__dirname, '../../private/.env') });
 require('dotenv').config();
 
 const fs = require('fs');
 const path = require('path');
 const { GoogleGenAI } = require('@google/genai');
 
-const INPUT_OUTPUT_PATH = path.join(__dirname, '../assets/data/patzer_tables.json');
+const INPUT_OUTPUT_PATH = path.join(__dirname, '../../assets/data/_pipeline/patzer_tables.json');
 
 /** Gleiche Regeln wie minify_visual_text.js — bei Änderungen dort hier nachziehen. */
 const SYSTEM_PROMPT = `Du bist ein strenger Regel-Analyst für ein deutsches Tabletop-Rollenspiel. Deine einzige Aufgabe ist es, aus längeren Vorlesetexten ALLEIN die harten Spielmechaniken (Crunch) zu extrahieren und extrem abzukürzen.

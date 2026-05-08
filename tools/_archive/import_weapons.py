@@ -156,7 +156,7 @@ def read_weapon_from_excel(path):
 
 
 def main():
-    base = Path(__file__).parent.parent
+    base = Path(__file__).parent.parent.parent
     templates_dir = base / "assets" / "templates"
     json_path = base / "assets" / "data" / "treffer_tabellen_strukturiert.json"
 

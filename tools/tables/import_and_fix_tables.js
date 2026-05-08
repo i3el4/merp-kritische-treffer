@@ -15,7 +15,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const ROOT = path.join(__dirname, '..');
+const ROOT = path.join(__dirname, '../..');
 const JSON_PATH = path.join(ROOT, 'assets', 'data', 'treffer_tabellen_strukturiert.json');
 const SOURCE_DIRS = [
   path.join(ROOT, 'import'),

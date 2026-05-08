@@ -17,8 +17,8 @@ const fs = require('fs');
 const path = require('path');
 
 const CANON = 'Englisch_Kampfkunst_Feger_Und_Wuerfe_Kritische_Treffertabelle';
-const CRIT_DIR = path.join(__dirname, '../assets/audio/krit');
-const TABLES = path.join(__dirname, '../assets/data/tables_processed.json');
+const CRIT_DIR = path.join(__dirname, '../../assets/audio/krit');
+const TABLES = path.join(__dirname, '../../assets/data/tables_processed.json');
 const SUFFIX_RE = /^(.+)_([A-E])_(.+)\.mp3$/i;
 
 function isCanonBase(b) {

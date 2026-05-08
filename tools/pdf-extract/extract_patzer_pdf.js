@@ -1,20 +1,20 @@
 #!/usr/bin/env node
 /**
- * Liest assets/data/Krit_Patzer.pdf, sendet es an Gemini (gemini-2.5-flash)
- * und speichert die extrahierten Patzertabellen als assets/data/patzer_tables.json.
+ * Liest assets/source/Krit_Patzer.pdf, sendet es an Gemini (gemini-2.5-flash)
+ * und speichert die extrahierten Patzertabellen als assets/data/_pipeline/patzer_tables.json.
  *
  * Voraussetzung: GEMINI_API_KEY in private/.env oder .env (siehe clean_tables_with_gemini.js).
  */
 
-require('dotenv').config({ path: require('path').join(__dirname, '../private/.env') });
+require('dotenv').config({ path: require('path').join(__dirname, '../../private/.env') });
 require('dotenv').config();
 
 const fs = require('fs');
 const path = require('path');
 const { GoogleGenAI } = require('@google/genai');
 
-const PDF_PATH = path.join(__dirname, '../assets/data/Krit_Patzer.pdf');
-const OUTPUT_PATH = path.join(__dirname, '../assets/data/patzer_tables.json');
+const PDF_PATH = path.join(__dirname, '../../assets/source/Krit_Patzer.pdf');
+const OUTPUT_PATH = path.join(__dirname, '../../assets/data/_pipeline/patzer_tables.json');
 
 /** Ab dieser Größe (Bytes) wird die File API statt Inline-Base64 genutzt. */
 const INLINE_MAX_BYTES = 18 * 1024 * 1024;

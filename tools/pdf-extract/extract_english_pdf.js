@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /**
- * Liest assets/data/englische_tabellen.pdf, sendet es an Gemini (gemini-2.5-flash)
+ * Liest assets/source/englische_tabellen.pdf, sendet es an Gemini (gemini-2.5-flash)
  * mit Structured Output und speichert die übersetzten/extrahierten Zeilen als
- * assets/data/english_to_german_tables.json.
+ * assets/data/_pipeline/english_to_german_tables.json.
  *
  * Große PDFs: ein einzelner JSON-Array-Antwort läuft oft in MAX_TOKENS (~25k+ sichtbare Tokens).
  * Daher: (1) Tabellennamen listen, (2) je Tabelle × Spalte A–E ein eigener Request.
@@ -10,17 +10,17 @@
  * Voraussetzung: GEMINI_API_KEY in private/.env oder .env.
  */
 
-require('dotenv').config({ path: require('path').join(__dirname, '../private/.env') });
+require('dotenv').config({ path: require('path').join(__dirname, '../../private/.env') });
 require('dotenv').config();
 
 const fs = require('fs');
 const path = require('path');
 const { GoogleGenAI } = require('@google/genai');
 
-const PDF_PATH = path.join(__dirname, '../assets/data/englische_tabellen.pdf');
-const OUTPUT_PATH = path.join(__dirname, '../assets/data/english_to_german_tables.json');
+const PDF_PATH = path.join(__dirname, '../../assets/source/englische_tabellen.pdf');
+const OUTPUT_PATH = path.join(__dirname, '../../assets/data/_pipeline/english_to_german_tables.json');
 /** Bei JSON.parse-Fehler: Rohantwort zur Analyse */
-const RAW_RESPONSE_DUMP = path.join(__dirname, '../assets/data/english_to_german_tables.response-raw.txt');
+const RAW_RESPONSE_DUMP = path.join(__dirname, '../../assets/data/_pipeline/english_to_german_tables.response-raw.txt');
 
 const INLINE_MAX_BYTES = 512 * 1024;
 

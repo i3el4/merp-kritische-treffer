@@ -5,14 +5,14 @@
  * wendet Visual-Regeln an und speichert tables_clean.json.
  */
 
-require('dotenv').config({ path: require('path').join(__dirname, '../private/.env') });
+require('dotenv').config({ path: require('path').join(__dirname, '../../private/.env') });
 require('dotenv').config(); // Fallback: .env im Projektroot
 const fs = require('fs');
 const path = require('path');
 const { GoogleGenAI } = require('@google/genai');
 
-const INPUT_PATH = path.join(__dirname, '../assets/data/tables_processed.json');
-const OUTPUT_PATH = path.join(__dirname, '../assets/data/tables_clean.json');
+const INPUT_PATH = path.join(__dirname, '../../assets/data/tables_processed.json');
+const OUTPUT_PATH = path.join(__dirname, '../../assets/data/_pipeline/tables_clean.json');
 const ENGLISH_TABLE_PREFIX = 'Englisch_';
 
 const SYSTEM_PROMPT = `Du bist ein Lektor für ein deutsches Fantasy-Rollenspiel (Rolemaster). Deine Aufgabe ist es, fehlerhafte OCR-Texte von kritischen Treffern in perfekt lesbaren Vorlesetext (TTS) zu übersetzen.

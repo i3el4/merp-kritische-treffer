@@ -4,6 +4,7 @@
 import { URLS } from './constants.js';
 import { state } from './state.js';
 import { $ } from './dom.js';
+import { buildCritAudioRelativePath } from './audioNaming.mjs';
 
 /** Vorlese-Tempo (Web Speech API, 0.1–10; ~1 = normal) */
 const TTS_UTTER_RATE = 1.22;
@@ -41,13 +42,13 @@ export function tryStartBgAudio(tableKey) {
  * @param {string} fallbackText Text für TTS.
  */
 export async function playCritAudio(typ, kat, rangeKey, fallbackText) {
-    const mp3 = buildCritAudioFilename(typ, kat, rangeKey);
-    if (!mp3) {
+    const relativePath = buildCritAudioRelativePath(typ, kat, rangeKey);
+    if (!relativePath) {
         speak(fallbackText);
         return;
     }
 
-    sfxAudio.src = mp3;
+    sfxAudio.src = URLS.AUDIO_BASE_PATH + relativePath;
     sfxAudio.volume = parseFloat($('#ttsVol').value);
     sfxAudio.playbackRate = CRIT_MP3_PLAYBACK_RATE;
 
@@ -56,60 +57,6 @@ export async function playCritAudio(typ, kat, rangeKey, fallbackText) {
     } catch (err) {
         speak(fallbackText);
     }
-}
-
-/**
- * Konvertiert Krit-Typ zu dateinamen-tauglichem Präfix (Leerzeichen → _, Umlaute → ae/oe/ue).
- * @param {string} typ Krit-Typ (z.B. "Grosse Wesen", "Kälte").
- * @returns {string} Dateinamen-sicherer String.
- */
-function sanitizeTypForAudio(typ) {
-    let s = String(typ).trim();
-    s = s.replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss');
-    s = s.replace(/\s+/g, '_');
-    return s.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join('_');
-}
-
-/**
- * Erstellt den Dateinamen für eine Krit-MP3.
- * @param {string} typ Krit-Typ.
- * @param {string} kat Kategorie.
- * @param {string} rangeKey Bereichsschlüssel.
- * @returns {string|null} Der Dateipfad oder null.
- */
-function buildCritAudioFilename(typ, kat, rangeKey) {
-    if (!typ || !kat || !rangeKey) return null;
-    const safeTyp = sanitizeTypForAudio(typ);
-    const safeKat = String(kat).trim().toUpperCase();
-    const safeRange = sanitizeRangeForFile(rangeKey);
-    return `${URLS.AUDIO_BASE_PATH}krit/${safeTyp}_${safeKat}_${safeRange}.mp3`;
-}
-
-/**
- * Bereinigt den Bereichsschlüssel für den Dateinamen.
- * @param {string} rangeKey Der Bereichsschlüssel.
- * @returns {string} Der bereinigte Schlüssel.
- */
-function sanitizeRangeForFile(rangeKey) {
-    let s = String(rangeKey).trim();
-    s = s.replace(/[–—]/g, '-').replace(/\s+/g, '');
-    /** Generierte MP3s nutzen diesen Alias für den untersten Bereich */
-    if (s === '-100-5') {
-        return '0-100';
-    }
-    if (s.endsWith('+')) {
-        const num = parseInt(s.slice(0, -1), 10);
-        return Number.isNaN(num) ? s : `${num}+`;
-    }
-    const twoPart = s.match(/^(-?\d+)-(\d+)$/);
-    if (twoPart) {
-        const a = parseInt(twoPart[1], 10);
-        const b = parseInt(twoPart[2], 10);
-        return `${a}-${b}`;
-    }
-    s = s.replace(/[≤≥]/g, '');
-    const n = parseInt(s, 10);
-    return Number.isNaN(n) ? s : String(n);
 }
 
 /**

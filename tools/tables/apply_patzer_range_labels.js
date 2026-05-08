@@ -8,8 +8,8 @@
 const fs = require('fs');
 const path = require('path');
 
-const PATZER_PATH = path.join(__dirname, '../assets/data/patzer_tables.json');
-const TABLES_PATH = path.join(__dirname, '../assets/data/tables_processed.json');
+const PATZER_PATH = path.join(__dirname, '../../assets/data/_pipeline/patzer_tables.json');
+const TABLES_PATH = path.join(__dirname, '../../assets/data/tables_processed.json');
 
 /** Muss mit merge_patzer_into_tables_processed.js übereinstimmen. */
 const PATZER_MAIN_KEYS = [

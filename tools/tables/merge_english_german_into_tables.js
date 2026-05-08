@@ -1,19 +1,19 @@
 #!/usr/bin/env node
 /**
- * Übernimmt assets/data/english_to_german_tables.json (flaches Array) nach
+ * Übernimmt assets/data/_pipeline/english_to_german_tables.json (flaches Array) nach
  * assets/data/tables_processed.json als verschachtelte Krit-Struktur.
  *
  * Tabellen-Schlüssel: kanonische, sprachneutrale Namen (deutsch).
- * Schreibt scripts/.english_zusatz_table_keys.json für npm run minify-visual-english.
+ * Schreibt tools/tables/.english_zusatz_table_keys.json für npm run minify-visual-english.
  *
- * Usage: node scripts/merge_english_german_into_tables.js
+ * Usage: node tools/tables/merge_english_german_into_tables.js
  */
 
 const fs = require('fs');
 const path = require('path');
 
-const SOURCE = path.join(__dirname, '../assets/data/english_to_german_tables.json');
-const TABLES = path.join(__dirname, '../assets/data/tables_processed.json');
+const SOURCE = path.join(__dirname, '../../assets/data/_pipeline/english_to_german_tables.json');
+const TABLES = path.join(__dirname, '../../assets/data/tables_processed.json');
 const KEYS_OUT = path.join(__dirname, '.english_zusatz_table_keys.json');
 
 const CANONICAL_EN_TABLE_KEYS = {

@@ -4,14 +4,14 @@
  * Nutzung:
  *   node scripts/classify_crit_severity_with_gemini.js
  */
-require('dotenv').config({ path: require('path').join(__dirname, '../private/.env') });
+require('dotenv').config({ path: require('path').join(__dirname, '../../private/.env') });
 require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 const { GoogleGenAI } = require('@google/genai');
 
-const INPUT_PATH = path.join(__dirname, '../assets/data/tables_processed.json');
-const OUTPUT_PATH = path.join(__dirname, '../assets/data/tables_with_severity.json');
+const INPUT_PATH = path.join(__dirname, '../../assets/data/tables_processed.json');
+const OUTPUT_PATH = path.join(__dirname, '../../assets/data/_pipeline/tables_with_severity.json');
 const MODEL = 'gemini-2.5-flash';
 
 const SYSTEM_PROMPT = `

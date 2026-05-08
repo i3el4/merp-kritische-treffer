@@ -9,7 +9,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const JSON_PATH = path.join(__dirname, '../assets/data/treffer_tabellen_strukturiert.json');
+const JSON_PATH = path.join(__dirname, '../../assets/data/treffer_tabellen_strukturiert.json');
 
 // Schweregrad: E=5, D=4, C=3, B=2, A=1, null=0 (niedriger = schwerer)
 const KAT_TO_NUM = { E: 5, D: 4, C: 3, B: 2, A: 1, null: 0 };
