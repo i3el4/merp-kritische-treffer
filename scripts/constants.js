@@ -244,6 +244,53 @@ export function resolveCritIcon(typ) {
   return null;
 }
 
+/** Basis-Pfad für Kampf-Loop-MP3s (siehe assets/audio/kampf/). */
+export const KAMPF_AUDIO_BASE_PATH = 'assets/audio/kampf/';
+
+/** In JSON / UI gespeicherte Gegner-Grösse (klein nur für Musik-Regeln, sonst wie normal). */
+export const GEGNER_TYP_ALLOWED = ['klein', 'normal', 'gross', 'gewaltig'];
+
+export const GEGNER_TYP_LABELS = {
+  klein: 'Klein (nur Musik)',
+  normal: 'Normal',
+  gross: 'Gross',
+  gewaltig: 'Gewaltig'
+};
+
+export function coerceGegnerTypStored(value) {
+  const v = String(value || '').toLowerCase();
+  return GEGNER_TYP_ALLOWED.includes(v) ? v : 'normal';
+}
+
+/** Für Krit/Angriffstabellen: klein zählt wie normal. */
+export function gegnerTypForGameRules(gegnerTyp) {
+  const t = coerceGegnerTypStored(gegnerTyp);
+  return t === 'klein' ? 'normal' : t;
+}
+
+export const MUSIK_PROFIL_VALUES = ['barde', 'nordling', 'hobbit', 'zwerg', 'gondorian', 'npc_verbündet', 'gegner'];
+
+export const MUSIK_PROFIL_LABELS = {
+  barde: 'Barde',
+  nordling: 'Nordling / Waldläufer',
+  hobbit: 'Hobbit',
+  zwerg: 'Zwerg',
+  gondorian: 'Gondorianer',
+  npc_verbündet: 'NPC Verbündet (Standard)',
+  gegner: 'Gegner (Musik)'
+};
+
+export function defaultMusikProfilForEntityTyp(typ) {
+  if (typ === 'gegner') return 'gegner';
+  if (typ === 'npc') return 'npc_verbündet';
+  return 'barde';
+}
+
+export function coerceMusikProfil(value, entityTyp) {
+  const fallback = defaultMusikProfilForEntityTyp(entityTyp);
+  return MUSIK_PROFIL_VALUES.includes(value) ? value : fallback;
+}
+
 export const URLS = {
   TREFFER_URL: 'assets/data/treffer_tabellen_strukturiert.json',
   TABLES_URL: 'assets/data/tables_processed.json',

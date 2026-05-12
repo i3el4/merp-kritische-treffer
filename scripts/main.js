@@ -11,6 +11,7 @@ import { initFirebase, startSync, subscribeToChanges, isFirebaseActive, loadCamp
 import { initCritCorrections } from './critCorrections.js';
 import { adjustWeaponFontSizes } from './logic.js';
 import { state } from './state.js';
+import { initCombatMusic } from './combatMusic.js';
 import { $, $$ } from './dom.js';
 
 let appInitialized = false;
@@ -48,6 +49,8 @@ function applyRoleUI(role) {
     if (spielleiterTabs) spielleiterTabs.hidden = true;
     if (spielerTabs) spielerTabs.hidden = false;
     if (userProfileBtn) userProfileBtn.hidden = false;
+    state.angreiferSubTab = 'charakter';
+    state.monsterAngreiferGegnerId = null;
     switchTab('simulator');
     if (!state.skipCharakterwahl && needsCharakterwahl()) {
       showCharakterwahl();
@@ -155,6 +158,7 @@ function initUserProfile() {
 }
 
 async function initApp() {
+  initCombatMusic();
   await initCritCorrections();
   loadData().catch(err => {
     console.error(err);

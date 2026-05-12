@@ -306,12 +306,20 @@
                 <button class="btn" id="bgToggleBtn">Musik ▶︎</button>
                 <label class="sr" for="bgVol">Musik-Lautstärke</label>
                 <input id="bgVol" type="range" min="0" max="1" step="0.01" value="0.20">
-                <span class="badge">Hintergrundmusik</span>
+                <span class="badge">Musik</span>
               </div>
               <div class="audio-controls">
                 <label for="ttsVol">Lautstärke</label>
                 <input id="ttsVol" type="range" min="0" max="1" step="0.01" value="1.00">
                 <span class="badge">TTS-Fallback</span>
+              </div>
+              <div class="audio-controls spielleiter-only licht-only">
+                <label for="kampfMusikProfilOverride">Charakter-Profil</label>
+                <select id="kampfMusikProfilOverride" class="kampf-musik-override-select" title="Nur für Charakterangriff: Profil überschreiben"></select>
+              </div>
+              <div class="audio-controls spielleiter-only schatten-only">
+                <label for="schattenMusikKategorie">Schatten-Intensität</label>
+                <select id="schattenMusikKategorie" class="kampf-musik-override-select" title="Intensität der Kampfmusik im Schatten-Modus"></select>
               </div>
             </div>
           </div>
@@ -338,7 +346,25 @@
     <div id="simulatorPanel" class="tab-panel">
       <div class="grid">
         <section class="card">
-          <h2>1) Angriff</h2>
+          <div class="card-header-row">
+            <h2>1) Angriff</h2>
+            <div class="kampf-header-controls">
+              <div id="simulatorAngriffsmodus" class="angriffsmodus-slider spielleiter-only" role="group" aria-label="Angriffsmodus" data-pos="charakter">
+                <button type="button" class="angriffsmodus-label" data-angriffsmodus="charakter">Licht</button>
+                <button type="button" class="angriffsmodus-track" id="angriffsmodusTrack" aria-label="Angriffsmodus umschalten">
+                  <span class="angriffsmodus-thumb"></span>
+                </button>
+                <button type="button" class="angriffsmodus-label" data-angriffsmodus="monster">Schatten</button>
+              </div>
+              <button type="button" class="btn ghost kampf-musik-play-btn" id="kampfMusikPlayBtn" aria-pressed="false" title="Kampfmusik starten / pausieren">▶</button>
+            </div>
+          </div>
+          <div id="simulatorAngreiferRow" class="angriff-bottom-row simulator-angreifer-row spielleiter-only" hidden>
+            <div class="angriff-bottom-item">
+              <label for="simulatorAngreiferSelect">Angreifer</label>
+              <select id="simulatorAngreiferSelect"></select>
+            </div>
+          </div>
           <div class="selection-container">
             <div class="weapon-section">
               <label>Waffenart</label>
@@ -353,12 +379,6 @@
             </div>
 
             <div class="angriff-bottom-row">
-              <div id="simulatorAngreiferRow" class="angriff-bottom-item" hidden>
-                <label for="simulatorCharakterSelect">Angreifer</label>
-                <select id="simulatorCharakterSelect">
-                  <option value="">(Kein Charakter)</option>
-                </select>
-              </div>
               <div id="dbAnzeige" class="db-anzeige-wrap" hidden></div>
               <div class="angriff-bottom-item">
                 <label for="attack">Angriffswert (berechnet)</label>
@@ -608,10 +628,15 @@
             <div>
               <label for="charGroesse">Grösse</label>
               <select name="charGroesse" id="charGroesse">
+                <option value="klein">Klein (nur Musik)</option>
                 <option value="normal" selected>Normal</option>
                 <option value="gross">Gross</option>
                 <option value="gewaltig">Gewaltig</option>
               </select>
+            </div>
+            <div>
+              <label for="charMusikProfil">Kampf-Musik (Profil)</label>
+              <select name="charMusikProfil" id="charMusikProfil"></select>
             </div>
             <div>
               <label for="charRk">Rüstungsklasse</label>
@@ -758,6 +783,7 @@
 
   <audio id="bgAudio" loop></audio>
   <audio id="sfxAudio"></audio>
+  <audio id="kampfMusikAudio" loop preload="metadata"></audio>
 
   <script type="module" src="scripts/main.js"></script>
 </body>

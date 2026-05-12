@@ -16,6 +16,7 @@ import {
 import { state } from './state.js';
 import { $, $$ } from './dom.js';
 import { mapCritName, adjustWeaponFontSizes, clearAttackTableMergeCache } from './logic.js';
+import { syncCombatMusic } from './combatMusic.js';
 
 // Funktion zum Laden der JSON-Daten und Initialisieren der Benutzeroberfläche.
 export async function loadData() {
@@ -159,6 +160,7 @@ export function initWeaponSizeClassListener() {
     sel.addEventListener('change', () => {
         state.selectedSizeClass = sel.value;
         hideWeaponSizePopover();
+        syncCombatMusic();
     });
 }
 
@@ -191,6 +193,7 @@ function populateWeapons() {
             btn.classList.add('active');
             state.selectedWeapon = k;
             syncWeaponSizeUI(k, btn);
+            syncCombatMusic();
         });
 
         return btn;
@@ -226,6 +229,7 @@ function populateWeapons() {
         }
     }
     syncWeaponSizeUI(state.selectedWeapon);
+    syncCombatMusic();
     // Sofort messen (gleicher Task wie DOM) — sonst ein Frame mit CSS-Fallback (14px) → sichtbarer Sprung nach unten.
     void wSelWrap.offsetHeight;
     adjustWeaponFontSizes();

@@ -5,6 +5,7 @@ import { URLS } from './constants.js';
 import { state } from './state.js';
 import { $ } from './dom.js';
 import { buildCritAudioRelativePath } from './audioNaming.mjs';
+import { combatMusicNotifySpeechOrSfxStart, combatMusicNotifySpeechOrSfxEnd } from './combatMusic.js';
 
 /** Vorlese-Tempo (Web Speech API, 0.1–10; ~1 = normal) */
 const TTS_UTTER_RATE = 1.22;
@@ -52,11 +53,20 @@ export async function playCritAudio(typ, kat, rangeKey, fallbackText) {
     sfxAudio.volume = parseFloat($('#ttsVol').value);
     sfxAudio.playbackRate = CRIT_MP3_PLAYBACK_RATE;
 
+    combatMusicNotifySpeechOrSfxStart();
     try {
         await sfxAudio.play();
+        await new Promise((resolve) => {
+            const done = () => resolve(undefined);
+            sfxAudio.addEventListener('ended', done, { once: true });
+            sfxAudio.addEventListener('error', done, { once: true });
+        });
     } catch (err) {
+        combatMusicNotifySpeechOrSfxEnd();
         speak(fallbackText);
+        return;
     }
+    combatMusicNotifySpeechOrSfxEnd();
 }
 
 /**
@@ -68,9 +78,12 @@ function speak(text) {
     const volume = parseFloat($('#ttsVol')?.value ?? '1.0');
     if (volume === 0) return;
     window.speechSynthesis.cancel();
+    combatMusicNotifySpeechOrSfxStart();
     const utter = new SpeechSynthesisUtterance(text);
     utter.lang = 'de-DE';
     utter.rate = TTS_UTTER_RATE;
     utter.volume = volume;
+    utter.onend = () => combatMusicNotifySpeechOrSfxEnd();
+    utter.onerror = () => combatMusicNotifySpeechOrSfxEnd();
     window.speechSynthesis.speak(utter);
 }

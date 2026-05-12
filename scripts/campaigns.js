@@ -3,6 +3,11 @@
 // Speicher: Firebase Realtime Database (wenn konfiguriert) oder localStorage.
 
 import { loadAll, saveAll } from './firebase-storage.js';
+import {
+  coerceGegnerTypStored,
+  coerceMusikProfil,
+  defaultMusikProfilForEntityTyp
+} from './constants.js';
 
 function uuid() {
   return crypto.randomUUID?.() ?? 'x' + Math.random().toString(36).slice(2, 12);
@@ -79,12 +84,13 @@ export function addSpieler(name, icon = null, maxTp = 100, rk = 20, wahrnehmung 
   const id = uuid();
   const tpVal = Math.max(0, parseInt(maxTp, 10) || 100);
   const rkNum = Math.max(1, Math.min(20, parseInt(rk, 10) || 20));
-  const typ = ['normal', 'gross', 'gewaltig'].includes(gegnerTyp) ? gegnerTyp : 'normal';
+  const gStored = coerceGegnerTypStored(gegnerTyp);
   const data = loadAll();
   data.kampagnen[k.id].spieler = data.kampagnen[k.id].spieler || [];
   data.kampagnen[k.id].spieler.push({
     id, name: name || 'Spieler', icon: icon || null,
-    maxTp: tpVal, tp: tpVal, rk: rkNum, gegnerTyp: typ,
+    maxTp: tpVal, tp: tpVal, rk: rkNum, gegnerTyp: gStored,
+    musikProfil: defaultMusikProfilForEntityTyp('spieler'),
     wahrnehmung: wahrnehmung != null ? String(wahrnehmung) : null,
     sichtbar: true,
     defensivBonus: 0, bm: 0, gruppeId: null,
@@ -119,7 +125,10 @@ export function updateSpieler(spielerId, updates) {
   if (updates.name != null) spieler[idx].name = updates.name;
   if (updates.icon !== undefined) spieler[idx].icon = updates.icon || null;
   if (updates.rk != null) spieler[idx].rk = Math.max(1, Math.min(20, parseInt(updates.rk, 10) || 20));
-  if (updates.gegnerTyp != null) spieler[idx].gegnerTyp = ['normal', 'gross', 'gewaltig'].includes(updates.gegnerTyp) ? updates.gegnerTyp : spieler[idx].gegnerTyp;
+  if (updates.gegnerTyp != null) spieler[idx].gegnerTyp = coerceGegnerTypStored(updates.gegnerTyp);
+  if (updates.musikProfil != null) {
+    spieler[idx].musikProfil = coerceMusikProfil(updates.musikProfil, 'spieler');
+  }
   if (updates.wahrnehmung !== undefined) spieler[idx].wahrnehmung = updates.wahrnehmung != null ? String(updates.wahrnehmung) : null;
   if (updates.defensivBonus !== undefined) spieler[idx].defensivBonus = parseInt(updates.defensivBonus, 10) || 0;
   if (updates.bm !== undefined) spieler[idx].bm = parseInt(updates.bm, 10) || 0;
@@ -142,7 +151,7 @@ export function addNpc(name, icon = null, maxTp = 100, rk = 20, gegnerTyp = 'nor
   const id = uuid();
   const tpVal = Math.max(0, parseInt(maxTp, 10) || 100);
   const rkNum = Math.max(1, Math.min(20, parseInt(rk, 10) || 20));
-  const typ = ['normal', 'gross', 'gewaltig'].includes(gegnerTyp) ? gegnerTyp : 'normal';
+  const gStored = coerceGegnerTypStored(gegnerTyp);
   const data = loadAll();
   data.kampagnen[k.id].npcs = data.kampagnen[k.id].npcs || [];
   data.kampagnen[k.id].npcs.push({
@@ -152,7 +161,8 @@ export function addNpc(name, icon = null, maxTp = 100, rk = 20, gegnerTyp = 'nor
     maxTp: tpVal,
     tp: tpVal,
     rk: rkNum,
-    gegnerTyp: typ,
+    gegnerTyp: gStored,
+    musikProfil: defaultMusikProfilForEntityTyp('npc'),
     wahrnehmung: wahrnehmung != null ? String(wahrnehmung) : null,
     sichtbar: true,
     defensivBonus: 0,
@@ -204,7 +214,10 @@ export function updateNpc(npcId, updates) {
   if (updates.name != null) npcs[idx].name = updates.name;
   if (updates.icon !== undefined) npcs[idx].icon = updates.icon || null;
   if (updates.rk != null) npcs[idx].rk = Math.max(1, Math.min(20, parseInt(updates.rk, 10) || 20));
-  if (updates.gegnerTyp != null) npcs[idx].gegnerTyp = ['normal', 'gross', 'gewaltig'].includes(updates.gegnerTyp) ? updates.gegnerTyp : npcs[idx].gegnerTyp;
+  if (updates.gegnerTyp != null) npcs[idx].gegnerTyp = coerceGegnerTypStored(updates.gegnerTyp);
+  if (updates.musikProfil != null) {
+    npcs[idx].musikProfil = coerceMusikProfil(updates.musikProfil, 'npc');
+  }
   if (updates.wahrnehmung !== undefined) npcs[idx].wahrnehmung = updates.wahrnehmung != null ? String(updates.wahrnehmung) : null;
   if (updates.sichtbar !== undefined) npcs[idx].sichtbar = !!updates.sichtbar;
   if (updates.defensivBonus !== undefined) npcs[idx].defensivBonus = parseInt(updates.defensivBonus, 10) || 0;
@@ -281,13 +294,14 @@ export function addGegner(name, maxTp, gegnerTyp = 'normal', rk = 20, icon = nul
   if (!k) return null;
   const id = uuid();
   const rkNum = Math.max(1, Math.min(20, parseInt(rk, 10) || 20));
-  const typ = ['normal', 'gross', 'gewaltig'].includes(gegnerTyp) ? gegnerTyp : 'normal';
+  const gStored = coerceGegnerTypStored(gegnerTyp);
   const gegner = {
     id,
     name: name || 'Gegner',
     maxTp: Math.max(0, parseInt(maxTp, 10) || 0),
     tp: Math.max(0, parseInt(maxTp, 10) || 0),
-    gegnerTyp: typ,
+    gegnerTyp: gStored,
+    musikProfil: defaultMusikProfilForEntityTyp('gegner'),
     rk: rkNum,
     icon: icon || null,
     imKampf: true,
@@ -374,7 +388,10 @@ export function updateGegner(gegnerId, updates) {
   const gegner = data.kampagnen[k.id].gegner || [];
   const idx = gegner.findIndex(g => g.id === gegnerId);
   if (idx < 0) return false;
-  if (updates.gegnerTyp != null) gegner[idx].gegnerTyp = updates.gegnerTyp;
+  if (updates.gegnerTyp != null) gegner[idx].gegnerTyp = coerceGegnerTypStored(updates.gegnerTyp);
+  if (updates.musikProfil != null) {
+    gegner[idx].musikProfil = coerceMusikProfil(updates.musikProfil, 'gegner');
+  }
   if (updates.rk != null) gegner[idx].rk = Math.max(1, Math.min(20, parseInt(updates.rk, 10) || 20));
   if (updates.name != null) gegner[idx].name = updates.name;
   if (updates.icon !== undefined) gegner[idx].icon = updates.icon || null;
@@ -410,11 +427,12 @@ export function addGegnerVorlage(dataIn) {
     id,
     name: String(dataIn?.name || 'Vorlage').trim(),
     maxTp: Math.max(1, parseInt(dataIn?.maxTp, 10) || 100),
-    gegnerTyp: ['normal', 'gross', 'gewaltig'].includes(dataIn?.gegnerTyp) ? dataIn.gegnerTyp : 'normal',
+    gegnerTyp: coerceGegnerTypStored(dataIn?.gegnerTyp),
     rk: Math.max(1, Math.min(20, parseInt(dataIn?.rk, 10) || 20)),
     icon: dataIn?.icon || null,
     defensivBonus: parseInt(dataIn?.defensivBonus, 10) || 0,
-    bm: parseInt(dataIn?.bm, 10) || 0
+    bm: parseInt(dataIn?.bm, 10) || 0,
+    musikProfil: defaultMusikProfilForEntityTyp('gegner')
   };
   data.kampagnen[k.id].gegnerVorlagen = data.kampagnen[k.id].gegnerVorlagen || [];
   data.kampagnen[k.id].gegnerVorlagen.push(tpl);
@@ -432,11 +450,14 @@ export function updateGegnerVorlage(vorlageId, updates) {
   if (idx < 0) return false;
   if (updates.name != null) list[idx].name = String(updates.name || list[idx].name).trim();
   if (updates.maxTp != null) list[idx].maxTp = Math.max(1, parseInt(updates.maxTp, 10) || 100);
-  if (updates.gegnerTyp != null) list[idx].gegnerTyp = ['normal', 'gross', 'gewaltig'].includes(updates.gegnerTyp) ? updates.gegnerTyp : list[idx].gegnerTyp;
+  if (updates.gegnerTyp != null) list[idx].gegnerTyp = coerceGegnerTypStored(updates.gegnerTyp);
   if (updates.rk != null) list[idx].rk = Math.max(1, Math.min(20, parseInt(updates.rk, 10) || 20));
   if (updates.icon !== undefined) list[idx].icon = updates.icon || null;
   if (updates.defensivBonus !== undefined) list[idx].defensivBonus = parseInt(updates.defensivBonus, 10) || 0;
   if (updates.bm !== undefined) list[idx].bm = parseInt(updates.bm, 10) || 0;
+  if (updates.musikProfil != null) {
+    list[idx].musikProfil = coerceMusikProfil(updates.musikProfil, 'gegner');
+  }
   data.kampagnen[k.id].updatedAt = new Date().toISOString();
   saveAll(data);
   return true;
@@ -464,17 +485,19 @@ export function addVorlage(dataIn) {
   if (!k) return null;
   const data = loadAll();
   const id = uuid();
+  const tplTyp = ['spieler', 'npc', 'gegner'].includes(dataIn?.typ) ? dataIn.typ : 'gegner';
   const tpl = {
     id,
     name: String(dataIn?.name || 'Vorlage').trim(),
-    typ: ['spieler', 'npc', 'gegner'].includes(dataIn?.typ) ? dataIn.typ : 'gegner',
+    typ: tplTyp,
     maxTp: Math.max(1, parseInt(dataIn?.maxTp, 10) || 100),
-    gegnerTyp: ['normal', 'gross', 'gewaltig'].includes(dataIn?.gegnerTyp) ? dataIn.gegnerTyp : 'normal',
+    gegnerTyp: coerceGegnerTypStored(dataIn?.gegnerTyp),
     rk: Math.max(1, Math.min(20, parseInt(dataIn?.rk, 10) || 10)),
     icon: dataIn?.icon || null,
     defensivBonus: parseInt(dataIn?.defensivBonus, 10) || 0,
     bm: parseInt(dataIn?.bm, 10) || 0,
-    wahrnehmung: dataIn?.wahrnehmung != null ? String(dataIn.wahrnehmung) : null
+    wahrnehmung: dataIn?.wahrnehmung != null ? String(dataIn.wahrnehmung) : null,
+    musikProfil: coerceMusikProfil(dataIn?.musikProfil, tplTyp)
   };
   data.kampagnen[k.id].vorlagen = data.kampagnen[k.id].vorlagen || [];
   data.kampagnen[k.id].vorlagen.push(tpl);
@@ -493,12 +516,16 @@ export function updateVorlage(vorlageId, updates) {
   if (updates.name != null) list[idx].name = String(updates.name || list[idx].name).trim();
   if (updates.typ != null) list[idx].typ = ['spieler', 'npc', 'gegner'].includes(updates.typ) ? updates.typ : list[idx].typ;
   if (updates.maxTp != null) list[idx].maxTp = Math.max(1, parseInt(updates.maxTp, 10) || 100);
-  if (updates.gegnerTyp != null) list[idx].gegnerTyp = ['normal', 'gross', 'gewaltig'].includes(updates.gegnerTyp) ? updates.gegnerTyp : list[idx].gegnerTyp;
+  if (updates.gegnerTyp != null) list[idx].gegnerTyp = coerceGegnerTypStored(updates.gegnerTyp);
   if (updates.rk != null) list[idx].rk = Math.max(1, Math.min(20, parseInt(updates.rk, 10) || 10));
   if (updates.icon !== undefined) list[idx].icon = updates.icon || null;
   if (updates.defensivBonus !== undefined) list[idx].defensivBonus = parseInt(updates.defensivBonus, 10) || 0;
   if (updates.bm !== undefined) list[idx].bm = parseInt(updates.bm, 10) || 0;
   if (updates.wahrnehmung !== undefined) list[idx].wahrnehmung = updates.wahrnehmung != null ? String(updates.wahrnehmung) : null;
+  if (updates.musikProfil != null) {
+    const et = list[idx].typ === 'spieler' ? 'spieler' : list[idx].typ === 'npc' ? 'npc' : 'gegner';
+    list[idx].musikProfil = coerceMusikProfil(updates.musikProfil, et);
+  }
   data.kampagnen[k.id].updatedAt = new Date().toISOString();
   saveAll(data);
   return true;

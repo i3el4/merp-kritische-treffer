@@ -10,6 +10,7 @@ import {
   get,
   onValue
 } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
+import { coerceGegnerTypStored, defaultMusikProfilForEntityTyp } from './constants.js';
 
 const LOCAL_KEY = 'merp_kampagnen';
 const LOCAL_KNOWN_IDS = 'merp_known_campaign_ids';
@@ -31,6 +32,8 @@ function migrateKampagne(k) {
     if (s.tp === undefined) s.tp = s.maxTp ?? 100;
     if (s.rk === undefined) s.rk = 20;
     if (s.gegnerTyp === undefined) s.gegnerTyp = 'normal';
+    s.gegnerTyp = coerceGegnerTypStored(s.gegnerTyp);
+    if (s.musikProfil === undefined) s.musikProfil = defaultMusikProfilForEntityTyp('spieler');
     if (s.wahrnehmung === undefined) s.wahrnehmung = null;
     if (s.sichtbar === undefined) s.sichtbar = true;
     if (s.defensivBonus === undefined) s.defensivBonus = 0;
@@ -46,6 +49,8 @@ function migrateKampagne(k) {
     if (n.tp === undefined) n.tp = n.maxTp ?? 100;
     if (n.rk === undefined) n.rk = 20;
     if (n.gegnerTyp === undefined) n.gegnerTyp = 'normal';
+    n.gegnerTyp = coerceGegnerTypStored(n.gegnerTyp);
+    if (n.musikProfil === undefined) n.musikProfil = defaultMusikProfilForEntityTyp('npc');
     if (n.wahrnehmung === undefined) n.wahrnehmung = null;
     if (n.sichtbar === undefined) n.sichtbar = true;
     if (n.defensivBonus === undefined) n.defensivBonus = 0;
@@ -70,6 +75,9 @@ function migrateKampagne(k) {
     if (g.wahrnehmung === undefined) g.wahrnehmung = null;
     if (g.defensivBonus === undefined) g.defensivBonus = 0;
     if (g.bm === undefined) g.bm = 0;
+    if (g.gegnerTyp === undefined) g.gegnerTyp = 'normal';
+    g.gegnerTyp = coerceGegnerTypStored(g.gegnerTyp);
+    if (g.musikProfil === undefined) g.musikProfil = defaultMusikProfilForEntityTyp('gegner');
     if (!Array.isArray(g.status)) g.status = [];
     if (!Array.isArray(g.laufendeSchaden)) g.laufendeSchaden = [];
     if (!Array.isArray(g.historie)) g.historie = [];
@@ -78,6 +86,9 @@ function migrateKampagne(k) {
     if (v.defensivBonus === undefined) v.defensivBonus = 0;
     if (v.bm === undefined) v.bm = 0;
     if (v.icon === undefined) v.icon = null;
+    if (v.gegnerTyp === undefined) v.gegnerTyp = 'normal';
+    v.gegnerTyp = coerceGegnerTypStored(v.gegnerTyp);
+    if (v.musikProfil === undefined) v.musikProfil = defaultMusikProfilForEntityTyp('gegner');
   });
   if (k.gegnerVorlagen.length > 0 && k.vorlagen.length === 0) {
     k.vorlagen = k.gegnerVorlagen.map(v => ({
@@ -86,6 +97,12 @@ function migrateKampagne(k) {
       wahrnehmung: v.wahrnehmung ?? null
     }));
   }
+  (k.vorlagen || []).forEach(v => {
+    if (v.gegnerTyp === undefined) v.gegnerTyp = 'normal';
+    v.gegnerTyp = coerceGegnerTypStored(v.gegnerTyp);
+    const et = v.typ === 'spieler' ? 'spieler' : v.typ === 'npc' ? 'npc' : 'gegner';
+    if (v.musikProfil === undefined) v.musikProfil = defaultMusikProfilForEntityTyp(et);
+  });
   return k;
 }
 

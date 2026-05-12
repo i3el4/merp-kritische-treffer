@@ -767,11 +767,6 @@ header > div:first-child {
     min-width: 0;
   }
 
-  #simulatorPanel #simulatorAngreiferRow.angriff-bottom-item {
-    flex: 1.15 1 220px;
-    min-width: min(100%, 200px);
-  }
-
   #simulatorPanel .angriff-bottom-item:has(#attack) {
     flex: 1 1 200px;
     min-width: min(100%, 180px);
@@ -2618,4 +2613,112 @@ header > div:first-child {
 .gegner-status-section .kampftracker-header {
   flex-direction: column;
   align-items: stretch;
+}
+
+.card-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.card-header-row > h2 {
+  margin: 0;
+}
+
+.kampf-header-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.angriffsmodus-slider {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.angriffsmodus-label {
+  appearance: none;
+  -webkit-appearance: none;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  padding: 4px 2px;
+  font-family: 'Aniron', Georgia, serif;
+  font-size: 0.85em;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: color 120ms ease;
+}
+
+.angriffsmodus-slider[data-pos="charakter"] .angriffsmodus-label[data-angriffsmodus="charakter"],
+.angriffsmodus-slider[data-pos="monster"] .angriffsmodus-label[data-angriffsmodus="monster"] {
+  color: var(--text);
+}
+
+.angriffsmodus-track {
+  appearance: none;
+  -webkit-appearance: none;
+  position: relative;
+  width: 48px;
+  height: 24px;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--chip);
+  cursor: pointer;
+  transition: background 160ms ease, border-color 160ms ease;
+}
+
+.angriffsmodus-slider[data-pos="monster"] .angriffsmodus-track {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.angriffsmodus-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--bg);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  transition: transform 220ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.angriffsmodus-slider[data-pos="monster"] .angriffsmodus-thumb {
+  transform: translateX(22px);
+}
+
+.kampf-musik-play-btn {
+  font-size: 1.1em;
+  line-height: 1;
+  padding: 4px 12px;
+  min-width: 40px;
+}
+
+.kampf-musik-play-btn.active {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+.user-profile-audio-section .kampf-musik-override-select {
+  flex: 1;
+  min-width: 0;
+  max-width: 180px;
+}
+
+.simulator-angreifer-row {
+  margin-bottom: 10px;
+}
+
+body[data-angriffsmodus="charakter"] .schatten-only,
+body[data-angriffsmodus="monster"] .licht-only {
+  display: none !important;
 }

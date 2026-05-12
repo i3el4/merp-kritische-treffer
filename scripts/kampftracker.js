@@ -2,7 +2,7 @@
 // UI-Logik für den Kampftracker (Kampagnen, Gegner).
 
 import { $, $$ } from './dom.js';
-import { CHARAKTER_ICONS, URLS } from './constants.js';
+import { CHARAKTER_ICONS, URLS, GEGNER_TYP_ALLOWED, GEGNER_TYP_LABELS, gegnerTypForGameRules } from './constants.js';
 import {
   getKampagnenListe,
   getCurrentKampagne,
@@ -67,6 +67,7 @@ import {
 } from './campaigns.js';
 import { state } from './state.js';
 import { getRole, ROLES, setCharakter, getCharakter } from './role.js';
+import { fillMusikProfilSelect, syncCombatMusic, persistSchattenKategorie } from './combatMusic.js';
 import { isFirebaseActive, loadCampaign, joinCampaign } from './firebase-storage.js';
 
 const CHARAKTERTRACKER_PANEL = '#charaktertrackerPanel';
@@ -195,12 +196,12 @@ function showCharakterEditPopoverForChip(chipEl, char) {
     </div>
     <div class="gegner-edit-row">
       <label>Grösse</label>
-      <select class="gegner-edit-groesse">
-        <option value="normal"${gTyp === 'normal' ? ' selected' : ''}>Normal</option>
-        <option value="gross"${gTyp === 'gross' ? ' selected' : ''}>Gross</option>
-        <option value="gewaltig"${gTyp === 'gewaltig' ? ' selected' : ''}>Gewaltig</option>
-      </select>
+      <select class="gegner-edit-groesse">${gegnerGroesseOptionsHtml(gTyp)}</select>
     </div>
+    ${getRole() === ROLES.SPIELLEITER ? `<div class="gegner-edit-row">
+      <label>Kampf-Musik</label>
+      <select class="gegner-edit-musik"></select>
+    </div>` : ''}
     <div class="gegner-edit-row">
       <label>Rüstungsklasse</label>
       <select class="gegner-edit-rk">${rkOpts}</select>
@@ -236,6 +237,8 @@ function showCharakterEditPopoverForChip(chipEl, char) {
   popover.dataset.selectedIcon = char.icon || '';
   const iconPickerEl = popover.querySelector('.gegner-edit-icon-picker');
   renderIconPicker(iconPickerEl, char.icon, (filename) => { popover.dataset.selectedIcon = filename; });
+  const musikEl = popover.querySelector('.gegner-edit-musik');
+  if (musikEl) fillMusikProfilSelect(musikEl, char.musikProfil, char.typ === 'npc' ? 'npc' : 'spieler');
   popover.querySelector('.gegner-edit-apply').addEventListener('click', () => {
     const name = popover.querySelector('.gegner-edit-name')?.value?.trim();
     const rk = parseInt(popover.querySelector('.gegner-edit-rk').value, 10);
@@ -249,6 +252,8 @@ function showCharakterEditPopoverForChip(chipEl, char) {
     const gruppeId = popover.querySelector('.gegner-edit-gruppe')?.value?.trim() || null;
     const sichtbar = popover.querySelector('.gegner-edit-sichtbar')?.checked !== false;
     const updates = { name: name || char.name, rk, tp: Math.min(tp, maxTp), maxTp, icon, defensivBonus, bm, gruppeId, gegnerTyp, wahrnehmung, sichtbar };
+    const musikSel = popover.querySelector('.gegner-edit-musik');
+    if (musikSel && getRole() === ROLES.SPIELLEITER) updates.musikProfil = musikSel.value;
     if (char.typ === 'spieler') {
       updateSpieler(char.id, updates);
     } else {
@@ -287,12 +292,12 @@ function showGegnerEditPopover(cardEl, gegner) {
     </div>
     <div class="gegner-edit-row">
       <label>Grösse</label>
-      <select class="gegner-edit-groesse">
-        <option value="normal"${gTyp === 'normal' ? ' selected' : ''}>Normal</option>
-        <option value="gross"${gTyp === 'gross' ? ' selected' : ''}>Gross</option>
-        <option value="gewaltig"${gTyp === 'gewaltig' ? ' selected' : ''}>Gewaltig</option>
-      </select>
+      <select class="gegner-edit-groesse">${gegnerGroesseOptionsHtml(gTyp)}</select>
     </div>
+    ${getRole() === ROLES.SPIELLEITER ? `<div class="gegner-edit-row">
+      <label>Kampf-Musik</label>
+      <select class="gegner-edit-musik"></select>
+    </div>` : ''}
     <div class="gegner-edit-row">
       <label>Rüstungsklasse</label>
       <select class="gegner-edit-rk">${rkOpts}</select>
@@ -335,6 +340,8 @@ function showGegnerEditPopover(cardEl, gegner) {
   renderIconPicker(iconPickerEl, gegner.icon, (filename) => {
     popover.dataset.selectedIcon = filename;
   });
+  const musikElG = popover.querySelector('.gegner-edit-musik');
+  if (musikElG) fillMusikProfilSelect(musikElG, gegner.musikProfil, 'gegner');
   popover.querySelector('.gegner-edit-apply').addEventListener('click', () => {
     const rk = parseInt(popover.querySelector('.gegner-edit-rk').value, 10);
     const tp = parseInt(popover.querySelector('.gegner-edit-tp').value, 10);
@@ -349,6 +356,8 @@ function showGegnerEditPopover(cardEl, gegner) {
     const gruppeSel = popover.querySelector('.gegner-edit-gruppe');
     const gruppeId = gruppeSel?.value?.trim() || null;
     const updates = { rk, tp: Math.min(tp, maxTp), maxTp, icon, imKampf, sichtbar, gruppeId, defensivBonus, bm, gegnerTyp, wahrnehmung };
+    const musikSel = popover.querySelector('.gegner-edit-musik');
+    if (musikSel && getRole() === ROLES.SPIELLEITER) updates.musikProfil = musikSel.value;
     updateGegner(gegner.id, updates);
     popover.remove();
     render();
@@ -396,6 +405,12 @@ function showGegnerSchadenPopover(cardEl, gegner) {
   mountGegnerEditPopover(popover);
 }
 
+function gegnerGroesseOptionsHtml(selected) {
+  return GEGNER_TYP_ALLOWED.map((v) =>
+    `<option value="${v}"${selected === v ? ' selected' : ''}>${GEGNER_TYP_LABELS[v]}</option>`
+  ).join('');
+}
+
 function applyZielToSimulator() {
   const ids = state.selectedGegnerIds || [];
   const firstId = ids[0] || null;
@@ -403,11 +418,12 @@ function applyZielToSimulator() {
   const charInfo = !g && firstId ? getCharakterById(firstId) : null;
   const ziel = g || charInfo?.char;
   if (!ziel) return;
-  const typ = ziel.gegnerTyp || 'normal';
+  const typ = gegnerTypForGameRules(ziel.gegnerTyp || 'normal');
   if (typ === 'gross') $('#critType').value = 'Grosse Wesen';
   else if (typ === 'gewaltig') $('#critType').value = 'Gewaltige Wesen';
   else $('#critType').value = (state.autoCrit && state.autoCrit.typ) || '';
   $('#critType').dispatchEvent(new Event('change'));
+  syncCombatMusic();
 }
 
 function renderKampagnenDropdown() {
@@ -675,8 +691,14 @@ function renderZielAnzeige() {
       group.appendChild(row);
       zielListe.appendChild(group);
     };
-    addGroup('Gegner', gegnerZiele, 'gegner');
-    addGroup('Verbündete', verbuendete, 'verbuendete');
+    const isMonsterModus = getRole() === ROLES.SPIELLEITER && state.angreiferSubTab === 'monster';
+    if (isMonsterModus) {
+      addGroup('Gegner', verbuendete, 'gegner');
+      addGroup('Verbündete', gegnerZiele, 'verbuendete');
+    } else {
+      addGroup('Gegner', gegnerZiele, 'gegner');
+      addGroup('Verbündete', verbuendete, 'verbuendete');
+    }
     requestAnimationFrame(() => adjustZielNameFontSizes());
     if (zielInfo) zielInfo.textContent = '';
   }
@@ -750,23 +772,106 @@ function renderDbAnzeige() {
   el.innerHTML = parts.join(' · ');
 }
 
-function renderCharakterZeile() {
-  const charRow = $('#simulatorAngreiferRow');
-  const charSelect = $('#simulatorCharakterSelect');
-  if (!charRow || !charSelect) return;
-  const charaktere = getCharaktere();
-  charRow.hidden = getRole() !== ROLES.SPIELLEITER || charaktere.length === 0;
-  charSelect.innerHTML = '';
-  const opt0 = document.createElement('option');
-  opt0.value = '';
-  opt0.textContent = '(Kein Charakter)';
-  charSelect.appendChild(opt0);
-  charaktere.forEach(c => {
-    const opt = document.createElement('option');
-    opt.value = c.id;
-    opt.textContent = c.typ === 'npc' ? `${c.name} (NPC)` : c.name;
-    if (c.id === state.selectedCharakterId) opt.selected = true;
-    charSelect.appendChild(opt);
+function renderAngreiferRow() {
+  const row = $('#simulatorAngreiferRow');
+  const sel = /** @type {HTMLSelectElement | null} */ ($('#simulatorAngreiferSelect'));
+  if (!row || !sel) return;
+  const sl = getRole() === ROLES.SPIELLEITER;
+  if (!sl) {
+    row.hidden = true;
+    return;
+  }
+  if (state.angreiferSubTab === 'monster') {
+    const list = getGegner().filter((g) => g.imKampf !== false && g.sichtbar !== false);
+    row.hidden = list.length === 0;
+    sel.innerHTML = '<option value="">(Monster wählen)</option>' +
+      list.map((g) => `<option value="${g.id}">${escapeHtml(g.name)}</option>`).join('');
+    if (state.monsterAngreiferGegnerId && list.some((g) => g.id === state.monsterAngreiferGegnerId)) {
+      sel.value = state.monsterAngreiferGegnerId;
+    } else if (list.length > 0) {
+      sel.value = list[0].id;
+      state.monsterAngreiferGegnerId = list[0].id;
+    } else {
+      sel.value = '';
+    }
+  } else {
+    const charaktere = getCharaktere();
+    row.hidden = charaktere.length === 0;
+    sel.innerHTML = '<option value="">(Kein Charakter)</option>' +
+      charaktere.map((c) => {
+        const label = c.typ === 'npc' ? `${escapeHtml(c.name)} (NPC)` : escapeHtml(c.name);
+        return `<option value="${c.id}">${label}</option>`;
+      }).join('');
+    if (state.selectedCharakterId && charaktere.some((c) => c.id === state.selectedCharakterId)) {
+      sel.value = state.selectedCharakterId;
+    } else if (charaktere.length > 0) {
+      sel.value = charaktere[0].id;
+      const first = charaktere[0];
+      state.selectedCharakterId = first.id;
+      state.selectedCharakterName = first.name;
+    } else {
+      sel.value = '';
+    }
+  }
+}
+
+function renderSimulatorKampfToolbar() {
+  const modusToggle = $('#simulatorAngriffsmodus');
+  const intensSel = $('#schattenMusikKategorie');
+  const sl = getRole() === ROLES.SPIELLEITER;
+  const angreiferModus = state.angreiferSubTab === 'monster' ? 'monster' : 'charakter';
+  document.body.setAttribute('data-angriffsmodus', angreiferModus);
+  if (modusToggle) {
+    modusToggle.hidden = !sl;
+    modusToggle.setAttribute('data-pos', angreiferModus);
+  }
+  if (intensSel && sl) {
+    if (!intensSel.dataset.built) {
+      intensSel.dataset.built = '1';
+      intensSel.innerHTML = GEGNER_TYP_ALLOWED.map((v) =>
+        `<option value="${v}">${GEGNER_TYP_LABELS[v]}</option>`
+      ).join('');
+    }
+    intensSel.value = state.schattenMusikKategorie || 'klein';
+  }
+}
+
+let simulatorKampfToolbarBound = false;
+function initSimulatorKampfToolbar() {
+  if (simulatorKampfToolbarBound) return;
+  simulatorKampfToolbarBound = true;
+  document.querySelectorAll('[data-angriffsmodus]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const t = btn.getAttribute('data-angriffsmodus') || 'charakter';
+      state.angreiferSubTab = t === 'monster' ? 'monster' : 'charakter';
+      render();
+    });
+  });
+  $('#angriffsmodusTrack')?.addEventListener('click', () => {
+    state.angreiferSubTab = state.angreiferSubTab === 'monster' ? 'charakter' : 'monster';
+    render();
+  });
+  $('#simulatorAngreiferSelect')?.addEventListener('change', () => {
+    const sel = /** @type {HTMLSelectElement | null} */ ($('#simulatorAngreiferSelect'));
+    const val = sel?.value || '';
+    if (state.angreiferSubTab === 'monster') {
+      state.monsterAngreiferGegnerId = val || null;
+    } else {
+      const charaktere = getCharaktere();
+      const c = charaktere.find((x) => x.id === val);
+      state.selectedCharakterId = c?.id || null;
+      state.selectedCharakterName = c?.name || null;
+      if (getRole() === ROLES.SPIELLER && getCurrentKampagneId()) {
+        setCharakter(getCurrentKampagneId(), c || null);
+      }
+    }
+    syncCombatMusic();
+  });
+  $('#schattenMusikKategorie')?.addEventListener('change', () => {
+    const sel = /** @type {HTMLSelectElement | null} */ ($('#schattenMusikKategorie'));
+    state.schattenMusikKategorie = sel?.value || 'klein';
+    persistSchattenKategorie();
+    syncCombatMusic();
   });
 }
 
@@ -1104,12 +1209,12 @@ function showCharakterEditPopover(cardEl, char) {
     </div>
     <div class="gegner-edit-row">
       <label>Grösse</label>
-      <select class="gegner-edit-groesse">
-        <option value="normal"${gTyp === 'normal' ? ' selected' : ''}>Normal</option>
-        <option value="gross"${gTyp === 'gross' ? ' selected' : ''}>Gross</option>
-        <option value="gewaltig"${gTyp === 'gewaltig' ? ' selected' : ''}>Gewaltig</option>
-      </select>
+      <select class="gegner-edit-groesse">${gegnerGroesseOptionsHtml(gTyp)}</select>
     </div>
+    ${getRole() === ROLES.SPIELLEITER ? `<div class="gegner-edit-row">
+      <label>Kampf-Musik</label>
+      <select class="gegner-edit-musik"></select>
+    </div>` : ''}
     <div class="gegner-edit-row">
       <label>Rüstungsklasse</label>
       <select class="gegner-edit-rk">${rkOpts}</select>
@@ -1145,6 +1250,8 @@ function showCharakterEditPopover(cardEl, char) {
   popover.dataset.selectedIcon = char.icon || '';
   const iconPickerEl = popover.querySelector('.gegner-edit-icon-picker');
   renderIconPicker(iconPickerEl, char.icon, (filename) => { popover.dataset.selectedIcon = filename; });
+  const musikElC = popover.querySelector('.gegner-edit-musik');
+  if (musikElC) fillMusikProfilSelect(musikElC, char.musikProfil, char.typ === 'npc' ? 'npc' : 'spieler');
   popover.querySelector('.gegner-edit-apply').addEventListener('click', () => {
     const rk = parseInt(popover.querySelector('.gegner-edit-rk').value, 10);
     const tp = parseInt(popover.querySelector('.gegner-edit-tp').value, 10);
@@ -1157,6 +1264,8 @@ function showCharakterEditPopover(cardEl, char) {
     const gruppeId = popover.querySelector('.gegner-edit-gruppe')?.value?.trim() || null;
     const sichtbar = popover.querySelector('.gegner-edit-sichtbar')?.checked !== false;
     const updates = { rk, tp: Math.min(tp, maxTp), maxTp, icon, defensivBonus, bm, gruppeId, gegnerTyp, wahrnehmung, sichtbar };
+    const musikSel = popover.querySelector('.gegner-edit-musik');
+    if (musikSel && getRole() === ROLES.SPIELLEITER) updates.musikProfil = musikSel.value;
     if (char.typ === 'spieler') {
       updateSpieler(char.id, updates);
     } else {
@@ -1268,11 +1377,11 @@ function renderVorlagen() {
     </div>
     <div class="vorlage-field">
       <span class="vorlage-field-label">Grösse (Gegnertyp)</span>
-      <select class="vorlage-groesse">
-        <option value="normal">Normal</option>
-        <option value="gross">Gross</option>
-        <option value="gewaltig">Gewaltig</option>
-      </select>
+      <select class="vorlage-groesse">${gegnerGroesseOptionsHtml('normal')}</select>
+    </div>
+    <div class="vorlage-field vorlage-field-wide">
+      <span class="vorlage-field-label">Kampf-Musik (Profil)</span>
+      <select class="vorlage-musik"></select>
     </div>
     <div class="vorlage-field">
       <span class="vorlage-field-label">Rüstungsklasse</span>
@@ -1292,21 +1401,32 @@ function renderVorlagen() {
     </div>
     <button type="button" class="btn primary vorlage-add">Vorlage speichern</button>
   `;
+  const typSelV = form.querySelector('.vorlage-typ');
+  const musikSelV = form.querySelector('.vorlage-musik');
+  const refillVorlageMusik = () => {
+    const typ = typSelV?.value || 'gegner';
+    const et = typ === 'spieler' ? 'spieler' : typ === 'npc' ? 'npc' : 'gegner';
+    fillMusikProfilSelect(musikSelV, null, et);
+  };
+  typSelV?.addEventListener('change', refillVorlageMusik);
+  refillVorlageMusik();
   form.querySelector('.vorlage-add')?.addEventListener('click', () => {
     const name = form.querySelector('.vorlage-name')?.value?.trim();
     if (!name) return;
     const tp = parseInt(form.querySelector('.vorlage-tp')?.value, 10);
     const db = parseInt(form.querySelector('.vorlage-db')?.value, 10);
     const bm = parseInt(form.querySelector('.vorlage-bm')?.value, 10);
+    const typV = form.querySelector('.vorlage-typ')?.value || 'gegner';
     addVorlage({
       name,
-      typ: form.querySelector('.vorlage-typ')?.value || 'gegner',
+      typ: typV,
       maxTp: Number.isFinite(tp) && tp > 0 ? tp : 100,
       gegnerTyp: form.querySelector('.vorlage-groesse')?.value,
       rk: form.querySelector('.vorlage-rk')?.value,
       defensivBonus: Number.isFinite(db) ? db : 0,
       bm: Number.isFinite(bm) ? bm : 0,
       wahrnehmung: form.querySelector('.vorlage-wn')?.value?.trim() || null,
+      musikProfil: musikSelV?.value || undefined,
       icon: getSelectedIconFromPicker(document.getElementById('charIconPicker'))
     });
     render();
@@ -1630,10 +1750,12 @@ function render() {
   renderInitiative();
   renderHistorieArchiv();
   renderDbAnzeige();
-  renderCharakterZeile();
+  renderAngreiferRow();
+  renderSimulatorKampfToolbar();
   renderUserProfileIcon();
   renderRunde();
   renderSpielerCharakterView();
+  syncCombatMusic();
 
   const isSpieler = getRole() !== ROLES.SPIELLEITER;
   document.querySelectorAll('.spielleiter-only').forEach(el => {
@@ -1730,6 +1852,17 @@ function initCharAddForm() {
     iconPicker.dataset.initialized = '1';
     renderIconPicker(iconPicker, null);
   }
+  const charMusikEl = document.getElementById('charMusikProfil');
+  if (form && charMusikEl && !charMusikEl.dataset.boundMusik) {
+    charMusikEl.dataset.boundMusik = '1';
+    const refillCharMusik = () => {
+      const typ = form.querySelector('#charTyp')?.value || 'gegner';
+      const et = typ === 'spieler' ? 'spieler' : typ === 'npc' ? 'npc' : 'gegner';
+      fillMusikProfilSelect(charMusikEl, null, et);
+    };
+    form.querySelector('#charTyp')?.addEventListener('change', refillCharMusik);
+    refillCharMusik();
+  }
   if (charAddFormInitialized) return;
   charAddFormInitialized = true;
 
@@ -1746,27 +1879,28 @@ function initCharAddForm() {
     const bm = form.querySelector('#charBm')?.value || '0';
     const wahrnehmung = form.querySelector('#charWahrnehmung')?.value?.trim() || null;
     const gruppeId = form.querySelector('#charGruppeSelect')?.value?.trim() || null;
+    const musikP = form.querySelector('#charMusikProfil')?.value || null;
     const icon = getSelectedIconFromPicker(iconPicker);
     if (!getCurrentKampagneId()) createKampagne('Kampagne 1');
     if (typ === 'gegner') {
       if (anzahl > 1) {
         const ids = addGegnerBatch(anzahl, name, tp, groesse, rk, icon, gruppeId, wahrnehmung);
-        ids.forEach(id => updateGegner(id, { defensivBonus, bm }));
+        ids.forEach(id => updateGegner(id, { defensivBonus, bm, ...(musikP ? { musikProfil: musikP } : {}) }));
       } else {
         const id = addGegner(name, tp, groesse, rk, icon, gruppeId, wahrnehmung);
-        if (id) updateGegner(id, { defensivBonus, bm });
+        if (id) updateGegner(id, { defensivBonus, bm, ...(musikP ? { musikProfil: musikP } : {}) });
       }
     } else if (typ === 'npc') {
       if (anzahl > 1) {
         const ids = addNpcBatch(anzahl, name, tp, rk, icon, groesse, wahrnehmung);
-        ids.forEach(id => updateNpc(id, { defensivBonus, bm, gruppeId }));
+        ids.forEach(id => updateNpc(id, { defensivBonus, bm, gruppeId, ...(musikP ? { musikProfil: musikP } : {}) }));
       } else {
         const id = addNpc(name, icon, tp, rk, groesse, wahrnehmung);
-        if (id) updateNpc(id, { defensivBonus, bm, gruppeId });
+        if (id) updateNpc(id, { defensivBonus, bm, gruppeId, ...(musikP ? { musikProfil: musikP } : {}) });
       }
     } else {
       const id = addSpieler(name, icon, tp, rk, wahrnehmung, groesse);
-      if (id) updateSpieler(id, { defensivBonus, bm, gruppeId });
+      if (id) updateSpieler(id, { defensivBonus, bm, gruppeId, ...(musikP ? { musikProfil: musikP } : {}) });
     }
     form.reset();
     form.querySelector('#charAnzahl').value = '1';
@@ -1790,6 +1924,11 @@ function initCharAddForm() {
     form.querySelector('#charBm').value = String(tpl.bm || 0);
     form.querySelector('#charWahrnehmung').value = tpl.wahrnehmung || '';
     if (tpl.typ) form.querySelector('#charTyp').value = tpl.typ;
+    const cm = document.getElementById('charMusikProfil');
+    if (cm) {
+      const et = tpl.typ === 'spieler' ? 'spieler' : tpl.typ === 'npc' ? 'npc' : 'gegner';
+      fillMusikProfilSelect(cm, tpl.musikProfil, et);
+    }
   });
 
   form?.querySelector('#charTyp')?.addEventListener('change', () => {
@@ -1852,18 +1991,6 @@ function initGegnerUI() {
   };
   document.getElementById('kampfArchivierenBtn')?.addEventListener('click', archiveHandler);
   document.getElementById('historieArchivierenBtn')?.addEventListener('click', archiveHandler);
-
-  $('#simulatorCharakterSelect')?.addEventListener('change', () => {
-    const sel = $('#simulatorCharakterSelect');
-    const val = sel?.value || '';
-    const charaktere = getCharaktere();
-    const c = charaktere.find(x => x.id === val);
-    state.selectedCharakterId = c?.id || null;
-    state.selectedCharakterName = c?.name || null;
-    if (getRole() === ROLES.SPIELLER && getCurrentKampagneId()) {
-      setCharakter(getCurrentKampagneId(), c || null);
-    }
-  });
 }
 
 let rundeUIInitialized = false;
@@ -1903,6 +2030,7 @@ export function initKampftracker() {
   initCharAddForm();
   initGegnerUI();
   initRundeUI();
+  initSimulatorKampfToolbar();
   render();
 }
 

@@ -2,7 +2,7 @@
 // Dieses Modul enthält die Kernlogik für die Berechnungen.
 
 import { state } from './state.js';
-import { WEAPON_LABELS, WEAPON_SIZE_VARIANTS, WEAPON_SIZE_LABELS, DEFAULT_RK } from './constants.js';
+import { WEAPON_LABELS, WEAPON_SIZE_VARIANTS, WEAPON_SIZE_LABELS, DEFAULT_RK, gegnerTypForGameRules } from './constants.js';
 import { getCorrection } from './critCorrections.js';
 import { $, $$ } from './dom.js';
 import { playCritAudio, tryStartBgAudio } from './audio.js';
@@ -278,7 +278,7 @@ export function calculateAttack() {
         remainingAttack -= 150;
     }
 
-    const gegnerTyp = ziel ? (ziel.gegnerTyp || 'normal') : 'normal';
+    const gegnerTyp = gegnerTypForGameRules(ziel ? (ziel.gegnerTyp || 'normal') : 'normal');
     let minKat = 'A';
     if (gegnerTyp === 'gross') minKat = 'B';
     if (gegnerTyp === 'gewaltig') minKat = 'D';

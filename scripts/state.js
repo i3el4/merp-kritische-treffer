@@ -25,6 +25,14 @@ let lastPatzerResult = null;
 let lastPatzerTp = 0;
 let lastPatzerParsed = null;
 let aktiveGruppeCharId = null;
+/** Kampfmodus: Kampf-Musik darf laufen (localStorage). */
+let kampfModus = false;
+/** SL: 'charakter' | 'monster' — welcher Angriffs-Kontext im Simulator aktiv ist. */
+let angreiferSubTab = 'charakter';
+/** SL Monsterangriff: ID des angreifenden Gegners. */
+let monsterAngreiferGegnerId = null;
+/** SL Schatten-Modus: Intensitäts-Stufe der Kampfmusik (klein|normal|gross|gewaltig). */
+let schattenMusikKategorie = 'klein';
 
 export const state = {
     get treffer() {
@@ -115,5 +123,18 @@ export const state = {
     get lastPatzerParsed() { return lastPatzerParsed; },
     set lastPatzerParsed(value) { lastPatzerParsed = value; },
     get aktiveGruppeCharId() { return aktiveGruppeCharId; },
-    set aktiveGruppeCharId(value) { aktiveGruppeCharId = value; }
+    set aktiveGruppeCharId(value) { aktiveGruppeCharId = value; },
+    get kampfModus() { return kampfModus; },
+    set kampfModus(value) { kampfModus = !!value; },
+    get angreiferSubTab() { return angreiferSubTab; },
+    set angreiferSubTab(value) {
+        angreiferSubTab = value === 'monster' ? 'monster' : 'charakter';
+    },
+    get monsterAngreiferGegnerId() { return monsterAngreiferGegnerId; },
+    set monsterAngreiferGegnerId(value) { monsterAngreiferGegnerId = value || null; },
+    get schattenMusikKategorie() { return schattenMusikKategorie; },
+    set schattenMusikKategorie(value) {
+        const v = String(value || '').toLowerCase();
+        schattenMusikKategorie = ['klein', 'normal', 'gross', 'gewaltig'].includes(v) ? v : 'klein';
+    }
 };
