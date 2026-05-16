@@ -2,7 +2,18 @@
 // UI-Logik für den Kampftracker (Kampagnen, Gegner).
 
 import { $, $$ } from './dom.js';
-import { CHARAKTER_ICONS, URLS, GEGNER_TYP_ALLOWED, GEGNER_TYP_LABELS, gegnerTypForGameRules } from './constants.js';
+import {
+  CHARAKTER_ICONS,
+  URLS,
+  GEGNER_TYP_ALLOWED,
+  GEGNER_TYP_LABELS,
+  RUESTUNG_TYP_ALLOWED,
+  RUESTUNG_TYP_LABELS,
+  coerceRuestungTyp,
+  coerceIstHeld,
+  gegnerTypForGameRules
+} from './constants.js';
+import { populateWeapons } from './data.js';
 import {
   getKampagnenListe,
   getCurrentKampagne,
@@ -67,7 +78,7 @@ import {
 } from './campaigns.js';
 import { state } from './state.js';
 import { getRole, ROLES, setCharakter, getCharakter } from './role.js';
-import { fillMusikProfilSelect, syncCombatMusic, persistSchattenKategorie } from './combatMusic.js';
+import { fillMusikProfilSelect, syncCombatMusic, persistSchattenKategorie, persistAngreiferModus } from './combatMusic.js';
 import { isFirebaseActive, loadCampaign, joinCampaign } from './firebase-storage.js';
 
 const CHARAKTERTRACKER_PANEL = '#charaktertrackerPanel';
@@ -207,6 +218,14 @@ function showCharakterEditPopoverForChip(chipEl, char) {
       <select class="gegner-edit-rk">${rkOpts}</select>
     </div>
     <div class="gegner-edit-row">
+      <label>Rüstung</label>
+      <select class="gegner-edit-ruestung">${ruestungTypOptionsHtml(char.ruestungTyp)}</select>
+    </div>
+    <div class="gegner-edit-row">
+      <label>Held</label>
+      <select class="gegner-edit-held">${istHeldOptionsHtml(char.istHeld)}</select>
+    </div>
+    <div class="gegner-edit-row">
       <label>TP (aktuell)</label>
       <input type="number" class="gegner-edit-tp" min="0" max="${char.maxTp ?? 100}" value="${char.tp ?? char.maxTp ?? 100}" />
     </div>
@@ -242,6 +261,7 @@ function showCharakterEditPopoverForChip(chipEl, char) {
   popover.querySelector('.gegner-edit-apply').addEventListener('click', () => {
     const name = popover.querySelector('.gegner-edit-name')?.value?.trim();
     const rk = parseInt(popover.querySelector('.gegner-edit-rk').value, 10);
+    const ruestungTyp = popover.querySelector('.gegner-edit-ruestung')?.value || 'LE';
     const tp = parseInt(popover.querySelector('.gegner-edit-tp').value, 10);
     const maxTp = Math.max(1, parseInt(popover.querySelector('.gegner-edit-maxTp').value, 10));
     const defensivBonus = parseInt(popover.querySelector('.gegner-edit-db').value, 10) || 0;
@@ -251,7 +271,8 @@ function showCharakterEditPopoverForChip(chipEl, char) {
     const icon = popover.dataset.selectedIcon || char.icon;
     const gruppeId = popover.querySelector('.gegner-edit-gruppe')?.value?.trim() || null;
     const sichtbar = popover.querySelector('.gegner-edit-sichtbar')?.checked !== false;
-    const updates = { name: name || char.name, rk, tp: Math.min(tp, maxTp), maxTp, icon, defensivBonus, bm, gruppeId, gegnerTyp, wahrnehmung, sichtbar };
+    const istHeld = popover.querySelector('.gegner-edit-held')?.value === '1';
+    const updates = { name: name || char.name, rk, ruestungTyp, istHeld, tp: Math.min(tp, maxTp), maxTp, icon, defensivBonus, bm, gruppeId, gegnerTyp, wahrnehmung, sichtbar };
     const musikSel = popover.querySelector('.gegner-edit-musik');
     if (musikSel && getRole() === ROLES.SPIELLEITER) updates.musikProfil = musikSel.value;
     if (char.typ === 'spieler') {
@@ -409,6 +430,18 @@ function gegnerGroesseOptionsHtml(selected) {
   return GEGNER_TYP_ALLOWED.map((v) =>
     `<option value="${v}"${selected === v ? ' selected' : ''}>${GEGNER_TYP_LABELS[v]}</option>`
   ).join('');
+}
+
+function ruestungTypOptionsHtml(selected) {
+  const v = coerceRuestungTyp(selected);
+  return RUESTUNG_TYP_ALLOWED.map((rt) =>
+    `<option value="${rt}"${v === rt ? ' selected' : ''}>${RUESTUNG_TYP_LABELS[rt]} (${rt})</option>`
+  ).join('');
+}
+
+function istHeldOptionsHtml(selected) {
+  const held = coerceIstHeld(selected);
+  return `<option value="0"${!held ? ' selected' : ''}>Nicht-Held</option><option value="1"${held ? ' selected' : ''}>Held</option>`;
 }
 
 function applyZielToSimulator() {
@@ -661,9 +694,8 @@ function renderZielAnzeige() {
       iconWrap.appendChild(iconImg);
       const nameSpan = document.createElement('span');
       nameSpan.className = 'ziel-name';
-      const db = parseInt(z.defensivBonus, 10) || 0;
-      nameSpan.textContent = (isTot ? '† ' : '') + z.name + (db ? ` (DB ${db})` : '') + (isTot ? ' (tot)' : '');
-      btn.title = `${z.name}${db ? ` · Defensivbonus ${db}` : ''}`;
+      nameSpan.textContent = (isTot ? '† ' : '') + z.name + (isTot ? ' (tot)' : '');
+      btn.title = z.name;
       btn.appendChild(iconWrap);
       btn.appendChild(nameSpan);
       btn.addEventListener('click', () => {
@@ -844,11 +876,13 @@ function initSimulatorKampfToolbar() {
     btn.addEventListener('click', () => {
       const t = btn.getAttribute('data-angriffsmodus') || 'charakter';
       state.angreiferSubTab = t === 'monster' ? 'monster' : 'charakter';
+      persistAngreiferModus();
       render();
     });
   });
   $('#angriffsmodusTrack')?.addEventListener('click', () => {
     state.angreiferSubTab = state.angreiferSubTab === 'monster' ? 'charakter' : 'monster';
+    persistAngreiferModus();
     render();
   });
   $('#simulatorAngreiferSelect')?.addEventListener('change', () => {
@@ -1220,6 +1254,14 @@ function showCharakterEditPopover(cardEl, char) {
       <select class="gegner-edit-rk">${rkOpts}</select>
     </div>
     <div class="gegner-edit-row">
+      <label>Rüstung</label>
+      <select class="gegner-edit-ruestung">${ruestungTypOptionsHtml(char.ruestungTyp)}</select>
+    </div>
+    <div class="gegner-edit-row">
+      <label>Held</label>
+      <select class="gegner-edit-held">${istHeldOptionsHtml(char.istHeld)}</select>
+    </div>
+    <div class="gegner-edit-row">
       <label>TP (aktuell)</label>
       <input type="number" class="gegner-edit-tp" min="0" max="${char.maxTp ?? 100}" value="${char.tp ?? char.maxTp ?? 100}" />
     </div>
@@ -1254,6 +1296,7 @@ function showCharakterEditPopover(cardEl, char) {
   if (musikElC) fillMusikProfilSelect(musikElC, char.musikProfil, char.typ === 'npc' ? 'npc' : 'spieler');
   popover.querySelector('.gegner-edit-apply').addEventListener('click', () => {
     const rk = parseInt(popover.querySelector('.gegner-edit-rk').value, 10);
+    const ruestungTyp = popover.querySelector('.gegner-edit-ruestung')?.value || 'LE';
     const tp = parseInt(popover.querySelector('.gegner-edit-tp').value, 10);
     const maxTp = Math.max(1, parseInt(popover.querySelector('.gegner-edit-maxTp').value, 10));
     const defensivBonus = parseInt(popover.querySelector('.gegner-edit-db').value, 10) || 0;
@@ -1263,7 +1306,8 @@ function showCharakterEditPopover(cardEl, char) {
     const icon = popover.dataset.selectedIcon || char.icon;
     const gruppeId = popover.querySelector('.gegner-edit-gruppe')?.value?.trim() || null;
     const sichtbar = popover.querySelector('.gegner-edit-sichtbar')?.checked !== false;
-    const updates = { rk, tp: Math.min(tp, maxTp), maxTp, icon, defensivBonus, bm, gruppeId, gegnerTyp, wahrnehmung, sichtbar };
+    const istHeld = popover.querySelector('.gegner-edit-held')?.value === '1';
+    const updates = { rk, ruestungTyp, istHeld, tp: Math.min(tp, maxTp), maxTp, icon, defensivBonus, bm, gruppeId, gegnerTyp, wahrnehmung, sichtbar };
     const musikSel = popover.querySelector('.gegner-edit-musik');
     if (musikSel && getRole() === ROLES.SPIELLEITER) updates.musikProfil = musikSel.value;
     if (char.typ === 'spieler') {
@@ -1752,6 +1796,7 @@ function render() {
   renderDbAnzeige();
   renderAngreiferRow();
   renderSimulatorKampfToolbar();
+  populateWeapons();
   renderUserProfileIcon();
   renderRunde();
   renderSpielerCharakterView();

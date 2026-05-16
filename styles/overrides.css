@@ -1336,6 +1336,15 @@ header > div:first-child {
   background-color: #f5f0e0;
 }
 
+/* Schatten: Gegner hell, Verbündete dunkel (umgekehrt zu Licht) */
+body[data-angriffsmodus="monster"] .ziel-group[data-group-type="gegner"] .ziel-select-btn-round .ziel-icon-wrap {
+  background-color: #f5f0e0;
+}
+
+body[data-angriffsmodus="monster"] .ziel-group[data-group-type="verbuendete"] .ziel-select-btn-round .ziel-icon-wrap {
+  background-color: #3a3a3a;
+}
+
 .ziel-select-btn-round:hover:not(.tot):not(:disabled) .ziel-icon-wrap {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 2px 6px rgba(0, 0, 0, 0.25);
@@ -2721,4 +2730,75 @@ header > div:first-child {
 body[data-angriffsmodus="charakter"] .schatten-only,
 body[data-angriffsmodus="monster"] .licht-only {
   display: none !important;
+}
+
+/* Licht vs. Schatten: dezente Atmosphäre über Theme-Variablen + Hintergrund */
+body[data-angriffsmodus="charakter"] {
+  --bg: #3a3028;
+  --panel: rgba(90, 74, 60, 0.9);
+  --text: #ddd6cf;
+  --muted: #b8b2aa;
+  --chip: #6e5c50;
+  --border: #857264;
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+}
+
+body[data-angriffsmodus="monster"] {
+  --bg: #1a1410;
+  --panel: rgba(38, 30, 24, 0.94);
+  --text: #a39d99;
+  --muted: #7a7572;
+  --chip: #352b25;
+  --border: #443a33;
+  --shadow: 0 10px 32px rgba(0, 0, 0, 0.48);
+}
+
+body[data-angriffsmodus="charakter"]::before {
+  filter: brightness(1.1) saturate(0.96);
+}
+
+body[data-angriffsmodus="monster"]::before {
+  filter: brightness(0.68) saturate(0.82);
+}
+
+body[data-angriffsmodus],
+body[data-angriffsmodus]::before {
+  transition:
+    background-color 0.35s ease,
+    color 0.35s ease,
+    border-color 0.35s ease,
+    filter 0.45s ease;
+}
+
+/* Schatten: 6 Monster-Angriffsarten — gleiche Kachel-Optik wie Licht, besserer Kontrast */
+body.schatten-waffenauswahl .weapon-grid {
+  grid-template-columns: repeat(3, minmax(108px, 1fr));
+  gap: 10px;
+}
+
+@media (min-width: 900px) {
+  body.schatten-waffenauswahl .weapon-grid {
+    grid-template-columns: repeat(6, minmax(96px, 1fr));
+  }
+}
+
+body.schatten-waffenauswahl .weapon-grid button {
+  height: 56px;
+  max-width: none;
+  background-color: rgba(78, 64, 54, 0.95);
+  border-color: rgba(90, 75, 65, 0.9);
+}
+
+body.schatten-waffenauswahl .weapon-grid button:not(.active) {
+  background-color: rgba(88, 72, 60, 0.92);
+}
+
+body.schatten-waffenauswahl .weapon-grid button span {
+  color: #ebe4dc;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
+}
+
+body.schatten-waffenauswahl .weapon-grid button.active span {
+  color: var(--accent);
+  text-shadow: 0 0 6px rgba(212, 175, 55, 0.45);
 }

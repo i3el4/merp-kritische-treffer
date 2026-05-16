@@ -9,6 +9,7 @@ import { getGegnerById, getCharakterById } from './campaigns.js';
 const LS_KAMPF_MODUS = 'mers_kampf_modus';
 const LS_MUSIK_VOL = 'mers_musik_vol';
 const LS_SCHATTEN_KAT = 'mers_kampf_schatten_kategorie';
+const LS_ANGRIFFSMODUS = 'mers_kampf_angriffsmodus';
 
 const DUCK_FACTOR = 0.28;
 const DUCK_MS = 220;
@@ -191,6 +192,21 @@ export function syncCombatMusic() {
   }
 }
 
+/** SL: Licht/Schatten aus localStorage; Standard Schatten. Spieler immer Licht. */
+export function loadAngreiferModusFromStorage() {
+  if (getRole() !== ROLES.SPIELLEITER) {
+    state.angreiferSubTab = 'charakter';
+    return;
+  }
+  const saved = localStorage.getItem(LS_ANGRIFFSMODUS);
+  state.angreiferSubTab = saved === 'charakter' || saved === 'monster' ? saved : 'monster';
+}
+
+export function persistAngreiferModus() {
+  if (getRole() !== ROLES.SPIELLEITER) return;
+  localStorage.setItem(LS_ANGRIFFSMODUS, state.angreiferSubTab === 'monster' ? 'monster' : 'charakter');
+}
+
 export function loadKampfModusFromStorage() {
   state.kampfModus = localStorage.getItem(LS_KAMPF_MODUS) === '1';
   const vol = parseFloat(localStorage.getItem(LS_MUSIK_VOL) || '');
@@ -202,6 +218,7 @@ export function loadKampfModusFromStorage() {
   }
   const savedKat = localStorage.getItem(LS_SCHATTEN_KAT) || '';
   state.schattenMusikKategorie = savedKat || 'klein';
+  loadAngreiferModusFromStorage();
   updatePlayBtnUI();
 }
 

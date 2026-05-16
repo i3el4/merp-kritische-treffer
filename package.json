@@ -20,11 +20,15 @@
     "englisch-mp3-archive": "node tools/audio/englisch_krit_audio_tool.js archive",
     "englisch-mp3-report": "node tools/audio/englisch_krit_audio_tool.js report",
     "minify-visual-english": "MINIFY_ENGLISH_ZUSATZ_ONLY=1 node tools/tables/minify_visual_text.js",
-    "import-tables": "node tools/tables/import_and_fix_tables.js"
+    "import-tables": "node tools/tables/import_and_fix_tables.js",
+    "import-gegner-tables": "node tools/tables/import_gegner_tables.js"
   },
   "dependencies": {
     "@google/genai": "^1.44.0",
     "axios": "^1.6.0",
     "dotenv": "^16.6.1"
+  },
+  "devDependencies": {
+    "xlsx": "^0.18.5"
   }
 }

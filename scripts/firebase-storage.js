@@ -10,7 +10,7 @@ import {
   get,
   onValue
 } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
-import { coerceGegnerTypStored, defaultMusikProfilForEntityTyp } from './constants.js';
+import { coerceGegnerTypStored, coerceRuestungTyp, coerceIstHeld, defaultMusikProfilForEntityTyp } from './constants.js';
 
 const LOCAL_KEY = 'merp_kampagnen';
 const LOCAL_KNOWN_IDS = 'merp_known_campaign_ids';
@@ -31,6 +31,10 @@ function migrateKampagne(k) {
     if (s.maxTp === undefined) s.maxTp = 100;
     if (s.tp === undefined) s.tp = s.maxTp ?? 100;
     if (s.rk === undefined) s.rk = 20;
+    if (s.ruestungTyp === undefined) s.ruestungTyp = 'LE';
+    s.ruestungTyp = coerceRuestungTyp(s.ruestungTyp);
+    if (s.istHeld === undefined) s.istHeld = false;
+    s.istHeld = coerceIstHeld(s.istHeld);
     if (s.gegnerTyp === undefined) s.gegnerTyp = 'normal';
     s.gegnerTyp = coerceGegnerTypStored(s.gegnerTyp);
     if (s.musikProfil === undefined) s.musikProfil = defaultMusikProfilForEntityTyp('spieler');
@@ -48,6 +52,10 @@ function migrateKampagne(k) {
     if (n.maxTp === undefined) n.maxTp = 100;
     if (n.tp === undefined) n.tp = n.maxTp ?? 100;
     if (n.rk === undefined) n.rk = 20;
+    if (n.ruestungTyp === undefined) n.ruestungTyp = 'LE';
+    n.ruestungTyp = coerceRuestungTyp(n.ruestungTyp);
+    if (n.istHeld === undefined) n.istHeld = false;
+    n.istHeld = coerceIstHeld(n.istHeld);
     if (n.gegnerTyp === undefined) n.gegnerTyp = 'normal';
     n.gegnerTyp = coerceGegnerTypStored(n.gegnerTyp);
     if (n.musikProfil === undefined) n.musikProfil = defaultMusikProfilForEntityTyp('npc');

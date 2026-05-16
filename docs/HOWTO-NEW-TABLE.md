@@ -71,6 +71,24 @@ Vorlage: [`tools/tables/import_and_fix_tables.js`](../tools/tables/import_and_fi
 
 ---
 
+## Variante B2 — Gegner-Angriffstabellen (Excel)
+
+Quelle: [`assets/templates/ANGRIFFSTABELLEN_GEGNER.xlsx`](../assets/templates/ANGRIFFSTABELLEN_GEGNER.xlsx) (6 Sheets: 1HKW, 1HSW, 2HW, FKW, ZuK, RuS).
+
+Vorlage: [`tools/tables/import_gegner_tables.js`](../tools/tables/import_gegner_tables.js).
+
+### Schritte
+
+1. Excel pflegen (Spalten PL/KE/VL/LE/OR, Zeilen Angriffswurf-Bereiche).
+2. **Ausführen:** `npm run import-gegner-tables` (optional `--dry-run`).
+3. **Prüfen:** `assets/data/treffer_tabellen_strukturiert.json` → Block `GegnerAngriffstabellen`.
+4. **Runtime:** Schatten-Modus im Simulator; Ziel-Charaktere brauchen `ruestungTyp` (PL|KE|VL|LE|OR) im Bearbeiten-Dialog.
+5. `CACHE_NAME` in `sw.js` erhöhen.
+
+ZuK/RuS haben Grössen-Blöcke (klein/mittel/gross) – in der App über **Schatten-Musik-Kategorie** (Angreifer-Grösse) gesteuert.
+
+---
+
 ## Variante C — Manuelle Hand-Edits in `tables_processed.json`
 
 Wenn es nur ein paar wenige Einträge sind: **direkt** in `assets/data/tables_processed.json` editieren ist legitim. Format:

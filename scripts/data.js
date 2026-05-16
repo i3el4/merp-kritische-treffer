@@ -165,11 +165,25 @@ export function initWeaponSizeClassListener() {
 }
 
 // Erzeugt die Buttons für die Waffen (gruppiert).
-function populateWeapons() {
+export function populateWeapons() {
     const wSelWrap = $('#weaponWrap');
+    if (!wSelWrap) return;
+
     const angriffstabellen = state.treffer?.Angriffstabellen || {};
     const verfuegbareWaffen = new Set(Object.keys(angriffstabellen));
+    const prevWeapon = state.selectedWeapon;
     wSelWrap.innerHTML = '';
+
+    const labelMap = WEAPON_LABELS;
+    const iconMap = WEAPON_ICONS;
+    const groups = WEAPON_GROUPS;
+    const variantKeySet = WEAPON_VARIANT_KEY_SET;
+
+    const weaponSectionLabel = document.querySelector('.weapon-section > label');
+    if (weaponSectionLabel) {
+        weaponSectionLabel.textContent = 'Waffenart';
+    }
+    document.body.classList.remove('schatten-waffenauswahl');
 
     const createWeaponBtn = (k) => {
         const btn = document.createElement('button');
@@ -177,12 +191,12 @@ function populateWeapons() {
         btn.className = 'weapon-button';
         btn.dataset.weapon = k;
 
-        const displayName = WEAPON_LABELS[k] || k.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+        const displayName = labelMap[k] || k.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
         const label = document.createElement('span');
         label.textContent = displayName;
         btn.appendChild(label);
 
-        const icon = WEAPON_ICONS[k];
+        const icon = iconMap[k];
         if (icon) {
             const iconPath = URLS.ICONS_BASE_PATH + icon.replace(/ /g, '%20');
             btn.style.backgroundImage = `url(${iconPath})`;
@@ -201,9 +215,9 @@ function populateWeapons() {
 
     const verwendeteKeys = new Set();
 
-    const noVariantKey = (k) => !WEAPON_VARIANT_KEY_SET.has(k);
+    const noVariantKey = (k) => !variantKeySet.has(k);
 
-    for (const group of WEAPON_GROUPS) {
+    for (const group of groups) {
         const keysInGruppe = group.keys.filter(k => verfuegbareWaffen.has(k) && noVariantKey(k));
         keysInGruppe.forEach(k => {
             verwendeteKeys.add(k);
@@ -215,7 +229,10 @@ function populateWeapons() {
     fehlende.forEach(k => wSelWrap.appendChild(createWeaponBtn(k)));
 
     const ersteWaffe = (() => {
-        for (const group of WEAPON_GROUPS) {
+        if (prevWeapon && verfuegbareWaffen.has(prevWeapon) && noVariantKey(prevWeapon)) {
+            return prevWeapon;
+        }
+        for (const group of groups) {
             const k = group.keys.find(key => verfuegbareWaffen.has(key));
             if (k) return k;
         }

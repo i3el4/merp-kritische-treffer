@@ -2,7 +2,19 @@
 // Dieses Modul enthält die Kernlogik für die Berechnungen.
 
 import { state } from './state.js';
-import { WEAPON_LABELS, WEAPON_SIZE_VARIANTS, WEAPON_SIZE_LABELS, DEFAULT_RK, gegnerTypForGameRules } from './constants.js';
+import {
+    WEAPON_LABELS,
+    GEGNER_WEAPON_LABELS,
+    WEAPON_SIZE_VARIANTS,
+    GEGNER_SIZE_VARIANTS,
+    WEAPON_SIZE_LABELS,
+    RUESTUNG_TYP_LABELS,
+    GEGNER_TYP_LABELS,
+    coerceRuestungTyp,
+    getGegnerTableKeyForWeapon,
+    DEFAULT_RK,
+    gegnerTypForGameRules
+} from './constants.js';
 import { getCorrection } from './critCorrections.js';
 import { $, $$ } from './dom.js';
 import { playCritAudio, tryStartBgAudio } from './audio.js';
@@ -120,6 +132,18 @@ export function adjustWeaponFontSizes() {
  * @param {number} target Der Zielwert.
  * @returns {number|null} Der gefundene Schlüssel oder null.
  */
+/** Krit-Typ-Kürzel aus Spieler-Waffentabelle bei gleichem Angriffswert/RK (Schatten: nur für Krit-Art). */
+function getWeaponCritTypAtAttack(weaponKey, attackValue, rk, sizeClass) {
+    if (!weaponKey || isNaN(attackValue) || attackValue <= 0) return '';
+    const sizeClassNat = WEAPON_SIZE_VARIANTS[weaponKey] ? (sizeClass || 'klein') : null;
+    const block = resolveAttackTable(weaponKey, sizeClassNat);
+    const row = block?.RK?.[String(rk)];
+    if (!row) return '';
+    const fk = floorKey(row, attackValue);
+    if (fk === null) return '';
+    return row[String(fk)]?.krit_typ || '';
+}
+
 function floorKey(obj, target) {
     const keys = Object.keys(obj).map(k => parseInt(k, 10)).filter(n => !Number.isNaN(n)).sort((a, b) => a - b);
     let best = null;
@@ -133,8 +157,64 @@ function floorKey(obj, target) {
 /** Cache für gemergte Naturangriffs-Tabellen (Schlüssel: `${weaponKey}|${sizeClass}`). */
 const attackTableMergeCache = new Map();
 
+/** Cache für gemergte Gegner-Angriffstabellen. */
+const gegnerAttackTableMergeCache = new Map();
+
+export function clearGegnerAttackTableMergeCache() {
+    gegnerAttackTableMergeCache.clear();
+}
+
 export function clearAttackTableMergeCache() {
     attackTableMergeCache.clear();
+    clearGegnerAttackTableMergeCache();
+}
+
+function gegnerVariantKeysForGroesse(groesse, variants) {
+    const { klein, mittel, gross } = variants;
+    if (groesse === 'klein') return [klein];
+    if (groesse === 'normal') return [];
+    if (groesse === 'gross' || groesse === 'gewaltig') return [klein, mittel, gross];
+    return [];
+}
+
+/**
+ * Gegner-Angriffstabelle (Ruestung-Spalten), mit Merge für ZuK/RuS je nach Angreifer-Grösse.
+ */
+export function resolveGegnerAttackTable(weaponKey, angreiferGroesse) {
+    const tabellen = state.treffer?.GegnerAngriffstabellen;
+    const base = tabellen?.[weaponKey];
+    if (!base?.Ruestung) return base;
+
+    const variants = GEGNER_SIZE_VARIANTS[weaponKey];
+    if (!variants) return base;
+
+    const groesse = angreiferGroesse || 'klein';
+    const cacheKey = `${weaponKey}|${groesse}`;
+    if (gegnerAttackTableMergeCache.has(cacheKey)) {
+        return gegnerAttackTableMergeCache.get(cacheKey);
+    }
+
+    const vKeys = gegnerVariantKeysForGroesse(groesse, variants);
+    const colSet = new Set(['PL', 'KE', 'VL', 'LE', 'OR']);
+    Object.keys(base.Ruestung).forEach((c) => colSet.add(c));
+    for (const vk of vKeys) {
+        const ext = tabellen?.[vk]?.Ruestung;
+        if (ext) Object.keys(ext).forEach((c) => colSet.add(c));
+    }
+
+    const mergedRuestung = {};
+    for (const col of colSet) {
+        const row = { ...(base.Ruestung[col] || {}) };
+        for (const vk of vKeys) {
+            const ext = tabellen?.[vk]?.Ruestung?.[col];
+            if (ext && typeof ext === 'object') Object.assign(row, ext);
+        }
+        if (Object.keys(row).length) mergedRuestung[col] = row;
+    }
+
+    const merged = { ...base, Ruestung: mergedRuestung };
+    gegnerAttackTableMergeCache.set(cacheKey, merged);
+    return merged;
 }
 
 function variantTableKeysForSizeClass(sizeClass, variants) {
@@ -191,6 +271,7 @@ export function resolveAttackTable(weaponKey, sizeClass) {
  */
 export function calculateAttack() {
     const weaponKey = state.selectedWeapon;
+    const isMonsterAttack = state.angreiferSubTab === 'monster';
     const firstId = (state.selectedGegnerIds || [])[0] || null;
     const zielGegner = firstId ? getGegnerById(firstId) : null;
     const zielChar = !zielGegner && firstId ? getCharakterById(firstId) : null;
@@ -198,6 +279,7 @@ export function calculateAttack() {
     const rk = ziel
         ? Math.max(1, Math.min(20, parseInt(ziel.rk, 10) || 20))
         : DEFAULT_RK;
+    const ruestungTyp = coerceRuestungTyp(ziel?.ruestungTyp);
     const attack = parseInt($('#attack').value, 10);
     const out = $('#attackOut');
     const kpi = $('#attackKpi');
@@ -208,22 +290,46 @@ export function calculateAttack() {
     res.classList.remove('muted');
     state.lastAttackTp = 0;
 
-    const sizeClassNat = WEAPON_SIZE_VARIANTS[weaponKey]
-        ? (state.selectedSizeClass || 'klein')
-        : null;
-    const weaponBlock = resolveAttackTable(weaponKey, sizeClassNat);
-    if (!weaponKey || !weaponBlock?.RK) {
-        res.textContent = '⚠️ Keine Angriffsdaten gefunden.';
-        return;
-    }
-    if (isNaN(attack)) {
-        res.textContent = 'Bitte einen Angriffswert eingeben.';
-        return;
+    let lookupBlock;
+    let defenseLabel;
+    let gegnerTableKey = '';
+    if (isMonsterAttack) {
+        const angreiferGroesse = state.schattenMusikKategorie || 'klein';
+        gegnerTableKey = getGegnerTableKeyForWeapon(weaponKey);
+        if (!gegnerTableKey) {
+            res.textContent = '⚠️ Keine Zuordnung zur Gegner-Angriffstabelle für diese Waffe.';
+            return;
+        }
+        const weaponBlock = resolveGegnerAttackTable(gegnerTableKey, angreiferGroesse);
+        if (!weaponKey || !weaponBlock?.Ruestung) {
+            res.textContent = '⚠️ Keine Gegner-Angriffsdaten gefunden.';
+            return;
+        }
+        lookupBlock = weaponBlock.Ruestung[ruestungTyp];
+        defenseLabel = `Rüstung: ${RUESTUNG_TYP_LABELS[ruestungTyp] || ruestungTyp} (${ruestungTyp})`;
+        if (!lookupBlock) {
+            res.textContent = `Keine Daten für Rüstung ${ruestungTyp}.`;
+            return;
+        }
+    } else {
+        const sizeClassNat = WEAPON_SIZE_VARIANTS[weaponKey]
+            ? (state.selectedSizeClass || 'klein')
+            : null;
+        const weaponBlock = resolveAttackTable(weaponKey, sizeClassNat);
+        if (!weaponKey || !weaponBlock?.RK) {
+            res.textContent = '⚠️ Keine Angriffsdaten gefunden.';
+            return;
+        }
+        lookupBlock = weaponBlock.RK[String(rk)];
+        defenseLabel = `RK: ${rk}`;
+        if (!lookupBlock) {
+            res.textContent = `Keine Daten für RK ${rk}.`;
+            return;
+        }
     }
 
-    const rkBlock = weaponBlock.RK[String(rk)];
-    if (!rkBlock) {
-        res.textContent = `Keine Daten für RK ${rk}.`;
+    if (isNaN(attack)) {
+        res.textContent = 'Bitte einen Angriffswert eingeben.';
         return;
     }
 
@@ -231,7 +337,8 @@ export function calculateAttack() {
     let totalTp = 0;
     let firstKrit = {
         typ: '',
-        kat: ''
+        kat: '',
+        cellTypRaw: ''
     };
     let isFirstLookup = true;
     const calculationSteps = [];
@@ -244,13 +351,20 @@ export function calculateAttack() {
             const kl = WEAPON_SIZE_LABELS[state.selectedSizeClass || 'klein'] || state.selectedSizeClass;
             kpi.append(chip(`Klasse: ${kl}`));
         }
-        kpi.append(chip(`RK: ${rk}`));
+        if (isMonsterAttack) {
+            const groesse = state.schattenMusikKategorie || 'klein';
+            kpi.append(chip(`Angreifer: ${GEGNER_TYP_LABELS?.[groesse] || groesse}`));
+            if (gegnerTableKey) {
+                kpi.append(chip(`Treffertabelle: ${GEGNER_WEAPON_LABELS[gegnerTableKey] || gegnerTableKey}`));
+            }
+        }
+        kpi.append(chip(defenseLabel));
         kpi.append(chip(`Angriffswert: ${attack}`));
         return;
     }
 
     while (remainingAttack > 0) {
-        const fk = floorKey(rkBlock, remainingAttack);
+        const fk = floorKey(lookupBlock, remainingAttack);
         if (fk === null) {
             calculationSteps.push({
                 attack: remainingAttack,
@@ -260,7 +374,7 @@ export function calculateAttack() {
             break;
         }
 
-        const entry = rkBlock[String(fk)];
+        const entry = lookupBlock[String(fk)];
         const currentTp = entry.trefferpunkte ?? 0;
         totalTp += currentTp;
         calculationSteps.push({
@@ -270,8 +384,11 @@ export function calculateAttack() {
         });
 
         if (isFirstLookup) {
-            firstKrit.typ = entry.krit_typ || '';
             firstKrit.kat = entry.krit_kat || '';
+            firstKrit.cellTypRaw = entry.krit_typ || '';
+            if (!isMonsterAttack) {
+                firstKrit.typ = entry.krit_typ || '';
+            }
             isFirstLookup = false;
         }
 
@@ -289,18 +406,29 @@ export function calculateAttack() {
     if (!kannKritWuerfeln) {
         firstKrit = {
             typ: '',
-            kat: ''
+            kat: '',
+            cellTypRaw: ''
         };
     }
 
-    if (gegnerTyp === 'gross' && firstKrit.typ) {
-        firstKrit.typ = 'Grosse Wesen';
-    } else if (gegnerTyp === 'gewaltig' && firstKrit.typ) {
-        firstKrit.typ = 'Gewaltige Wesen';
+    let resolvedCritTyp = '';
+    if (kannKritWuerfeln) {
+        const weaponCritRaw = isMonsterAttack
+            ? getWeaponCritTypAtAttack(weaponKey, attack, rk, state.selectedSizeClass)
+            : firstKrit.typ;
+        const baseTyp = resolveAutoCritTableKey(weaponCritRaw, weaponKey)
+            || mapCritName(weaponCritRaw)
+            || weaponCritRaw;
+        resolvedCritTyp = resolveCritTableForTarget({
+            baseTyp,
+            cellTypRaw: isMonsterAttack ? firstKrit.cellTypRaw : firstKrit.typ,
+            ziel
+        });
+        firstKrit.typ = resolvedCritTyp;
     }
 
     state.autoCrit = {
-        typ: resolveAutoCritTableKey(firstKrit.typ, weaponKey),
+        typ: resolvedCritTyp,
         kat: firstKrit.kat || ''
     };
 
@@ -310,7 +438,14 @@ export function calculateAttack() {
         const kl = WEAPON_SIZE_LABELS[state.selectedSizeClass || 'klein'] || state.selectedSizeClass;
         kpi.append(chip(`Klasse: ${kl}`));
     }
-    kpi.append(chip(`RK: ${rk}`));
+    if (isMonsterAttack) {
+        const groesse = state.schattenMusikKategorie || 'klein';
+        kpi.append(chip(`Angreifer: ${GEGNER_TYP_LABELS[groesse] || groesse}`));
+        if (gegnerTableKey) {
+            kpi.append(chip(`Treffertabelle: ${GEGNER_WEAPON_LABELS[gegnerTableKey] || gegnerTableKey}`));
+        }
+    }
+    kpi.append(chip(defenseLabel));
     kpi.append(chip(`Angriffswert: ${attack}`));
 
     state.lastAttackTp = totalTp;
@@ -458,6 +593,7 @@ export function mapCritName(kurz) {
     if (!kurz) return '';
     const map = {
         'P': 'Stich',
+        'T': 'Stich',
         'S': 'Streich',
         'K': 'Hieb'
     };
@@ -466,6 +602,38 @@ export function mapCritName(kurz) {
     if (keys.includes(base)) return base;
     const alt = keys.find(k => k.toLowerCase().startsWith(base.toLowerCase()));
     return alt || '';
+}
+
+/**
+ * Krit-Tabelle für das Ziel: gewaltig/gross > Tiny (nur wenn nicht gross/gewaltig) > Held > Basis-Typ.
+ * @param {{ baseTyp: string, cellTypRaw: string, ziel: object|null }} opts
+ */
+export function resolveCritTableForTarget({ baseTyp, cellTypRaw, ziel }) {
+    const gegnerTyp = gegnerTypForGameRules(ziel?.gegnerTyp || 'normal');
+    if (gegnerTyp === 'gewaltig') return 'Gewaltige Wesen';
+    if (gegnerTyp === 'gross') return 'Grosse Wesen';
+
+    const raw = String(cellTypRaw || '').trim().toUpperCase();
+    if (raw === 'T' || raw === 'TA') {
+        const keys = Object.keys(state.tables || {});
+        if (keys.includes('Kleine_Tiere')) return 'Kleine_Tiere';
+        const alt = keys.find((k) => {
+            const l = k.toLowerCase();
+            return l.includes('kleine') && l.includes('tier');
+        });
+        if (alt) return alt;
+    }
+
+    let typ = String(baseTyp || '').trim();
+    if (!typ) return '';
+    typ = mapCritName(typ) || typ;
+
+    if (ziel?.istHeld) {
+        const heldKey = `${typ} (Held)`;
+        if (state.tables?.[heldKey]) return heldKey;
+    }
+
+    return typ;
 }
 
 function findEnglishCritTableByKeywords(keywords = []) {

@@ -115,6 +115,7 @@ Reihenfolge: `extract-english` → `merge-english-tables` → `minify-visual-eng
 | npm-Skript | Datei | Input | Output |
 |---|---|---|---|
 | `import-tables` | `tools/tables/import_and_fix_tables.js` | `import/*.csv` (priorisiert) und `assets/templates/*.csv` (Fallback) | `assets/data/treffer_tabellen_strukturiert.json` (gemerged, behält andere Keys) |
+| `import-gegner-tables` | `tools/tables/import_gegner_tables.js` | `assets/templates/ANGRIFFSTABELLEN_GEGNER.xlsx` | `treffer_tabellen_strukturiert.json` → `GegnerAngriffstabellen` |
 
 CSV-Dateinamen (z.B. `beissen.csv`, `pieksen.csv`) werden auf Waffen-Keys gemappt – siehe `TABLE_CONFIG` im Skript.
 

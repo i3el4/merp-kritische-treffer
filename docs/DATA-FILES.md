@@ -8,7 +8,7 @@ Welche Datei wird wo gelesen oder geschrieben? Diese Übersicht hilft, vor dem E
 
 | Datei | Inhalt | Geladen von |
 |---|---|---|
-| `assets/data/treffer_tabellen_strukturiert.json` | Angriffstabellen pro Waffe (Trefferbereiche je RK & Wurf) | `scripts/data.js` über `URLS.TREFFER_URL` in `scripts/constants.js` |
+| `assets/data/treffer_tabellen_strukturiert.json` | `Angriffstabellen` (Spieler/Naturangriffe, RK 1–20) und `GegnerAngriffstabellen` (Monster, Spalten PL–OR) | `scripts/data.js` über `URLS.TREFFER_URL` in `scripts/constants.js` |
 | `assets/data/tables_processed.json` | Krit-Tabellen (Typ × Kategorie × Würfelbereich → tts_text + visual). Enthält auch „Allgemeine Patzer" und englische Zusatztabellen. | `scripts/data.js` über `URLS.TABLES_URL` |
 | `assets/data/patzer_default.json` | Patzer-Defaults / Overlay | `scripts/data.js` über `URLS.PATZER_URL` |
 
@@ -56,6 +56,7 @@ Diese Dateien werden **nicht** vom Browser geladen, nur von Pipeline-Skripten ge
 | Datei | Verwendet von |
 |---|---|
 | `import/<waffe>.csv` (z.B. `beissen.csv`, `pieksen.csv`) | `npm run import-tables` (`tools/tables/import_and_fix_tables.js`) – wird in `treffer_tabellen_strukturiert.json` gemerged |
+| `assets/templates/ANGRIFFSTABELLEN_GEGNER.xlsx` | `npm run import-gegner-tables` (`tools/tables/import_gegner_tables.js`) → `GegnerAngriffstabellen` im gleichen JSON |
 
 CSV-Format: siehe `TABLE_CONFIG` in `tools/tables/import_and_fix_tables.js`. Trennzeichen ist `;`.
 

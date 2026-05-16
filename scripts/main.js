@@ -11,7 +11,7 @@ import { initFirebase, startSync, subscribeToChanges, isFirebaseActive, loadCamp
 import { initCritCorrections } from './critCorrections.js';
 import { adjustWeaponFontSizes } from './logic.js';
 import { state } from './state.js';
-import { initCombatMusic } from './combatMusic.js';
+import { initCombatMusic, loadAngreiferModusFromStorage } from './combatMusic.js';
 import { $, $$ } from './dom.js';
 
 let appInitialized = false;
@@ -43,6 +43,7 @@ function applyRoleUI(role) {
     if (spielerTabs) spielerTabs.hidden = true;
     if (userProfileBtn) userProfileBtn.hidden = false;
     $('#charakterwahlOverlay')?.classList.add('hidden');
+    loadAngreiferModusFromStorage();
     switchTab('simulator');
     initKampftracker();
   } else {

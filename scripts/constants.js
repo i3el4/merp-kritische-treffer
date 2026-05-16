@@ -251,7 +251,7 @@ export const KAMPF_AUDIO_BASE_PATH = 'assets/audio/kampf/';
 export const GEGNER_TYP_ALLOWED = ['klein', 'normal', 'gross', 'gewaltig'];
 
 export const GEGNER_TYP_LABELS = {
-  klein: 'Klein (nur Musik)',
+  klein: 'Klein',
   normal: 'Normal',
   gross: 'Gross',
   gewaltig: 'Gewaltig'
@@ -267,6 +267,133 @@ export function gegnerTypForGameRules(gegnerTyp) {
   const t = coerceGegnerTypStored(gegnerTyp);
   return t === 'klein' ? 'normal' : t;
 }
+
+/** Rüstungsmaterial für Monster-Angriffstabellen (Spalten PL–OR). */
+export const RUESTUNG_TYP_ALLOWED = ['PL', 'KE', 'VL', 'LE', 'OR'];
+
+export const RUESTUNG_TYP_LABELS = {
+  PL: 'Platte',
+  KE: 'Kette',
+  VL: 'Vollleder',
+  LE: 'Leder',
+  OR: 'Ohne Rüstung'
+};
+
+export function coerceRuestungTyp(value) {
+  const v = String(value || '').toUpperCase();
+  return RUESTUNG_TYP_ALLOWED.includes(v) ? v : 'LE';
+}
+
+/** Monster-Waffenkategorien (Schatten-Modus). */
+export const MONSTER_WEAPON_GROUPS = [
+  {
+    label: 'Monster',
+    keys: ['GEGNER_1HKW', 'GEGNER_1HSW', 'GEGNER_2HW', 'GEGNER_FKW', 'GEGNER_ZUK', 'GEGNER_RUS']
+  }
+];
+
+export const GEGNER_WEAPON_LABELS = {
+  GEGNER_1HKW: '1H Klinge',
+  GEGNER_1HSW: '1H Schlag',
+  GEGNER_2HW: 'Zweihand',
+  GEGNER_FKW: 'Fernkampf',
+  GEGNER_ZUK: 'Zähne & Klauen',
+  GEGNER_RUS: 'Ringen & Stossen'
+};
+
+/** Icons für Monster-Angriffsarten (Reuse aus Spieler-Waffen-Icons). */
+export const GEGNER_WEAPON_ICONS = {
+  GEGNER_1HKW: 'schwert.png',
+  GEGNER_1HSW: 'hammer.png',
+  GEGNER_2HW: 'Zweihandschwert.png',
+  GEGNER_FKW: 'langbogen.png',
+  GEGNER_ZUK: 'beissen.png',
+  GEGNER_RUS: 'greifen.png'
+};
+
+/** Krit-Art bei Monsterangriffen (nur Schatten-Modus): TP/Kat aus Gegner-Tabelle, Typ hier. */
+export const GEGNER_CRIT_TYP = {
+  GEGNER_1HKW: 'Hieb',
+  GEGNER_1HSW: 'Streich',
+  GEGNER_2HW: 'Hieb',
+  GEGNER_FKW: 'Stich',
+  GEGNER_ZUK: 'Stich',
+  GEGNER_RUS: 'Stoss'
+};
+
+export function getGegnerCritTyp(gegnerTableKey) {
+  return GEGNER_CRIT_TYP[gegnerTableKey] || '';
+}
+
+/**
+ * Spieler-Waffe → Gegner-Angriffstabellen-Key (nur Trefferpunkte/Kategorie im Schatten).
+ * Kritische-Treffer-Art kommt weiterhin aus Angriffstabellen der gewählten Waffe.
+ */
+export const WEAPON_TO_GEGNER_TABLE = {
+  BREITSCHWERT: 'GEGNER_1HKW',
+  FALCHION: 'GEGNER_1HKW',
+  KURZSCHWERT: 'GEGNER_1HKW',
+  MAINEGAUCHE: 'GEGNER_1HKW',
+  RAPIER: 'GEGNER_1HKW',
+  SCIMITAR: 'GEGNER_1HKW',
+  DOLCH: 'GEGNER_1HKW',
+  HANDAXT: 'GEGNER_1HKW',
+  ZWEIHÄNDER: 'GEGNER_2HW',
+  KAMPFAXT: 'GEGNER_2HW',
+  KRIEGSHAMMER: 'GEGNER_1HSW',
+  STREITKOLBEN: 'GEGNER_1HSW',
+  MORGENSTERN: 'GEGNER_1HSW',
+  KEULE: 'GEGNER_1HSW',
+  FLAIL: 'GEGNER_1HSW',
+  KRIEGSBEIL: 'GEGNER_1HSW',
+  PANZERFAUST: 'GEGNER_1HSW',
+  COMPOSITEBOGEN: 'GEGNER_FKW',
+  KURZBOGEN: 'GEGNER_FKW',
+  LANGBOGEN: 'GEGNER_FKW',
+  LEICHTE_ARMBRUST: 'GEGNER_FKW',
+  SCHWERE_ARMBRUST: 'GEGNER_FKW',
+  SCHLEUDER: 'GEGNER_FKW',
+  WURFSPEER: 'GEGNER_FKW',
+  BOLA: 'GEGNER_FKW',
+  STANGENWAFFE: 'GEGNER_RUS',
+  KAMPFSTAB: 'GEGNER_RUS',
+  LANZE: 'GEGNER_RUS',
+  SPEER: 'GEGNER_RUS',
+  PEITSCHE: 'GEGNER_RUS',
+  BEISSEN: 'GEGNER_ZUK',
+  KRATZEN: 'GEGNER_ZUK',
+  STECHEN: 'GEGNER_ZUK',
+  PIEKSEN: 'GEGNER_ZUK',
+  HORN: 'GEGNER_ZUK',
+  TRAMPEL: 'GEGNER_ZUK',
+  QUETSCHEN: 'GEGNER_ZUK',
+  KLEINTIERE: 'GEGNER_ZUK',
+  SCHLAGEN: 'GEGNER_ZUK',
+  GREIFEN: 'GEGNER_RUS',
+  FEGEN: 'GEGNER_RUS',
+  RAMMEN: 'GEGNER_RUS'
+};
+
+export function getGegnerTableKeyForWeapon(weaponKey) {
+  if (!weaponKey) return '';
+  if (WEAPON_TO_GEGNER_TABLE[weaponKey]) return WEAPON_TO_GEGNER_TABLE[weaponKey];
+  if (String(weaponKey).startsWith('GEGNER_')) return weaponKey;
+  return '';
+}
+
+export function coerceIstHeld(value) {
+  return value === true || value === 'true' || value === 1 || value === '1';
+}
+
+/** ZuK/RuS: Merge aus Basis + Grössen-Tabellen je nach schattenMusikKategorie. */
+export const GEGNER_SIZE_VARIANTS = {
+  GEGNER_ZUK: { klein: 'GEGNER_ZUK_KLEIN', mittel: 'GEGNER_ZUK_MITTEL', gross: 'GEGNER_ZUK_GROSS' },
+  GEGNER_RUS: { klein: 'GEGNER_RUS_KLEIN', mittel: 'GEGNER_RUS_MITTEL', gross: 'GEGNER_RUS_GROSS' }
+};
+
+export const GEGNER_VARIANT_KEY_SET = new Set(
+  Object.values(GEGNER_SIZE_VARIANTS).flatMap((v) => [v.klein, v.mittel, v.gross])
+);
 
 export const MUSIK_PROFIL_VALUES = ['barde', 'nordling', 'hobbit', 'zwerg', 'gondorian', 'npc_verbündet', 'gegner'];
 

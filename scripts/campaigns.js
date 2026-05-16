@@ -5,6 +5,8 @@
 import { loadAll, saveAll } from './firebase-storage.js';
 import {
   coerceGegnerTypStored,
+  coerceRuestungTyp,
+  coerceIstHeld,
   coerceMusikProfil,
   defaultMusikProfilForEntityTyp
 } from './constants.js';
@@ -89,7 +91,7 @@ export function addSpieler(name, icon = null, maxTp = 100, rk = 20, wahrnehmung 
   data.kampagnen[k.id].spieler = data.kampagnen[k.id].spieler || [];
   data.kampagnen[k.id].spieler.push({
     id, name: name || 'Spieler', icon: icon || null,
-    maxTp: tpVal, tp: tpVal, rk: rkNum, gegnerTyp: gStored,
+    maxTp: tpVal, tp: tpVal, rk: rkNum, ruestungTyp: 'LE', istHeld: false, gegnerTyp: gStored,
     musikProfil: defaultMusikProfilForEntityTyp('spieler'),
     wahrnehmung: wahrnehmung != null ? String(wahrnehmung) : null,
     sichtbar: true,
@@ -125,6 +127,8 @@ export function updateSpieler(spielerId, updates) {
   if (updates.name != null) spieler[idx].name = updates.name;
   if (updates.icon !== undefined) spieler[idx].icon = updates.icon || null;
   if (updates.rk != null) spieler[idx].rk = Math.max(1, Math.min(20, parseInt(updates.rk, 10) || 20));
+  if (updates.ruestungTyp != null) spieler[idx].ruestungTyp = coerceRuestungTyp(updates.ruestungTyp);
+  if (updates.istHeld !== undefined) spieler[idx].istHeld = coerceIstHeld(updates.istHeld);
   if (updates.gegnerTyp != null) spieler[idx].gegnerTyp = coerceGegnerTypStored(updates.gegnerTyp);
   if (updates.musikProfil != null) {
     spieler[idx].musikProfil = coerceMusikProfil(updates.musikProfil, 'spieler');
@@ -161,6 +165,8 @@ export function addNpc(name, icon = null, maxTp = 100, rk = 20, gegnerTyp = 'nor
     maxTp: tpVal,
     tp: tpVal,
     rk: rkNum,
+    ruestungTyp: 'LE',
+    istHeld: false,
     gegnerTyp: gStored,
     musikProfil: defaultMusikProfilForEntityTyp('npc'),
     wahrnehmung: wahrnehmung != null ? String(wahrnehmung) : null,
@@ -214,6 +220,8 @@ export function updateNpc(npcId, updates) {
   if (updates.name != null) npcs[idx].name = updates.name;
   if (updates.icon !== undefined) npcs[idx].icon = updates.icon || null;
   if (updates.rk != null) npcs[idx].rk = Math.max(1, Math.min(20, parseInt(updates.rk, 10) || 20));
+  if (updates.ruestungTyp != null) npcs[idx].ruestungTyp = coerceRuestungTyp(updates.ruestungTyp);
+  if (updates.istHeld !== undefined) npcs[idx].istHeld = coerceIstHeld(updates.istHeld);
   if (updates.gegnerTyp != null) npcs[idx].gegnerTyp = coerceGegnerTypStored(updates.gegnerTyp);
   if (updates.musikProfil != null) {
     npcs[idx].musikProfil = coerceMusikProfil(updates.musikProfil, 'npc');
