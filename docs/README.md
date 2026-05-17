@@ -8,6 +8,7 @@ Alles, was man über das Projekt wissen muss, ist hier verlinkt. Die Reihenfolge
 
 | Du willst … | Lies … |
 |---|---|
+| Die App als Spieler oder SL nutzen | [ANLEITUNG.md](ANLEITUNG.md) · Kurz: [ANLEITUNG-SPIELER.md](ANLEITUNG-SPIELER.md) |
 | Verstehen, wie die App im Browser tickt | [ARCHITECTURE.md](ARCHITECTURE.md) |
 | Eine neue Tabelle (Krit, Patzer, Angriff) digitalisieren | [HOWTO-NEW-TABLE.md](HOWTO-NEW-TABLE.md) |
 | MP3s für eine bestehende Tabelle generieren | [HOWTO-NEW-AUDIO.md](HOWTO-NEW-AUDIO.md) |
