@@ -98,42 +98,105 @@ header > div:first-child {
   display: none !important;
 }
 
-/* Browser-ähnliche Tabs mit farbigem Hintergrund */
+/* Chrome-ähnliche Tabs: Streifen + aktiver Tab fliesst in Panel */
+:root {
+  --tab-strip: rgba(42, 32, 28, 0.62);
+  --tab-surface: var(--panel);
+  --tab-curve: 10px;
+  --tab-shell-radius: 14px;
+}
+
 .app-tabs {
   display: flex;
-  gap: 2px;
+  gap: 0;
   margin: 16px 0 0 0;
-  padding: 0 4px 0 0;
+  padding: 6px 6px 0;
   align-items: flex-end;
+  background: var(--tab-strip);
+  border: 1px solid var(--border);
+  border-bottom: none;
+  border-radius: var(--tab-shell-radius) var(--tab-shell-radius) 0 0;
+  position: relative;
+  z-index: 2;
 }
 
 .app-tabs .tab {
-  padding: 10px 14px;
-  background: rgba(60, 45, 40, 0.9);
-  border: 1px solid var(--border);
-  border-bottom: none;
-  border-radius: 8px 8px 0 0;
+  padding: 9px 16px 10px;
+  background: transparent;
+  border: none;
+  border-radius: var(--tab-curve) var(--tab-curve) 0 0;
   color: var(--muted);
   cursor: pointer;
   font-size: 0.8em;
   font-weight: normal;
-  transition: all 0.2s ease;
+  transition: color 0.15s ease, background 0.15s ease;
   font-family: 'MonkeyIsland', Georgia, serif;
   flex-shrink: 0;
   white-space: nowrap;
+  position: relative;
+  isolation: isolate;
 }
 
-.app-tabs .tab:hover {
+.app-tabs .tab:not(.active) + .tab:not(.active)::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 22%;
+  height: 56%;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.app-tabs .tab:hover:not(.active) {
   color: var(--text);
-  background: rgba(92, 77, 68, 0.95);
+  background: rgba(92, 77, 68, 0.45);
 }
 
 .app-tabs .tab.active {
   color: var(--accent);
-  background: rgba(74, 56, 45, 0.98);
-  border-color: var(--accent);
-  padding-bottom: 12px;
-  margin-bottom: -2px;
+  background: var(--tab-surface);
+  padding-bottom: 10px;
+  margin-bottom: 0;
+  z-index: 3;
+}
+
+/* Chrome-Kurven unten am aktiven Tab */
+.app-tabs .tab.active::before,
+.app-tabs .tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  width: var(--tab-curve);
+  height: var(--tab-curve);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.app-tabs .tab.active::before {
+  left: calc(-1 * var(--tab-curve));
+  background: var(--tab-strip);
+  border-bottom-right-radius: var(--tab-curve);
+  box-shadow: 3px 3px 0 3px var(--tab-surface);
+}
+
+.app-tabs .tab.active::after {
+  right: calc(-1 * var(--tab-curve));
+  background: var(--tab-strip);
+  border-bottom-left-radius: var(--tab-curve);
+  box-shadow: -3px 3px 0 3px var(--tab-surface);
+}
+
+.tab-panel:not(.hidden) {
+  background: var(--tab-surface);
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 var(--tab-shell-radius) var(--tab-shell-radius);
+  padding: 10px 6px 6px;
+  margin-top: 0;
+  position: relative;
+  z-index: 1;
 }
 
 /* Mobile: Tabs horizontal scrollbar, kompakter; Profil-Icon kleiner */
@@ -145,18 +208,23 @@ header > div:first-child {
     scrollbar-width: thin;
     margin-left: -4px;
     margin-right: -4px;
-    padding: 0 4px 4px 4px;
+    padding: 4px 4px 0;
+    border-radius: var(--tab-shell-radius) var(--tab-shell-radius) 0 0;
   }
   .app-tabs::-webkit-scrollbar {
     height: 4px;
   }
   .app-tabs .tab {
-    padding: 6px 10px;
+    padding: 6px 12px 8px;
     font-size: 0.72em;
     font-weight: normal;
   }
   .app-tabs .tab.active {
-    padding-bottom: 10px;
+    padding-bottom: 8px;
+  }
+  .tab-panel:not(.hidden) {
+    padding: 8px 4px 4px;
+    border-radius: 0 0 var(--tab-shell-radius) var(--tab-shell-radius);
   }
   .user-profile-btn {
     padding: 4px;
@@ -933,7 +1001,23 @@ header > div:first-child {
 
 /* Kampagne: Kontext-Karte oben, Inhalt als untergeordnete Bereiche */
 .kampagne-kontext-card {
-  margin-bottom: 12px;
+  margin-bottom: 0;
+}
+
+.kampagne-archiv-card {
+  border-left: 4px solid var(--accent);
+}
+
+.kampagne-archiv-title {
+  font-family: 'Aniron', Georgia, serif;
+  font-size: 15px;
+  margin: 0 0 8px 0;
+  color: var(--accent);
+}
+
+.kampagne-archiv-hint {
+  margin: 0 0 12px 0;
+  font-size: 0.85em;
 }
 
 .kampagne-inhalt-card {
@@ -1320,39 +1404,76 @@ header > div:first-child {
   height: 44px;
   border-radius: 50%;
   overflow: hidden;
-  border: 2px solid var(--border);
-  background-color: var(--chip);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35), 0 1px 3px rgba(0, 0, 0, 0.2);
+  border: 2px solid transparent;
+  background: rgba(74, 56, 45, 0.35);
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
-.ziel-group[data-group-type="gegner"] .ziel-select-btn-round .ziel-icon-wrap {
-  background-color: #3a3a3a;
-}
-
-.ziel-group[data-group-type="verbuendete"] .ziel-select-btn-round .ziel-icon-wrap {
-  background-color: #f5f0e0;
-}
-
-/* Schatten: Gegner hell, Verbündete dunkel (umgekehrt zu Licht) */
-body[data-angriffsmodus="monster"] .ziel-group[data-group-type="gegner"] .ziel-select-btn-round .ziel-icon-wrap {
-  background-color: #f5f0e0;
-}
-
+/* Böse Ziele: Schatten-Aura (Gegner im Licht / Feinde im Schatten-Modus) */
+body[data-angriffsmodus="charakter"] .ziel-group[data-group-type="gegner"] .ziel-select-btn-round .ziel-icon-wrap,
 body[data-angriffsmodus="monster"] .ziel-group[data-group-type="verbuendete"] .ziel-select-btn-round .ziel-icon-wrap {
-  background-color: #3a3a3a;
+  background: radial-gradient(circle at 50% 42%, rgba(58, 48, 44, 0.72) 0%, rgba(22, 17, 14, 0.88) 100%);
+  border-color: rgba(0, 0, 0, 0.42);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.28),
+    0 3px 10px rgba(0, 0, 0, 0.48),
+    0 8px 20px rgba(0, 0, 0, 0.32),
+    inset 0 2px 8px rgba(0, 0, 0, 0.42);
+}
+
+/* Gute Ziele: warmes Leuchten (Verbündete im Licht / Verbündete im Schatten-Modus) */
+body[data-angriffsmodus="charakter"] .ziel-group[data-group-type="verbuendete"] .ziel-select-btn-round .ziel-icon-wrap,
+body[data-angriffsmodus="monster"] .ziel-group[data-group-type="gegner"] .ziel-select-btn-round .ziel-icon-wrap {
+  background: radial-gradient(circle at 50% 38%, rgba(255, 248, 225, 0.28) 0%, rgba(212, 175, 55, 0.1) 52%, rgba(74, 56, 45, 0.18) 100%);
+  border-color: rgba(212, 175, 55, 0.32);
+  box-shadow:
+    0 0 10px rgba(212, 175, 55, 0.38),
+    0 0 20px rgba(255, 230, 160, 0.16),
+    inset 0 0 12px rgba(255, 248, 220, 0.12);
 }
 
 .ziel-select-btn-round:hover:not(.tot):not(:disabled) .ziel-icon-wrap {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 2px 6px rgba(0, 0, 0, 0.25);
 }
 
-.ziel-select-btn-round.active .ziel-icon-wrap {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 2px var(--accent), 0 2px 8px rgba(0, 0, 0, 0.35);
+body[data-angriffsmodus="charakter"] .ziel-group[data-group-type="gegner"] .ziel-select-btn-round:hover:not(.tot):not(:disabled) .ziel-icon-wrap,
+body[data-angriffsmodus="monster"] .ziel-group[data-group-type="verbuendete"] .ziel-select-btn-round:hover:not(.tot):not(:disabled) .ziel-icon-wrap {
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.35),
+    0 4px 14px rgba(0, 0, 0, 0.55),
+    0 10px 24px rgba(0, 0, 0, 0.38),
+    inset 0 2px 10px rgba(0, 0, 0, 0.48);
+}
+
+body[data-angriffsmodus="charakter"] .ziel-group[data-group-type="verbuendete"] .ziel-select-btn-round:hover:not(.tot):not(:disabled) .ziel-icon-wrap,
+body[data-angriffsmodus="monster"] .ziel-group[data-group-type="gegner"] .ziel-select-btn-round:hover:not(.tot):not(:disabled) .ziel-icon-wrap {
+  box-shadow:
+    0 0 14px rgba(212, 175, 55, 0.5),
+    0 0 26px rgba(255, 230, 160, 0.28),
+    inset 0 0 14px rgba(255, 248, 220, 0.18);
+}
+
+body[data-angriffsmodus="charakter"] .ziel-group[data-group-type="gegner"] .ziel-select-btn-round.active .ziel-icon-wrap,
+body[data-angriffsmodus="monster"] .ziel-group[data-group-type="verbuendete"] .ziel-select-btn-round.active .ziel-icon-wrap {
+  border-color: rgba(229, 91, 65, 0.65);
+  box-shadow:
+    0 0 0 2px rgba(229, 91, 65, 0.45),
+    0 4px 14px rgba(0, 0, 0, 0.55),
+    0 8px 22px rgba(0, 0, 0, 0.4),
+    inset 0 2px 8px rgba(0, 0, 0, 0.45);
+}
+
+body[data-angriffsmodus="charakter"] .ziel-group[data-group-type="verbuendete"] .ziel-select-btn-round.active .ziel-icon-wrap,
+body[data-angriffsmodus="monster"] .ziel-group[data-group-type="gegner"] .ziel-select-btn-round.active .ziel-icon-wrap {
+  border-color: rgba(212, 175, 55, 0.75);
+  box-shadow:
+    0 0 0 2px rgba(212, 175, 55, 0.55),
+    0 0 16px rgba(212, 175, 55, 0.55),
+    0 0 28px rgba(255, 230, 160, 0.3),
+    inset 0 0 12px rgba(255, 248, 220, 0.2);
 }
 
 .ziel-select-btn-round.tot .ziel-icon-wrap,
@@ -2557,6 +2678,44 @@ body[data-angriffsmodus="monster"] .ziel-group[data-group-type="verbuendete"] .z
 
 .historie-item {
   margin-bottom: 10px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+}
+
+.historie-item-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  padding: 8px 10px;
+  list-style: none;
+}
+
+.historie-item-summary::-webkit-details-marker {
+  display: none;
+}
+
+.historie-item-title {
+  flex: 1 1 12rem;
+  min-width: 0;
+}
+
+.historie-item-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.historie-item-actions .btn {
+  padding: 6px 10px;
+}
+
+.historie-item-body {
+  padding: 0 10px 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .historie-entity {
@@ -2706,10 +2865,31 @@ body[data-angriffsmodus="monster"] .ziel-group[data-group-type="verbuendete"] .z
 }
 
 .kampf-musik-play-btn {
-  font-size: 1.1em;
+  font-size: 0;
   line-height: 1;
-  padding: 4px 12px;
+  padding: 8px 12px;
   min-width: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.kampf-musik-play-btn::before {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 6px 0 6px 10px;
+  border-color: transparent transparent transparent currentColor;
+}
+
+.kampf-musik-play-btn.active::before {
+  width: 3px;
+  height: 12px;
+  border: none;
+  background: currentColor;
+  box-shadow: 5px 0 0 currentColor;
 }
 
 .kampf-musik-play-btn.active {
@@ -2735,7 +2915,7 @@ body[data-angriffsmodus="monster"] .licht-only {
 /* Licht vs. Schatten: dezente Atmosphäre über Theme-Variablen + Hintergrund */
 body[data-angriffsmodus="charakter"] {
   --bg: #3a3028;
-  --panel: rgba(90, 74, 60, 0.9);
+  --panel: rgba(90, 74, 60, 0.72);
   --text: #ddd6cf;
   --muted: #b8b2aa;
   --chip: #6e5c50;
@@ -2745,7 +2925,7 @@ body[data-angriffsmodus="charakter"] {
 
 body[data-angriffsmodus="monster"] {
   --bg: #1a1410;
-  --panel: rgba(38, 30, 24, 0.94);
+  --panel: rgba(38, 30, 24, 0.76);
   --text: #a39d99;
   --muted: #7a7572;
   --chip: #352b25;

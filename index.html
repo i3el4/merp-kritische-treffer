@@ -333,7 +333,6 @@
       <button type="button" class="tab active" data-tab="simulator">Kampf</button>
       <button type="button" class="tab" data-tab="charaktertracker">Status</button>
       <button type="button" class="tab" data-tab="charakter">Charakter</button>
-      <button type="button" class="tab" data-tab="historie">Historie</button>
       <button type="button" class="tab" data-tab="erfassung">Kampagne</button>
     </nav>
     <!-- Tab-Navigation Spieler (Kampf + Status + Charakter) -->
@@ -356,7 +355,7 @@
                 </button>
                 <button type="button" class="angriffsmodus-label" data-angriffsmodus="monster">Schatten</button>
               </div>
-              <button type="button" class="btn ghost kampf-musik-play-btn" id="kampfMusikPlayBtn" aria-pressed="false" title="Kampfmusik starten / pausieren">▶</button>
+              <button type="button" class="btn ghost kampf-musik-play-btn" id="kampfMusikPlayBtn" aria-pressed="false" aria-label="Kampfmusik starten" title="Kampfmusik starten / pausieren"></button>
             </div>
           </div>
           <div id="simulatorAngreiferRow" class="angriff-bottom-row simulator-angreifer-row spielleiter-only" hidden>
@@ -583,17 +582,6 @@
       </section>
     </div>
 
-    <div id="historiePanel" class="tab-panel hidden">
-      <section class="card">
-        <h2>Kampf-Historie</h2>
-        <div class="historie-actions">
-          <button type="button" class="btn primary" id="historieArchivierenBtn">Aktuellen Kampf archivieren</button>
-        </div>
-        <hr>
-        <div id="historieArchivListe"></div>
-      </section>
-    </div>
-
     <div id="charakterPanel" class="tab-panel hidden">
       <section class="card spielleiter-only">
         <h2>Charakter erstellen</h2>
@@ -748,6 +736,16 @@
             </div>
           </div>
         </div>
+      </section>
+
+      <section class="card kampagne-archiv-card" style="margin-top:12px">
+        <h3 class="kampagne-archiv-title">Archiv (abgeschlossene Kämpfe)</h3>
+        <p class="muted kampagne-archiv-hint">Archivierte Kämpfe der oben gewählten Kampagne.</p>
+        <div class="historie-actions">
+          <button type="button" class="btn primary" id="historieArchivierenBtn">Aktuellen Kampf archivieren</button>
+        </div>
+        <hr>
+        <div id="historieArchivListe"></div>
       </section>
     </div>
   </div>

@@ -23,7 +23,7 @@
 :root {
   /* Farbpalette */
   --bg: #302621;
-  --panel: rgba(74, 56, 45, 0.85);
+  --panel: rgba(74, 56, 45, 0.68);
   --muted: #a6a6a6;
   --text: #c2bdbb;
   --accent: #d4af37;
@@ -72,7 +72,7 @@ body {
 /*
   Karten-Hintergrund immer nach Viewport skalieren (cover), nicht nach Dokumenthöhe.
   Sonst wirkt das Bild auf langen Tabs (Kampf, Status, Charakter) stark gezoomt/verzerrt;
-  kurze Tabs (Historie, Kampagne) blieben „normal“.
+  kurze Tabs (Kampagne) blieben „normal“.
 */
 body::before {
   content: '';

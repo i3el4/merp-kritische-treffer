@@ -79,6 +79,7 @@ function showCharakterwahl() {
 }
 
 function switchTab(tabId) {
+  if (tabId === 'historie') tabId = 'erfassung';
   const panels = $$('.tab-panel');
   const tabButtons = $$('.app-tabs .tab');
   panels.forEach(p => {

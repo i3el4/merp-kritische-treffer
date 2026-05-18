@@ -86,6 +86,9 @@ const CHARAKTER_PANEL = '#charakterPanel';
 const ERFASSUNG_PANEL = '#erfassungPanel';
 const SIMULATOR_PANEL = '#simulatorPanel';
 
+/** Offene Archiv-<details> über render()-Zyklen hinweg merken */
+const openHistorieArchivIds = new Set();
+
 export function getIconUrl(icon) {
   const base = URLS.ICONS_BASE_PATH || 'assets/icons/';
   const filename = icon && Object.keys(CHARAKTER_ICONS).includes(icon) ? icon : 'gegner_normal.png';
@@ -1523,11 +1526,23 @@ function renderInitiative() {
   }).join('');
 }
 
+function stopSummaryToggle(e) {
+  e.preventDefault();
+  e.stopPropagation();
+}
+
 function renderHistorieArchiv() {
   const el = document.getElementById('historieArchivListe');
   if (!el) return;
+
+  el.querySelectorAll('details.historie-item[open]').forEach((d) => {
+    const id = d.dataset.archivId;
+    if (id) openHistorieArchivIds.add(id);
+  });
+
   const data = getKampfHistorieArchiv();
   if (!data.length) {
+    openHistorieArchivIds.clear();
     el.innerHTML = '<p class="muted">Noch keine archivierten Kämpfe.</p>';
     return;
   }
@@ -1535,37 +1550,72 @@ function renderHistorieArchiv() {
   data.forEach(h => {
     const details = document.createElement('details');
     details.className = 'historie-item';
+    details.dataset.archivId = h.id;
+    if (openHistorieArchivIds.has(h.id)) details.open = true;
+
     const date = new Date(h.datum);
-    details.innerHTML = `<summary>${escapeHtml(h.name)} · ${date.toLocaleString('de-CH')} · ${h.runden} Rd</summary>`;
-    const delBtn = document.createElement('button');
-    delBtn.type = 'button';
-    delBtn.className = 'btn ghost';
-    delBtn.textContent = 'Archiv löschen';
-    delBtn.addEventListener('click', () => {
-      if (confirm('Archiv-Eintrag wirklich löschen?')) {
-        deleteKampfHistorieArchivEintrag(h.id);
-        render();
-      }
-    });
+    const summary = document.createElement('summary');
+    summary.className = 'historie-item-summary';
+
+    const title = document.createElement('span');
+    title.className = 'historie-item-title';
+    title.textContent = `${h.name} · ${date.toLocaleString('de-CH')} · ${h.runden} Rd`;
+
+    const actions = document.createElement('span');
+    actions.className = 'historie-item-actions';
+
     const restoreBtn = document.createElement('button');
     restoreBtn.type = 'button';
     restoreBtn.className = 'btn ghost';
     restoreBtn.textContent = 'Wiederherstellen';
-    restoreBtn.addEventListener('click', () => {
-      if (confirm('Kampf wiederherstellen? Aktuelle TP werden auf Basis der archivierten Historie neu berechnet.')) {
-        restoreKampfHistorie(h.id);
-        render();
+    restoreBtn.addEventListener('click', (e) => {
+      stopSummaryToggle(e);
+      if (!confirm('Kampf wiederherstellen? Aktuelle TP werden auf Basis der archivierten Historie neu berechnet.')) return;
+      const ok = restoreKampfHistorie(h.id);
+      if (!ok) {
+        alert('Wiederherstellen fehlgeschlagen. Ist die richtige Kampagne gewählt?');
+        return;
       }
+      openHistorieArchivIds.delete(h.id);
+      render();
+      document.querySelector('.app-tabs:not([hidden]) .tab[data-tab="charaktertracker"]')?.click();
     });
-    details.appendChild(restoreBtn);
-    details.appendChild(document.createTextNode(' '));
-    details.appendChild(delBtn);
-    (h.eintraege || []).forEach(ent => {
-      const card = document.createElement('div');
-      card.className = 'historie-entity';
-      card.innerHTML = `<strong>${escapeHtml(ent.entityName)} (${ent.entityTyp})</strong><ul>${(ent.historie || []).map(x => `<li>Rd ${x.runde}: ${escapeHtml(x.beschreibung || `${x.quelle} ${x.tp || 0} TP`)}</li>`).join('')}</ul>`;
-      details.appendChild(card);
+
+    const delBtn = document.createElement('button');
+    delBtn.type = 'button';
+    delBtn.className = 'btn ghost';
+    delBtn.textContent = 'Archiv löschen';
+    delBtn.addEventListener('click', (e) => {
+      stopSummaryToggle(e);
+      if (!confirm('Archiv-Eintrag wirklich löschen?')) return;
+      if (!deleteKampfHistorieArchivEintrag(h.id)) {
+        alert('Löschen fehlgeschlagen.');
+        return;
+      }
+      openHistorieArchivIds.delete(h.id);
+      render();
     });
+
+    actions.appendChild(restoreBtn);
+    actions.appendChild(delBtn);
+    summary.appendChild(title);
+    summary.appendChild(actions);
+    details.appendChild(summary);
+
+    const body = document.createElement('div');
+    body.className = 'historie-item-body';
+    const eintraege = h.eintraege || [];
+    if (eintraege.length === 0) {
+      body.innerHTML = '<p class="muted">Keine gespeicherten Historie-Einträge.</p>';
+    } else {
+      eintraege.forEach(ent => {
+        const card = document.createElement('div');
+        card.className = 'historie-entity';
+        card.innerHTML = `<strong>${escapeHtml(ent.entityName)} (${ent.entityTyp})</strong><ul>${(ent.historie || []).map(x => `<li>Rd ${x.runde}: ${escapeHtml(x.beschreibung || `${x.quelle} ${x.tp || 0} TP`)}</li>`).join('')}</ul>`;
+        body.appendChild(card);
+      });
+    }
+    details.appendChild(body);
     el.appendChild(details);
   });
 }

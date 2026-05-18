@@ -150,8 +150,8 @@ function updatePlayBtnUI() {
   const btn = $('#kampfMusikPlayBtn');
   if (!btn) return;
   const on = !!state.kampfModus;
-  btn.textContent = on ? '⏸' : '▶';
   btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+  btn.setAttribute('aria-label', on ? 'Kampfmusik pausieren' : 'Kampfmusik starten');
   btn.classList.toggle('active', on);
 }
 
