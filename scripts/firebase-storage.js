@@ -10,7 +10,7 @@ import {
   get,
   onValue
 } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
-import { coerceGegnerTypStored, coerceRuestungTyp, coerceIstHeld, defaultMusikProfilForEntityTyp } from './constants.js';
+import { coerceGegnerTypStored, coerceRuestungTyp, ruestungTypFromRk, coerceIstHeld, defaultMusikProfilForEntityTyp } from './constants.js';
 
 const LOCAL_KEY = 'merp_kampagnen';
 const LOCAL_KNOWN_IDS = 'merp_known_campaign_ids';
@@ -31,8 +31,9 @@ function migrateKampagne(k) {
     if (s.maxTp === undefined) s.maxTp = 100;
     if (s.tp === undefined) s.tp = s.maxTp ?? 100;
     if (s.rk === undefined) s.rk = 20;
-    if (s.ruestungTyp === undefined) s.ruestungTyp = 'LE';
+    if (s.ruestungTyp === undefined) s.ruestungTyp = ruestungTypFromRk(s.rk);
     s.ruestungTyp = coerceRuestungTyp(s.ruestungTyp);
+    if (s.ruestungAnRKKoppeln === undefined) s.ruestungAnRKKoppeln = true;
     if (s.istHeld === undefined) s.istHeld = false;
     s.istHeld = coerceIstHeld(s.istHeld);
     if (s.gegnerTyp === undefined) s.gegnerTyp = 'normal';
@@ -52,8 +53,9 @@ function migrateKampagne(k) {
     if (n.maxTp === undefined) n.maxTp = 100;
     if (n.tp === undefined) n.tp = n.maxTp ?? 100;
     if (n.rk === undefined) n.rk = 20;
-    if (n.ruestungTyp === undefined) n.ruestungTyp = 'LE';
+    if (n.ruestungTyp === undefined) n.ruestungTyp = ruestungTypFromRk(n.rk);
     n.ruestungTyp = coerceRuestungTyp(n.ruestungTyp);
+    if (n.ruestungAnRKKoppeln === undefined) n.ruestungAnRKKoppeln = true;
     if (n.istHeld === undefined) n.istHeld = false;
     n.istHeld = coerceIstHeld(n.istHeld);
     if (n.gegnerTyp === undefined) n.gegnerTyp = 'normal';
@@ -85,6 +87,10 @@ function migrateKampagne(k) {
     if (g.bm === undefined) g.bm = 0;
     if (g.gegnerTyp === undefined) g.gegnerTyp = 'normal';
     g.gegnerTyp = coerceGegnerTypStored(g.gegnerTyp);
+    if (g.rk === undefined) g.rk = 20;
+    if (g.ruestungTyp === undefined) g.ruestungTyp = ruestungTypFromRk(g.rk);
+    g.ruestungTyp = coerceRuestungTyp(g.ruestungTyp);
+    if (g.ruestungAnRKKoppeln === undefined) g.ruestungAnRKKoppeln = true;
     if (g.musikProfil === undefined) g.musikProfil = defaultMusikProfilForEntityTyp('gegner');
     if (!Array.isArray(g.status)) g.status = [];
     if (!Array.isArray(g.laufendeSchaden)) g.laufendeSchaden = [];
@@ -110,6 +116,10 @@ function migrateKampagne(k) {
     v.gegnerTyp = coerceGegnerTypStored(v.gegnerTyp);
     const et = v.typ === 'spieler' ? 'spieler' : v.typ === 'npc' ? 'npc' : 'gegner';
     if (v.musikProfil === undefined) v.musikProfil = defaultMusikProfilForEntityTyp(et);
+    if (v.rk === undefined) v.rk = 10;
+    if (v.ruestungTyp === undefined) v.ruestungTyp = ruestungTypFromRk(v.rk);
+    v.ruestungTyp = coerceRuestungTyp(v.ruestungTyp);
+    if (v.ruestungAnRKKoppeln === undefined) v.ruestungAnRKKoppeln = true;
   });
   return k;
 }

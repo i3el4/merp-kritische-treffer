@@ -10,6 +10,7 @@ import {
   RUESTUNG_TYP_ALLOWED,
   RUESTUNG_TYP_LABELS,
   coerceRuestungTyp,
+  ruestungTypFromRk,
   coerceIstHeld,
   gegnerTypForGameRules
 } from './constants.js';
@@ -85,6 +86,33 @@ const CHARAKTERTRACKER_PANEL = '#charaktertrackerPanel';
 const CHARAKTER_PANEL = '#charakterPanel';
 const ERFASSUNG_PANEL = '#erfassungPanel';
 const SIMULATOR_PANEL = '#simulatorPanel';
+
+function initCharAddRuestungFields() {
+  const form = document.getElementById('charAddForm');
+  const sel = document.getElementById('charRuestungTyp');
+  const rkEl = document.getElementById('charRk');
+  const koppel = document.getElementById('charRuestungKoppel');
+  if (!form || !sel || !rkEl || !koppel) return;
+  if (!form.dataset.ruestungBound) {
+    form.dataset.ruestungBound = '1';
+    sel.innerHTML = RUESTUNG_TYP_ALLOWED.map((rt) =>
+      `<option value="${rt}">${RUESTUNG_TYP_LABELS[rt]} (${rt})</option>`).join('');
+    const sync = () => {
+      const rk = parseInt(rkEl.value, 10) || 10;
+      if (koppel.checked) {
+        sel.value = ruestungTypFromRk(rk);
+        sel.disabled = true;
+      } else {
+        sel.disabled = false;
+      }
+    };
+    koppel.addEventListener('change', sync);
+    rkEl.addEventListener('change', sync);
+    sync();
+  } else {
+    rkEl.dispatchEvent(new Event('change'));
+  }
+}
 
 /** Offene Archiv-<details> über render()-Zyklen hinweg merken */
 const openHistorieArchivIds = new Set();
@@ -220,6 +248,7 @@ function showCharakterEditPopoverForChip(chipEl, char) {
       <label>Rüstungsklasse</label>
       <select class="gegner-edit-rk">${rkOpts}</select>
     </div>
+    ${ruestungKoppelCheckboxHtml(char.ruestungAnRKKoppeln)}
     <div class="gegner-edit-row">
       <label>Rüstung</label>
       <select class="gegner-edit-ruestung">${ruestungTypOptionsHtml(char.ruestungTyp)}</select>
@@ -261,9 +290,11 @@ function showCharakterEditPopoverForChip(chipEl, char) {
   renderIconPicker(iconPickerEl, char.icon, (filename) => { popover.dataset.selectedIcon = filename; });
   const musikEl = popover.querySelector('.gegner-edit-musik');
   if (musikEl) fillMusikProfilSelect(musikEl, char.musikProfil, char.typ === 'npc' ? 'npc' : 'spieler');
+  wireRuestungKoppelPopover(popover);
   popover.querySelector('.gegner-edit-apply').addEventListener('click', () => {
     const name = popover.querySelector('.gegner-edit-name')?.value?.trim();
     const rk = parseInt(popover.querySelector('.gegner-edit-rk').value, 10);
+    const ruestungKoppel = popover.querySelector('.gegner-edit-ruestung-koppel')?.checked !== false;
     const ruestungTyp = popover.querySelector('.gegner-edit-ruestung')?.value || 'LE';
     const tp = parseInt(popover.querySelector('.gegner-edit-tp').value, 10);
     const maxTp = Math.max(1, parseInt(popover.querySelector('.gegner-edit-maxTp').value, 10));
@@ -275,7 +306,7 @@ function showCharakterEditPopoverForChip(chipEl, char) {
     const gruppeId = popover.querySelector('.gegner-edit-gruppe')?.value?.trim() || null;
     const sichtbar = popover.querySelector('.gegner-edit-sichtbar')?.checked !== false;
     const istHeld = popover.querySelector('.gegner-edit-held')?.value === '1';
-    const updates = { name: name || char.name, rk, ruestungTyp, istHeld, tp: Math.min(tp, maxTp), maxTp, icon, defensivBonus, bm, gruppeId, gegnerTyp, wahrnehmung, sichtbar };
+    const updates = { name: name || char.name, rk, ruestungAnRKKoppeln: ruestungKoppel, ruestungTyp: coerceRuestungTyp(ruestungTyp), istHeld, tp: Math.min(tp, maxTp), maxTp, icon, defensivBonus, bm, gruppeId, gegnerTyp, wahrnehmung, sichtbar };
     const musikSel = popover.querySelector('.gegner-edit-musik');
     if (musikSel && getRole() === ROLES.SPIELLEITER) updates.musikProfil = musikSel.value;
     if (char.typ === 'spieler') {
@@ -326,6 +357,11 @@ function showGegnerEditPopover(cardEl, gegner) {
       <label>Rüstungsklasse</label>
       <select class="gegner-edit-rk">${rkOpts}</select>
     </div>
+    ${ruestungKoppelCheckboxHtml(gegner.ruestungAnRKKoppeln)}
+    <div class="gegner-edit-row">
+      <label>Rüstungsart (Schatten, PL–OR)</label>
+      <select class="gegner-edit-ruestung">${ruestungTypOptionsHtml(gegner.ruestungTyp)}</select>
+    </div>
     <div class="gegner-edit-row">
       <label>TP (aktuell)</label>
       <input type="number" class="gegner-edit-tp" min="0" max="${gegner.maxTp}" value="${gegner.tp}" />
@@ -366,8 +402,11 @@ function showGegnerEditPopover(cardEl, gegner) {
   });
   const musikElG = popover.querySelector('.gegner-edit-musik');
   if (musikElG) fillMusikProfilSelect(musikElG, gegner.musikProfil, 'gegner');
+  wireRuestungKoppelPopover(popover);
   popover.querySelector('.gegner-edit-apply').addEventListener('click', () => {
     const rk = parseInt(popover.querySelector('.gegner-edit-rk').value, 10);
+    const ruestungKoppel = popover.querySelector('.gegner-edit-ruestung-koppel')?.checked !== false;
+    const ruestungTyp = popover.querySelector('.gegner-edit-ruestung')?.value || 'LE';
     const tp = parseInt(popover.querySelector('.gegner-edit-tp').value, 10);
     const maxTp = Math.max(1, parseInt(popover.querySelector('.gegner-edit-maxTp').value, 10));
     const defensivBonus = parseInt(popover.querySelector('.gegner-edit-db').value, 10) || 0;
@@ -379,7 +418,7 @@ function showGegnerEditPopover(cardEl, gegner) {
     const sichtbar = popover.querySelector('.gegner-edit-sichtbar')?.checked !== false;
     const gruppeSel = popover.querySelector('.gegner-edit-gruppe');
     const gruppeId = gruppeSel?.value?.trim() || null;
-    const updates = { rk, tp: Math.min(tp, maxTp), maxTp, icon, imKampf, sichtbar, gruppeId, defensivBonus, bm, gegnerTyp, wahrnehmung };
+    const updates = { rk, ruestungAnRKKoppeln: ruestungKoppel, ruestungTyp: coerceRuestungTyp(ruestungTyp), tp: Math.min(tp, maxTp), maxTp, icon, imKampf, sichtbar, gruppeId, defensivBonus, bm, gegnerTyp, wahrnehmung };
     const musikSel = popover.querySelector('.gegner-edit-musik');
     if (musikSel && getRole() === ROLES.SPIELLEITER) updates.musikProfil = musikSel.value;
     updateGegner(gegner.id, updates);
@@ -440,6 +479,34 @@ function ruestungTypOptionsHtml(selected) {
   return RUESTUNG_TYP_ALLOWED.map((rt) =>
     `<option value="${rt}"${v === rt ? ' selected' : ''}>${RUESTUNG_TYP_LABELS[rt]} (${rt})</option>`
   ).join('');
+}
+
+function ruestungKoppelCheckboxHtml(checked) {
+  const on = checked !== false;
+  return `<div class="gegner-edit-row">
+      <label title="Schatten: Rüstungsspalte (PL–OR) aus der Rüstungsklasse ableiten, sofern angehakt">
+        <input type="checkbox" class="gegner-edit-ruestung-koppel" ${on ? 'checked' : ''} /> Rüstung an RK koppeln (Schatten)
+      </label>
+    </div>`;
+}
+
+function wireRuestungKoppelPopover(popover) {
+  const rkEl = popover.querySelector('.gegner-edit-rk');
+  const koppelEl = popover.querySelector('.gegner-edit-ruestung-koppel');
+  const rustEl = popover.querySelector('.gegner-edit-ruestung');
+  if (!koppelEl || !rustEl) return;
+  const sync = () => {
+    const rk = parseInt(rkEl?.value, 10) || 20;
+    if (koppelEl.checked) {
+      rustEl.value = ruestungTypFromRk(rk);
+      rustEl.disabled = true;
+    } else {
+      rustEl.disabled = false;
+    }
+  };
+  koppelEl.addEventListener('change', sync);
+  rkEl?.addEventListener('change', sync);
+  sync();
 }
 
 function istHeldOptionsHtml(selected) {
@@ -1256,6 +1323,7 @@ function showCharakterEditPopover(cardEl, char) {
       <label>Rüstungsklasse</label>
       <select class="gegner-edit-rk">${rkOpts}</select>
     </div>
+    ${ruestungKoppelCheckboxHtml(char.ruestungAnRKKoppeln)}
     <div class="gegner-edit-row">
       <label>Rüstung</label>
       <select class="gegner-edit-ruestung">${ruestungTypOptionsHtml(char.ruestungTyp)}</select>
@@ -1297,8 +1365,10 @@ function showCharakterEditPopover(cardEl, char) {
   renderIconPicker(iconPickerEl, char.icon, (filename) => { popover.dataset.selectedIcon = filename; });
   const musikElC = popover.querySelector('.gegner-edit-musik');
   if (musikElC) fillMusikProfilSelect(musikElC, char.musikProfil, char.typ === 'npc' ? 'npc' : 'spieler');
+  wireRuestungKoppelPopover(popover);
   popover.querySelector('.gegner-edit-apply').addEventListener('click', () => {
     const rk = parseInt(popover.querySelector('.gegner-edit-rk').value, 10);
+    const ruestungKoppel = popover.querySelector('.gegner-edit-ruestung-koppel')?.checked !== false;
     const ruestungTyp = popover.querySelector('.gegner-edit-ruestung')?.value || 'LE';
     const tp = parseInt(popover.querySelector('.gegner-edit-tp').value, 10);
     const maxTp = Math.max(1, parseInt(popover.querySelector('.gegner-edit-maxTp').value, 10));
@@ -1310,7 +1380,7 @@ function showCharakterEditPopover(cardEl, char) {
     const gruppeId = popover.querySelector('.gegner-edit-gruppe')?.value?.trim() || null;
     const sichtbar = popover.querySelector('.gegner-edit-sichtbar')?.checked !== false;
     const istHeld = popover.querySelector('.gegner-edit-held')?.value === '1';
-    const updates = { rk, ruestungTyp, istHeld, tp: Math.min(tp, maxTp), maxTp, icon, defensivBonus, bm, gruppeId, gegnerTyp, wahrnehmung, sichtbar };
+    const updates = { rk, ruestungAnRKKoppeln: ruestungKoppel, ruestungTyp: coerceRuestungTyp(ruestungTyp), istHeld, tp: Math.min(tp, maxTp), maxTp, icon, defensivBonus, bm, gruppeId, gegnerTyp, wahrnehmung, sichtbar };
     const musikSel = popover.querySelector('.gegner-edit-musik');
     if (musikSel && getRole() === ROLES.SPIELLEITER) updates.musikProfil = musikSel.value;
     if (char.typ === 'spieler') {
@@ -1434,6 +1504,13 @@ function renderVorlagen() {
       <span class="vorlage-field-label">Rüstungsklasse</span>
       <select class="vorlage-rk">${Array.from({ length: 20 }, (_, i) => i + 1).map(n => `<option value="${n}"${n === 10 ? ' selected' : ''}>${n}</option>`).join('')}</select>
     </div>
+    <div class="vorlage-field vorlage-field-wide">
+      <label><input type="checkbox" class="vorlage-ruestung-koppel" checked /> Rüstung an RK koppeln (Schatten)</label>
+    </div>
+    <div class="vorlage-field">
+      <span class="vorlage-field-label">Rüstungsart</span>
+      <select class="vorlage-ruestung">${ruestungTypOptionsHtml('VL')}</select>
+    </div>
     <div class="vorlage-field">
       <span class="vorlage-field-label">Defensivbonus</span>
       <input type="number" class="vorlage-db" placeholder="0" />
@@ -1457,6 +1534,21 @@ function renderVorlagen() {
   };
   typSelV?.addEventListener('change', refillVorlageMusik);
   refillVorlageMusik();
+  const vorlageRk = form.querySelector('.vorlage-rk');
+  const vorlageKoppel = form.querySelector('.vorlage-ruestung-koppel');
+  const vorlageRust = form.querySelector('.vorlage-ruestung');
+  const syncVorlageRuestung = () => {
+    const rk = parseInt(vorlageRk?.value, 10) || 10;
+    if (vorlageKoppel?.checked) {
+      vorlageRust.value = ruestungTypFromRk(rk);
+      vorlageRust.disabled = true;
+    } else {
+      vorlageRust.disabled = false;
+    }
+  };
+  vorlageKoppel?.addEventListener('change', syncVorlageRuestung);
+  vorlageRk?.addEventListener('change', syncVorlageRuestung);
+  syncVorlageRuestung();
   form.querySelector('.vorlage-add')?.addEventListener('click', () => {
     const name = form.querySelector('.vorlage-name')?.value?.trim();
     if (!name) return;
@@ -1470,6 +1562,8 @@ function renderVorlagen() {
       maxTp: Number.isFinite(tp) && tp > 0 ? tp : 100,
       gegnerTyp: form.querySelector('.vorlage-groesse')?.value,
       rk: form.querySelector('.vorlage-rk')?.value,
+      ruestungAnRKKoppeln: form.querySelector('.vorlage-ruestung-koppel')?.checked !== false,
+      ruestungTyp: coerceRuestungTyp(form.querySelector('.vorlage-ruestung')?.value || 'LE'),
       defensivBonus: Number.isFinite(db) ? db : 0,
       bm: Number.isFinite(bm) ? bm : 0,
       wahrnehmung: form.querySelector('.vorlage-wn')?.value?.trim() || null,
@@ -1958,6 +2052,7 @@ function initCharAddForm() {
     form.querySelector('#charTyp')?.addEventListener('change', refillCharMusik);
     refillCharMusik();
   }
+  initCharAddRuestungFields();
   if (charAddFormInitialized) return;
   charAddFormInitialized = true;
 
@@ -1970,6 +2065,8 @@ function initCharAddForm() {
     const tp = form.querySelector('#charTp')?.value || '100';
     const groesse = form.querySelector('#charGroesse')?.value || 'normal';
     const rk = form.querySelector('#charRk')?.value || '10';
+    const ruestungKoppel = form.querySelector('#charRuestungKoppel')?.checked !== false;
+    const ruestungTyp = coerceRuestungTyp(form.querySelector('#charRuestungTyp')?.value || ruestungTypFromRk(parseInt(rk, 10) || 10));
     const defensivBonus = form.querySelector('#charDb')?.value || '0';
     const bm = form.querySelector('#charBm')?.value || '0';
     const wahrnehmung = form.querySelector('#charWahrnehmung')?.value?.trim() || null;
@@ -1980,22 +2077,22 @@ function initCharAddForm() {
     if (typ === 'gegner') {
       if (anzahl > 1) {
         const ids = addGegnerBatch(anzahl, name, tp, groesse, rk, icon, gruppeId, wahrnehmung);
-        ids.forEach(id => updateGegner(id, { defensivBonus, bm, ...(musikP ? { musikProfil: musikP } : {}) }));
+        ids.forEach(id => updateGegner(id, { defensivBonus, bm, ruestungAnRKKoppeln: ruestungKoppel, ruestungTyp, ...(musikP ? { musikProfil: musikP } : {}) }));
       } else {
         const id = addGegner(name, tp, groesse, rk, icon, gruppeId, wahrnehmung);
-        if (id) updateGegner(id, { defensivBonus, bm, ...(musikP ? { musikProfil: musikP } : {}) });
+        if (id) updateGegner(id, { defensivBonus, bm, ruestungAnRKKoppeln: ruestungKoppel, ruestungTyp, ...(musikP ? { musikProfil: musikP } : {}) });
       }
     } else if (typ === 'npc') {
       if (anzahl > 1) {
         const ids = addNpcBatch(anzahl, name, tp, rk, icon, groesse, wahrnehmung);
-        ids.forEach(id => updateNpc(id, { defensivBonus, bm, gruppeId, ...(musikP ? { musikProfil: musikP } : {}) }));
+        ids.forEach(id => updateNpc(id, { defensivBonus, bm, gruppeId, ruestungAnRKKoppeln: ruestungKoppel, ruestungTyp, ...(musikP ? { musikProfil: musikP } : {}) }));
       } else {
         const id = addNpc(name, icon, tp, rk, groesse, wahrnehmung);
-        if (id) updateNpc(id, { defensivBonus, bm, gruppeId, ...(musikP ? { musikProfil: musikP } : {}) });
+        if (id) updateNpc(id, { defensivBonus, bm, gruppeId, ruestungAnRKKoppeln: ruestungKoppel, ruestungTyp, ...(musikP ? { musikProfil: musikP } : {}) });
       }
     } else {
       const id = addSpieler(name, icon, tp, rk, wahrnehmung, groesse);
-      if (id) updateSpieler(id, { defensivBonus, bm, gruppeId, ...(musikP ? { musikProfil: musikP } : {}) });
+      if (id) updateSpieler(id, { defensivBonus, bm, gruppeId, ruestungAnRKKoppeln: ruestungKoppel, ruestungTyp, ...(musikP ? { musikProfil: musikP } : {}) });
     }
     form.reset();
     form.querySelector('#charAnzahl').value = '1';
@@ -2003,6 +2100,10 @@ function initCharAddForm() {
     form.querySelector('#charRk').value = '10';
     form.querySelector('#charGroesse').value = 'normal';
     form.querySelector('#charTyp').value = typ;
+    const rkCh = document.getElementById('charRk');
+    const koppelCh = document.getElementById('charRuestungKoppel');
+    if (koppelCh) koppelCh.checked = true;
+    rkCh?.dispatchEvent(new Event('change'));
     iconPicker?.querySelectorAll('.icon-picker-btn.selected').forEach(b => b.classList.remove('selected'));
     render();
   });
@@ -2015,6 +2116,11 @@ function initCharAddForm() {
     form.querySelector('#charTp').value = tpl.maxTp || 100;
     form.querySelector('#charGroesse').value = tpl.gegnerTyp || 'normal';
     form.querySelector('#charRk').value = String(tpl.rk || 10);
+    const kf = document.getElementById('charRuestungKoppel');
+    const rs = document.getElementById('charRuestungTyp');
+    if (kf) kf.checked = tpl.ruestungAnRKKoppeln !== false;
+    if (rs) rs.value = coerceRuestungTyp(tpl.ruestungTyp);
+    document.getElementById('charRk')?.dispatchEvent(new Event('change'));
     form.querySelector('#charDb').value = String(tpl.defensivBonus || 0);
     form.querySelector('#charBm').value = String(tpl.bm || 0);
     form.querySelector('#charWahrnehmung').value = tpl.wahrnehmung || '';

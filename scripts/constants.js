@@ -70,6 +70,11 @@ export const WEAPON_GROUPS = [
   }
 ];
 
+/** Waffen-Keys der Gruppe „Naturangriffe“ (Licht-Modus / Krit Kleine_Tiere). */
+export const NATUR_WEAPON_KEYS = new Set(
+  (WEAPON_GROUPS.find((g) => g.label === 'Naturangriffe')?.keys || []).map((k) => String(k).toUpperCase())
+);
+
 /**
  * Naturangriffe: Basis-Tabelle + drei Varianten (Merge je nach Angriffsklasse).
  * klein/mittel/gross = Reihenfolge der aufeinander aufbauenden Erweiterungen.
@@ -284,6 +289,32 @@ export function coerceRuestungTyp(value) {
   return RUESTUNG_TYP_ALLOWED.includes(v) ? v : 'LE';
 }
 
+/**
+ * Typische Zuordnung RK → Rüstungsspalte (Schatten-Tabellen PL–OR).
+ * RK 1–4 OR, 5–8 LE, 9–12 VL, 13–16 KE, 17–20 PL.
+ */
+export function ruestungTypFromRk(rk) {
+  const n = Math.max(1, Math.min(20, parseInt(rk, 10) || 20));
+  if (n <= 4) return 'OR';
+  if (n <= 8) return 'LE';
+  if (n <= 12) return 'VL';
+  if (n <= 16) return 'KE';
+  return 'PL';
+}
+
+/**
+ * Effektive Rüstungsspalte für Monsterangriffe (Schatten).
+ * Standard: aus RK ableiten. Bei ruestungAnRKKoppeln === false manuelles ruestungTyp.
+ */
+export function trefferRuestungTypFromZiel(ziel) {
+  if (!ziel) return 'LE';
+  if (ziel.ruestungAnRKKoppeln === false) {
+    return coerceRuestungTyp(ziel.ruestungTyp);
+  }
+  const rk = Math.max(1, Math.min(20, parseInt(ziel.rk, 10) || 20));
+  return ruestungTypFromRk(rk);
+}
+
 /** Monster-Waffenkategorien (Schatten-Modus). */
 export const MONSTER_WEAPON_GROUPS = [
   {
@@ -311,7 +342,7 @@ export const GEGNER_WEAPON_ICONS = {
   GEGNER_RUS: 'greifen.png'
 };
 
-/** Krit-Art bei Monsterangriffen (nur Schatten-Modus): TP/Kat aus Gegner-Tabelle, Typ hier. */
+/** Fallback Krit-Tabelle im Schatten, wenn die Gegner-Zelle keinen eigenen Typ hat (z. B. nur „12A“ → P). */
 export const GEGNER_CRIT_TYP = {
   GEGNER_1HKW: 'Hieb',
   GEGNER_1HSW: 'Streich',
@@ -326,8 +357,8 @@ export function getGegnerCritTyp(gegnerTableKey) {
 }
 
 /**
- * Spieler-Waffe → Gegner-Angriffstabellen-Key (nur Trefferpunkte/Kategorie im Schatten).
- * Kritische-Treffer-Art kommt weiterhin aus Angriffstabellen der gewählten Waffe.
+ * Spieler-Waffe → Gegner-Angriffstabellen-Key (Trefferpunkte/Kategorie im Schatten).
+ * Krit-Tabelle und −50-Regel kommen aus der Gegner-Zelle (T / AT / P …).
  */
 export const WEAPON_TO_GEGNER_TABLE = {
   BREITSCHWERT: 'GEGNER_1HKW',

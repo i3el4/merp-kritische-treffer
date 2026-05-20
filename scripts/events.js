@@ -3,8 +3,8 @@
 
 import { state } from './state.js';
 import { $ } from './dom.js';
-import { URLS, PATZER_CONTEXT_MODS, resolveCritIcon } from './constants.js';
-import { calculateAttack, lookupCritEntry, mapCritName, adjustWeaponFontSizes } from './logic.js';
+import { URLS, PATZER_CONTEXT_MODS, resolveCritIcon, formatCritTableLabel } from './constants.js';
+import { calculateAttack, lookupCritEntry, mapCritName, adjustWeaponFontSizes, resolveEffectiveCritRoll } from './logic.js';
 import { playCritAudio, tryStartBgAudio } from './audio.js';
 import { chip } from './dom.js';
 import { applySchaden, applySchadenCharakter, getGegnerById, getSpielerById, getNpcById, getAktuelleRunde } from './campaigns.js';
@@ -85,7 +85,10 @@ function initCritEditOverlay() {
         if (!ctx) return closeCritEditOverlay();
         deleteCorrection(ctx.typ, ctx.kat, ctx.key);
         const roll = ctx.source === 'crit' ? parseInt($('#critRoll').value, 10) : parseInt($('#sideRoll').value, 10);
-        const found = lookupCritEntry(ctx.typ, ctx.kat, roll);
+        const effectiveRoll = ctx.source === 'crit'
+            ? resolveEffectiveCritRoll(roll, !!state.autoCrit.tMinus50)
+            : roll;
+        const found = lookupCritEntry(ctx.typ, ctx.kat, effectiveRoll);
         const origVisual = found?.entry?.visual ?? state.lastCritVisual ?? '';
         const origTts = found?.entry?.tts ?? state.lastCritTts ?? '';
         state.lastCritVisual = origVisual;
@@ -275,10 +278,14 @@ export function setupEventListeners() {
 function calculateCrit() {
     const roll = parseInt($('#critRoll').value, 10);
     const typSel = $('#critType').value || state.autoCrit.typ;
-    const rawKatSel = $('#critCat').value || state.autoCrit.kat;
+    const tMinus50 = !!state.autoCrit.tMinus50;
+    const rawKatSel = tMinus50 ? 'A' : ($('#critCat').value || state.autoCrit.kat);
     const katSel = resolveLookupCategory(typSel, rawKatSel);
     if (katSel && $('#critCat').value !== katSel) {
         $('#critCat').value = katSel;
+    }
+    if (tMinus50 && $('#critCat').value !== 'A') {
+        $('#critCat').value = 'A';
     }
 
     const out = $('#critOut');
@@ -308,14 +315,16 @@ function calculateCrit() {
         return;
     }
 
-    const found = lookupCritEntry(typSel, katSel, roll);
+    const effectiveRoll = resolveEffectiveCritRoll(roll, tMinus50);
+    const found = lookupCritEntry(typSel, katSel, effectiveRoll);
     if (!found) {
         state.lastCritTp = 0;
         state.lastCritVisual = '';
         state.lastCritParsed = null;
         state.lastCritContext = null;
         $('#critEditRow')?.style.setProperty('display', 'none');
-        res.textContent = `Kein Eintrag gefunden für ${typSel.replace(/_/g, ' ')} ${katSel} (${roll}).`;
+        const rollHint = tMinus50 ? `${roll} → ${effectiveRoll} (T−50)` : String(roll);
+        res.textContent = `Kein Eintrag gefunden für ${formatCritTableLabel(typSel)} ${katSel} (${rollHint}).`;
         return;
     }
 
@@ -332,9 +341,13 @@ function calculateCrit() {
     state.lastCritParsed = parsed;
 
     appendCritIcon(kpi, typSel);
-    kpi.append(chip(`Typ: ${typSel.replace(/_/g, ' ')}`));
+    kpi.append(chip(`Typ: ${formatCritTableLabel(typSel)}`));
     kpi.append(chip(`Kat: ${katSel}`));
-    kpi.append(chip(`Wurf: ${roll}`));
+    if (tMinus50) {
+        kpi.append(chip(`Wurf: ${roll} → ${effectiveRoll} (T−50)`));
+    } else {
+        kpi.append(chip(`Wurf: ${roll}`));
+    }
     if (key) kpi.append(chip(`Bereich: ${key}`));
     res.textContent = visualText;
     res.classList.add('crit-prominent');
@@ -537,7 +550,7 @@ function resetApp() {
     $('#sideKpi').innerHTML = '';
     $('#critType').value = '';
     $('#critCat').value = '';
-    state.autoCrit = { typ: '', kat: '' };
+    state.autoCrit = { typ: '', kat: '', tMinus50: false };
     state.lastAttackTp = 0;
     state.lastCritTp = 0;
     state.lastCritVisual = '';

@@ -9,7 +9,8 @@ let selectedWeapon = null;
 let selectedSizeClass = null;
 let autoCrit = {
     typ: '',
-    kat: ''
+    kat: '',
+    tMinus50: false
 };
 let currentBgKey = null;
 let isBgMusicPlaying = false;

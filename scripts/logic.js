@@ -10,8 +10,11 @@ import {
     WEAPON_SIZE_LABELS,
     RUESTUNG_TYP_LABELS,
     GEGNER_TYP_LABELS,
-    coerceRuestungTyp,
+    NATUR_WEAPON_KEYS,
+    trefferRuestungTypFromZiel,
     getGegnerTableKeyForWeapon,
+    getGegnerCritTyp,
+    formatCritTableLabel,
     DEFAULT_RK,
     gegnerTypForGameRules
 } from './constants.js';
@@ -132,18 +135,6 @@ export function adjustWeaponFontSizes() {
  * @param {number} target Der Zielwert.
  * @returns {number|null} Der gefundene Schlüssel oder null.
  */
-/** Krit-Typ-Kürzel aus Spieler-Waffentabelle bei gleichem Angriffswert/RK (Schatten: nur für Krit-Art). */
-function getWeaponCritTypAtAttack(weaponKey, attackValue, rk, sizeClass) {
-    if (!weaponKey || isNaN(attackValue) || attackValue <= 0) return '';
-    const sizeClassNat = WEAPON_SIZE_VARIANTS[weaponKey] ? (sizeClass || 'klein') : null;
-    const block = resolveAttackTable(weaponKey, sizeClassNat);
-    const row = block?.RK?.[String(rk)];
-    if (!row) return '';
-    const fk = floorKey(row, attackValue);
-    if (fk === null) return '';
-    return row[String(fk)]?.krit_typ || '';
-}
-
 function floorKey(obj, target) {
     const keys = Object.keys(obj).map(k => parseInt(k, 10)).filter(n => !Number.isNaN(n)).sort((a, b) => a - b);
     let best = null;
@@ -279,7 +270,7 @@ export function calculateAttack() {
     const rk = ziel
         ? Math.max(1, Math.min(20, parseInt(ziel.rk, 10) || 20))
         : DEFAULT_RK;
-    const ruestungTyp = coerceRuestungTyp(ziel?.ruestungTyp);
+    const ruestungTyp = trefferRuestungTypFromZiel(ziel);
     const attack = parseInt($('#attack').value, 10);
     const out = $('#attackOut');
     const kpi = $('#attackKpi');
@@ -400,8 +391,13 @@ export function calculateAttack() {
     if (gegnerTyp === 'gross') minKat = 'B';
     if (gegnerTyp === 'gewaltig') minKat = 'D';
 
+    const cellTypRaw = String(firstKrit.cellTypRaw || firstKrit.typ || '').trim().toUpperCase();
+    let katForEligibility = firstKrit.kat;
+    if (isMonsterAttack && !katForEligibility && cellTypRaw === 'T') {
+        katForEligibility = 'A';
+    }
     const rawKat = firstKrit.kat;
-    const kannKritWuerfeln = firstKrit.kat && firstKrit.kat >= minKat;
+    const kannKritWuerfeln = katForEligibility && katForEligibility >= minKat;
 
     if (!kannKritWuerfeln) {
         firstKrit = {
@@ -412,24 +408,34 @@ export function calculateAttack() {
     }
 
     let resolvedCritTyp = '';
+    let tMinus50 = false;
+    let critKat = '';
     if (kannKritWuerfeln) {
-        const weaponCritRaw = isMonsterAttack
-            ? getWeaponCritTypAtAttack(weaponKey, attack, rk, state.selectedSizeClass)
-            : firstKrit.typ;
-        const baseTyp = resolveAutoCritTableKey(weaponCritRaw, weaponKey)
-            || mapCritName(weaponCritRaw)
-            || weaponCritRaw;
-        resolvedCritTyp = resolveCritTableForTarget({
-            baseTyp,
-            cellTypRaw: isMonsterAttack ? firstKrit.cellTypRaw : firstKrit.typ,
-            ziel
+        const hitEntry = {
+            krit_typ: cellTypRaw || firstKrit.cellTypRaw || firstKrit.typ,
+            krit_kat: firstKrit.kat
+        };
+        const critResolved = resolveCritFromHitCell({
+            isMonsterAttack,
+            entry: hitEntry,
+            weaponKey,
+            gegnerTableKey,
+            ziel,
+            sizeClass: state.selectedSizeClass
         });
+        resolvedCritTyp = critResolved.typ;
+        critKat = critResolved.kat;
+        tMinus50 = critResolved.tMinus50
+            && gegnerTyp !== 'gross'
+            && gegnerTyp !== 'gewaltig';
         firstKrit.typ = resolvedCritTyp;
+        firstKrit.kat = critKat;
     }
 
     state.autoCrit = {
         typ: resolvedCritTyp,
-        kat: firstKrit.kat || ''
+        kat: critKat,
+        tMinus50
     };
 
     const label = (WEAPON_LABELS[weaponKey] || weaponKey.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase())).replace(/\n/g, ' ');
@@ -463,7 +469,11 @@ export function calculateAttack() {
             pillz.append(pill('Krit', hinweis, ''));
         }
     } else if (state.autoCrit.typ && state.autoCrit.kat) {
-        pillz.append(pill('Krit', `${firstKrit.typ}-${firstKrit.kat}`, 'warn'));
+        const typLabel = formatCritTableLabel(firstKrit.typ);
+        const kritLabel = state.autoCrit.tMinus50
+            ? `${typLabel}-A (T: Wurf−50)`
+            : `${typLabel}-${state.autoCrit.kat}`;
+        pillz.append(pill('Krit', kritLabel, 'warn'));
     } else {
         pillz.append(pill('Krit', '—', ''));
     }
@@ -493,7 +503,7 @@ export function calculateAttack() {
                 opt.textContent = cat;
                 critCatDropdown.appendChild(opt);
             });
-            critCatDropdown.value = state.autoCrit.kat || 'A';
+            critCatDropdown.value = state.autoCrit.tMinus50 ? 'A' : (state.autoCrit.kat || 'A');
         }
     }
     res.append(pillz);
@@ -584,6 +594,105 @@ function matchRange(range, roll) {
     return roll === z(range);
 }
 
+export function isKleintiereWeapon(weaponKey) {
+    return String(weaponKey || '').trim().toUpperCase() === 'KLEINTIERE';
+}
+
+export function isNaturangriffWeapon(weaponKey) {
+    return NATUR_WEAPON_KEYS.has(String(weaponKey || '').trim().toUpperCase());
+}
+
+function cellUsesKleineTiereCrit(cellTypRaw, cellKat) {
+    const typ = String(cellTypRaw || '').trim().toUpperCase();
+    if (typ === 'TA') return true;
+    return typ === 'T' && !!cellKat;
+}
+
+/**
+ * Krit-Tabelle/Kategorie aus Trefferzelle (Licht: Natur+Klein+AT/TA; Schatten: Gegner-Zelle).
+ * @returns {{ typ: string, kat: string, tMinus50: boolean }}
+ */
+function resolveCritFromHitCell({ isMonsterAttack, entry, weaponKey, gegnerTableKey, ziel, sizeClass }) {
+    const cellTyp = String(entry?.krit_typ || '').trim().toUpperCase();
+    const cellKat = entry?.krit_kat || '';
+
+    if (!isMonsterAttack) {
+        const sizeKlein = (sizeClass || state.selectedSizeClass || 'klein') === 'klein';
+        if (isNaturangriffWeapon(weaponKey) && sizeKlein && cellUsesKleineTiereCrit(cellTyp, cellKat)) {
+            const kleine = findKleineTiereTableKey();
+            const baseTyp = kleine || 'Kleine_Tiere';
+            const kat = cellKat || 'A';
+            const typ = resolveCritTableForTarget({
+                baseTyp,
+                cellTypRaw: cellTyp,
+                ziel,
+                weaponKey
+            });
+            return { typ, kat, tMinus50: false };
+        }
+        const baseTyp = resolveAutoCritTableKey(cellTyp, weaponKey)
+            || mapCritName(cellTyp)
+            || cellTyp;
+        const typ = resolveCritTableForTarget({
+            baseTyp,
+            cellTypRaw: cellTyp,
+            ziel,
+            weaponKey
+        });
+        return { typ, kat: cellKat, tMinus50: false };
+    }
+
+    if (cellTyp === 'T' && !cellKat) {
+        const baseTyp = mapCritName('T') || 'Stich';
+        const typ = resolveCritTableForTarget({
+            baseTyp,
+            cellTypRaw: cellTyp,
+            ziel,
+            weaponKey
+        });
+        return { typ, kat: 'A', tMinus50: true };
+    }
+    if (cellTyp === 'T' && cellKat) {
+        const kleine = findKleineTiereTableKey();
+        const baseTyp = kleine || 'Kleine_Tiere';
+        const typ = resolveCritTableForTarget({
+            baseTyp,
+            cellTypRaw: cellTyp,
+            ziel,
+            weaponKey
+        });
+        return { typ, kat: cellKat, tMinus50: false };
+    }
+
+    const rawForResolve = cellTyp || getGegnerCritTyp(gegnerTableKey);
+    const baseTyp = resolveAutoCritTableKey(rawForResolve, weaponKey)
+        || mapCritName(rawForResolve)
+        || rawForResolve;
+    const typ = resolveCritTableForTarget({
+        baseTyp,
+        cellTypRaw: cellTyp,
+        ziel,
+        weaponKey
+    });
+    return { typ, kat: cellKat, tMinus50: false };
+}
+
+export function resolveEffectiveCritRoll(roll, tMinus50) {
+    if (!tMinus50) return roll;
+    const n = parseInt(roll, 10);
+    if (Number.isNaN(n)) return roll;
+    return n - 50;
+}
+
+function findKleineTiereTableKey() {
+    const keys = Object.keys(state.tables || {});
+    if (keys.includes('Kleine_Tiere')) return 'Kleine_Tiere';
+    return keys.find((k) => {
+        const l = k.toLowerCase();
+        return l.includes('kleine') && l.includes('tier');
+    }) || '';
+}
+
 /**
  * Findet den passenden Tabellen-Schlüssel für einen Krit-Typ.
  * @param {string} kurz Das Kürzel.
@@ -605,23 +714,18 @@ export function mapCritName(kurz) {
 }
 
 /**
- * Krit-Tabelle für das Ziel: gewaltig/gross > Tiny (nur wenn nicht gross/gewaltig) > Held > Basis-Typ.
- * @param {{ baseTyp: string, cellTypRaw: string, ziel: object|null }} opts
+ * Krit-Tabelle für das Ziel: gewaltig/gross > Held > Basis-Typ.
+ * Kleine-Tiere-Tabelle: Licht (Natur+Klein+AT/TA) oder Schatten (Gegner-Zelle AT); sonst Ziel/Held.
+ * @param {{ baseTyp: string, cellTypRaw?: string, ziel: object|null, weaponKey?: string }} opts
  */
-export function resolveCritTableForTarget({ baseTyp, cellTypRaw, ziel }) {
+export function resolveCritTableForTarget({ baseTyp, cellTypRaw, ziel, weaponKey }) {
     const gegnerTyp = gegnerTypForGameRules(ziel?.gegnerTyp || 'normal');
     if (gegnerTyp === 'gewaltig') return 'Gewaltige Wesen';
     if (gegnerTyp === 'gross') return 'Grosse Wesen';
 
-    const raw = String(cellTypRaw || '').trim().toUpperCase();
-    if (raw === 'T' || raw === 'TA') {
-        const keys = Object.keys(state.tables || {});
-        if (keys.includes('Kleine_Tiere')) return 'Kleine_Tiere';
-        const alt = keys.find((k) => {
-            const l = k.toLowerCase();
-            return l.includes('kleine') && l.includes('tier');
-        });
-        if (alt) return alt;
+    if (isKleintiereWeapon(weaponKey)) {
+        const kleine = findKleineTiereTableKey();
+        if (kleine) return kleine;
     }
 
     let typ = String(baseTyp || '').trim();
@@ -670,7 +774,7 @@ function resolveAutoCritTableKey(rawTyp, weaponKey) {
         return findEnglishCritTableByKeywords(['unbalancing', 'gleichgewicht', 'ungleichgewicht', 'ausbalancier']);
     }
     if (typ === 'TA' || typ === 'T') {
-        return findEnglishCritTableByKeywords(['tiny_animal', 'tiere', 'tier']);
+        if (weapon === 'KLEINTIERE') return findKleineTiereTableKey();
     }
 
     // Klassische Kürzel/Namen erst NACH den Naturangriff-Codes mappen,
@@ -683,7 +787,7 @@ function resolveAutoCritTableKey(rawTyp, weaponKey) {
     if (weapon === 'FEGEN') return findEnglishCritTableByKeywords(['feger', 'wuerfe', 'würfe', 'sweeps_and_throws']);
     if (weapon === 'SCHLAGEN') return findEnglishCritTableByKeywords(['schlag', 'schlaege', 'schläge', 'striking']);
     if (weapon === 'GREIFEN') return findEnglishCritTableByKeywords(['grappling', 'greifen', 'griff', 'ringkampf', 'ringen']);
-    if (weapon === 'KLEINTIERE') return findEnglishCritTableByKeywords(['tiny_animal', 'tiere', 'tier']);
+    if (weapon === 'KLEINTIERE') return findKleineTiereTableKey();
 
     return rawTyp || '';
 }

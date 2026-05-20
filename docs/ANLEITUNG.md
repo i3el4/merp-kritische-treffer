@@ -65,7 +65,14 @@ Musik-Lautstärke, TTS-Fallback wenn keine Krit-MP3 vorhanden ist.
 | Modus | Verwendung |
 |-------|------------|
 | **Licht** | Angriffe von **Spielercharakteren/NPCs**. Angreifer im Dropdown wählen. Ziel-Verteidigung: **RK**. |
-| **Schatten** | Angriffe von **Monstern**. Waffe wie beim Spieler wählen; TP/Kategorie aus **Gegner-Tabellen**, Krit-Art aus **Waffentabelle**. Ziel-Verteidigung: **Rüstung** (Platte, Kette, …). |
+| **Schatten** | Angriffe von **Monstern**. Waffe wählen; **Treffer und Krit** aus **Gegner-Tabellen** (Rüstung PL–OR). Ziel-Verteidigung: **Rüstung**. |
+
+**Krit-Regeln (Kurz):**
+
+- **Licht, Naturangriff, Angriffsklasse Klein** (Tabellenabschnitt „Small Attacks“): Zelle z. B. `5AT` → Treffer aus Zelle, Krit-Tabelle **Kleine Tiere**, Kategorie aus der Zelle (z. B. A).
+- **Schatten, Gegner-Zelle nur `T`** (z. B. `6T`): Kategorie **A**, Krit auf Standard-Tabelle (z. B. Stich), Würfel **−50**.
+- **Schatten, Gegner-Zelle `AT`** (Kategorie + T): **Kleine Tiere**, Kategorie aus Zelle, normaler Würfel.
+- **Schatten, Zelle mit P/S/K** (z. B. `12A` → Stich Kat. A): kein −50, keine Kleine-Tiere-Tabelle nur wegen der Waffe.
 
 - Standard: **Schatten** (wird gespeichert).
 - **Angreifer:** im Licht SC/NPC, im Schatten das Monster.
@@ -90,7 +97,7 @@ Im Schatten sind Ziel-Gruppen aus SL-Sicht **vertauscht** (Gegner = eure Helden,
 | Feld | Wirkung |
 |------|---------|
 | RK | Verteidigung im **Licht** |
-| Rüstung (PL–OR) | Verteidigung im **Schatten** |
+| Rüstung / RK-Kopplung | Im **Schatten** die Tabellenspalte PL–OR: standardmässig aus der RK abgeleitet (1–4 OR, 5–8 LE, 9–12 VL, 13–16 KE, 17–20 PL). Abwahl „an RK koppeln“ ermöglicht eine **manuelle** Rüstungsart. |
 | Held | Helden-Krit-Tabellen |
 | Grösse | Krit-Schwellen (gross/gewaltig: höhere Kategorie nötig) |
 | Defensivbonus | Anzeige bei Zielauswahl |

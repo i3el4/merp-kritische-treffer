@@ -6,6 +6,7 @@ import { loadAll, saveAll } from './firebase-storage.js';
 import {
   coerceGegnerTypStored,
   coerceRuestungTyp,
+  ruestungTypFromRk,
   coerceIstHeld,
   coerceMusikProfil,
   defaultMusikProfilForEntityTyp
@@ -89,9 +90,10 @@ export function addSpieler(name, icon = null, maxTp = 100, rk = 20, wahrnehmung 
   const gStored = coerceGegnerTypStored(gegnerTyp);
   const data = loadAll();
   data.kampagnen[k.id].spieler = data.kampagnen[k.id].spieler || [];
+  const rDefault = ruestungTypFromRk(rkNum);
   data.kampagnen[k.id].spieler.push({
     id, name: name || 'Spieler', icon: icon || null,
-    maxTp: tpVal, tp: tpVal, rk: rkNum, ruestungTyp: 'LE', istHeld: false, gegnerTyp: gStored,
+    maxTp: tpVal, tp: tpVal, rk: rkNum, ruestungTyp: rDefault, ruestungAnRKKoppeln: true, istHeld: false, gegnerTyp: gStored,
     musikProfil: defaultMusikProfilForEntityTyp('spieler'),
     wahrnehmung: wahrnehmung != null ? String(wahrnehmung) : null,
     sichtbar: true,
@@ -128,6 +130,7 @@ export function updateSpieler(spielerId, updates) {
   if (updates.icon !== undefined) spieler[idx].icon = updates.icon || null;
   if (updates.rk != null) spieler[idx].rk = Math.max(1, Math.min(20, parseInt(updates.rk, 10) || 20));
   if (updates.ruestungTyp != null) spieler[idx].ruestungTyp = coerceRuestungTyp(updates.ruestungTyp);
+  if (updates.ruestungAnRKKoppeln !== undefined) spieler[idx].ruestungAnRKKoppeln = !!updates.ruestungAnRKKoppeln;
   if (updates.istHeld !== undefined) spieler[idx].istHeld = coerceIstHeld(updates.istHeld);
   if (updates.gegnerTyp != null) spieler[idx].gegnerTyp = coerceGegnerTypStored(updates.gegnerTyp);
   if (updates.musikProfil != null) {
@@ -165,7 +168,8 @@ export function addNpc(name, icon = null, maxTp = 100, rk = 20, gegnerTyp = 'nor
     maxTp: tpVal,
     tp: tpVal,
     rk: rkNum,
-    ruestungTyp: 'LE',
+    ruestungTyp: ruestungTypFromRk(rkNum),
+    ruestungAnRKKoppeln: true,
     istHeld: false,
     gegnerTyp: gStored,
     musikProfil: defaultMusikProfilForEntityTyp('npc'),
@@ -221,6 +225,7 @@ export function updateNpc(npcId, updates) {
   if (updates.icon !== undefined) npcs[idx].icon = updates.icon || null;
   if (updates.rk != null) npcs[idx].rk = Math.max(1, Math.min(20, parseInt(updates.rk, 10) || 20));
   if (updates.ruestungTyp != null) npcs[idx].ruestungTyp = coerceRuestungTyp(updates.ruestungTyp);
+  if (updates.ruestungAnRKKoppeln !== undefined) npcs[idx].ruestungAnRKKoppeln = !!updates.ruestungAnRKKoppeln;
   if (updates.istHeld !== undefined) npcs[idx].istHeld = coerceIstHeld(updates.istHeld);
   if (updates.gegnerTyp != null) npcs[idx].gegnerTyp = coerceGegnerTypStored(updates.gegnerTyp);
   if (updates.musikProfil != null) {
@@ -311,6 +316,8 @@ export function addGegner(name, maxTp, gegnerTyp = 'normal', rk = 20, icon = nul
     gegnerTyp: gStored,
     musikProfil: defaultMusikProfilForEntityTyp('gegner'),
     rk: rkNum,
+    ruestungTyp: ruestungTypFromRk(rkNum),
+    ruestungAnRKKoppeln: true,
     icon: icon || null,
     imKampf: true,
     sichtbar: true,
@@ -401,6 +408,8 @@ export function updateGegner(gegnerId, updates) {
     gegner[idx].musikProfil = coerceMusikProfil(updates.musikProfil, 'gegner');
   }
   if (updates.rk != null) gegner[idx].rk = Math.max(1, Math.min(20, parseInt(updates.rk, 10) || 20));
+  if (updates.ruestungTyp != null) gegner[idx].ruestungTyp = coerceRuestungTyp(updates.ruestungTyp);
+  if (updates.ruestungAnRKKoppeln !== undefined) gegner[idx].ruestungAnRKKoppeln = !!updates.ruestungAnRKKoppeln;
   if (updates.name != null) gegner[idx].name = updates.name;
   if (updates.icon !== undefined) gegner[idx].icon = updates.icon || null;
   if (updates.maxTp != null) {
@@ -494,13 +503,16 @@ export function addVorlage(dataIn) {
   const data = loadAll();
   const id = uuid();
   const tplTyp = ['spieler', 'npc', 'gegner'].includes(dataIn?.typ) ? dataIn.typ : 'gegner';
+  const rkTpl = Math.max(1, Math.min(20, parseInt(dataIn?.rk, 10) || 10));
   const tpl = {
     id,
     name: String(dataIn?.name || 'Vorlage').trim(),
     typ: tplTyp,
     maxTp: Math.max(1, parseInt(dataIn?.maxTp, 10) || 100),
     gegnerTyp: coerceGegnerTypStored(dataIn?.gegnerTyp),
-    rk: Math.max(1, Math.min(20, parseInt(dataIn?.rk, 10) || 10)),
+    rk: rkTpl,
+    ruestungTyp: coerceRuestungTyp(dataIn?.ruestungTyp ?? ruestungTypFromRk(rkTpl)),
+    ruestungAnRKKoppeln: dataIn?.ruestungAnRKKoppeln !== false,
     icon: dataIn?.icon || null,
     defensivBonus: parseInt(dataIn?.defensivBonus, 10) || 0,
     bm: parseInt(dataIn?.bm, 10) || 0,
@@ -526,6 +538,8 @@ export function updateVorlage(vorlageId, updates) {
   if (updates.maxTp != null) list[idx].maxTp = Math.max(1, parseInt(updates.maxTp, 10) || 100);
   if (updates.gegnerTyp != null) list[idx].gegnerTyp = coerceGegnerTypStored(updates.gegnerTyp);
   if (updates.rk != null) list[idx].rk = Math.max(1, Math.min(20, parseInt(updates.rk, 10) || 10));
+  if (updates.ruestungTyp != null) list[idx].ruestungTyp = coerceRuestungTyp(updates.ruestungTyp);
+  if (updates.ruestungAnRKKoppeln !== undefined) list[idx].ruestungAnRKKoppeln = !!updates.ruestungAnRKKoppeln;
   if (updates.icon !== undefined) list[idx].icon = updates.icon || null;
   if (updates.defensivBonus !== undefined) list[idx].defensivBonus = parseInt(updates.defensivBonus, 10) || 0;
   if (updates.bm !== undefined) list[idx].bm = parseInt(updates.bm, 10) || 0;
