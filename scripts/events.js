@@ -163,9 +163,11 @@ function appendApplySchadenButton(wrapContainer, quelle, parsedOverride = null, 
 
     const vonCharakter = applyOpts && Object.prototype.hasOwnProperty.call(applyOpts, 'vonCharakter')
         ? applyOpts.vonCharakter
-        : ((state.selectedCharakterId && state.selectedCharakterName)
-            ? { id: state.selectedCharakterId, name: state.selectedCharakterName }
-            : null);
+        : (state.angreiferSubTab === 'monster'
+            ? null
+            : ((state.selectedCharakterId && state.selectedCharakterName)
+                ? { id: state.selectedCharakterId, name: state.selectedCharakterName }
+                : null));
     let id = null;
     if (!allDead) {
         const payload = {

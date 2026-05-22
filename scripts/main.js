@@ -50,8 +50,7 @@ function applyRoleUI(role) {
     if (spielleiterTabs) spielleiterTabs.hidden = true;
     if (spielerTabs) spielerTabs.hidden = false;
     if (userProfileBtn) userProfileBtn.hidden = false;
-    state.angreiferSubTab = 'charakter';
-    state.monsterAngreiferGegnerId = null;
+    loadAngreiferModusFromStorage();
     switchTab('simulator');
     if (!state.skipCharakterwahl && needsCharakterwahl()) {
       showCharakterwahl();

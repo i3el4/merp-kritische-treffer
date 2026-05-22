@@ -317,10 +317,6 @@
                 <label for="kampfMusikProfilOverride">Charakter-Profil</label>
                 <select id="kampfMusikProfilOverride" class="kampf-musik-override-select" title="Nur für Charakterangriff: Profil überschreiben"></select>
               </div>
-              <div class="audio-controls spielleiter-only schatten-only">
-                <label for="schattenMusikKategorie">Schatten-Intensität</label>
-                <select id="schattenMusikKategorie" class="kampf-musik-override-select" title="Intensität der Kampfmusik im Schatten-Modus"></select>
-              </div>
             </div>
           </div>
         </div>
@@ -348,7 +344,7 @@
           <div class="card-header-row">
             <h2>1) Angriff</h2>
             <div class="kampf-header-controls">
-              <div id="simulatorAngriffsmodus" class="angriffsmodus-slider spielleiter-only" role="group" aria-label="Angriffsmodus" data-pos="charakter">
+              <div id="simulatorAngriffsmodus" class="angriffsmodus-slider" role="group" aria-label="Angriffsmodus" data-pos="charakter">
                 <button type="button" class="angriffsmodus-label" data-angriffsmodus="charakter">Licht</button>
                 <button type="button" class="angriffsmodus-track" id="angriffsmodusTrack" aria-label="Angriffsmodus umschalten">
                   <span class="angriffsmodus-thumb"></span>
@@ -358,11 +354,9 @@
               <button type="button" class="btn ghost kampf-musik-play-btn" id="kampfMusikPlayBtn" aria-pressed="false" aria-label="Kampfmusik starten" title="Kampfmusik starten / pausieren"></button>
             </div>
           </div>
-          <div id="simulatorAngreiferRow" class="angriff-bottom-row simulator-angreifer-row spielleiter-only" hidden>
-            <div class="angriff-bottom-item">
-              <label for="simulatorAngreiferSelect">Angreifer</label>
-              <select id="simulatorAngreiferSelect"></select>
-            </div>
+          <div id="simulatorAngreiferSection" class="ziel-section" hidden>
+            <label>Angreifer</label>
+            <div id="simulatorAngreiferListe" class="ziel-liste"></div>
           </div>
           <div class="selection-container">
             <div class="weapon-section">
@@ -511,7 +505,7 @@
         </section>
       </div>
 
-      <section class="card kampf-steuerung-card spielleiter-only" style="margin-top:12px">
+      <section class="card kampf-steuerung-card" style="margin-top:12px">
         <div id="initiativeWrap" class="initiative-wrap">
           <div class="initiative-head">
             <strong>Initiative</strong>
@@ -535,7 +529,7 @@
 
 
     <div id="charaktertrackerPanel" class="tab-panel hidden">
-      <section class="card spielleiter-only kampf-runde-status-card">
+      <section class="card kampf-runde-status-card">
         <h2 class="kampf-runde-status-heading">Runde</h2>
         <div class="runde-controls runde-controls-status">
           <span id="rundeAnzeigeStatus" class="runde-anzeige-status">Runde 1</span>
@@ -548,7 +542,7 @@
         </div>
       </section>
 
-      <section class="card spielleiter-only" id="gruppenStatusSection">
+      <section class="card" id="gruppenStatusSection">
         <div class="kampftracker-header">
           <h2>Gruppen</h2>
           <div class="gegner-gruppen-row">
@@ -567,7 +561,7 @@
         </div>
       </section>
 
-      <section class="card gegner-status-section spielleiter-only" style="margin-top:12px">
+      <section class="card gegner-status-section" style="margin-top:12px">
         <div class="kampftracker-header">
           <h2>Gegner</h2>
         </div>

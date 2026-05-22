@@ -79,7 +79,7 @@ import {
 } from './campaigns.js';
 import { state } from './state.js';
 import { getRole, ROLES, setCharakter, getCharakter } from './role.js';
-import { fillMusikProfilSelect, syncCombatMusic, persistSchattenKategorie, persistAngreiferModus } from './combatMusic.js';
+import { fillMusikProfilSelect, syncCombatMusic, persistAngreiferModus } from './combatMusic.js';
 import { isFirebaseActive, loadCampaign, joinCampaign } from './firebase-storage.js';
 
 const CHARAKTERTRACKER_PANEL = '#charaktertrackerPanel';
@@ -793,7 +793,7 @@ function renderZielAnzeige() {
       group.appendChild(row);
       zielListe.appendChild(group);
     };
-    const isMonsterModus = getRole() === ROLES.SPIELLEITER && state.angreiferSubTab === 'monster';
+    const isMonsterModus = state.angreiferSubTab === 'monster';
     if (isMonsterModus) {
       addGroup('Gegner', verbuendete, 'gegner');
       addGroup('Verbündete', gegnerZiele, 'verbuendete');
@@ -874,67 +874,105 @@ function renderDbAnzeige() {
   el.innerHTML = parts.join(' · ');
 }
 
-function renderAngreiferRow() {
-  const row = $('#simulatorAngreiferRow');
-  const sel = /** @type {HTMLSelectElement | null} */ ($('#simulatorAngreiferSelect'));
-  if (!row || !sel) return;
-  const sl = getRole() === ROLES.SPIELLEITER;
-  if (!sl) {
-    row.hidden = true;
-    return;
+function selectAngreiferCharakter(c) {
+  state.selectedCharakterId = c?.id || null;
+  state.selectedCharakterName = c?.name || null;
+  if (getRole() === ROLES.SPIELLER && getCurrentKampagneId()) {
+    setCharakter(getCurrentKampagneId(), c || null);
   }
-  if (state.angreiferSubTab === 'monster') {
-    const list = getGegner().filter((g) => g.imKampf !== false && g.sichtbar !== false);
-    row.hidden = list.length === 0;
-    sel.innerHTML = '<option value="">(Monster wählen)</option>' +
-      list.map((g) => `<option value="${g.id}">${escapeHtml(g.name)}</option>`).join('');
-    if (state.monsterAngreiferGegnerId && list.some((g) => g.id === state.monsterAngreiferGegnerId)) {
-      sel.value = state.monsterAngreiferGegnerId;
-    } else if (list.length > 0) {
-      sel.value = list[0].id;
-      state.monsterAngreiferGegnerId = list[0].id;
+  syncCombatMusic();
+}
+
+function selectAngreiferMonster(gegnerId) {
+  state.monsterAngreiferGegnerId = gegnerId || null;
+  syncCombatMusic();
+}
+
+function renderAngreiferAnzeige() {
+  const section = $('#simulatorAngreiferSection');
+  const liste = $('#simulatorAngreiferListe');
+  if (!section || !liste) return;
+
+  const isMonsterModus = state.angreiferSubTab === 'monster';
+  let entities = [];
+  if (isMonsterModus) {
+    entities = getGegnerFuerKampf().map((g) => ({ ...g, entityTyp: 'gegner' }));
+    if (entities.length > 0) {
+      const hasSel = state.monsterAngreiferGegnerId && entities.some((g) => g.id === state.monsterAngreiferGegnerId);
+      if (!hasSel) selectAngreiferMonster(entities[0].id);
     } else {
-      sel.value = '';
+      state.monsterAngreiferGegnerId = null;
     }
   } else {
-    const charaktere = getCharaktere();
-    row.hidden = charaktere.length === 0;
-    sel.innerHTML = '<option value="">(Kein Charakter)</option>' +
-      charaktere.map((c) => {
-        const label = c.typ === 'npc' ? `${escapeHtml(c.name)} (NPC)` : escapeHtml(c.name);
-        return `<option value="${c.id}">${label}</option>`;
-      }).join('');
-    if (state.selectedCharakterId && charaktere.some((c) => c.id === state.selectedCharakterId)) {
-      sel.value = state.selectedCharakterId;
-    } else if (charaktere.length > 0) {
-      sel.value = charaktere[0].id;
-      const first = charaktere[0];
-      state.selectedCharakterId = first.id;
-      state.selectedCharakterName = first.name;
-    } else {
-      sel.value = '';
+    entities = getCharaktereFuerKampf().map((c) => ({
+      ...c,
+      entityTyp: c.typ,
+      displayName: c.typ === 'npc' ? `${c.name} (NPC)` : c.name
+    }));
+    if (entities.length > 0) {
+      const hasSel = state.selectedCharakterId && entities.some((c) => c.id === state.selectedCharakterId);
+      if (!hasSel && getRole() === ROLES.SPIELLEITER) {
+        selectAngreiferCharakter(entities[0]);
+      }
     }
   }
+
+  section.hidden = entities.length === 0;
+  liste.innerHTML = '';
+
+  const renderBtn = (entity) => {
+    const isSelected = isMonsterModus
+      ? entity.id === state.monsterAngreiferGegnerId
+      : entity.id === state.selectedCharakterId;
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'ziel-select-btn ziel-select-btn-round' + (isSelected ? ' active' : '');
+    btn.dataset.id = entity.id;
+    btn.title = entity.displayName || entity.name;
+    const iconWrap = document.createElement('div');
+    iconWrap.className = 'ziel-icon-wrap';
+    const iconImg = document.createElement('img');
+    iconImg.className = 'ziel-icon';
+    iconImg.src = getIconUrl(entity.icon);
+    iconImg.alt = entity.name;
+    iconWrap.appendChild(iconImg);
+    const nameSpan = document.createElement('span');
+    nameSpan.className = 'ziel-name';
+    nameSpan.textContent = entity.displayName || entity.name;
+    btn.appendChild(iconWrap);
+    btn.appendChild(nameSpan);
+    btn.addEventListener('click', () => {
+      if (isMonsterModus) {
+        selectAngreiferMonster(entity.id);
+      } else {
+        selectAngreiferCharakter(entity);
+      }
+      render();
+    });
+    return btn;
+  };
+
+  const group = document.createElement('div');
+  group.className = 'ziel-group';
+  const heading = document.createElement('div');
+  heading.className = 'ziel-group-heading';
+  heading.textContent = isMonsterModus ? 'Monster' : 'Angreifer';
+  group.appendChild(heading);
+  const row = document.createElement('div');
+  row.className = 'ziel-group-row';
+  entities.forEach((e) => row.appendChild(renderBtn(e)));
+  group.appendChild(row);
+  liste.appendChild(group);
+  requestAnimationFrame(() => adjustZielNameFontSizes());
 }
 
 function renderSimulatorKampfToolbar() {
   const modusToggle = $('#simulatorAngriffsmodus');
-  const intensSel = $('#schattenMusikKategorie');
-  const sl = getRole() === ROLES.SPIELLEITER;
   const angreiferModus = state.angreiferSubTab === 'monster' ? 'monster' : 'charakter';
   document.body.setAttribute('data-angriffsmodus', angreiferModus);
   if (modusToggle) {
-    modusToggle.hidden = !sl;
+    modusToggle.hidden = false;
     modusToggle.setAttribute('data-pos', angreiferModus);
-  }
-  if (intensSel && sl) {
-    if (!intensSel.dataset.built) {
-      intensSel.dataset.built = '1';
-      intensSel.innerHTML = GEGNER_TYP_ALLOWED.map((v) =>
-        `<option value="${v}">${GEGNER_TYP_LABELS[v]}</option>`
-      ).join('');
-    }
-    intensSel.value = state.schattenMusikKategorie || 'klein';
   }
 }
 
@@ -954,28 +992,6 @@ function initSimulatorKampfToolbar() {
     state.angreiferSubTab = state.angreiferSubTab === 'monster' ? 'charakter' : 'monster';
     persistAngreiferModus();
     render();
-  });
-  $('#simulatorAngreiferSelect')?.addEventListener('change', () => {
-    const sel = /** @type {HTMLSelectElement | null} */ ($('#simulatorAngreiferSelect'));
-    const val = sel?.value || '';
-    if (state.angreiferSubTab === 'monster') {
-      state.monsterAngreiferGegnerId = val || null;
-    } else {
-      const charaktere = getCharaktere();
-      const c = charaktere.find((x) => x.id === val);
-      state.selectedCharakterId = c?.id || null;
-      state.selectedCharakterName = c?.name || null;
-      if (getRole() === ROLES.SPIELLER && getCurrentKampagneId()) {
-        setCharakter(getCurrentKampagneId(), c || null);
-      }
-    }
-    syncCombatMusic();
-  });
-  $('#schattenMusikKategorie')?.addEventListener('change', () => {
-    const sel = /** @type {HTMLSelectElement | null} */ ($('#schattenMusikKategorie'));
-    state.schattenMusikKategorie = sel?.value || 'klein';
-    persistSchattenKategorie();
-    syncCombatMusic();
   });
 }
 
@@ -1938,7 +1954,7 @@ function render() {
   renderInitiative();
   renderHistorieArchiv();
   renderDbAnzeige();
-  renderAngreiferRow();
+  renderAngreiferAnzeige();
   renderSimulatorKampfToolbar();
   populateWeapons();
   renderUserProfileIcon();
@@ -1947,9 +1963,11 @@ function render() {
   syncCombatMusic();
 
   const isSpieler = getRole() !== ROLES.SPIELLEITER;
-  document.querySelectorAll('.spielleiter-only').forEach(el => {
-    el.hidden = isSpieler;
-  });
+  if (isSpieler) {
+    document.querySelectorAll(`${ERFASSUNG_PANEL} .spielleiter-only, ${CHARAKTER_PANEL} .spielleiter-only`).forEach((el) => {
+      el.hidden = true;
+    });
+  }
   document.querySelectorAll('.spieler-charakter-view').forEach(el => {
     el.hidden = !isSpieler;
   });
@@ -2244,6 +2262,8 @@ export function initSpieler() {
       state.selectedCharakterName = saved.name;
     }
   }
+  initRundeUI();
+  initSimulatorKampfToolbar();
   render();
 }
 

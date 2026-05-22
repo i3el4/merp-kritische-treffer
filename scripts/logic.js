@@ -23,6 +23,7 @@ import { $, $$ } from './dom.js';
 import { playCritAudio, tryStartBgAudio } from './audio.js';
 import { chip, pill } from './dom.js';
 import { getGegnerById, getCharakterById } from './campaigns.js';
+import { getMonsterAngreiferGroesse } from './combatMusic.js';
 
 const WEAPON_LABEL_MIN_PX = 10;
 /** Absoluter Deckel (px); die effektive Obergrenze ist zusätzlich an die Tab-Schrift gekoppelt (siehe getAppTabLabelFontSizePx). */
@@ -285,7 +286,7 @@ export function calculateAttack() {
     let defenseLabel;
     let gegnerTableKey = '';
     if (isMonsterAttack) {
-        const angreiferGroesse = state.schattenMusikKategorie || 'klein';
+        const angreiferGroesse = getMonsterAngreiferGroesse();
         gegnerTableKey = getGegnerTableKeyForWeapon(weaponKey);
         if (!gegnerTableKey) {
             res.textContent = '⚠️ Keine Zuordnung zur Gegner-Angriffstabelle für diese Waffe.';
@@ -343,7 +344,7 @@ export function calculateAttack() {
             kpi.append(chip(`Klasse: ${kl}`));
         }
         if (isMonsterAttack) {
-            const groesse = state.schattenMusikKategorie || 'klein';
+            const groesse = getMonsterAngreiferGroesse();
             kpi.append(chip(`Angreifer: ${GEGNER_TYP_LABELS?.[groesse] || groesse}`));
             if (gegnerTableKey) {
                 kpi.append(chip(`Treffertabelle: ${GEGNER_WEAPON_LABELS[gegnerTableKey] || gegnerTableKey}`));
@@ -445,7 +446,7 @@ export function calculateAttack() {
         kpi.append(chip(`Klasse: ${kl}`));
     }
     if (isMonsterAttack) {
-        const groesse = state.schattenMusikKategorie || 'klein';
+        const groesse = getMonsterAngreiferGroesse();
         kpi.append(chip(`Angreifer: ${GEGNER_TYP_LABELS[groesse] || groesse}`));
         if (gegnerTableKey) {
             kpi.append(chip(`Treffertabelle: ${GEGNER_WEAPON_LABELS[gegnerTableKey] || gegnerTableKey}`));

@@ -3,7 +3,6 @@
 import { KAMPF_AUDIO_BASE_PATH, MUSIK_PROFIL_LABELS, MUSIK_PROFIL_VALUES, coerceMusikProfil } from './constants.js';
 import { state } from './state.js';
 import { $ } from './dom.js';
-import { getRole, ROLES } from './role.js';
 import { getGegnerById, getCharakterById } from './campaigns.js';
 
 const LS_KAMPF_MODUS = 'mers_kampf_modus';
@@ -108,11 +107,16 @@ function getOverrideProfil() {
 /**
  * Ermittelt die relative Kampf-Musik-Datei oder null (Stille).
  */
+/** Grösse des Schatten-Angreifers aus gewähltem Monster (Fallback: klein). */
+export function getMonsterAngreiferGroesse() {
+  const g = state.monsterAngreiferGegnerId ? getGegnerById(state.monsterAngreiferGegnerId) : null;
+  const t = String(g?.gegnerTyp || '').toLowerCase();
+  if (t === 'klein' || t === 'normal' || t === 'gross' || t === 'gewaltig') return t;
+  return 'klein';
+}
+
 export function resolveCombatMusicFilename() {
   if (!state.kampfModus) return null;
-  if (getRole() !== ROLES.SPIELLEITER && state.angreiferSubTab === 'monster') {
-    state.angreiferSubTab = 'charakter';
-  }
 
   const override = getOverrideProfil();
   const firstZielId = (state.selectedGegnerIds || [])[0] || null;
@@ -121,7 +125,7 @@ export function resolveCombatMusicFilename() {
   const ziel = zielG || zielC?.char || null;
 
   if (state.angreiferSubTab === 'monster') {
-    return monsterFilename(state.schattenMusikKategorie || 'klein');
+    return monsterFilename(getMonsterAngreiferGroesse());
   }
 
   /* Charakterangriff */
@@ -192,18 +196,13 @@ export function syncCombatMusic() {
   }
 }
 
-/** SL: Licht/Schatten aus localStorage; Standard Schatten. Spieler immer Licht. */
+/** Licht/Schatten aus localStorage; Standard Schatten. */
 export function loadAngreiferModusFromStorage() {
-  if (getRole() !== ROLES.SPIELLEITER) {
-    state.angreiferSubTab = 'charakter';
-    return;
-  }
   const saved = localStorage.getItem(LS_ANGRIFFSMODUS);
   state.angreiferSubTab = saved === 'charakter' || saved === 'monster' ? saved : 'monster';
 }
 
 export function persistAngreiferModus() {
-  if (getRole() !== ROLES.SPIELLEITER) return;
   localStorage.setItem(LS_ANGRIFFSMODUS, state.angreiferSubTab === 'monster' ? 'monster' : 'charakter');
 }
 

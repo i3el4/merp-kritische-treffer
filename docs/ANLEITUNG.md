@@ -23,8 +23,8 @@ Später: Profil-Icon oben rechts → *Rolle wechseln* / *Charakter wechseln*.
 
 | Tab | Spieler | Spielleiter |
 |-----|---------|-------------|
-| **Kampf** | Angriff, Krit, Patzer | + Licht/Schatten, Angreifer, Initiative, Runde |
-| **Status** | eigener Charakter | Gegner, Spieler/NPCs, Gruppen |
+| **Kampf** | Angriff, Krit, Patzer, Licht/Schatten, Angreifer-Icons, Initiative, Runde, Kampfmusik | + Kampagne/Historie, volle Figurenverwaltung |
+| **Status** | Gegner, Spieler/NPCs, Gruppen, Runde (Assistenz) | wie Spieler + Bearbeiten aller Figuren im Charakter-Tab |
 | **Charakter** | eigene Übersicht | Figuren anlegen und bearbeiten |
 | **Historie** | — | Kämpfe archivieren |
 | **Kampagne** | — | Kampagnen verwalten |
@@ -35,22 +35,28 @@ Später: Profil-Icon oben rechts → *Rolle wechseln* / *Charakter wechseln*.
 
 ### Tab Kampf – typischer Ablauf
 
-1. **Waffenart** wählen (Icon-Buttons). Bei Naturangriffen (Biss, Klaue, …) erscheint ein **Grössen-Popup** (klein / mittel / gross).
-2. **Angriffsziel(e)** antippen (runde Icons):
+1. **Licht / Schatten** umschalten (oben im Kampf-Tab): im **Licht** greift ihr mit eurem Charakter an, im **Schatten** tragt ihr Monster-Angriffe für den SL ein.
+2. **Angreifer** (runde Icons unter Licht/Schatten): im Licht euer **Spielercharakter** (gleiche Auswahl wie in der Charakterwahl), im Schatten das **angreifende Monster**. Die **Kampfmusik** wechselt mit dem gewählten Angreifer (wenn Kampfmusik an und Waffe gewählt).
+3. **Waffenart** wählen (Icon-Buttons). Bei Naturangriffen (Biss, Klaue, …) erscheint ein **Grössen-Popup** (klein / mittel / gross).
+4. **Angriffsziel(e)** antippen (runde Icons):
    - **Gegner** = Ziele eures Angriffs
    - **Verbündete** = Mitstreiter (Orientierung)
-   Mehrere Ziele möglich.
-3. **Defensivbonus (DB)** der Auswahl steht unter den Icons (nicht auf den Icons selbst).
-4. **Angriffswert** eintragen.
-5. **Treffer ermitteln** → Trefferpunkte und ggf. Krit-Kategorie (A–E).
-6. Bei Krit: **Würfelwurf** eintragen → **Kritischer Treffer ermitteln** (Text, ggf. Audio).
-7. Optional: **Schaden anwenden** auf die gewählten Ziele.
+   Mehrere Ziele möglich. Im **Schatten** sind die Gruppen **vertauscht** (Gegner = Helden, Verbündete = Monster).
+5. **Defensivbonus (DB)** der Auswahl steht unter den Icons (nicht auf den Icons selbst).
+6. **Angriffswert** eintragen.
+7. **Treffer ermitteln** → Trefferpunkte und ggf. Krit-Kategorie (A–E).
+8. Bei Krit: **Würfelwurf** eintragen → **Kritischer Treffer ermitteln** (Text, ggf. Audio).
+9. Optional: **Schaden anwenden** auf die gewählten Ziele.
+
+**Initiative / Runde** (unter dem Rechner): ihr könnt den SL bei Reihenfolge und Rundenwechsel unterstützen.
 
 Optional aufklappbar: **Nebentreffer**, **Kritischer Patzer**.
 
 ### Tab Status / Charakter
 
-Zeigt **euren** Charakter: TP-Balken, RK, DB, Status (benommen, pariert, K.O., Schaden pro Runde, …). Gegner verwaltet der Spielleiter.
+**Status:** Gegner-Karten, Spieler/NPCs, Gruppen und Rundensteuerung — zum Mitverfolgen und Eintragen von Schaden (gemeinsame Kampagne).
+
+**Charakter:** **euer** Charakter (TP, RK, DB, Status). Figuren anlegen bleibt beim Spielleiter (Tab Charakter/Kampagne).
 
 ### Audio (Profil oben rechts)
 
@@ -64,8 +70,8 @@ Musik-Lautstärke, TTS-Fallback wenn keine Krit-MP3 vorhanden ist.
 
 | Modus | Verwendung |
 |-------|------------|
-| **Licht** | Angriffe von **Spielercharakteren/NPCs**. Angreifer im Dropdown wählen. Ziel-Verteidigung: **RK**. |
-| **Schatten** | Angriffe von **Monstern**. Waffe wählen; **Treffer und Krit** aus **Gegner-Tabellen** (Rüstung PL–OR). Ziel-Verteidigung: **Rüstung**. |
+| **Licht** | Angriffe von **Spielercharakteren/NPCs**. Angreifer per **Icon** wählen (ein Charakter). Ziel-Verteidigung: **RK**. |
+| **Schatten** | Angriffe von **Monstern**. Angreifer-**Icon** = Monster; **Treffer und Krit** aus **Gegner-Tabellen** (Rüstung PL–OR, Grösse vom Monster). Ziel-Verteidigung: **Rüstung**. |
 
 **Krit-Regeln (Kurz):**
 
@@ -75,8 +81,7 @@ Musik-Lautstärke, TTS-Fallback wenn keine Krit-MP3 vorhanden ist.
 - **Schatten, Zelle mit P/S/K** (z. B. `12A` → Stich Kat. A): kein −50, keine Kleine-Tiere-Tabelle nur wegen der Waffe.
 
 - Standard: **Schatten** (wird gespeichert).
-- **Angreifer:** im Licht SC/NPC, im Schatten das Monster.
-- **Schatten-Intensität** (Profil-Menü): Kampfmusik und Grösse bei ZuK/RuS-Tabellen.
+- **Angreifer:** im Licht SC/NPC (Icons), im Schatten das Monster (Icon). **Kampfmusik** folgt dem gewählten Angreifer (Charakter-Profil bzw. Monster-Grösse).
 
 Im Schatten sind Ziel-Gruppen aus SL-Sicht **vertauscht** (Gegner = eure Helden, Verbündete = Monster). Icon-Hintergründe: Gegner hell, Verbündete dunkel.
 
@@ -142,5 +147,5 @@ Wurf, Spalte, Modifikator.
 
 ## Kurz-Merksatz
 
-- **Spieler:** eigene Angriffe gegen SL-Gegner; eigener Status.
-- **Spielleiter:** Licht (Helden) + Schatten (Monster), alle Figuren, Runde, Initiative, Historie.
+- **Spieler:** Licht (eigener Charakter) und Schatten (Monster für SL), volle Kampf- und Status-Assistenz; Kampagne/Historie nur SL.
+- **Spielleiter:** wie Spieler im Kampf + Figuren anlegen, Kampagne, Historie.
