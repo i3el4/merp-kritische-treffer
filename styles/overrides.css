@@ -2786,27 +2786,35 @@ body[data-angriffsmodus="monster"] .ziel-group[data-group-type="gegner"] .ziel-s
 .card-header-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
+  justify-content: stretch;
+  gap: 0;
   margin-bottom: 12px;
 }
 
-.card-header-row > h2 {
-  margin: 0;
-}
-
 .kampf-header-controls {
-  display: inline-flex;
-  align-items: center;
-  gap: 16px;
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  width: 100%;
 }
 
 .angriffsmodus-slider {
-  display: inline-flex;
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 68px 1fr;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 10px;
+  gap: 0;
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 0;
+  min-height: 56px;
+  padding: 6px;
+  border-radius: 12px;
+  border-top: 1px solid rgba(223, 212, 190, 0.22);
+  border-bottom: 1px solid rgba(114, 114, 116, 0.24);
+  background: linear-gradient(90deg, rgba(167, 162, 150, 0.78) 0%, rgba(110, 106, 95, 0.72) 45%, rgba(64, 61, 54, 0.78) 100%);
+  transition: background 220ms ease, box-shadow 220ms ease;
+  isolation: isolate;
 }
 
 .angriffsmodus-label {
@@ -2814,54 +2822,105 @@ body[data-angriffsmodus="monster"] .ziel-group[data-group-type="gegner"] .ziel-s
   -webkit-appearance: none;
   border: none;
   background: transparent;
-  color: var(--muted);
-  padding: 4px 2px;
+  color: #dfd4be;
+  padding: 8px 10px;
   font-family: 'Aniron', Georgia, serif;
-  font-size: 0.85em;
-  font-weight: 600;
+  font-size: 0.9em;
+  font-weight: 700;
   letter-spacing: 0.02em;
+  text-align: center;
+  text-transform: uppercase;
   cursor: pointer;
-  transition: color 120ms ease;
+  transition: color 180ms ease, text-shadow 220ms ease, opacity 220ms ease, transform 180ms ease;
+  opacity: 0.78;
+  position: relative;
+  z-index: 3;
+  width: 100%;
+}
+
+.angriffsmodus-label[data-angriffsmodus="charakter"] {
+  justify-self: start;
+  text-align: left;
+  padding-left: 14px;
+}
+
+.angriffsmodus-label[data-angriffsmodus="monster"] {
+  justify-self: end;
+  text-align: right;
+  padding-right: 14px;
 }
 
 .angriffsmodus-slider[data-pos="charakter"] .angriffsmodus-label[data-angriffsmodus="charakter"],
 .angriffsmodus-slider[data-pos="monster"] .angriffsmodus-label[data-angriffsmodus="monster"] {
-  color: var(--text);
+  opacity: 1;
+  transform: translateY(-0.5px);
+}
+
+.angriffsmodus-slider[data-pos="charakter"] .angriffsmodus-label[data-angriffsmodus="charakter"] {
+  color: #dfd4be;
+  text-shadow:
+    0 0 8px rgba(229, 211, 132, 0.85),
+    0 0 16px rgba(229, 211, 132, 0.55);
+}
+
+.angriffsmodus-slider[data-pos="monster"] .angriffsmodus-label[data-angriffsmodus="monster"] {
+  color: #727274;
+  text-shadow:
+    0 0 8px rgba(129, 57, 55, 0.85),
+    0 0 16px rgba(129, 57, 55, 0.52);
+}
+
+.angriffsmodus-slider[data-pos="charakter"] {
+  background: linear-gradient(90deg, rgba(167, 162, 150, 0.84) 0%, rgba(122, 117, 106, 0.74) 45%, rgba(79, 75, 67, 0.76) 100%);
+  box-shadow: inset 0 1px 0 rgba(223, 212, 190, 0.08);
+}
+
+.angriffsmodus-slider[data-pos="monster"] {
+  background: linear-gradient(90deg, rgba(138, 132, 120, 0.72) 0%, rgba(89, 84, 74, 0.74) 42%, rgba(64, 61, 54, 0.86) 100%);
+  box-shadow: inset 0 1px 0 rgba(129, 57, 55, 0.09);
 }
 
 .angriffsmodus-track {
   appearance: none;
   -webkit-appearance: none;
   position: relative;
-  width: 48px;
-  height: 24px;
+  width: 68px;
+  height: 32px;
   padding: 0;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  background: var(--chip);
+  border: 1px solid rgba(223, 212, 190, 0.2);
+  border-radius: 12px;
+  background: linear-gradient(90deg, rgba(167, 162, 150, 0.14) 0%, rgba(64, 61, 54, 0.22) 100%);
   cursor: pointer;
-  transition: background 160ms ease, border-color 160ms ease;
+  transition: background 180ms ease, border-color 180ms ease;
+  z-index: 2;
+  justify-self: center;
 }
 
 .angriffsmodus-slider[data-pos="monster"] .angriffsmodus-track {
-  background: var(--accent);
-  border-color: var(--accent);
+  background: linear-gradient(90deg, rgba(167, 162, 150, 0.08) 0%, rgba(64, 61, 54, 0.3) 100%);
+  border-color: rgba(129, 57, 55, 0.26);
 }
 
 .angriffsmodus-thumb {
   position: absolute;
   top: 2px;
   left: 2px;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: var(--bg);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  width: 30px;
+  height: calc(100% - 4px);
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(167, 162, 150, 0.8) 0%, rgba(167, 162, 150, 0.55) 100%);
+  box-shadow:
+    0 0 8px rgba(229, 211, 132, 0.34),
+    0 2px 8px rgba(0, 0, 0, 0.25);
   transition: transform 220ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .angriffsmodus-slider[data-pos="monster"] .angriffsmodus-thumb {
-  transform: translateX(22px);
+  transform: translateX(34px);
+  background: linear-gradient(180deg, rgba(64, 61, 54, 0.85) 0%, rgba(64, 61, 54, 0.62) 100%);
+  box-shadow:
+    0 0 8px rgba(129, 57, 55, 0.46),
+    0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .kampf-musik-play-btn {
@@ -2872,6 +2931,22 @@ body[data-angriffsmodus="monster"] .ziel-group[data-group-type="gegner"] .ziel-s
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  align-self: stretch;
+}
+
+@media (max-width: 720px) {
+  .kampf-header-controls {
+    align-items: stretch;
+  }
+
+  .angriffsmodus-slider {
+    min-height: 52px;
+  }
+
+  .angriffsmodus-label {
+    font-size: 0.8em;
+    letter-spacing: 0.02em;
+  }
 }
 
 .kampf-musik-play-btn::before {
@@ -2893,6 +2968,11 @@ body[data-angriffsmodus="monster"] .ziel-group[data-group-type="gegner"] .ziel-s
 }
 
 .kampf-musik-play-btn.active {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+#bgToggleBtn[aria-pressed="true"] {
   background: var(--accent);
   color: var(--bg);
 }

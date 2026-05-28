@@ -976,6 +976,18 @@ function renderSimulatorKampfToolbar() {
   }
 }
 
+function setAngriffsmodus(nextMode) {
+  const normalized = nextMode === 'monster' ? 'monster' : 'charakter';
+  if (state.angreiferSubTab === normalized) return;
+  state.angreiferSubTab = normalized;
+  persistAngreiferModus();
+  render();
+}
+
+function toggleAngriffsmodus() {
+  setAngriffsmodus(state.angreiferSubTab === 'monster' ? 'charakter' : 'monster');
+}
+
 let simulatorKampfToolbarBound = false;
 function initSimulatorKampfToolbar() {
   if (simulatorKampfToolbarBound) return;
@@ -983,16 +995,43 @@ function initSimulatorKampfToolbar() {
   document.querySelectorAll('[data-angriffsmodus]').forEach((btn) => {
     btn.addEventListener('click', () => {
       const t = btn.getAttribute('data-angriffsmodus') || 'charakter';
-      state.angreiferSubTab = t === 'monster' ? 'monster' : 'charakter';
-      persistAngreiferModus();
-      render();
+      setAngriffsmodus(t);
     });
   });
   $('#angriffsmodusTrack')?.addEventListener('click', () => {
-    state.angreiferSubTab = state.angreiferSubTab === 'monster' ? 'charakter' : 'monster';
-    persistAngreiferModus();
-    render();
+    toggleAngriffsmodus();
   });
+
+  const modusToggle = $('#simulatorAngriffsmodus');
+  const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
+  if (modusToggle && isTouchDevice) {
+    const MIN_SWIPE_X = 40;
+    const MAX_SWIPE_Y = 25;
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchValid = false;
+
+    modusToggle.addEventListener('touchstart', (event) => {
+      if (event.touches.length !== 1) {
+        touchValid = false;
+        return;
+      }
+      const touch = event.touches[0];
+      touchStartX = touch.clientX;
+      touchStartY = touch.clientY;
+      touchValid = true;
+    }, { passive: true });
+
+    modusToggle.addEventListener('touchend', (event) => {
+      if (!touchValid || event.changedTouches.length !== 1) return;
+      const touch = event.changedTouches[0];
+      const dx = touch.clientX - touchStartX;
+      const dy = touch.clientY - touchStartY;
+      if (Math.abs(dx) < MIN_SWIPE_X) return;
+      if (Math.abs(dy) > MAX_SWIPE_Y) return;
+      setAngriffsmodus(dx > 0 ? 'charakter' : 'monster');
+    }, { passive: true });
+  }
 }
 
 function renderUserProfileIcon() {

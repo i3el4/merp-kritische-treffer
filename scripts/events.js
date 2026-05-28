@@ -256,8 +256,7 @@ export function setupEventListeners() {
         }
     });
 
-    // Event-Listener für Audio-Toggles
-    $('#bgToggleBtn')?.addEventListener('click', handleBgToggle);
+    // Event-Listener für Audio
     $('#bgVol')?.addEventListener('input', handleBgVolumeChange);
 
     let weaponLabelFitTimer;

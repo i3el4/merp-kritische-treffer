@@ -151,11 +151,13 @@ function fullUrl(relativeFile) {
 }
 
 function updatePlayBtnUI() {
-  const btn = $('#kampfMusikPlayBtn');
+  const btn = $('#bgToggleBtn');
   if (!btn) return;
   const on = !!state.kampfModus;
   btn.setAttribute('aria-pressed', on ? 'true' : 'false');
   btn.setAttribute('aria-label', on ? 'Kampfmusik pausieren' : 'Kampfmusik starten');
+  btn.title = on ? 'Kampfmusik pausieren' : 'Kampfmusik starten';
+  btn.textContent = on ? 'Musik ⏸︎' : 'Musik ▶︎';
   btn.classList.toggle('active', on);
 }
 
@@ -232,7 +234,7 @@ export function persistSchattenKategorie() {
 export function initCombatMusic() {
   loadKampfModusFromStorage();
 
-  $('#kampfMusikPlayBtn')?.addEventListener('click', () => {
+  $('#bgToggleBtn')?.addEventListener('click', () => {
     state.kampfModus = !state.kampfModus;
     persistKampfModus();
     syncCombatMusic();
