@@ -10,8 +10,8 @@ const LS_MUSIK_VOL = 'mers_musik_vol';
 const LS_SCHATTEN_KAT = 'mers_kampf_schatten_kategorie';
 const LS_ANGRIFFSMODUS = 'mers_kampf_angriffsmodus';
 
-const DUCK_FACTOR = 0.28;
-const DUCK_MS = 220;
+const DUCK_FACTOR = 0.12;
+const DUCK_MS = 280;
 
 let duckDepth = 0;
 let fadeTimer = null;
@@ -20,6 +20,20 @@ let currentSrcKey = '';
 
 function getKampfAudio() {
   return /** @type {HTMLAudioElement | null} */ ($('#kampfMusikAudio'));
+}
+
+function getBgAudio() {
+  return /** @type {HTMLAudioElement | null} */ (document.getElementById('bgAudio'));
+}
+
+/** Musik-Elemente, deren Lautstärke gesteuert wird (Kampf-Loop auch kurz vor play()). */
+function getMusicVolumeTargets() {
+  const out = [];
+  const kampf = getKampfAudio();
+  if (kampf && state.kampfModus && kampf.src) out.push(kampf);
+  const bg = getBgAudio();
+  if (bg && bg.src && !bg.paused) out.push(bg);
+  return out;
 }
 
 function readUserMusicVol() {
@@ -33,20 +47,30 @@ function effectiveUserVol() {
   return readUserMusicVol();
 }
 
-function applyVolumeRamp() {
-  const el = getKampfAudio();
-  if (!el) return;
+function computeTargetVolume() {
   const base = effectiveUserVol();
-  let mul = 1;
-  if (duckDepth > 0) mul *= DUCK_FACTOR;
-  targetEffectiveVol = base * mul;
+  const mul = duckDepth > 0 ? DUCK_FACTOR : 1;
+  return base * mul;
+}
+
+function applyVolumeRamp({ immediate = false } = {}) {
+  const targets = getMusicVolumeTargets();
+  if (!targets.length) return;
+  targetEffectiveVol = computeTargetVolume();
   if (fadeTimer) clearInterval(fadeTimer);
-  const start = el.volume;
+  fadeTimer = null;
+  if (immediate) {
+    targets.forEach((el) => { el.volume = targetEffectiveVol; });
+    return;
+  }
+  const starts = targets.map((el) => el.volume);
   const end = targetEffectiveVol;
   const t0 = performance.now();
   fadeTimer = setInterval(() => {
     const t = Math.min(1, (performance.now() - t0) / DUCK_MS);
-    el.volume = start + (end - start) * t;
+    targets.forEach((el, i) => {
+      el.volume = starts[i] + (end - starts[i]) * t;
+    });
     if (t >= 1) {
       clearInterval(fadeTimer);
       fadeTimer = null;
@@ -54,16 +78,21 @@ function applyVolumeRamp() {
   }, 16);
 }
 
+/** Lautstärke-Slider: Kampf- und Tabellen-Musik inkl. Ducking. */
+export function applyMusicVolumeFromSlider() {
+  applyVolumeRamp({ immediate: duckDepth > 0 });
+}
+
 /** Öffentlich: TTS oder Krit-SFX startet — Musik ducken. */
 export function combatMusicNotifySpeechOrSfxStart() {
   duckDepth++;
-  applyVolumeRamp();
+  applyVolumeRamp({ immediate: true });
 }
 
 /** Öffentlich: TTS oder Krit-SFX endet. */
 export function combatMusicNotifySpeechOrSfxEnd() {
   duckDepth = Math.max(0, duckDepth - 1);
-  applyVolumeRamp();
+  applyVolumeRamp({ immediate: duckDepth === 0 });
 }
 
 function tierFromZiel(ziel) {
@@ -242,7 +271,7 @@ export function initCombatMusic() {
   $('#bgVol')?.addEventListener('input', () => {
     const el = /** @type {HTMLInputElement | null} */ ($('#bgVol'));
     if (el) localStorage.setItem(LS_MUSIK_VOL, el.value);
-    applyVolumeRamp();
+    applyMusicVolumeFromSlider();
   });
 
   $('#kampfMusikProfilOverride')?.addEventListener('change', () => {

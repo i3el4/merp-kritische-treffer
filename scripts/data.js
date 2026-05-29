@@ -30,7 +30,7 @@ export async function loadData() {
         state.patzerTables = t3.ok ? await t3.json() : {};
     } catch { state.patzerTables = {}; }
 
-    populateWeapons();
+    populateWeapons({ selectFirstIfEmpty: true });
     initWeaponSizeClassListener();
     populateCritDropdowns($('#critType'), true);
     populateCritDropdowns($('#sideType'), false);
@@ -165,7 +165,8 @@ export function initWeaponSizeClassListener() {
 }
 
 // Erzeugt die Buttons für die Waffen (gruppiert).
-export function populateWeapons() {
+/** @param {{ selectFirstIfEmpty?: boolean }} [opts] — nur beim ersten Laden erste Waffe vorauswählen */
+export function populateWeapons({ selectFirstIfEmpty = false } = {}) {
     const wSelWrap = $('#weaponWrap');
     if (!wSelWrap) return;
 
@@ -228,24 +229,34 @@ export function populateWeapons() {
     const fehlende = [...verfuegbareWaffen].filter(k => !verwendeteKeys.has(k) && noVariantKey(k)).sort();
     fehlende.forEach(k => wSelWrap.appendChild(createWeaponBtn(k)));
 
-    const ersteWaffe = (() => {
-        if (prevWeapon && verfuegbareWaffen.has(prevWeapon) && noVariantKey(prevWeapon)) {
-            return prevWeapon;
-        }
-        for (const group of groups) {
-            const k = group.keys.find(key => verfuegbareWaffen.has(key));
-            if (k) return k;
-        }
-        return fehlende[0] || null;
-    })();
-    if (ersteWaffe) {
-        const defaultWeaponBtn = $(`#weaponWrap button[data-weapon="${ersteWaffe}"]`);
+    if (prevWeapon && verfuegbareWaffen.has(prevWeapon) && noVariantKey(prevWeapon)) {
+        const defaultWeaponBtn = $(`#weaponWrap button[data-weapon="${prevWeapon}"]`);
         if (defaultWeaponBtn) {
             defaultWeaponBtn.classList.add('active');
-            state.selectedWeapon = ersteWaffe;
+            state.selectedWeapon = prevWeapon;
+            syncWeaponSizeUI(prevWeapon);
         }
+    } else if (selectFirstIfEmpty) {
+        const ersteWaffe = (() => {
+            for (const group of groups) {
+                const k = group.keys.find(key => verfuegbareWaffen.has(key));
+                if (k) return k;
+            }
+            return fehlende[0] || null;
+        })();
+        if (ersteWaffe) {
+            const defaultWeaponBtn = $(`#weaponWrap button[data-weapon="${ersteWaffe}"]`);
+            if (defaultWeaponBtn) {
+                defaultWeaponBtn.classList.add('active');
+                state.selectedWeapon = ersteWaffe;
+                syncWeaponSizeUI(ersteWaffe);
+            }
+        }
+    } else {
+        state.selectedWeapon = null;
+        state.selectedSizeClass = null;
+        hideWeaponSizePopover();
     }
-    syncWeaponSizeUI(state.selectedWeapon);
     syncCombatMusic();
     // Sofort messen (gleicher Task wie DOM) — sonst ein Frame mit CSS-Fallback (14px) → sichtbarer Sprung nach unten.
     void wSelWrap.offsetHeight;

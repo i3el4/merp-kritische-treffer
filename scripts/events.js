@@ -6,6 +6,7 @@ import { $ } from './dom.js';
 import { URLS, PATZER_CONTEXT_MODS, resolveCritIcon, formatCritTableLabel } from './constants.js';
 import { calculateAttack, lookupCritEntry, mapCritName, adjustWeaponFontSizes, resolveEffectiveCritRoll } from './logic.js';
 import { playCritAudio, tryStartBgAudio } from './audio.js';
+import { applyMusicVolumeFromSlider } from './combatMusic.js';
 import { chip } from './dom.js';
 import { applySchaden, applySchadenCharakter, getGegnerById, getSpielerById, getNpcById, getAktuelleRunde, getCharakterById } from './campaigns.js';
 import { refreshKampftracker } from './kampftracker.js';
@@ -363,7 +364,7 @@ function calculateCrit() {
     $('#sideEditRow')?.style.setProperty('display', 'none');
 
     playCritAudio(typSel, katSel, key, ttsText);
-    if (state.isBgMusicPlaying) {
+    if (state.isBgMusicPlaying && !state.kampfModus) {
         tryStartBgAudio(typSel);
     }
 }
@@ -445,7 +446,7 @@ function calculateSide() {
     $('#critEditRow')?.style.setProperty('display', 'none');
 
     playCritAudio(typ, kat, key, ttsText);
-    if (state.isBgMusicPlaying) {
+    if (state.isBgMusicPlaying && !state.kampfModus) {
         tryStartBgAudio(typ);
     }
 }
@@ -533,7 +534,7 @@ function calculatePatzer() {
         vonCharakter: null
     });
     playCritAudio('Allgemeine Patzer', kat, key, ttsText);
-    if (state.isBgMusicPlaying) {
+    if (state.isBgMusicPlaying && !state.kampfModus) {
         tryStartBgAudio('Allgemeine Patzer');
     }
 }
@@ -676,7 +677,6 @@ function handleBgToggle() {
  * Behandelt das Ändern der Hintergrundmusik-Lautstärke.
  * @param {Event} e Das Input-Ereignis.
  */
-function handleBgVolumeChange(e) {
-    const bgAudio = $('#bgAudio');
-    bgAudio.volume = parseFloat(e.target.value || '0.2');
+function handleBgVolumeChange() {
+    applyMusicVolumeFromSlider();
 }

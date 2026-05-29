@@ -20,7 +20,7 @@ const sfxAudio = $('#sfxAudio');
  * @param {string} tableKey Der Schlüssel der Tabelle.
  */
 export function tryStartBgAudio(tableKey) {
-    if (!state.tables || !state.isBgMusicPlaying) return;
+    if (!state.tables || !state.isBgMusicPlaying || state.kampfModus) return;
     const t = state.tables[tableKey];
     const file = t?.audioFile;
     if (!file) {

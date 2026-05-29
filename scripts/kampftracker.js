@@ -987,6 +987,9 @@ function setAngriffsmodus(nextMode) {
   state.angreiferSubTab = normalized;
   state.kampfAngreiferCharakterId = null;
   state.monsterAngreiferGegnerId = null;
+  state.selectedGegnerIds = [];
+  state.selectedWeapon = null;
+  state.selectedSizeClass = null;
   persistAngreiferModus();
   render();
 }
