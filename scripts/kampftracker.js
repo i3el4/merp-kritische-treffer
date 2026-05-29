@@ -875,9 +875,10 @@ function renderDbAnzeige() {
 }
 
 function selectAngreiferCharakter(c) {
-  state.selectedCharakterId = c?.id || null;
-  state.selectedCharakterName = c?.name || null;
+  state.kampfAngreiferCharakterId = c?.id || null;
   if (getRole() === ROLES.SPIELLER && getCurrentKampagneId()) {
+    state.selectedCharakterId = c?.id || null;
+    state.selectedCharakterName = c?.name || null;
     setCharakter(getCurrentKampagneId(), c || null);
   }
   syncCombatMusic();
@@ -897,10 +898,7 @@ function renderAngreiferAnzeige() {
   let entities = [];
   if (isMonsterModus) {
     entities = getGegnerFuerKampf().map((g) => ({ ...g, entityTyp: 'gegner' }));
-    if (entities.length > 0) {
-      const hasSel = state.monsterAngreiferGegnerId && entities.some((g) => g.id === state.monsterAngreiferGegnerId);
-      if (!hasSel) selectAngreiferMonster(entities[0].id);
-    } else {
+    if (state.monsterAngreiferGegnerId && !entities.some((g) => g.id === state.monsterAngreiferGegnerId)) {
       state.monsterAngreiferGegnerId = null;
     }
   } else {
@@ -909,11 +907,8 @@ function renderAngreiferAnzeige() {
       entityTyp: c.typ,
       displayName: c.typ === 'npc' ? `${c.name} (NPC)` : c.name
     }));
-    if (entities.length > 0) {
-      const hasSel = state.selectedCharakterId && entities.some((c) => c.id === state.selectedCharakterId);
-      if (!hasSel && getRole() === ROLES.SPIELLEITER) {
-        selectAngreiferCharakter(entities[0]);
-      }
+    if (state.kampfAngreiferCharakterId && !entities.some((c) => c.id === state.kampfAngreiferCharakterId)) {
+      state.kampfAngreiferCharakterId = null;
     }
   }
 
@@ -923,7 +918,7 @@ function renderAngreiferAnzeige() {
   const renderBtn = (entity) => {
     const isSelected = isMonsterModus
       ? entity.id === state.monsterAngreiferGegnerId
-      : entity.id === state.selectedCharakterId;
+      : entity.id === state.kampfAngreiferCharakterId;
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'ziel-select-btn ziel-select-btn-round' + (isSelected ? ' active' : '');

@@ -7,7 +7,7 @@ import { URLS, PATZER_CONTEXT_MODS, resolveCritIcon, formatCritTableLabel } from
 import { calculateAttack, lookupCritEntry, mapCritName, adjustWeaponFontSizes, resolveEffectiveCritRoll } from './logic.js';
 import { playCritAudio, tryStartBgAudio } from './audio.js';
 import { chip } from './dom.js';
-import { applySchaden, applySchadenCharakter, getGegnerById, getSpielerById, getNpcById, getAktuelleRunde } from './campaigns.js';
+import { applySchaden, applySchadenCharakter, getGegnerById, getSpielerById, getNpcById, getAktuelleRunde, getCharakterById } from './campaigns.js';
 import { refreshKampftracker } from './kampftracker.js';
 import { parseCritText } from './critParser.js';
 import { setCorrection, deleteCorrection, exportCorrections } from './critCorrections.js';
@@ -165,9 +165,12 @@ function appendApplySchadenButton(wrapContainer, quelle, parsedOverride = null, 
         ? applyOpts.vonCharakter
         : (state.angreiferSubTab === 'monster'
             ? null
-            : ((state.selectedCharakterId && state.selectedCharakterName)
-                ? { id: state.selectedCharakterId, name: state.selectedCharakterName }
-                : null));
+            : (() => {
+                const id = state.kampfAngreiferCharakterId;
+                if (!id) return null;
+                const ch = getCharakterById(id);
+                return ch ? { id: ch.id, name: ch.name } : null;
+              })());
     let id = null;
     if (!allDead) {
         const payload = {

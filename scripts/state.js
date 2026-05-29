@@ -32,6 +32,8 @@ let kampfModus = false;
 let angreiferSubTab = 'charakter';
 /** SL Monsterangriff: ID des angreifenden Gegners. */
 let monsterAngreiferGegnerId = null;
+/** Licht-Modus: manuell gewählter Angreifer (SC/NPC), unabhängig von Charakterwahl. */
+let kampfAngreiferCharakterId = null;
 /** SL Schatten-Modus: Intensitäts-Stufe der Kampfmusik (klein|normal|gross|gewaltig). */
 let schattenMusikKategorie = 'klein';
 
@@ -133,6 +135,8 @@ export const state = {
     },
     get monsterAngreiferGegnerId() { return monsterAngreiferGegnerId; },
     set monsterAngreiferGegnerId(value) { monsterAngreiferGegnerId = value || null; },
+    get kampfAngreiferCharakterId() { return kampfAngreiferCharakterId; },
+    set kampfAngreiferCharakterId(value) { kampfAngreiferCharakterId = value || null; },
     get schattenMusikKategorie() { return schattenMusikKategorie; },
     set schattenMusikKategorie(value) {
         const v = String(value || '').toLowerCase();

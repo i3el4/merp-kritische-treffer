@@ -104,9 +104,6 @@ function getOverrideProfil() {
   return v && MUSIK_PROFIL_VALUES.includes(v) ? v : null;
 }
 
-/**
- * Ermittelt die relative Kampf-Musik-Datei oder null (Stille).
- */
 /** Grösse des Schatten-Angreifers aus gewähltem Monster (Fallback: klein). */
 export function getMonsterAngreiferGroesse() {
   const g = state.monsterAngreiferGegnerId ? getGegnerById(state.monsterAngreiferGegnerId) : null;
@@ -125,14 +122,16 @@ export function resolveCombatMusicFilename() {
   const ziel = zielG || zielC?.char || null;
 
   if (state.angreiferSubTab === 'monster') {
-    return monsterFilename(getMonsterAngreiferGroesse());
+    if (state.monsterAngreiferGegnerId) {
+      return monsterFilename(getMonsterAngreiferGroesse());
+    }
+    return 'standard_schatten.mp3';
   }
 
-  /* Charakterangriff */
-  const cid = state.selectedCharakterId;
+  /* Charakterangriff (Licht) */
+  const cid = state.kampfAngreiferCharakterId;
   if (!cid) {
-    /* SL ohne SC/NPC: reinen Gegner-Angriff über Monster-Tab, sonst Stille */
-    return null;
+    return 'standard_licht.mp3';
   }
   const ch = getCharakterById(cid);
   if (!ch) return null;
@@ -198,10 +197,10 @@ export function syncCombatMusic() {
   }
 }
 
-/** Licht/Schatten aus localStorage; Standard Schatten. */
+/** Licht/Schatten aus localStorage; Standard Licht. */
 export function loadAngreiferModusFromStorage() {
   const saved = localStorage.getItem(LS_ANGRIFFSMODUS);
-  state.angreiferSubTab = saved === 'charakter' || saved === 'monster' ? saved : 'monster';
+  state.angreiferSubTab = saved === 'charakter' || saved === 'monster' ? saved : 'charakter';
 }
 
 export function persistAngreiferModus() {
