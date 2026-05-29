@@ -875,17 +875,27 @@ function renderDbAnzeige() {
 }
 
 function selectAngreiferCharakter(c) {
-  state.kampfAngreiferCharakterId = c?.id || null;
-  if (getRole() === ROLES.SPIELLER && getCurrentKampagneId()) {
-    state.selectedCharakterId = c?.id || null;
-    state.selectedCharakterName = c?.name || null;
-    setCharakter(getCurrentKampagneId(), c || null);
+  const id = c?.id || null;
+  if (id && state.kampfAngreiferCharakterId === id) {
+    state.kampfAngreiferCharakterId = null;
+    syncCombatMusic();
+    return;
+  }
+  state.kampfAngreiferCharakterId = id;
+  if (getRole() === ROLES.SPIELLER && getCurrentKampagneId() && c) {
+    state.selectedCharakterId = c.id;
+    state.selectedCharakterName = c.name;
+    setCharakter(getCurrentKampagneId(), c);
   }
   syncCombatMusic();
 }
 
 function selectAngreiferMonster(gegnerId) {
-  state.monsterAngreiferGegnerId = gegnerId || null;
+  if (gegnerId && state.monsterAngreiferGegnerId === gegnerId) {
+    state.monsterAngreiferGegnerId = null;
+  } else {
+    state.monsterAngreiferGegnerId = gegnerId || null;
+  }
   syncCombatMusic();
 }
 
@@ -975,6 +985,8 @@ function setAngriffsmodus(nextMode) {
   const normalized = nextMode === 'monster' ? 'monster' : 'charakter';
   if (state.angreiferSubTab === normalized) return;
   state.angreiferSubTab = normalized;
+  state.kampfAngreiferCharakterId = null;
+  state.monsterAngreiferGegnerId = null;
   persistAngreiferModus();
   render();
 }
