@@ -198,12 +198,6 @@ export function syncCombatMusic() {
     currentSrcKey = '';
     return;
   }
-  const weapon = state.selectedWeapon;
-  if (!weapon) {
-    el.pause();
-    currentSrcKey = '';
-    return;
-  }
   const file = resolveCombatMusicFilename();
   if (!file) {
     el.pause();
