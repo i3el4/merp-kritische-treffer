@@ -1263,7 +1263,7 @@ header > div:first-child {
   .user-profile-audio-section .audio-controls input[type="range"] {
     max-width: none;
     width: 100%;
-    min-height: 44px;
+    padding: 10px 0;
   }
 }
 

@@ -12,8 +12,8 @@ const LS_SCHATTEN_KAT = 'mers_kampf_schatten_kategorie';
 const LS_ANGRIFFSMODUS = 'mers_kampf_angriffsmodus';
 
 const DUCK_MS = 280;
-/** Slider 100 % ≈ diese Obergrenze — Reservenheadroom für gesprochenen Text. */
-const MUSIC_VOL_CAP = 0.55;
+/** Slider 100 % = max. 60 % effektive Musik-Lautstärke. */
+const MUSIC_VOL_CAP = 0.6;
 
 let duckDepth = 0;
 let fadeTimer = null;

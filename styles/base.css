@@ -351,10 +351,8 @@ hr {
 .audio-controls input[type="range"] {
   max-width: 120px;
   touch-action: pan-x;
-  -webkit-appearance: none;
-  appearance: none;
-  min-height: 28px;
   cursor: pointer;
+  accent-color: var(--accent);
 }
 
 .badge {
