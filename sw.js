@@ -1,5 +1,5 @@
 /* Service Worker: Offline-Caching für MERS PWA */
-const CACHE_NAME = 'mers-v38';
+const CACHE_NAME = 'mers-v39';
 const ASSETS = [
   'index.html',
   'scripts/main.js',

@@ -11,8 +11,9 @@ const LS_TTS_VOL = 'mers_tts_vol';
 const LS_SCHATTEN_KAT = 'mers_kampf_schatten_kategorie';
 const LS_ANGRIFFSMODUS = 'mers_kampf_angriffsmodus';
 
-const DUCK_FACTOR = 0.12;
 const DUCK_MS = 280;
+/** Slider 100 % ≈ diese Obergrenze — Reservenheadroom für gesprochenen Text. */
+const MUSIC_VOL_CAP = 0.55;
 
 let duckDepth = 0;
 let fadeTimer = null;
@@ -44,14 +45,24 @@ function readUserMusicVol() {
   return Math.max(0, Math.min(1, v));
 }
 
-function effectiveUserVol() {
-  return readUserMusicVol();
+/** Tatsächliche Musik-Lautstärke aus Slider (0 … MUSIC_VOL_CAP). */
+export function scaleMusicVolume(sliderNorm = readUserMusicVol()) {
+  return Math.max(0, Math.min(MUSIC_VOL_CAP, sliderNorm * MUSIC_VOL_CAP));
+}
+
+/** Je höher der Slider, desto stärker ducken (relativ zur Basislautstärke). */
+function duckFactorForSlider(sliderNorm) {
+  const load = Math.max(0, Math.min(1, sliderNorm));
+  return 0.14 - load * 0.10;
 }
 
 function computeTargetVolume() {
-  const base = effectiveUserVol();
-  const mul = duckDepth > 0 ? DUCK_FACTOR : 1;
-  return base * mul;
+  const slider = readUserMusicVol();
+  const base = scaleMusicVolume(slider);
+  if (duckDepth > 0) {
+    return base * duckFactorForSlider(slider);
+  }
+  return base;
 }
 
 function applyVolumeRamp({ immediate = false } = {}) {
@@ -257,7 +268,7 @@ export function loadKampfModusFromStorage() {
   if (vEl && !Number.isNaN(vol) && vol >= 0 && vol <= 1) {
     vEl.value = String(vol);
     const bg = /** @type {HTMLAudioElement | null} */ (document.getElementById('bgAudio'));
-    if (bg) bg.volume = vol;
+    if (bg) bg.volume = scaleMusicVolume(vol);
   }
   const ttsVol = parseFloat(localStorage.getItem(LS_TTS_VOL) || '');
   const ttsEl = /** @type {HTMLInputElement | null} */ ($('#ttsVol'));
