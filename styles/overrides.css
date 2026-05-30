@@ -1256,6 +1256,36 @@ header > div:first-child {
 
 .user-profile-audio-section .volume-select {
   display: none !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+  position: absolute !important;
+  width: 0 !important;
+  height: 0 !important;
+  opacity: 0 !important;
+}
+
+.volume-stepper {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.volume-step-btn {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  font-size: 1.25rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.volume-step-label {
+  flex: 1;
+  text-align: center;
+  font-size: 14px;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
 }
 
 @media (max-width: 768px) {
@@ -1264,11 +1294,22 @@ header > div:first-child {
     align-items: stretch;
   }
 
+  .user-profile-audio-section .volume-stepper {
+    display: flex;
+  }
+
   .user-profile-audio-section .volume-range {
     display: block !important;
     max-width: none;
     width: 100%;
     min-height: 36px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .user-profile-audio-section .badge,
+  .user-profile-audio-section label:not(.sr) {
+    pointer-events: none;
   }
 }
 

@@ -198,6 +198,7 @@ export function applyMusicVolumeFromSlider() {
   if (kampf && state.kampfModus) kampf.volume = vol;
   if (bg?.src) bg.volume = vol;
   applyVolumeRamp({ immediate: true });
+  updateVolumeLabels();
   // #region agent log
   volDebug('H3', 'combatMusic.js:applyMusicVolumeFromSlider', 'volume applied', {
     norm,
@@ -209,9 +210,79 @@ export function applyMusicVolumeFromSlider() {
     kampfVolAfter: kampf?.volume,
     bgHasSrc: !!bg?.src,
     bgVol: bg?.volume,
-    runId: 'post-fix'
+    runId: 'post-fix-v2'
   });
   // #endregion
+}
+
+function updateVolumeLabels() {
+  const musicNorm = readMusicVolumeNorm();
+  const musicEff = scaleMusicVolume(musicNorm);
+  const bgLabel = $('#bgVolLabel');
+  if (bgLabel) {
+    bgLabel.textContent = `${Math.round(musicNorm * 100)}% → ${Math.round(musicEff * 100)}%`;
+  }
+  const ttsNorm = readTtsVolumeNorm();
+  const ttsLabel = $('#ttsVolLabel');
+  if (ttsLabel) ttsLabel.textContent = `${Math.round(ttsNorm * 100)}%`;
+}
+
+function stepVolume(rangeId, delta, applyFn) {
+  const range = /** @type {HTMLInputElement | null} */ ($(rangeId));
+  if (!range) return;
+  const cur = parseFloat(range.value || '0');
+  const next = Math.max(0, Math.min(1, Math.round((cur + delta) * 100) / 100));
+  range.value = String(next);
+  // #region agent log
+  volDebug('H6', 'combatMusic.js:stepVolume', 'stepper click', {
+    rangeId,
+    cur,
+    next,
+    runId: 'post-fix-v2'
+  });
+  // #endregion
+  applyFn();
+  updateVolumeLabels();
+}
+
+function initVolumeSteppers() {
+  document.querySelectorAll('.volume-step-btn').forEach((btn) => {
+    if (btn.dataset.bound === '1') return;
+    btn.dataset.bound = '1';
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      const target = btn.getAttribute('data-target');
+      const delta = btn.getAttribute('data-action') === 'up' ? 0.1 : -0.1;
+      if (target === 'bgVol') stepVolume('#bgVol', delta, applyMusicVolumeFromSlider);
+      else if (target === 'ttsVol') stepVolume('#ttsVol', delta, applyTtsVolumeFromSlider);
+    });
+  });
+}
+
+function initVolumeControlDelegation() {
+  const section = document.querySelector('.user-profile-audio-section');
+  if (!section || section.dataset.volDelegated === '1') return;
+  section.dataset.volDelegated = '1';
+  const onAdjust = (e) => {
+    const t = /** @type {HTMLElement} */ (e.target);
+    if (t.id === 'bgVol') {
+      // #region agent log
+      volDebug('H1', 'combatMusic.js:delegatedInput', 'bgVol event', {
+        type: e.type,
+        value: t.value,
+        runId: 'post-fix-v2'
+      });
+      // #endregion
+      applyMusicVolumeFromSlider();
+      updateVolumeLabels();
+    } else if (t.id === 'ttsVol') {
+      applyTtsVolumeFromSlider();
+      updateVolumeLabels();
+    }
+  };
+  section.addEventListener('input', onAdjust);
+  section.addEventListener('change', onAdjust);
 }
 
 function applyTtsVolumeFromSlider() {
@@ -222,6 +293,7 @@ function applyTtsVolumeFromSlider() {
   syncVolumeSelectFromRange('#ttsVolSelect', '#ttsVol');
   const sfx = /** @type {HTMLAudioElement | null} */ ($('#sfxAudio'));
   if (sfx?.src) sfx.volume = vol;
+  updateVolumeLabels();
 }
 
 function bindVolumeSlider(id, handler) {
@@ -233,15 +305,14 @@ function bindVolumeSlider(id, handler) {
     volDebug('H1', 'combatMusic.js:rangeEvent', 'range input', {
       id,
       value: el.value,
-      runId: 'post-fix'
+      runId: 'post-fix-v2'
     });
     // #endregion
     handler();
+    updateVolumeLabels();
   };
   el.addEventListener('input', run);
   el.addEventListener('change', run);
-  el.addEventListener('touchend', run, { passive: true });
-  el.addEventListener('pointerup', run);
 }
 
 function initVolumeSelects() {
@@ -477,6 +548,7 @@ export function loadKampfModusFromStorage() {
   state.schattenMusikKategorie = savedKat || 'klein';
   loadAngreiferModusFromStorage();
   updatePlayBtnUI();
+  updateVolumeLabels();
 }
 
 export function persistKampfModus() {
@@ -505,6 +577,9 @@ export function initCombatMusic() {
     applyTtsVolumeFromSlider();
   });
   initVolumeSelects();
+  initVolumeSteppers();
+  initVolumeControlDelegation();
+  updateVolumeLabels();
 
   $('#kampfMusikProfilOverride')?.addEventListener('change', () => {
     syncCombatMusic();
