@@ -14,43 +14,14 @@ const LS_ANGRIFFSMODUS = 'mers_kampf_angriffsmodus';
 const DUCK_MS = 280;
 /** Slider 100 % = max. 60 % effektive Musik-Lautstärke. */
 const MUSIC_VOL_CAP = 0.6;
+/** Während Krit-Sprache/TTS: Musik auf diesen Anteil der Basislautstärke ducken (0.65 ≈ leise Hintergrundmusik). */
+const SPEECH_DUCK_FACTOR = 0.65;
 const VOLUME_SELECT_STEPS = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1];
 
 let speechHoldCount = 0;
 let fadeTimer = null;
 let targetEffectiveVol = 0;
 let currentSrcKey = '';
-
-// #region agent log
-function volDebug(hypothesisId, location, message, data = {}) {
-  const payload = { sessionId: '12695f', hypothesisId, location, message, data, timestamp: Date.now() };
-  fetch('http://127.0.0.1:7427/ingest/d58061c1-b39b-4472-a4f9-d5ac8d39fcbb', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'X-Debug-Session-Id': '12695f' },
-    body: JSON.stringify(payload)
-  }).catch(() => {});
-  try {
-    const host = window.location.hostname;
-    if (host && host !== '127.0.0.1' && host !== 'localhost') {
-      fetch(`http://${host}:7427/ingest/d58061c1-b39b-4472-a4f9-d5ac8d39fcbb`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-Debug-Session-Id': '12695f' },
-        body: JSON.stringify(payload)
-      }).catch(() => {});
-    }
-  } catch (_) { /* ignore */ }
-  try {
-    const buf = JSON.parse(localStorage.getItem('mers_vol_debug') || '[]');
-    buf.push(payload);
-    localStorage.setItem('mers_vol_debug', JSON.stringify(buf.slice(-40)));
-  } catch (_) { /* ignore */ }
-  const line = document.getElementById('volDebugLine');
-  if (line) {
-    const d = data || {};
-    line.textContent = `${message} | eff=${d.effectiveVol ?? d.next ?? '–'} gain=${!!kampfGain}`;
-  }
-}
-// #endregion
 
 let audioCtx = null;
 let kampfGain = null;
@@ -68,10 +39,8 @@ function initKampfGainChain() {
     src.connect(kampfGain);
     kampfGain.connect(audioCtx.destination);
     kampfSourceConnected = true;
-    volDebug('H7', 'combatMusic.js:initKampfGainChain', 'gain chain ready', { runId: 'v46' });
     return true;
   } catch (err) {
-    volDebug('H7', 'combatMusic.js:initKampfGainChain', 'gain chain failed', { err: String(err), runId: 'v46' });
     return false;
   }
 }
@@ -143,7 +112,11 @@ export function scaleMusicVolume(sliderNorm = readUserMusicVol()) {
 }
 
 function computeTargetVolume() {
-  return scaleMusicVolume(readUserMusicVol());
+  const base = scaleMusicVolume(readUserMusicVol());
+  if (speechHoldCount > 0) {
+    return base * SPEECH_DUCK_FACTOR;
+  }
+  return base;
 }
 
 function nearestVolumeStep(value) {
@@ -168,33 +141,20 @@ function buildVolumeSelect(selectEl) {
   ).join('');
 }
 
-function pauseAllMusicForSpeech() {
-  const kampf = getKampfAudio();
-  if (kampf && !kampf.paused) {
-    kampf.dataset.speechPaused = '1';
-    kampf.pause();
-  }
-  const bg = getBgAudio();
-  if (bg && !bg.paused) {
-    bg.dataset.speechPaused = '1';
-    bg.pause();
-  }
+function applySpeechDucking() {
+  applyVolumeRamp({ immediate: true });
 }
 
-function resumeMusicAfterSpeech() {
-  const kampf = getKampfAudio();
-  if (kampf?.dataset.speechPaused === '1') {
-    delete kampf.dataset.speechPaused;
-    if (state.kampfModus) syncCombatMusic();
-  }
-  const bg = getBgAudio();
-  if (bg?.dataset.speechPaused === '1') {
-    delete bg.dataset.speechPaused;
-    if (state.isBgMusicPlaying && !state.kampfModus && bg.src) {
-      bg.volume = scaleMusicVolume();
-      bg.play().catch(() => {});
-    }
-  }
+/** Während Krit-Sprache/TTS: Musik leiser (nicht pausieren). */
+export function combatMusicNotifySpeechOrSfxStart() {
+  speechHoldCount++;
+  applySpeechDucking();
+}
+
+/** Nach Krit-Sprache/TTS: Musik-Lautstärke wiederherstellen. */
+export function combatMusicNotifySpeechOrSfxEnd() {
+  speechHoldCount = Math.max(0, speechHoldCount - 1);
+  applySpeechDucking();
 }
 
 function applyVolumeRamp({ immediate = false } = {}) {
@@ -238,25 +198,10 @@ export function applyMusicVolumeFromSlider() {
   localStorage.setItem(LS_MUSIK_VOL, String(norm));
   const kampf = getKampfAudio();
   const bg = getBgAudio();
-  const kampfVolBefore = kampf?.volume;
   if (kampf && state.kampfModus) setKampfOutputVolume(vol);
   if (bg?.src) bg.volume = vol;
   applyVolumeRamp({ immediate: true });
   updateVolumeLabels();
-  // #region agent log
-  volDebug('H3', 'combatMusic.js:applyMusicVolumeFromSlider', 'volume applied', {
-    norm,
-    effectiveVol: vol,
-    kampfModus: state.kampfModus,
-    kampfHasSrc: !!kampf?.src,
-    kampfPaused: kampf?.paused,
-    kampfVolBefore,
-    gainVol: kampfGain?.gain?.value,
-    bgHasSrc: !!bg?.src,
-    bgVol: bg?.volume,
-    runId: 'v46'
-  });
-  // #endregion
 }
 
 function updateVolumeLabels() {
@@ -277,14 +222,6 @@ function stepVolume(rangeId, delta, applyFn) {
   const cur = parseFloat(range.value || '0');
   const next = Math.max(0, Math.min(1, Math.round((cur + delta) * 100) / 100));
   range.value = String(next);
-  // #region agent log
-  volDebug('H6', 'combatMusic.js:stepVolume', 'stepper click', {
-    rangeId,
-    cur,
-    next,
-    runId: 'post-fix-v2'
-  });
-  // #endregion
   applyFn();
   updateVolumeLabels();
 }
@@ -311,13 +248,6 @@ function initVolumeControlDelegation() {
   const onAdjust = (e) => {
     const t = /** @type {HTMLElement} */ (e.target);
     if (t.id === 'bgVol') {
-      // #region agent log
-      volDebug('H1', 'combatMusic.js:delegatedInput', 'bgVol event', {
-        type: e.type,
-        value: t.value,
-        runId: 'post-fix-v2'
-      });
-      // #endregion
       applyMusicVolumeFromSlider();
       updateVolumeLabels();
     } else if (t.id === 'ttsVol') {
@@ -345,13 +275,6 @@ function bindVolumeSlider(id, handler) {
   if (!el || el.dataset.volumeBound === '1') return;
   el.dataset.volumeBound = '1';
   const run = () => {
-    // #region agent log
-    volDebug('H1', 'combatMusic.js:rangeEvent', 'range input', {
-      id,
-      value: el.value,
-      runId: 'post-fix-v2'
-    });
-    // #endregion
     handler();
     updateVolumeLabels();
   };
@@ -386,23 +309,7 @@ function initVolumeSelects() {
     sel.dataset.volumeBound = '1';
     buildVolumeSelect(sel);
     syncVolumeSelectFromRange(selectId, rangeId);
-    // #region agent log
-    volDebug('H5', 'combatMusic.js:initVolumeSelects', 'select bound', {
-      selectId,
-      optionCount: sel.options.length,
-      initialValue: sel.value,
-      mobile: usesMobileVolumeSelect()
-    });
-    // #endregion
     sel.addEventListener('change', () => {
-      // #region agent log
-      volDebug('H1', 'combatMusic.js:selectChange', 'select change fired', {
-        selectId,
-        selValue: sel.value,
-        rangeBefore: range.value,
-        runId: 'post-fix'
-      });
-      // #endregion
       range.value = sel.value;
       syncVolumeSelectFromRange(selectId, rangeId);
       onChange();
@@ -417,18 +324,6 @@ function initVolumeSelects() {
     range.addEventListener('input', syncSelect);
     range.addEventListener('change', syncSelect);
   }
-}
-
-/** Während Krit-Sprache/TTS: Musik kurz pausieren. */
-export function combatMusicNotifySpeechOrSfxStart() {
-  speechHoldCount++;
-  if (speechHoldCount === 1) pauseAllMusicForSpeech();
-}
-
-/** Nach Krit-Sprache/TTS: Musik fortsetzen. */
-export function combatMusicNotifySpeechOrSfxEnd() {
-  speechHoldCount = Math.max(0, speechHoldCount - 1);
-  if (speechHoldCount === 0) resumeMusicAfterSpeech();
 }
 
 function tierFromZiel(ziel) {
@@ -555,14 +450,6 @@ export function syncCombatMusic() {
     el.play().catch(() => {});
   } else {
     applyVolumeRamp();
-    // #region agent log
-    volDebug('H4', 'combatMusic.js:syncCombatMusic', 'same track volume ramp', {
-      key,
-      targetVol: targetEffectiveVol,
-      kampfVolume: el.volume,
-      kampfPaused: el.paused
-    });
-    // #endregion
     if (el.paused) el.play().catch(() => {});
   }
 }
