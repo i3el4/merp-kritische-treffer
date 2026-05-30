@@ -153,6 +153,10 @@ function initUserProfile() {
     showCharakterwahl();
   });
 
+  dropdown?.querySelector('.user-profile-audio-section')?.addEventListener('pointerdown', (e) => {
+    e.stopPropagation();
+  });
+
   document.addEventListener('click', (e) => {
     if (!e.target.closest('.user-profile-wrap')) hideUserProfileDropdown();
   });

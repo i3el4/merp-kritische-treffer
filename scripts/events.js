@@ -6,7 +6,6 @@ import { $ } from './dom.js';
 import { URLS, PATZER_CONTEXT_MODS, resolveCritIcon, formatCritTableLabel } from './constants.js';
 import { calculateAttack, lookupCritEntry, mapCritName, adjustWeaponFontSizes, resolveEffectiveCritRoll } from './logic.js';
 import { playCritAudio, tryStartBgAudio } from './audio.js';
-import { applyMusicVolumeFromSlider } from './combatMusic.js';
 import { chip } from './dom.js';
 import { applySchaden, applySchadenCharakter, getGegnerById, getSpielerById, getNpcById, getAktuelleRunde, getCharakterById } from './campaigns.js';
 import { refreshKampftracker } from './kampftracker.js';
@@ -260,10 +259,7 @@ export function setupEventListeners() {
         }
     });
 
-    // Event-Listener für Audio
-    $('#bgVol')?.addEventListener('input', handleBgVolumeChange);
-
-    let weaponLabelFitTimer;
+    // Event-Listener für Waffen-Labels (Lautstärke: initCombatMusic)
     const scheduleWeaponLabelFit = () => {
         if ($('#simulatorPanel')?.classList.contains('hidden')) return;
         clearTimeout(weaponLabelFitTimer);

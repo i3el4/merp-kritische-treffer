@@ -7,6 +7,7 @@ import { getGegnerById, getCharakterById } from './campaigns.js';
 
 const LS_KAMPF_MODUS = 'mers_kampf_modus';
 const LS_MUSIK_VOL = 'mers_musik_vol';
+const LS_TTS_VOL = 'mers_tts_vol';
 const LS_SCHATTEN_KAT = 'mers_kampf_schatten_kategorie';
 const LS_ANGRIFFSMODUS = 'mers_kampf_angriffsmodus';
 
@@ -81,6 +82,25 @@ function applyVolumeRamp({ immediate = false } = {}) {
 /** Lautstärke-Slider: Kampf- und Tabellen-Musik inkl. Ducking. */
 export function applyMusicVolumeFromSlider() {
   applyVolumeRamp({ immediate: duckDepth > 0 });
+}
+
+function applyTtsVolumeFromSlider() {
+  const el = /** @type {HTMLInputElement | null} */ ($('#ttsVol'));
+  if (!el) return;
+  localStorage.setItem(LS_TTS_VOL, el.value);
+  const sfx = /** @type {HTMLAudioElement | null} */ ($('#sfxAudio'));
+  if (sfx && !sfx.paused && sfx.src) {
+    sfx.volume = parseFloat(el.value || '1');
+  }
+}
+
+function bindVolumeSlider(id, handler) {
+  const el = $(id);
+  if (!el || el.dataset.volumeBound === '1') return;
+  el.dataset.volumeBound = '1';
+  const run = () => handler();
+  el.addEventListener('input', run);
+  el.addEventListener('change', run);
 }
 
 /** Öffentlich: TTS oder Krit-SFX startet — Musik ducken. */
@@ -239,6 +259,11 @@ export function loadKampfModusFromStorage() {
     const bg = /** @type {HTMLAudioElement | null} */ (document.getElementById('bgAudio'));
     if (bg) bg.volume = vol;
   }
+  const ttsVol = parseFloat(localStorage.getItem(LS_TTS_VOL) || '');
+  const ttsEl = /** @type {HTMLInputElement | null} */ ($('#ttsVol'));
+  if (ttsEl && !Number.isNaN(ttsVol) && ttsVol >= 0 && ttsVol <= 1) {
+    ttsEl.value = String(ttsVol);
+  }
   const savedKat = localStorage.getItem(LS_SCHATTEN_KAT) || '';
   state.schattenMusikKategorie = savedKat || 'klein';
   loadAngreiferModusFromStorage();
@@ -262,11 +287,12 @@ export function initCombatMusic() {
     syncCombatMusic();
   });
 
-  $('#bgVol')?.addEventListener('input', () => {
+  bindVolumeSlider('#bgVol', () => {
     const el = /** @type {HTMLInputElement | null} */ ($('#bgVol'));
     if (el) localStorage.setItem(LS_MUSIK_VOL, el.value);
     applyMusicVolumeFromSlider();
   });
+  bindVolumeSlider('#ttsVol', applyTtsVolumeFromSlider);
 
   $('#kampfMusikProfilOverride')?.addEventListener('change', () => {
     syncCombatMusic();
