@@ -14,8 +14,9 @@ const LS_ANGRIFFSMODUS = 'mers_kampf_angriffsmodus';
 const DUCK_MS = 280;
 /** Slider 100 % = max. 60 % effektive Musik-Lautstärke. */
 const MUSIC_VOL_CAP = 0.6;
+const VOLUME_SELECT_STEPS = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1];
 
-let duckDepth = 0;
+let speechHoldCount = 0;
 let fadeTimer = null;
 let targetEffectiveVol = 0;
 let currentSrcKey = '';
@@ -50,25 +51,69 @@ export function scaleMusicVolume(sliderNorm = readUserMusicVol()) {
   return Math.max(0, Math.min(MUSIC_VOL_CAP, sliderNorm * MUSIC_VOL_CAP));
 }
 
-/** Je höher der Slider, desto stärker ducken (relativ zur Basislautstärke). */
-function duckFactorForSlider(sliderNorm) {
-  const load = Math.max(0, Math.min(1, sliderNorm));
-  return 0.14 - load * 0.10;
+function computeTargetVolume() {
+  return scaleMusicVolume(readUserMusicVol());
 }
 
-function computeTargetVolume() {
-  const slider = readUserMusicVol();
-  const base = scaleMusicVolume(slider);
-  if (duckDepth > 0) {
-    return base * duckFactorForSlider(slider);
+function nearestVolumeStep(value) {
+  const v = Math.max(0, Math.min(1, Number(value) || 0));
+  return VOLUME_SELECT_STEPS.reduce(
+    (best, step) => (Math.abs(step - v) < Math.abs(best - v) ? step : best),
+    VOLUME_SELECT_STEPS[0]
+  );
+}
+
+function syncVolumeSelectFromRange(selectId, rangeId) {
+  const sel = /** @type {HTMLSelectElement | null} */ ($(selectId));
+  const range = /** @type {HTMLInputElement | null} */ ($(rangeId));
+  if (!sel || !range) return;
+  sel.value = String(nearestVolumeStep(range.value));
+}
+
+function buildVolumeSelect(selectEl) {
+  if (!selectEl) return;
+  selectEl.innerHTML = VOLUME_SELECT_STEPS.map((v) =>
+    `<option value="${v}">${Math.round(v * 100)} %</option>`
+  ).join('');
+}
+
+function pauseAllMusicForSpeech() {
+  const kampf = getKampfAudio();
+  if (kampf && !kampf.paused) {
+    kampf.dataset.speechPaused = '1';
+    kampf.pause();
   }
-  return base;
+  const bg = getBgAudio();
+  if (bg && !bg.paused) {
+    bg.dataset.speechPaused = '1';
+    bg.pause();
+  }
+}
+
+function resumeMusicAfterSpeech() {
+  const kampf = getKampfAudio();
+  if (kampf?.dataset.speechPaused === '1') {
+    delete kampf.dataset.speechPaused;
+    if (state.kampfModus) syncCombatMusic();
+  }
+  const bg = getBgAudio();
+  if (bg?.dataset.speechPaused === '1') {
+    delete bg.dataset.speechPaused;
+    if (state.isBgMusicPlaying && !state.kampfModus && bg.src) {
+      bg.volume = scaleMusicVolume();
+      bg.play().catch(() => {});
+    }
+  }
 }
 
 function applyVolumeRamp({ immediate = false } = {}) {
   const targets = getMusicVolumeTargets();
-  if (!targets.length) return;
   targetEffectiveVol = computeTargetVolume();
+  const kampf = getKampfAudio();
+  if (kampf && state.kampfModus && kampf.src && !targets.includes(kampf)) {
+    targets.push(kampf);
+  }
+  if (!targets.length) return;
   if (fadeTimer) clearInterval(fadeTimer);
   fadeTimer = null;
   if (immediate) {
@@ -90,9 +135,9 @@ function applyVolumeRamp({ immediate = false } = {}) {
   }, 16);
 }
 
-/** Lautstärke-Slider: Kampf- und Tabellen-Musik inkl. Ducking. */
+/** Lautstärke-Slider: Kampf- und Tabellen-Musik. */
 export function applyMusicVolumeFromSlider() {
-  applyVolumeRamp({ immediate: duckDepth > 0 });
+  applyVolumeRamp({ immediate: true });
 }
 
 function applyTtsVolumeFromSlider() {
@@ -114,16 +159,51 @@ function bindVolumeSlider(id, handler) {
   el.addEventListener('change', run);
 }
 
-/** Öffentlich: TTS oder Krit-SFX startet — Musik ducken. */
-export function combatMusicNotifySpeechOrSfxStart() {
-  duckDepth++;
-  applyVolumeRamp({ immediate: true });
+function initVolumeSelects() {
+  const pairs = [
+    {
+      selectId: '#bgVolSelect',
+      rangeId: '#bgVol',
+      onChange: () => {
+        const el = /** @type {HTMLInputElement | null} */ ($('#bgVol'));
+        if (el) localStorage.setItem(LS_MUSIK_VOL, el.value);
+        applyMusicVolumeFromSlider();
+      }
+    },
+    {
+      selectId: '#ttsVolSelect',
+      rangeId: '#ttsVol',
+      onChange: applyTtsVolumeFromSlider
+    }
+  ];
+
+  for (const { selectId, rangeId, onChange } of pairs) {
+    const sel = /** @type {HTMLSelectElement | null} */ ($(selectId));
+    const range = /** @type {HTMLInputElement | null} */ ($(rangeId));
+    if (!sel || !range || sel.dataset.volumeBound === '1') continue;
+    sel.dataset.volumeBound = '1';
+    buildVolumeSelect(sel);
+    syncVolumeSelectFromRange(selectId, rangeId);
+    sel.addEventListener('change', () => {
+      range.value = sel.value;
+      onChange();
+    });
+    const syncSelect = () => syncVolumeSelectFromRange(selectId, rangeId);
+    range.addEventListener('input', syncSelect);
+    range.addEventListener('change', syncSelect);
+  }
 }
 
-/** Öffentlich: TTS oder Krit-SFX endet. */
+/** Während Krit-Sprache/TTS: Musik kurz pausieren. */
+export function combatMusicNotifySpeechOrSfxStart() {
+  speechHoldCount++;
+  if (speechHoldCount === 1) pauseAllMusicForSpeech();
+}
+
+/** Nach Krit-Sprache/TTS: Musik fortsetzen. */
 export function combatMusicNotifySpeechOrSfxEnd() {
-  duckDepth = Math.max(0, duckDepth - 1);
-  applyVolumeRamp({ immediate: duckDepth === 0 });
+  speechHoldCount = Math.max(0, speechHoldCount - 1);
+  if (speechHoldCount === 0) resumeMusicAfterSpeech();
 }
 
 function tierFromZiel(ziel) {
@@ -301,9 +381,14 @@ export function initCombatMusic() {
   bindVolumeSlider('#bgVol', () => {
     const el = /** @type {HTMLInputElement | null} */ ($('#bgVol'));
     if (el) localStorage.setItem(LS_MUSIK_VOL, el.value);
+    syncVolumeSelectFromRange('#bgVolSelect', '#bgVol');
     applyMusicVolumeFromSlider();
   });
-  bindVolumeSlider('#ttsVol', applyTtsVolumeFromSlider);
+  bindVolumeSlider('#ttsVol', () => {
+    syncVolumeSelectFromRange('#ttsVolSelect', '#ttsVol');
+    applyTtsVolumeFromSlider();
+  });
+  initVolumeSelects();
 
   $('#kampfMusikProfilOverride')?.addEventListener('change', () => {
     syncCombatMusic();

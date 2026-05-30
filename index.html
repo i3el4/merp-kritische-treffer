@@ -305,12 +305,14 @@
               <div class="audio-controls">
                 <button class="btn" id="bgToggleBtn">Musik ▶︎</button>
                 <label class="sr" for="bgVol">Musik-Lautstärke</label>
-                <input id="bgVol" type="range" min="0" max="1" step="0.01" value="0.20">
+                <input id="bgVol" type="range" class="volume-range" min="0" max="1" step="0.01" value="0.20">
+                <select id="bgVolSelect" class="volume-select" aria-label="Musik-Lautstärke"></select>
                 <span class="badge">Musik</span>
               </div>
               <div class="audio-controls">
                 <label for="ttsVol">Lautstärke</label>
-                <input id="ttsVol" type="range" min="0" max="1" step="0.01" value="1.00">
+                <input id="ttsVol" type="range" class="volume-range" min="0" max="1" step="0.01" value="1.00">
+                <select id="ttsVolSelect" class="volume-select" aria-label="Sprach-Lautstärke"></select>
                 <span class="badge">TTS-Fallback</span>
               </div>
               <div class="audio-controls spielleiter-only licht-only">
