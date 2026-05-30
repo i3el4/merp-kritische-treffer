@@ -21,6 +21,32 @@ let fadeTimer = null;
 let targetEffectiveVol = 0;
 let currentSrcKey = '';
 
+// #region agent log
+function volDebug(hypothesisId, location, message, data = {}) {
+  const payload = { sessionId: '12695f', hypothesisId, location, message, data, timestamp: Date.now() };
+  fetch('http://127.0.0.1:7427/ingest/d58061c1-b39b-4472-a4f9-d5ac8d39fcbb', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-Debug-Session-Id': '12695f' },
+    body: JSON.stringify(payload)
+  }).catch(() => {});
+  try {
+    const host = window.location.hostname;
+    if (host && host !== '127.0.0.1' && host !== 'localhost') {
+      fetch(`http://${host}:7427/ingest/d58061c1-b39b-4472-a4f9-d5ac8d39fcbb`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Debug-Session-Id': '12695f' },
+        body: JSON.stringify(payload)
+      }).catch(() => {});
+    }
+  } catch (_) { /* ignore */ }
+  try {
+    const buf = JSON.parse(localStorage.getItem('mers_vol_debug') || '[]');
+    buf.push(payload);
+    localStorage.setItem('mers_vol_debug', JSON.stringify(buf.slice(-40)));
+  } catch (_) { /* ignore */ }
+}
+// #endregion
+
 function getKampfAudio() {
   return /** @type {HTMLAudioElement | null} */ ($('#kampfMusikAudio'));
 }
@@ -44,15 +70,24 @@ function usesMobileVolumeSelect() {
 }
 
 function readVolumeNorm(rangeId, selectId, fallback) {
-  if (usesMobileVolumeSelect()) {
+  const mobile = usesMobileVolumeSelect();
+  if (mobile) {
     const sel = /** @type {HTMLSelectElement | null} */ ($(selectId));
     if (sel?.value !== '') {
       const v = parseFloat(sel.value);
-      if (!Number.isNaN(v)) return Math.max(0, Math.min(1, v));
+      if (!Number.isNaN(v)) {
+        // #region agent log
+        volDebug('H2', 'combatMusic.js:readVolumeNorm', 'read from mobile select', { selectId, selValue: sel.value, parsed: v, mobile });
+        // #endregion
+        return Math.max(0, Math.min(1, v));
+      }
     }
   }
   const range = /** @type {HTMLInputElement | null} */ ($(rangeId));
   const v = parseFloat(range?.value ?? String(fallback));
+  // #region agent log
+  volDebug('H2', 'combatMusic.js:readVolumeNorm', 'read from range fallback', { rangeId, rangeValue: range?.value, parsed: v, mobile });
+  // #endregion
   if (Number.isNaN(v)) return fallback;
   return Math.max(0, Math.min(1, v));
 }
@@ -163,11 +198,26 @@ function applyVolumeRamp({ immediate = false } = {}) {
 /** Lautstärke-Slider: Kampf- und Tabellen-Musik. */
 export function applyMusicVolumeFromSlider() {
   const vol = computeTargetVolume();
-  localStorage.setItem(LS_MUSIK_VOL, String(readMusicVolumeNorm()));
+  const norm = readMusicVolumeNorm();
+  localStorage.setItem(LS_MUSIK_VOL, String(norm));
   const kampf = getKampfAudio();
-  if (kampf?.src) kampf.volume = vol;
   const bg = getBgAudio();
+  const kampfVolBefore = kampf?.volume;
+  if (kampf?.src) kampf.volume = vol;
   if (bg?.src) bg.volume = vol;
+  // #region agent log
+  volDebug('H3', 'combatMusic.js:applyMusicVolumeFromSlider', 'volume applied', {
+    norm,
+    effectiveVol: vol,
+    kampfModus: state.kampfModus,
+    kampfHasSrc: !!kampf?.src,
+    kampfPaused: kampf?.paused,
+    kampfVolBefore,
+    kampfVolAfter: kampf?.volume,
+    bgHasSrc: !!bg?.src,
+    bgVol: bg?.volume
+  });
+  // #endregion
 }
 
 function applyTtsVolumeFromSlider() {
@@ -216,7 +266,22 @@ function initVolumeSelects() {
     sel.dataset.volumeBound = '1';
     buildVolumeSelect(sel);
     syncVolumeSelectFromRange(selectId, rangeId);
+    // #region agent log
+    volDebug('H5', 'combatMusic.js:initVolumeSelects', 'select bound', {
+      selectId,
+      optionCount: sel.options.length,
+      initialValue: sel.value,
+      mobile: usesMobileVolumeSelect()
+    });
+    // #endregion
     sel.addEventListener('change', () => {
+      // #region agent log
+      volDebug('H1', 'combatMusic.js:selectChange', 'select change fired', {
+        selectId,
+        selValue: sel.value,
+        rangeBefore: range.value
+      });
+      // #endregion
       range.value = sel.value;
       syncVolumeSelectFromRange(selectId, rangeId);
       onChange();
@@ -360,6 +425,14 @@ export function syncCombatMusic() {
     el.play().catch(() => {});
   } else {
     applyVolumeRamp();
+    // #region agent log
+    volDebug('H4', 'combatMusic.js:syncCombatMusic', 'same track volume ramp', {
+      key,
+      targetVol: targetEffectiveVol,
+      kampfVolume: el.volume,
+      kampfPaused: el.paused
+    });
+    // #endregion
     if (el.paused) el.play().catch(() => {});
   }
 }
