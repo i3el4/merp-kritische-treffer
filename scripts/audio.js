@@ -5,7 +5,7 @@ import { URLS } from './constants.js';
 import { state } from './state.js';
 import { $ } from './dom.js';
 import { buildCritAudioRelativePath } from './audioNaming.mjs';
-import { combatMusicNotifySpeechOrSfxStart, combatMusicNotifySpeechOrSfxEnd, scaleMusicVolume } from './combatMusic.js';
+import { combatMusicNotifySpeechOrSfxStart, combatMusicNotifySpeechOrSfxEnd, scaleMusicVolume, readMusicVolumeNorm, readTtsVolumeNorm } from './combatMusic.js';
 
 /** Vorlese-Tempo (Web Speech API, 0.1–10; ~1 = normal) */
 const TTS_UTTER_RATE = 1.22;
@@ -31,7 +31,7 @@ export function tryStartBgAudio(tableKey) {
     if (state.currentBgKey === tableKey && !bgAudio.paused) return;
     state.currentBgKey = tableKey;
     bgAudio.src = URLS.AUDIO_BASE_PATH + `musik/${file}`;
-    bgAudio.volume = scaleMusicVolume(parseFloat($('#bgVol').value || '0.2'));
+    bgAudio.volume = scaleMusicVolume(readMusicVolumeNorm());
     bgAudio.play().catch(() => {});
 }
 
@@ -50,7 +50,7 @@ export async function playCritAudio(typ, kat, rangeKey, fallbackText) {
     }
 
     sfxAudio.src = URLS.AUDIO_BASE_PATH + relativePath;
-    sfxAudio.volume = parseFloat($('#ttsVol').value);
+    sfxAudio.volume = readTtsVolumeNorm();
     sfxAudio.playbackRate = CRIT_MP3_PLAYBACK_RATE;
 
     combatMusicNotifySpeechOrSfxStart();
@@ -75,7 +75,7 @@ export async function playCritAudio(typ, kat, rangeKey, fallbackText) {
  */
 function speak(text) {
     if (!('speechSynthesis' in window)) return;
-    const volume = parseFloat($('#ttsVol')?.value ?? '1.0');
+    const volume = readTtsVolumeNorm();
     if (volume === 0) return;
     window.speechSynthesis.cancel();
     combatMusicNotifySpeechOrSfxStart();

@@ -39,11 +39,36 @@ function getMusicVolumeTargets() {
   return out;
 }
 
-function readUserMusicVol() {
-  const el = /** @type {HTMLInputElement | null} */ ($('#bgVol'));
-  const v = parseFloat(el?.value ?? '0.35');
-  if (Number.isNaN(v)) return 0.35;
+function usesMobileVolumeSelect() {
+  return window.matchMedia('(max-width: 768px)').matches;
+}
+
+function readVolumeNorm(rangeId, selectId, fallback) {
+  if (usesMobileVolumeSelect()) {
+    const sel = /** @type {HTMLSelectElement | null} */ ($(selectId));
+    if (sel?.value !== '') {
+      const v = parseFloat(sel.value);
+      if (!Number.isNaN(v)) return Math.max(0, Math.min(1, v));
+    }
+  }
+  const range = /** @type {HTMLInputElement | null} */ ($(rangeId));
+  const v = parseFloat(range?.value ?? String(fallback));
+  if (Number.isNaN(v)) return fallback;
   return Math.max(0, Math.min(1, v));
+}
+
+/** Musik-Lautstärke 0–1 (Slider oder Mobile-Select). */
+export function readMusicVolumeNorm() {
+  return readVolumeNorm('#bgVol', '#bgVolSelect', 0.35);
+}
+
+/** TTS-Lautstärke 0–1 (Slider oder Mobile-Select). */
+export function readTtsVolumeNorm() {
+  return readVolumeNorm('#ttsVol', '#ttsVolSelect', 1);
+}
+
+function readUserMusicVol() {
+  return readMusicVolumeNorm();
 }
 
 /** Tatsächliche Musik-Lautstärke aus Slider (0 … MUSIC_VOL_CAP). */
@@ -137,17 +162,22 @@ function applyVolumeRamp({ immediate = false } = {}) {
 
 /** Lautstärke-Slider: Kampf- und Tabellen-Musik. */
 export function applyMusicVolumeFromSlider() {
-  applyVolumeRamp({ immediate: true });
+  const vol = computeTargetVolume();
+  localStorage.setItem(LS_MUSIK_VOL, String(readMusicVolumeNorm()));
+  const kampf = getKampfAudio();
+  if (kampf?.src) kampf.volume = vol;
+  const bg = getBgAudio();
+  if (bg?.src) bg.volume = vol;
 }
 
 function applyTtsVolumeFromSlider() {
-  const el = /** @type {HTMLInputElement | null} */ ($('#ttsVol'));
-  if (!el) return;
-  localStorage.setItem(LS_TTS_VOL, el.value);
+  const vol = readTtsVolumeNorm();
+  localStorage.setItem(LS_TTS_VOL, String(vol));
+  const range = /** @type {HTMLInputElement | null} */ ($('#ttsVol'));
+  if (range) range.value = String(vol);
+  syncVolumeSelectFromRange('#ttsVolSelect', '#ttsVol');
   const sfx = /** @type {HTMLAudioElement | null} */ ($('#sfxAudio'));
-  if (sfx && !sfx.paused && sfx.src) {
-    sfx.volume = parseFloat(el.value || '1');
-  }
+  if (sfx?.src) sfx.volume = vol;
 }
 
 function bindVolumeSlider(id, handler) {
@@ -165,8 +195,10 @@ function initVolumeSelects() {
       selectId: '#bgVolSelect',
       rangeId: '#bgVol',
       onChange: () => {
-        const el = /** @type {HTMLInputElement | null} */ ($('#bgVol'));
-        if (el) localStorage.setItem(LS_MUSIK_VOL, el.value);
+        const vol = readMusicVolumeNorm();
+        const range = /** @type {HTMLInputElement | null} */ ($('#bgVol'));
+        if (range) range.value = String(vol);
+        localStorage.setItem(LS_MUSIK_VOL, String(vol));
         applyMusicVolumeFromSlider();
       }
     },
@@ -186,6 +218,7 @@ function initVolumeSelects() {
     syncVolumeSelectFromRange(selectId, rangeId);
     sel.addEventListener('change', () => {
       range.value = sel.value;
+      syncVolumeSelectFromRange(selectId, rangeId);
       onChange();
     });
     const syncSelect = () => syncVolumeSelectFromRange(selectId, rangeId);
@@ -379,8 +412,6 @@ export function initCombatMusic() {
   });
 
   bindVolumeSlider('#bgVol', () => {
-    const el = /** @type {HTMLInputElement | null} */ ($('#bgVol'));
-    if (el) localStorage.setItem(LS_MUSIK_VOL, el.value);
     syncVolumeSelectFromRange('#bgVolSelect', '#bgVol');
     applyMusicVolumeFromSlider();
   });
