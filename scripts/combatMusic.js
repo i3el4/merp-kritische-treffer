@@ -69,24 +69,16 @@ function usesMobileVolumeSelect() {
   return window.matchMedia('(max-width: 768px)').matches;
 }
 
-function readVolumeNorm(rangeId, selectId, fallback) {
-  const mobile = usesMobileVolumeSelect();
-  if (mobile) {
-    const sel = /** @type {HTMLSelectElement | null} */ ($(selectId));
-    if (sel?.value !== '') {
-      const v = parseFloat(sel.value);
-      if (!Number.isNaN(v)) {
-        // #region agent log
-        volDebug('H2', 'combatMusic.js:readVolumeNorm', 'read from mobile select', { selectId, selValue: sel.value, parsed: v, mobile });
-        // #endregion
-        return Math.max(0, Math.min(1, v));
-      }
-    }
-  }
+function readVolumeNorm(rangeId, _selectId, fallback) {
   const range = /** @type {HTMLInputElement | null} */ ($(rangeId));
   const v = parseFloat(range?.value ?? String(fallback));
   // #region agent log
-  volDebug('H2', 'combatMusic.js:readVolumeNorm', 'read from range fallback', { rangeId, rangeValue: range?.value, parsed: v, mobile });
+  volDebug('H2', 'combatMusic.js:readVolumeNorm', 'read from range', {
+    rangeId,
+    rangeValue: range?.value,
+    parsed: Number.isNaN(v) ? fallback : v,
+    runId: 'post-fix'
+  });
   // #endregion
   if (Number.isNaN(v)) return fallback;
   return Math.max(0, Math.min(1, v));
@@ -203,8 +195,9 @@ export function applyMusicVolumeFromSlider() {
   const kampf = getKampfAudio();
   const bg = getBgAudio();
   const kampfVolBefore = kampf?.volume;
-  if (kampf?.src) kampf.volume = vol;
+  if (kampf && state.kampfModus) kampf.volume = vol;
   if (bg?.src) bg.volume = vol;
+  applyVolumeRamp({ immediate: true });
   // #region agent log
   volDebug('H3', 'combatMusic.js:applyMusicVolumeFromSlider', 'volume applied', {
     norm,
@@ -215,7 +208,8 @@ export function applyMusicVolumeFromSlider() {
     kampfVolBefore,
     kampfVolAfter: kampf?.volume,
     bgHasSrc: !!bg?.src,
-    bgVol: bg?.volume
+    bgVol: bg?.volume,
+    runId: 'post-fix'
   });
   // #endregion
 }
@@ -234,9 +228,20 @@ function bindVolumeSlider(id, handler) {
   const el = $(id);
   if (!el || el.dataset.volumeBound === '1') return;
   el.dataset.volumeBound = '1';
-  const run = () => handler();
+  const run = () => {
+    // #region agent log
+    volDebug('H1', 'combatMusic.js:rangeEvent', 'range input', {
+      id,
+      value: el.value,
+      runId: 'post-fix'
+    });
+    // #endregion
+    handler();
+  };
   el.addEventListener('input', run);
   el.addEventListener('change', run);
+  el.addEventListener('touchend', run, { passive: true });
+  el.addEventListener('pointerup', run);
 }
 
 function initVolumeSelects() {
@@ -279,12 +284,19 @@ function initVolumeSelects() {
       volDebug('H1', 'combatMusic.js:selectChange', 'select change fired', {
         selectId,
         selValue: sel.value,
-        rangeBefore: range.value
+        rangeBefore: range.value,
+        runId: 'post-fix'
       });
       // #endregion
       range.value = sel.value;
       syncVolumeSelectFromRange(selectId, rangeId);
       onChange();
+    });
+    sel.addEventListener('blur', () => {
+      if (range.value !== sel.value) {
+        range.value = sel.value;
+        onChange();
+      }
     });
     const syncSelect = () => syncVolumeSelectFromRange(selectId, rangeId);
     range.addEventListener('input', syncSelect);

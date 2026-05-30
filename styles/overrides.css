@@ -1255,17 +1255,7 @@ header > div:first-child {
 }
 
 .user-profile-audio-section .volume-select {
-  display: none;
-  flex: 1;
-  width: 100%;
-  min-width: 0;
-  font-family: 'MonkeyIsland', Georgia, serif;
-  font-size: 14px;
-  padding: 8px 10px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  background: var(--chip);
-  color: var(--text);
+  display: none !important;
 }
 
 @media (max-width: 768px) {
@@ -1275,11 +1265,10 @@ header > div:first-child {
   }
 
   .user-profile-audio-section .volume-range {
-    display: none !important;
-  }
-
-  .user-profile-audio-section .volume-select {
     display: block !important;
+    max-width: none;
+    width: 100%;
+    min-height: 36px;
   }
 }
 

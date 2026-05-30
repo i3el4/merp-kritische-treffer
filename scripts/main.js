@@ -153,8 +153,9 @@ function initUserProfile() {
     showCharakterwahl();
   });
 
-  dropdown?.addEventListener('click', (e) => e.stopPropagation());
-  dropdown?.addEventListener('touchstart', (e) => e.stopPropagation(), { passive: true });
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.user-profile-wrap')) hideUserProfileDropdown();
+  });
 }
 
 async function initApp() {
