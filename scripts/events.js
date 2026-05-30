@@ -668,11 +668,3 @@ function handleBgToggle() {
         }
     }
 }
-
-/**
- * Behandelt das Ändern der Hintergrundmusik-Lautstärke.
- * @param {Event} e Das Input-Ereignis.
- */
-function handleBgVolumeChange() {
-    applyMusicVolumeFromSlider();
-}
