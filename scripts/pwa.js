@@ -35,7 +35,15 @@ export function initPWA() {
             // eslint-disable-next-line no-console
             console.info('[MERS] Service Worker auf localhost deaktiviert — bei Bedarf einmal hart neu laden (Cache leeren).');
         } else {
-            navigator.serviceWorker.register('sw.js', { scope: './' }).catch(() => {});
+            navigator.serviceWorker.register('sw.js', { scope: './' }).then((reg) => {
+                reg.update().catch(() => {});
+            }).catch(() => {});
+            let reloaded = false;
+            navigator.serviceWorker.addEventListener('controllerchange', () => {
+                if (reloaded) return;
+                reloaded = true;
+                window.location.reload();
+            });
         }
     }
 }

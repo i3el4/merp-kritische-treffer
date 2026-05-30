@@ -44,8 +44,55 @@ function volDebug(hypothesisId, location, message, data = {}) {
     buf.push(payload);
     localStorage.setItem('mers_vol_debug', JSON.stringify(buf.slice(-40)));
   } catch (_) { /* ignore */ }
+  const line = document.getElementById('volDebugLine');
+  if (line) {
+    const d = data || {};
+    line.textContent = `${message} | eff=${d.effectiveVol ?? d.next ?? '–'} gain=${!!kampfGain}`;
+  }
 }
 // #endregion
+
+let audioCtx = null;
+let kampfGain = null;
+let kampfSourceConnected = false;
+
+function initKampfGainChain() {
+  if (kampfSourceConnected) return true;
+  const el = getKampfAudio();
+  const Ctx = window.AudioContext || window.webkitAudioContext;
+  if (!el || !Ctx) return false;
+  try {
+    audioCtx = audioCtx || new Ctx();
+    const src = audioCtx.createMediaElementSource(el);
+    kampfGain = audioCtx.createGain();
+    src.connect(kampfGain);
+    kampfGain.connect(audioCtx.destination);
+    kampfSourceConnected = true;
+    volDebug('H7', 'combatMusic.js:initKampfGainChain', 'gain chain ready', { runId: 'v46' });
+    return true;
+  } catch (err) {
+    volDebug('H7', 'combatMusic.js:initKampfGainChain', 'gain chain failed', { err: String(err), runId: 'v46' });
+    return false;
+  }
+}
+
+function resumeKampfAudioContext() {
+  if (audioCtx?.state === 'suspended') {
+    audioCtx.resume().catch(() => {});
+  }
+}
+
+function setKampfOutputVolume(vol) {
+  const clamped = Math.max(0, Math.min(1, vol));
+  initKampfGainChain();
+  resumeKampfAudioContext();
+  if (kampfGain) {
+    kampfGain.gain.value = clamped;
+  } else {
+    const el = getKampfAudio();
+    if (el) el.volume = clamped;
+  }
+}
 
 function getKampfAudio() {
   return /** @type {HTMLAudioElement | null} */ ($('#kampfMusikAudio'));
@@ -72,14 +119,6 @@ function usesMobileVolumeSelect() {
 function readVolumeNorm(rangeId, _selectId, fallback) {
   const range = /** @type {HTMLInputElement | null} */ ($(rangeId));
   const v = parseFloat(range?.value ?? String(fallback));
-  // #region agent log
-  volDebug('H2', 'combatMusic.js:readVolumeNorm', 'read from range', {
-    rangeId,
-    rangeValue: range?.value,
-    parsed: Number.isNaN(v) ? fallback : v,
-    runId: 'post-fix'
-  });
-  // #endregion
   if (Number.isNaN(v)) return fallback;
   return Math.max(0, Math.min(1, v));
 }
@@ -169,7 +208,10 @@ function applyVolumeRamp({ immediate = false } = {}) {
   if (fadeTimer) clearInterval(fadeTimer);
   fadeTimer = null;
   if (immediate) {
-    targets.forEach((el) => { el.volume = targetEffectiveVol; });
+    targets.forEach((el) => {
+      if (el.id === 'kampfMusikAudio') setKampfOutputVolume(targetEffectiveVol);
+      else el.volume = targetEffectiveVol;
+    });
     return;
   }
   const starts = targets.map((el) => el.volume);
@@ -178,7 +220,9 @@ function applyVolumeRamp({ immediate = false } = {}) {
   fadeTimer = setInterval(() => {
     const t = Math.min(1, (performance.now() - t0) / DUCK_MS);
     targets.forEach((el, i) => {
-      el.volume = starts[i] + (end - starts[i]) * t;
+      const v = starts[i] + (end - starts[i]) * t;
+      if (el.id === 'kampfMusikAudio') setKampfOutputVolume(v);
+      else el.volume = v;
     });
     if (t >= 1) {
       clearInterval(fadeTimer);
@@ -195,7 +239,7 @@ export function applyMusicVolumeFromSlider() {
   const kampf = getKampfAudio();
   const bg = getBgAudio();
   const kampfVolBefore = kampf?.volume;
-  if (kampf && state.kampfModus) kampf.volume = vol;
+  if (kampf && state.kampfModus) setKampfOutputVolume(vol);
   if (bg?.src) bg.volume = vol;
   applyVolumeRamp({ immediate: true });
   updateVolumeLabels();
@@ -207,10 +251,10 @@ export function applyMusicVolumeFromSlider() {
     kampfHasSrc: !!kampf?.src,
     kampfPaused: kampf?.paused,
     kampfVolBefore,
-    kampfVolAfter: kampf?.volume,
+    gainVol: kampfGain?.gain?.value,
     bgHasSrc: !!bg?.src,
     bgVol: bg?.volume,
-    runId: 'post-fix-v2'
+    runId: 'v46'
   });
   // #endregion
 }
@@ -502,6 +546,9 @@ export function syncCombatMusic() {
     currentSrcKey = key;
     el.src = fullUrl(file);
     el.loop = true;
+    initKampfGainChain();
+    resumeKampfAudioContext();
+    setKampfOutputVolume(computeTargetVolume());
     applyVolumeRamp();
     const bg = /** @type {HTMLAudioElement | null} */ (document.getElementById('bgAudio'));
     if (bg) bg.pause();
@@ -563,6 +610,8 @@ export function initCombatMusic() {
   loadKampfModusFromStorage();
 
   $('#bgToggleBtn')?.addEventListener('click', () => {
+    initKampfGainChain();
+    resumeKampfAudioContext();
     state.kampfModus = !state.kampfModus;
     persistKampfModus();
     syncCombatMusic();

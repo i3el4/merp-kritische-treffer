@@ -1,5 +1,5 @@
 /* Service Worker: Offline-Caching für MERS PWA */
-const CACHE_NAME = 'mers-v45';
+const CACHE_NAME = 'mers-v46';
 const ASSETS = [
   'index.html',
   'scripts/main.js',
@@ -42,8 +42,16 @@ self.addEventListener('fetch', (e) => {
   if (url.origin !== location.origin) return;
 
   e.respondWith(
-    fetch(e.request).catch(() =>
-      caches.match(e.request).then((r) => r || (e.request.mode === 'navigate' ? caches.match('index.html') : null))
-    )
+    fetch(e.request)
+      .then((response) => {
+        if (response.ok && e.request.method === 'GET') {
+          const copy = response.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(e.request, copy)).catch(() => {});
+        }
+        return response;
+      })
+      .catch(() =>
+        caches.match(e.request).then((r) => r || (e.request.mode === 'navigate' ? caches.match('index.html') : null))
+      )
   );
 });
