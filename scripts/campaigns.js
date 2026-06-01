@@ -645,6 +645,83 @@ export function setAktiveGruppeId(gruppeId) {
   return true;
 }
 
+function isKritQuelle(quelle) {
+  return quelle === 'krit' || quelle === 'crit';
+}
+
+export function hasExtractedStatus(extracted) {
+  if (!extracted) return false;
+  return (
+    (extracted.ben || 0) + (extracted.benoPar || 0) + (extracted.oPar || 0) +
+    (extracted.par || 0) + (extracted.init || 0) + (extracted.tpPerRound || 0) > 0 ||
+    !!extracted.ko ||
+    extracted.severity === 'lethal' ||
+    extracted.severity === 'incapacitated'
+  );
+}
+
+/** Wendet extrahierten Krit-Status an; liefert Kurztext-Teile für Historie. */
+function applyExtractedStatusToEntity(entity, extracted, runde) {
+  const statusParts = [];
+  entity.status = entity.status || [];
+  if (extracted.benoPar > 0) {
+    entity.status.push({ typ: 'benoPar', runden: extracted.benoPar, startRunde: runde });
+    statusParts.push(`${extracted.benoPar} Rd benoPar`);
+  }
+  if (extracted.ben > 0) {
+    entity.status.push({ typ: 'ben', runden: extracted.ben, startRunde: runde });
+    statusParts.push(`${extracted.ben} Rd ben`);
+  }
+  if (extracted.oPar > 0) {
+    entity.status.push({ typ: 'oPar', runden: extracted.oPar, startRunde: runde });
+    statusParts.push(`${extracted.oPar} Rd oPar`);
+  }
+  if (extracted.par > 0) {
+    entity.status.push({ typ: 'par', runden: extracted.par, startRunde: runde });
+    statusParts.push(`${extracted.par} Rd Par`);
+  }
+  if (extracted.init > 0) {
+    entity.status.push({ typ: 'init', runden: extracted.init, startRunde: runde });
+    statusParts.push(`${extracted.init} Rd Init`);
+  }
+  if (extracted.ko) {
+    entity.status.push({ typ: 'ko', runden: 999, startRunde: runde });
+    statusParts.push('K.O.');
+  }
+  if (extracted.severity === 'lethal') {
+    entity.tp = 0;
+    statusParts.push('Tödlich');
+  } else if (extracted.severity === 'incapacitated') {
+    entity.status.push({ typ: 'ko', runden: 999, startRunde: runde });
+    statusParts.push('Kampfunfähig');
+  }
+  if (extracted.tpPerRound > 0) {
+    entity.laufendeSchaden = entity.laufendeSchaden || [];
+    entity.laufendeSchaden.push({ tp: extracted.tpPerRound, startRunde: runde });
+    statusParts.push(`+${extracted.tpPerRound} T/Rd`);
+  }
+  return statusParts;
+}
+
+function pushKritStatusHistorie(entity, runde, statusParts, von) {
+  if (!statusParts.length) return;
+  entity.historie = entity.historie || [];
+  entity.historie.push({
+    runde,
+    tp: 0,
+    quelle: 'krit',
+    beschreibung: `Status: ${statusParts.join(', ')}`,
+    von: von || null
+  });
+}
+
+function pushKritTextHistorie(entity, runde, beschreibung, von) {
+  const text = beschreibung?.trim();
+  if (!text) return;
+  entity.historie = entity.historie || [];
+  entity.historie.push({ runde, tp: 0, quelle: 'krit', beschreibung: text, von: von || null });
+}
+
 /**
  * Wendet Schaden und ggf. Status auf einen Gegner an.
  * @param {string} gegnerId
@@ -665,13 +742,11 @@ export function applySchaden(gegnerId, tp, quelle, beschreibung = '', extracted 
   const g = gegner[idx];
   const schaden = Math.max(0, parseInt(tp, 10) || 0);
   const runde = k.aktuelleRunde;
-  const isKrit = quelle === 'krit' || quelle === 'crit';
-  const hasStatus = isKrit && extracted && (
-    (extracted.ben || 0) + (extracted.benoPar || 0) + (extracted.oPar || 0) +
-    (extracted.par || 0) + (extracted.init || 0) + (extracted.tpPerRound || 0) > 0 || extracted.ko
-  );
-  const manuellMitBeschreibung = quelle === 'manuell' && beschreibung && beschreibung.trim();
-  if (schaden <= 0 && !hasStatus && !manuellMitBeschreibung) return false;
+  const isKrit = isKritQuelle(quelle);
+  const hasStatus = isKrit && hasExtractedStatus(extracted);
+  const kritMitBeschreibung = isKrit && !!beschreibung?.trim();
+  const manuellMitBeschreibung = quelle === 'manuell' && !!beschreibung?.trim();
+  if (schaden <= 0 && !hasStatus && !manuellMitBeschreibung && !kritMitBeschreibung) return false;
 
   const von = vonCharakter ? { id: vonCharakter.id, name: vonCharakter.name } : null;
   if (schaden > 0) {
@@ -686,56 +761,13 @@ export function applySchaden(gegnerId, tp, quelle, beschreibung = '', extracted 
     });
   }
 
-  // Status aus Krit anwenden und in Historie erfassen
   if (isKrit && extracted) {
-    g.historie = g.historie || [];
-    const statusParts = [];
-    g.status = g.status || [];
-    if (extracted.benoPar > 0) {
-      g.status.push({ typ: 'benoPar', runden: extracted.benoPar, startRunde: runde });
-      statusParts.push(`${extracted.benoPar} Rd benoPar`);
-    }
-    if (extracted.ben > 0) {
-      g.status.push({ typ: 'ben', runden: extracted.ben, startRunde: runde });
-      statusParts.push(`${extracted.ben} Rd ben`);
-    }
-    if (extracted.oPar > 0) {
-      g.status.push({ typ: 'oPar', runden: extracted.oPar, startRunde: runde });
-      statusParts.push(`${extracted.oPar} Rd oPar`);
-    }
-    if (extracted.par > 0) {
-      g.status.push({ typ: 'par', runden: extracted.par, startRunde: runde });
-      statusParts.push(`${extracted.par} Rd Par`);
-    }
-    if (extracted.init > 0) {
-      g.status.push({ typ: 'init', runden: extracted.init, startRunde: runde });
-      statusParts.push(`${extracted.init} Rd Init`);
-    }
-    if (extracted.ko) {
-      g.status.push({ typ: 'ko', runden: 999, startRunde: runde });
-      statusParts.push('K.O.');
-    }
-    if (extracted.severity === 'lethal') {
-      g.tp = 0;
-      statusParts.push('Tödlich');
-    } else if (extracted.severity === 'incapacitated') {
-      g.status.push({ typ: 'ko', runden: 999, startRunde: runde });
-      statusParts.push('Kampfunfähig');
-    }
-    if (extracted.tpPerRound > 0) {
-      g.laufendeSchaden = g.laufendeSchaden || [];
-      g.laufendeSchaden.push({ tp: extracted.tpPerRound, startRunde: runde });
-      statusParts.push(`+${extracted.tpPerRound} T/Rd`);
-    }
-    if (statusParts.length > 0) {
-      g.historie.push({
-        runde,
-        tp: 0,
-        quelle: 'krit',
-        beschreibung: `Status: ${statusParts.join(', ')}`,
-        von
-      });
-    }
+    const statusParts = applyExtractedStatusToEntity(g, extracted, runde);
+    pushKritStatusHistorie(g, runde, statusParts, von);
+  }
+
+  if (kritMitBeschreibung && schaden <= 0) {
+    pushKritTextHistorie(g, runde, beschreibung, von);
   }
 
   if (manuellMitBeschreibung && schaden <= 0) {
@@ -877,45 +909,27 @@ export function undoLastCharakterHistorie(charId) {
 
 function applySchadenToCharakterArray(arr, idx, schaden, runde, quelle, beschreibung, von, extracted) {
   const g = arr[idx];
-  const hasStatus = extracted && (
-    (extracted.ben || 0) + (extracted.benoPar || 0) + (extracted.oPar || 0) +
-    (extracted.par || 0) + (extracted.init || 0) + (extracted.tpPerRound || 0) > 0 || extracted.ko
-  );
-  const manuellMitBeschreibung = quelle === 'manuell' && beschreibung && beschreibung.trim();
-  if (schaden <= 0 && !hasStatus && !manuellMitBeschreibung) return false;
+  const isKrit = isKritQuelle(quelle);
+  const hasStatus = isKrit && hasExtractedStatus(extracted);
+  const kritMitBeschreibung = isKrit && !!beschreibung?.trim();
+  const manuellMitBeschreibung = quelle === 'manuell' && !!beschreibung?.trim();
+  if (schaden <= 0 && !hasStatus && !manuellMitBeschreibung && !kritMitBeschreibung) return false;
   const vonObj = von ? { id: von.id, name: von.name } : null;
   if (schaden > 0) {
     g.tp = Math.max(0, g.tp - schaden);
     g.historie = g.historie || [];
     g.historie.push({ runde, tp: schaden, quelle, beschreibung: beschreibung || `${quelle}: ${schaden} TP`, von: vonObj });
   }
-  if (extracted) {
-    g.historie = g.historie || [];
-    g.status = g.status || [];
-    const statusParts = [];
-    if (extracted.benoPar > 0) { g.status.push({ typ: 'benoPar', runden: extracted.benoPar, startRunde: runde }); statusParts.push(`${extracted.benoPar} Rd benoPar`); }
-    if (extracted.ben > 0) { g.status.push({ typ: 'ben', runden: extracted.ben, startRunde: runde }); statusParts.push(`${extracted.ben} Rd ben`); }
-    if (extracted.oPar > 0) { g.status.push({ typ: 'oPar', runden: extracted.oPar, startRunde: runde }); statusParts.push(`${extracted.oPar} Rd oPar`); }
-    if (extracted.par > 0) { g.status.push({ typ: 'par', runden: extracted.par, startRunde: runde }); statusParts.push(`${extracted.par} Rd Par`); }
-    if (extracted.init > 0) { g.status.push({ typ: 'init', runden: extracted.init, startRunde: runde }); statusParts.push(`${extracted.init} Rd Init`); }
-    if (extracted.ko) { g.status.push({ typ: 'ko', runden: 999, startRunde: runde }); statusParts.push('K.O.'); }
-    if (extracted.severity === 'lethal') {
-      g.tp = 0;
-      statusParts.push('Tödlich');
-    } else if (extracted.severity === 'incapacitated') {
-      g.status.push({ typ: 'ko', runden: 999, startRunde: runde });
-      statusParts.push('Kampfunfähig');
-    }
-    if (extracted.tpPerRound > 0) {
-      g.laufendeSchaden = g.laufendeSchaden || [];
-      g.laufendeSchaden.push({ tp: extracted.tpPerRound, startRunde: runde });
-      statusParts.push(`+${extracted.tpPerRound} T/Rd`);
-    }
-    if (statusParts.length > 0) g.historie.push({ runde, tp: 0, quelle: 'krit', beschreibung: `Status: ${statusParts.join(', ')}`, von: vonObj });
+  if (isKrit && extracted) {
+    const statusParts = applyExtractedStatusToEntity(g, extracted, runde);
+    pushKritStatusHistorie(g, runde, statusParts, vonObj);
+  }
+  if (kritMitBeschreibung && schaden <= 0) {
+    pushKritTextHistorie(g, runde, beschreibung, vonObj);
   }
   if (manuellMitBeschreibung && schaden <= 0) {
     g.historie = g.historie || [];
-    g.historie.push({ runde, tp: 0, quelle: 'manuell', beschreibung: beschreibung.trim(), von: von ? { id: von.id, name: von.name } : null });
+    g.historie.push({ runde, tp: 0, quelle: 'manuell', beschreibung: beschreibung.trim(), von: vonObj });
   }
   return true;
 }

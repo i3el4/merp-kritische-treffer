@@ -7,7 +7,7 @@ import { URLS, PATZER_CONTEXT_MODS, resolveCritIcon, formatCritTableLabel } from
 import { calculateAttack, lookupCritEntry, mapCritName, adjustWeaponFontSizes, resolveEffectiveCritRoll } from './logic.js';
 import { playCritAudio, tryStartBgAudio } from './audio.js';
 import { chip } from './dom.js';
-import { applySchaden, applySchadenCharakter, getGegnerById, getSpielerById, getNpcById, getAktuelleRunde, getCharakterById } from './campaigns.js';
+import { applySchaden, applySchadenCharakter, getGegnerById, getSpielerById, getNpcById, getAktuelleRunde, getCharakterById, hasExtractedStatus } from './campaigns.js';
 import { refreshKampftracker } from './kampftracker.js';
 import { parseCritText } from './critParser.js';
 import { setCorrection, deleteCorrection, exportCorrections } from './critCorrections.js';
@@ -151,14 +151,13 @@ function appendApplySchadenButton(wrapContainer, quelle, parsedOverride = null, 
         ? state.lastAttackTp
         : (applyOpts?.tpOverride != null ? applyOpts.tpOverride : state.lastCritTp);
     const parsed = parsedOverride ?? (quelle === 'crit' ? state.lastCritParsed : null);
-    const hasStatus = parsed && (
-        (parsed.ben || 0) + (parsed.benoPar || 0) + (parsed.oPar || 0) +
-        (parsed.init || 0) + (parsed.tpPerRound || 0) > 0 || parsed.ko
-    );
+    const hasStatus = parsed && hasExtractedStatus(parsed);
     const applyTp = tp > 0 ? tp : 0;
     const beschreibungToApply = quelle === 'crit'
         ? (applyOpts?.beschreibungOverride ?? state.lastCritVisual)
         : `Angriff: ${tp} TP`;
+    const hasKritText = quelle === 'crit' && !!String(beschreibungToApply || '').trim();
+    const canApply = quelle === 'crit' ? (applyTp > 0 || hasStatus || hasKritText) : applyTp > 0;
     const extractedToApply = quelle === 'crit' && parsed ? { ...parsed } : null;
 
     const vonCharakter = applyOpts && Object.prototype.hasOwnProperty.call(applyOpts, 'vonCharakter')
@@ -172,7 +171,7 @@ function appendApplySchadenButton(wrapContainer, quelle, parsedOverride = null, 
                 return ch ? { id: ch.id, name: ch.name } : null;
               })());
     let id = null;
-    if (!allDead) {
+    if (!allDead && canApply) {
         const payload = {
             zielIds: livingIds,
             applyTp,
@@ -195,7 +194,11 @@ function appendApplySchadenButton(wrapContainer, quelle, parsedOverride = null, 
     btn.className = 'btn primary btn-apply-schaden';
     if (id != null) btn.dataset.applyId = String(id);
     const statusLabel = hasStatus ? ' + Status' : '';
-    btn.textContent = tp > 0 ? `${tp} TP${statusLabel} anwenden (${zielText})` : `Status anwenden (${zielText})`;
+    let btnLabel;
+    if (tp > 0) btnLabel = `${tp} TP${statusLabel} anwenden (${zielText})`;
+    else if (hasStatus) btnLabel = `Status anwenden (${zielText})`;
+    else btnLabel = `Krit protokollieren (${zielText})`;
+    btn.textContent = btnLabel;
     if (allDead) btn.disabled = true;
     btn.style.marginTop = '8px';
     btn.style.display = 'block';

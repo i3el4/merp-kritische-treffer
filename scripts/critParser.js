@@ -44,9 +44,13 @@ export function parseCritText(text) {
   const parMatch = text.match(/(\d+)\s*Rd\s+par(?:\s|\.|,|$)/i);
   if (parMatch) result.par = Math.max(result.par, parseInt(parMatch[1], 10) || 0);
 
-  // X Rd Init-Verlust / Initiativeverlust
-  const initMatch = text.match(/(\d+)\s*Rd\s+(?:Init[- ]?Verlust|Initiativeverlust)/i);
+  // X Rd Init-Verlust / Initiativeverlust / Init
+  const initMatch = text.match(/(\d+)\s*Rd\s+(?:Init[- ]?Verlust|Initiativeverlust|Init(?:iative)?)(?:\s|\.|,|$)/i);
   if (initMatch) result.init = Math.max(result.init, parseInt(initMatch[1], 10) || 0);
+
+  // X Rd Ben (alternative Schreibweise)
+  const benAltMatch = text.match(/(\d+)\s*Rd\s+Ben(?:\s|\.|,|$)/i);
+  if (benAltMatch) result.ben = Math.max(result.ben, parseInt(benAltMatch[1], 10) || 0);
 
   // K.O.-Status
   const koPatterns = [

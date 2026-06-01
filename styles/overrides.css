@@ -1882,17 +1882,25 @@ body[data-angriffsmodus="monster"] .ziel-group[data-group-type="gegner"] .ziel-s
 .gegner-historie {
   margin-top: 8px;
   font-size: 0.85em;
-  color: var(--muted);
+  color: var(--text);
 }
 
 .gegner-historie summary {
   cursor: pointer;
+  color: var(--accent);
+  font-weight: 500;
 }
 
 .gegner-historie ul {
   margin: 4px 0 0 0;
   padding-left: 18px;
   list-style: disc;
+  color: var(--text);
+}
+
+.gegner-historie li {
+  line-height: 1.45;
+  margin-bottom: 2px;
 }
 
 .gegner-remove {
@@ -2220,20 +2228,24 @@ body[data-angriffsmodus="monster"] .ziel-group[data-group-type="gegner"] .ziel-s
   background: rgba(229, 91, 65, 0.2) !important;
 }
 
-/* Status & Historie: weniger prominent, Schriftfarbe rgba(46,42,34) */
-.gegner-historie {
-  color: rgba(46, 42, 34, 0.9);
+/* Status & Historie: lesbar auf Karten-Hintergrund */
+.gegner-status-section .gegner-historie {
+  color: var(--text);
 }
 
-.gegner-historie summary {
+.gegner-status-section .gegner-historie summary {
   font-size: 11px !important;
   font-weight: 500 !important;
   color: var(--accent) !important;
 }
 
-.gegner-historie ul {
-  font-size: 10px !important;
-  color: rgba(46, 42, 34, 0.9) !important;
+.gegner-status-section .gegner-historie ul {
+  font-size: 11px !important;
+  color: var(--text) !important;
+}
+
+.gegner-status-section .gegner-historie li {
+  color: var(--text) !important;
 }
 
 /* --- Hochformat / schmale Bildschirme --- */
@@ -2782,6 +2794,7 @@ body[data-angriffsmodus="monster"] .ziel-group[data-group-type="gegner"] .ziel-s
 .historie-item-body {
   padding: 0 10px 10px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text);
 }
 
 .historie-entity {
@@ -2789,11 +2802,22 @@ body[data-angriffsmodus="monster"] .ziel-group[data-group-type="gegner"] .ziel-s
   padding: 8px;
   border-radius: 8px;
   background: rgba(0, 0, 0, 0.2);
+  color: var(--text);
+}
+
+.historie-entity strong {
+  color: var(--accent);
 }
 
 .historie-entity ul {
   margin: 6px 0 0;
   padding-left: 18px;
+  color: var(--text);
+}
+
+.historie-entity li {
+  line-height: 1.45;
+  margin-bottom: 4px;
 }
 
 .db-anzeige-wrap {
