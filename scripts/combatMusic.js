@@ -16,6 +16,10 @@ const DUCK_MS = 280;
 const MUSIC_VOL_CAP = 0.6;
 /** Während Krit-Sprache/TTS: Musik auf diesen Anteil der Basislautstärke ducken (0.65 ≈ leise Hintergrundmusik). */
 const SPEECH_DUCK_FACTOR = 0.65;
+/** Standard-Playlist: Wiederholungen pro Stück, bevor zum nächsten gewechselt wird. */
+const STANDARD_LOOPS_PER_TRACK = 3;
+/** Crossfade (Ausblenden + Einblenden) beim Stück- oder Trackwechsel. */
+const STANDARD_CROSSFADE_MS = 3000;
 const VOLUME_SELECT_STEPS = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1];
 
 let speechHoldCount = 0;
@@ -47,6 +51,10 @@ const STANDARD_SCHATTEN_TRACKS = [
 
 let activeStandardPool = null;
 let activeStandardTrack = null;
+let activeStandardPlaylist = [];
+let activeStandardPlaylistIdx = 0;
+let standardTrackLoopCount = 0;
+let standardTransitionTimer = null;
 
 let audioCtx = null;
 let kampfGain = null;
@@ -86,6 +94,22 @@ function setKampfOutputVolume(vol) {
     const el = getKampfAudio();
     if (el) el.volume = clamped;
   }
+}
+
+function rampKampfGain(targetVol, durationMs) {
+  const clamped = Math.max(0, Math.min(1, targetVol));
+  initKampfGainChain();
+  resumeKampfAudioContext();
+  if (!kampfGain || !audioCtx) {
+    setKampfOutputVolume(clamped);
+    return;
+  }
+  const g = kampfGain.gain;
+  const t0 = audioCtx.currentTime;
+  const dur = Math.max(0.05, durationMs / 1000);
+  g.cancelScheduledValues(t0);
+  g.setValueAtTime(g.value, t0);
+  g.linearRampToValueAtTime(clamped, t0 + dur);
 }
 
 function getKampfAudio() {
@@ -393,31 +417,92 @@ function isStandardPoolTrack(filename) {
   return STANDARD_LICHT_TRACKS.includes(filename) || STANDARD_SCHATTEN_TRACKS.includes(filename);
 }
 
-function pickRandomFromPool(pool, exclude = null) {
-  if (!pool.length) return null;
-  const candidates = exclude && pool.length > 1 ? pool.filter((f) => f !== exclude) : pool;
-  return candidates[Math.floor(Math.random() * candidates.length)];
+function shuffleArray(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function cancelStandardTransition() {
+  if (standardTransitionTimer) {
+    clearTimeout(standardTransitionTimer);
+    standardTransitionTimer = null;
+  }
 }
 
 function clearStandardPoolState() {
+  cancelStandardTransition();
   activeStandardPool = null;
   activeStandardTrack = null;
+  activeStandardPlaylist = [];
+  activeStandardPlaylistIdx = 0;
+  standardTrackLoopCount = 0;
+}
+
+function initStandardSession(poolKey) {
+  const pool = poolKey === 'licht' ? STANDARD_LICHT_TRACKS : STANDARD_SCHATTEN_TRACKS;
+  activeStandardPool = poolKey;
+  activeStandardPlaylist = shuffleArray(pool);
+  activeStandardPlaylistIdx = 0;
+  activeStandardTrack = activeStandardPlaylist[0] || null;
+  standardTrackLoopCount = 0;
 }
 
 function resolveStandardTrack(poolKey) {
-  const pool = poolKey === 'licht' ? STANDARD_LICHT_TRACKS : STANDARD_SCHATTEN_TRACKS;
-  if (activeStandardPool !== poolKey || !activeStandardTrack) {
-    activeStandardPool = poolKey;
-    activeStandardTrack = pickRandomFromPool(pool);
+  if (activeStandardPool !== poolKey || !activeStandardTrack || !activeStandardPlaylist.length) {
+    initStandardSession(poolKey);
   }
   return activeStandardTrack;
 }
 
 function advanceStandardTrack() {
-  if (!activeStandardPool) return null;
-  const pool = activeStandardPool === 'licht' ? STANDARD_LICHT_TRACKS : STANDARD_SCHATTEN_TRACKS;
-  activeStandardTrack = pickRandomFromPool(pool, activeStandardTrack);
+  if (!activeStandardPool || !activeStandardPlaylist.length) return null;
+  activeStandardPlaylistIdx++;
+  if (activeStandardPlaylistIdx >= activeStandardPlaylist.length) {
+    const pool = activeStandardPool === 'licht' ? STANDARD_LICHT_TRACKS : STANDARD_SCHATTEN_TRACKS;
+    activeStandardPlaylist = shuffleArray(pool);
+    activeStandardPlaylistIdx = 0;
+  }
+  activeStandardTrack = activeStandardPlaylist[activeStandardPlaylistIdx];
+  standardTrackLoopCount = 0;
   return activeStandardTrack;
+}
+
+function crossfadeStandardTrack(el, file) {
+  cancelStandardTransition();
+  const half = STANDARD_CROSSFADE_MS / 2;
+  const targetVol = computeTargetVolume();
+  const sameSrc = currentSrcKey === file;
+  rampKampfGain(0, half);
+  standardTransitionTimer = setTimeout(() => {
+    standardTransitionTimer = null;
+    if (!sameSrc) {
+      currentSrcKey = file;
+      el.src = fullUrl(file);
+    }
+    el.loop = false;
+    el.currentTime = 0;
+    initKampfGainChain();
+    resumeKampfAudioContext();
+    el.play().catch(() => {});
+    rampKampfGain(targetVol, half);
+  }, half);
+}
+
+function startStandardTrackWithFadeIn(el, file) {
+  cancelStandardTransition();
+  currentSrcKey = file;
+  el.src = fullUrl(file);
+  el.loop = false;
+  initKampfGainChain();
+  resumeKampfAudioContext();
+  if (kampfGain) kampfGain.gain.value = 0;
+  else el.volume = 0;
+  el.play().catch(() => {});
+  rampKampfGain(computeTargetVolume(), STANDARD_CROSSFADE_MS);
 }
 
 function onKampfTrackEnded() {
@@ -425,15 +510,15 @@ function onKampfTrackEnded() {
   if (!el || !state.kampfModus) return;
   const currentFile = resolveCombatMusicFilename();
   if (!currentFile || !isStandardPoolTrack(currentFile)) return;
+
+  standardTrackLoopCount++;
+  if (standardTrackLoopCount < STANDARD_LOOPS_PER_TRACK) {
+    crossfadeStandardTrack(el, activeStandardTrack);
+    return;
+  }
   const next = advanceStandardTrack();
   if (!next) return;
-  currentSrcKey = next;
-  el.src = fullUrl(next);
-  el.loop = false;
-  initKampfGainChain();
-  resumeKampfAudioContext();
-  setKampfOutputVolume(computeTargetVolume());
-  el.play().catch(() => {});
+  crossfadeStandardTrack(el, next);
 }
 
 /** Grösse des Schatten-Angreifers aus gewähltem Monster (Fallback: klein). */
@@ -513,16 +598,21 @@ export function syncCombatMusic() {
   }
   const key = file;
   if (key !== currentSrcKey) {
-    currentSrcKey = key;
-    el.src = fullUrl(file);
-    el.loop = !isStandardPoolTrack(file);
-    initKampfGainChain();
-    resumeKampfAudioContext();
-    setKampfOutputVolume(computeTargetVolume());
-    applyVolumeRamp();
     const bg = /** @type {HTMLAudioElement | null} */ (document.getElementById('bgAudio'));
     if (bg) bg.pause();
-    el.play().catch(() => {});
+    if (isStandardPoolTrack(file)) {
+      startStandardTrackWithFadeIn(el, file);
+    } else {
+      cancelStandardTransition();
+      currentSrcKey = key;
+      el.src = fullUrl(file);
+      el.loop = true;
+      initKampfGainChain();
+      resumeKampfAudioContext();
+      setKampfOutputVolume(computeTargetVolume());
+      el.play().catch(() => {});
+    }
+    applyVolumeRamp();
   } else {
     applyVolumeRamp();
     if (el.paused) el.play().catch(() => {});
