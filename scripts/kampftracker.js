@@ -79,7 +79,7 @@ import {
 } from './campaigns.js';
 import { state } from './state.js';
 import { getRole, ROLES, setCharakter, getCharakter } from './role.js';
-import { fillMusikProfilSelect, syncCombatMusic, persistAngreiferModus } from './combatMusic.js';
+import { fillMusikProfilSelect, syncCombatMusic, persistAngreiferModus, rebuildStandardMusikSelect } from './combatMusic.js';
 import { isFirebaseActive, loadCampaign, joinCampaign } from './firebase-storage.js';
 
 const CHARAKTERTRACKER_PANEL = '#charaktertrackerPanel';
@@ -991,6 +991,7 @@ function setAngriffsmodus(nextMode) {
   state.selectedWeapon = null;
   state.selectedSizeClass = null;
   persistAngreiferModus();
+  rebuildStandardMusikSelect();
   render();
 }
 

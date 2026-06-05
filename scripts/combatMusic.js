@@ -10,6 +10,8 @@ const LS_MUSIK_VOL = 'mers_musik_vol';
 const LS_TTS_VOL = 'mers_tts_vol';
 const LS_SCHATTEN_KAT = 'mers_kampf_schatten_kategorie';
 const LS_ANGRIFFSMODUS = 'mers_kampf_angriffsmodus';
+const LS_STANDARD_MUSIK_LICHT = 'mers_standard_musik_licht';
+const LS_STANDARD_MUSIK_SCHATTEN = 'mers_standard_musik_schatten';
 
 const DUCK_MS = 280;
 /** Slider 100 % = max. 60 % effektive Musik-Lautstärke. */
@@ -417,6 +419,65 @@ function isStandardPoolTrack(filename) {
   return STANDARD_LICHT_TRACKS.includes(filename) || STANDARD_SCHATTEN_TRACKS.includes(filename);
 }
 
+function getStandardPoolKey() {
+  return state.angreiferSubTab === 'monster' ? 'schatten' : 'licht';
+}
+
+function getStandardTracksForPool(poolKey) {
+  return poolKey === 'licht' ? STANDARD_LICHT_TRACKS : STANDARD_SCHATTEN_TRACKS;
+}
+
+function getFixedStandardTrackLsKey(poolKey) {
+  return poolKey === 'licht' ? LS_STANDARD_MUSIK_LICHT : LS_STANDARD_MUSIK_SCHATTEN;
+}
+
+function getFixedStandardTrack(poolKey) {
+  const saved = localStorage.getItem(getFixedStandardTrackLsKey(poolKey)) || '';
+  const pool = getStandardTracksForPool(poolKey);
+  return pool.includes(saved) ? saved : '';
+}
+
+function persistFixedStandardTrack(poolKey, filename) {
+  const lsKey = getFixedStandardTrackLsKey(poolKey);
+  if (!filename) localStorage.removeItem(lsKey);
+  else localStorage.setItem(lsKey, filename);
+}
+
+function isStandardPlaylistMode(poolKey) {
+  return !getFixedStandardTrack(poolKey);
+}
+
+function isStandardTrackInPlaylistMode(filename) {
+  if (STANDARD_LICHT_TRACKS.includes(filename)) return isStandardPlaylistMode('licht');
+  if (STANDARD_SCHATTEN_TRACKS.includes(filename)) return isStandardPlaylistMode('schatten');
+  return false;
+}
+
+function formatStandardTrackLabel(filename) {
+  let s = filename.replace(/\.mp3$/i, '');
+  const lichtP = 'standard_licht_';
+  const schattenP = 'standard_schatten_';
+  if (s.startsWith(lichtP)) s = s.slice(lichtP.length);
+  else if (s.startsWith(schattenP)) s = s.slice(schattenP.length);
+  else if (s === 'standard_licht' || s === 'standard_schatten') return 'Standard';
+  return s.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+export function rebuildStandardMusikSelect() {
+  const sel = /** @type {HTMLSelectElement | null} */ ($('#standardKampfMusikSelect'));
+  const badge = $('#standardKampfMusikBadge');
+  if (!sel) return;
+  const poolKey = getStandardPoolKey();
+  const pool = getStandardTracksForPool(poolKey);
+  const fixed = getFixedStandardTrack(poolKey);
+  sel.innerHTML = '<option value="">Zufällig (Rotation)</option>' +
+    pool.map((f) =>
+      `<option value="${f}"${f === fixed ? ' selected' : ''}>${formatStandardTrackLabel(f)}</option>`
+    ).join('');
+  sel.value = fixed || '';
+  if (badge) badge.textContent = poolKey === 'licht' ? 'Licht' : 'Schatten';
+}
+
 function shuffleArray(arr) {
   const a = arr.slice();
   for (let i = a.length - 1; i > 0; i--) {
@@ -452,6 +513,12 @@ function initStandardSession(poolKey) {
 }
 
 function resolveStandardTrack(poolKey) {
+  const fixed = getFixedStandardTrack(poolKey);
+  if (fixed) {
+    activeStandardPool = poolKey;
+    activeStandardTrack = fixed;
+    return fixed;
+  }
   if (activeStandardPool !== poolKey || !activeStandardTrack || !activeStandardPlaylist.length) {
     initStandardSession(poolKey);
   }
@@ -510,6 +577,8 @@ function onKampfTrackEnded() {
   if (!el || !state.kampfModus) return;
   const currentFile = resolveCombatMusicFilename();
   if (!currentFile || !isStandardPoolTrack(currentFile)) return;
+  const poolKey = getStandardPoolKey();
+  if (!isStandardPlaylistMode(poolKey)) return;
 
   standardTrackLoopCount++;
   if (standardTrackLoopCount < STANDARD_LOOPS_PER_TRACK) {
@@ -600,7 +669,7 @@ export function syncCombatMusic() {
   if (key !== currentSrcKey) {
     const bg = /** @type {HTMLAudioElement | null} */ (document.getElementById('bgAudio'));
     if (bg) bg.pause();
-    if (isStandardPoolTrack(file)) {
+    if (isStandardPoolTrack(file) && isStandardTrackInPlaylistMode(file)) {
       startStandardTrackWithFadeIn(el, file);
     } else {
       cancelStandardTransition();
@@ -614,6 +683,9 @@ export function syncCombatMusic() {
     }
     applyVolumeRamp();
   } else {
+    if (isStandardPoolTrack(file)) {
+      el.loop = !isStandardTrackInPlaylistMode(file);
+    }
     applyVolumeRamp();
     if (el.paused) el.play().catch(() => {});
   }
@@ -687,6 +759,15 @@ export function initCombatMusic() {
   initVolumeSteppers();
   initVolumeControlDelegation();
   updateVolumeLabels();
+
+  rebuildStandardMusikSelect();
+  $('#standardKampfMusikSelect')?.addEventListener('change', () => {
+    const sel = /** @type {HTMLSelectElement | null} */ ($('#standardKampfMusikSelect'));
+    const poolKey = getStandardPoolKey();
+    persistFixedStandardTrack(poolKey, sel?.value || '');
+    clearStandardPoolState();
+    syncCombatMusic();
+  });
 
   $('#kampfMusikProfilOverride')?.addEventListener('change', () => {
     syncCombatMusic();
