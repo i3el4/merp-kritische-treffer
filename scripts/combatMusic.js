@@ -23,6 +23,31 @@ let fadeTimer = null;
 let targetEffectiveVol = 0;
 let currentSrcKey = '';
 
+/** Standard-Playlists (Präfix standard_licht* / standard_schatten*). Neue Dateien hier ergänzen. */
+const STANDARD_LICHT_TRACKS = [
+  'standard_licht.mp3',
+  'standard_licht_abschied1.mp3',
+  'standard_licht_abschied2.mp3',
+  'standard_licht_bruchtal.mp3',
+  'standard_licht_gondor.mp3',
+  'standard_licht_hobbingen1.mp3',
+  'standard_licht_hobbingen2.mp3',
+  'standard_licht_moria.mp3',
+  'standard_licht_reiter.mp3',
+  'standard_licht_rohan.mp3',
+  'standard_licht_wirtschaft1.mp3'
+];
+
+const STANDARD_SCHATTEN_TRACKS = [
+  'standard_schatten.mp3',
+  'standard_schatten_mordor1.mp3',
+  'standard_schatten_mordor2.mp3',
+  'standard_schatten_mordor3.mp3'
+];
+
+let activeStandardPool = null;
+let activeStandardTrack = null;
+
 let audioCtx = null;
 let kampfGain = null;
 let kampfSourceConnected = false;
@@ -364,6 +389,53 @@ function getOverrideProfil() {
   return v && MUSIK_PROFIL_VALUES.includes(v) ? v : null;
 }
 
+function isStandardPoolTrack(filename) {
+  return STANDARD_LICHT_TRACKS.includes(filename) || STANDARD_SCHATTEN_TRACKS.includes(filename);
+}
+
+function pickRandomFromPool(pool, exclude = null) {
+  if (!pool.length) return null;
+  const candidates = exclude && pool.length > 1 ? pool.filter((f) => f !== exclude) : pool;
+  return candidates[Math.floor(Math.random() * candidates.length)];
+}
+
+function clearStandardPoolState() {
+  activeStandardPool = null;
+  activeStandardTrack = null;
+}
+
+function resolveStandardTrack(poolKey) {
+  const pool = poolKey === 'licht' ? STANDARD_LICHT_TRACKS : STANDARD_SCHATTEN_TRACKS;
+  if (activeStandardPool !== poolKey || !activeStandardTrack) {
+    activeStandardPool = poolKey;
+    activeStandardTrack = pickRandomFromPool(pool);
+  }
+  return activeStandardTrack;
+}
+
+function advanceStandardTrack() {
+  if (!activeStandardPool) return null;
+  const pool = activeStandardPool === 'licht' ? STANDARD_LICHT_TRACKS : STANDARD_SCHATTEN_TRACKS;
+  activeStandardTrack = pickRandomFromPool(pool, activeStandardTrack);
+  return activeStandardTrack;
+}
+
+function onKampfTrackEnded() {
+  const el = getKampfAudio();
+  if (!el || !state.kampfModus) return;
+  const currentFile = resolveCombatMusicFilename();
+  if (!currentFile || !isStandardPoolTrack(currentFile)) return;
+  const next = advanceStandardTrack();
+  if (!next) return;
+  currentSrcKey = next;
+  el.src = fullUrl(next);
+  el.loop = false;
+  initKampfGainChain();
+  resumeKampfAudioContext();
+  setKampfOutputVolume(computeTargetVolume());
+  el.play().catch(() => {});
+}
+
 /** Grösse des Schatten-Angreifers aus gewähltem Monster (Fallback: klein). */
 export function getMonsterAngreiferGroesse() {
   const g = state.monsterAngreiferGegnerId ? getGegnerById(state.monsterAngreiferGegnerId) : null;
@@ -383,16 +455,18 @@ export function resolveCombatMusicFilename() {
 
   if (state.angreiferSubTab === 'monster') {
     if (state.monsterAngreiferGegnerId) {
+      clearStandardPoolState();
       return monsterFilename(getMonsterAngreiferGroesse());
     }
-    return 'standard_schatten.mp3';
+    return resolveStandardTrack('schatten');
   }
 
   /* Charakterangriff (Licht) */
   const cid = state.kampfAngreiferCharakterId;
   if (!cid) {
-    return 'standard_licht.mp3';
+    return resolveStandardTrack('licht');
   }
+  clearStandardPoolState();
   const ch = getCharakterById(cid);
   if (!ch) return null;
   const entityTyp = ch.typ === 'npc' ? 'npc' : 'spieler';
@@ -427,6 +501,7 @@ export function syncCombatMusic() {
   if (!state.kampfModus) {
     el.pause();
     currentSrcKey = '';
+    clearStandardPoolState();
     return;
   }
   const file = resolveCombatMusicFilename();
@@ -440,7 +515,7 @@ export function syncCombatMusic() {
   if (key !== currentSrcKey) {
     currentSrcKey = key;
     el.src = fullUrl(file);
-    el.loop = true;
+    el.loop = !isStandardPoolTrack(file);
     initKampfGainChain();
     resumeKampfAudioContext();
     setKampfOutputVolume(computeTargetVolume());
@@ -495,6 +570,12 @@ export function persistSchattenKategorie() {
 
 export function initCombatMusic() {
   loadKampfModusFromStorage();
+
+  const kampfEl = getKampfAudio();
+  if (kampfEl && kampfEl.dataset.standardEndedBound !== '1') {
+    kampfEl.dataset.standardEndedBound = '1';
+    kampfEl.addEventListener('ended', onKampfTrackEnded);
+  }
 
   $('#bgToggleBtn')?.addEventListener('click', () => {
     initKampfGainChain();
