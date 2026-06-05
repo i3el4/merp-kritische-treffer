@@ -20,8 +20,8 @@ const MUSIC_VOL_CAP = 0.6;
 const SPEECH_DUCK_FACTOR = 0.65;
 /** Standard-Playlist: Wiederholungen pro Stück, bevor zum nächsten gewechselt wird. */
 const STANDARD_LOOPS_PER_TRACK = 3;
-/** Crossfade (Ausblenden + Einblenden) beim Stück- oder Trackwechsel. */
-const STANDARD_CROSSFADE_MS = 3000;
+/** Überlappender Crossfade beim Stück- oder Trackwechsel (ms). */
+const STANDARD_CROSSFADE_MS = 6000;
 const VOLUME_SELECT_STEPS = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1];
 
 let speechHoldCount = 0;
@@ -57,27 +57,79 @@ let activeStandardPlaylist = [];
 let activeStandardPlaylistIdx = 0;
 let standardTrackLoopCount = 0;
 let standardTransitionTimer = null;
+let standardCrossfadeScheduled = false;
 
 let audioCtx = null;
-let kampfGain = null;
-let kampfSourceConnected = false;
+let kampfSlot = 'a';
+let kampfGainA = null;
+let kampfGainB = null;
+let kampfConnectedA = false;
+let kampfConnectedB = false;
 
-function initKampfGainChain() {
-  if (kampfSourceConnected) return true;
-  const el = getKampfAudio();
+function getKampfElA() {
+  return /** @type {HTMLAudioElement | null} */ ($('#kampfMusikAudio'));
+}
+
+function getKampfElB() {
+  return /** @type {HTMLAudioElement | null} */ ($('#kampfMusikAudioB'));
+}
+
+function getActiveKampfEl() {
+  return kampfSlot === 'a' ? getKampfElA() : getKampfElB();
+}
+
+function getInactiveKampfEl() {
+  return kampfSlot === 'a' ? getKampfElB() : getKampfElA();
+}
+
+function getKampfGainForSlot(slot) {
+  return slot === 'a' ? kampfGainA : kampfGainB;
+}
+
+function getActiveKampfGain() {
+  return getKampfGainForSlot(kampfSlot);
+}
+
+function getInactiveKampfGain() {
+  return getKampfGainForSlot(kampfSlot === 'a' ? 'b' : 'a');
+}
+
+function getKampfAudio() {
+  return getActiveKampfEl();
+}
+
+function isKampfAudioElement(el) {
+  return !!el && (el.id === 'kampfMusikAudio' || el.id === 'kampfMusikAudioB');
+}
+
+function initKampfGainForSlot(el, slot) {
+  const connected = slot === 'a' ? kampfConnectedA : kampfConnectedB;
+  if (connected) return true;
   const Ctx = window.AudioContext || window.webkitAudioContext;
   if (!el || !Ctx) return false;
   try {
     audioCtx = audioCtx || new Ctx();
     const src = audioCtx.createMediaElementSource(el);
-    kampfGain = audioCtx.createGain();
-    src.connect(kampfGain);
-    kampfGain.connect(audioCtx.destination);
-    kampfSourceConnected = true;
+    const gain = audioCtx.createGain();
+    src.connect(gain);
+    gain.connect(audioCtx.destination);
+    if (slot === 'a') {
+      kampfGainA = gain;
+      kampfConnectedA = true;
+    } else {
+      kampfGainB = gain;
+      kampfConnectedB = true;
+    }
     return true;
   } catch (err) {
     return false;
   }
+}
+
+function initKampfGainChain() {
+  initKampfGainForSlot(getKampfElA(), 'a');
+  initKampfGainForSlot(getKampfElB(), 'b');
+  return kampfConnectedA || kampfConnectedB;
 }
 
 function resumeKampfAudioContext() {
@@ -86,27 +138,45 @@ function resumeKampfAudioContext() {
   }
 }
 
+function pauseInactiveKampfEl() {
+  const inactive = getInactiveKampfEl();
+  const inGain = getInactiveKampfGain();
+  if (inactive) {
+    inactive.pause();
+    inactive.currentTime = 0;
+  }
+  if (inGain) inGain.gain.value = 0;
+}
+
 function setKampfOutputVolume(vol) {
   const clamped = Math.max(0, Math.min(1, vol));
   initKampfGainChain();
   resumeKampfAudioContext();
-  if (kampfGain) {
-    kampfGain.gain.value = clamped;
-  } else {
-    const el = getKampfAudio();
-    if (el) el.volume = clamped;
-  }
-}
-
-function rampKampfGain(targetVol, durationMs) {
-  const clamped = Math.max(0, Math.min(1, targetVol));
-  initKampfGainChain();
-  resumeKampfAudioContext();
-  if (!kampfGain || !audioCtx) {
-    setKampfOutputVolume(clamped);
+  const activeGain = getActiveKampfGain();
+  const inactiveGain = getInactiveKampfGain();
+  if (activeGain && inactiveGain && standardTransitionTimer) {
+    const aVal = kampfGainA?.gain.value ?? 0;
+    const bVal = kampfGainB?.gain.value ?? 0;
+    const sum = aVal + bVal;
+    if (sum > 0.001) {
+      const scale = clamped / sum;
+      if (kampfGainA) kampfGainA.gain.value = aVal * scale;
+      if (kampfGainB) kampfGainB.gain.value = bVal * scale;
+    } else if (activeGain) {
+      activeGain.gain.value = clamped;
+    }
     return;
   }
-  const g = kampfGain.gain;
+  if (activeGain) activeGain.gain.value = clamped;
+  if (inactiveGain) inactiveGain.gain.value = 0;
+  const el = getActiveKampfEl();
+  if (!activeGain && el) el.volume = clamped;
+}
+
+function rampGainNode(gainNode, targetVol, durationMs) {
+  if (!gainNode || !audioCtx) return;
+  const clamped = Math.max(0, Math.min(1, targetVol));
+  const g = gainNode.gain;
   const t0 = audioCtx.currentTime;
   const dur = Math.max(0.05, durationMs / 1000);
   g.cancelScheduledValues(t0);
@@ -114,8 +184,8 @@ function rampKampfGain(targetVol, durationMs) {
   g.linearRampToValueAtTime(clamped, t0 + dur);
 }
 
-function getKampfAudio() {
-  return /** @type {HTMLAudioElement | null} */ ($('#kampfMusikAudio'));
+function rampKampfGain(targetVol, durationMs) {
+  rampGainNode(getActiveKampfGain(), targetVol, durationMs);
 }
 
 function getBgAudio() {
@@ -125,8 +195,13 @@ function getBgAudio() {
 /** Musik-Elemente, deren Lautstärke gesteuert wird (Kampf-Loop auch kurz vor play()). */
 function getMusicVolumeTargets() {
   const out = [];
-  const kampf = getKampfAudio();
-  if (kampf && state.kampfModus && kampf.src) out.push(kampf);
+  const kampfA = getKampfElA();
+  const kampfB = getKampfElB();
+  if (state.kampfModus) {
+    if (kampfA?.src && !kampfA.paused) out.push(kampfA);
+    if (kampfB?.src && !kampfB.paused) out.push(kampfB);
+    if (!out.length && getActiveKampfEl()?.src) out.push(getActiveKampfEl());
+  }
   const bg = getBgAudio();
   if (bg && bg.src && !bg.paused) out.push(bg);
   return out;
@@ -220,7 +295,7 @@ function applyVolumeRamp({ immediate = false } = {}) {
   fadeTimer = null;
   if (immediate) {
     targets.forEach((el) => {
-      if (el.id === 'kampfMusikAudio') setKampfOutputVolume(targetEffectiveVol);
+      if (isKampfAudioElement(el)) setKampfOutputVolume(targetEffectiveVol);
       else el.volume = targetEffectiveVol;
     });
     return;
@@ -232,7 +307,7 @@ function applyVolumeRamp({ immediate = false } = {}) {
     const t = Math.min(1, (performance.now() - t0) / DUCK_MS);
     targets.forEach((el, i) => {
       const v = starts[i] + (end - starts[i]) * t;
-      if (el.id === 'kampfMusikAudio') setKampfOutputVolume(v);
+      if (isKampfAudioElement(el)) setKampfOutputVolume(v);
       else el.volume = v;
     });
     if (t >= 1) {
@@ -447,12 +522,6 @@ function isStandardPlaylistMode(poolKey) {
   return !getFixedStandardTrack(poolKey);
 }
 
-function isStandardTrackInPlaylistMode(filename) {
-  if (STANDARD_LICHT_TRACKS.includes(filename)) return isStandardPlaylistMode('licht');
-  if (STANDARD_SCHATTEN_TRACKS.includes(filename)) return isStandardPlaylistMode('schatten');
-  return false;
-}
-
 function formatStandardTrackLabel(filename) {
   let s = filename.replace(/\.mp3$/i, '');
   const lichtP = 'standard_licht_';
@@ -492,6 +561,7 @@ function cancelStandardTransition() {
     clearTimeout(standardTransitionTimer);
     standardTransitionTimer = null;
   }
+  standardCrossfadeScheduled = false;
 }
 
 function clearStandardPoolState() {
@@ -538,56 +608,102 @@ function advanceStandardTrack() {
   return activeStandardTrack;
 }
 
-function crossfadeStandardTrack(el, file) {
+function overlapCrossfadeStandardTrack(file) {
   cancelStandardTransition();
-  const half = STANDARD_CROSSFADE_MS / 2;
+  initKampfGainChain();
+  resumeKampfAudioContext();
+
+  const outEl = getActiveKampfEl();
+  const inEl = getInactiveKampfEl();
+  const outGain = getActiveKampfGain();
+  const inGain = getInactiveKampfGain();
+  if (!outEl || !inEl || !outGain || !inGain || !audioCtx) return;
+
   const targetVol = computeTargetVolume();
-  const sameSrc = currentSrcKey === file;
-  rampKampfGain(0, half);
+  inEl.src = fullUrl(file);
+  inEl.loop = false;
+  inEl.currentTime = 0;
+  inGain.gain.setValueAtTime(0, audioCtx.currentTime);
+  inEl.play().catch(() => {});
+
+  const t0 = audioCtx.currentTime;
+  const dur = STANDARD_CROSSFADE_MS / 1000;
+  outGain.gain.cancelScheduledValues(t0);
+  inGain.gain.cancelScheduledValues(t0);
+  outGain.gain.setValueAtTime(outGain.gain.value, t0);
+  inGain.gain.setValueAtTime(0, t0);
+  outGain.gain.linearRampToValueAtTime(0, t0 + dur);
+  inGain.gain.linearRampToValueAtTime(targetVol, t0 + dur);
+
+  standardCrossfadeScheduled = true;
   standardTransitionTimer = setTimeout(() => {
     standardTransitionTimer = null;
-    if (!sameSrc) {
-      currentSrcKey = file;
-      el.src = fullUrl(file);
-    }
-    el.loop = false;
-    el.currentTime = 0;
-    initKampfGainChain();
-    resumeKampfAudioContext();
-    el.play().catch(() => {});
-    rampKampfGain(targetVol, half);
-  }, half);
+    standardCrossfadeScheduled = false;
+    outEl.pause();
+    outEl.currentTime = 0;
+    outGain.gain.value = 0;
+    kampfSlot = kampfSlot === 'a' ? 'b' : 'a';
+    currentSrcKey = file;
+  }, STANDARD_CROSSFADE_MS);
 }
 
-function startStandardTrackWithFadeIn(el, file) {
+function startStandardTrackWithFadeIn(file) {
   cancelStandardTransition();
+  pauseInactiveKampfEl();
+  const el = getActiveKampfEl();
+  if (!el) return;
   currentSrcKey = file;
   el.src = fullUrl(file);
   el.loop = false;
   initKampfGainChain();
   resumeKampfAudioContext();
-  if (kampfGain) kampfGain.gain.value = 0;
+  const activeGain = getActiveKampfGain();
+  if (activeGain) activeGain.gain.value = 0;
   else el.volume = 0;
   el.play().catch(() => {});
-  rampKampfGain(computeTargetVolume(), STANDARD_CROSSFADE_MS);
+  rampGainNode(activeGain, computeTargetVolume(), STANDARD_CROSSFADE_MS);
 }
 
-function onKampfTrackEnded() {
-  const el = getKampfAudio();
-  if (!el || !state.kampfModus) return;
+function scheduleStandardTransition() {
+  if (standardTransitionTimer || standardCrossfadeScheduled) return;
+  if (!state.kampfModus) return;
   const currentFile = resolveCombatMusicFilename();
   if (!currentFile || !isStandardPoolTrack(currentFile)) return;
-  const poolKey = getStandardPoolKey();
-  if (!isStandardPlaylistMode(poolKey)) return;
 
-  standardTrackLoopCount++;
-  if (standardTrackLoopCount < STANDARD_LOOPS_PER_TRACK) {
-    crossfadeStandardTrack(el, activeStandardTrack);
-    return;
+  const poolKey = getStandardPoolKey();
+  let nextFile;
+  if (!isStandardPlaylistMode(poolKey)) {
+    nextFile = activeStandardTrack || currentFile;
+  } else {
+    const nextLoopCount = standardTrackLoopCount + 1;
+    if (nextLoopCount < STANDARD_LOOPS_PER_TRACK) {
+      standardTrackLoopCount = nextLoopCount;
+      nextFile = activeStandardTrack;
+    } else {
+      nextFile = advanceStandardTrack();
+    }
   }
-  const next = advanceStandardTrack();
-  if (!next) return;
-  crossfadeStandardTrack(el, next);
+  if (!nextFile) return;
+  overlapCrossfadeStandardTrack(nextFile);
+}
+
+function onKampfTimeUpdate(e) {
+  const el = /** @type {HTMLAudioElement} */ (e.target);
+  if (!isKampfAudioElement(el) || el !== getActiveKampfEl()) return;
+  if (!state.kampfModus || standardTransitionTimer || standardCrossfadeScheduled) return;
+  if (!currentSrcKey || !isStandardPoolTrack(currentSrcKey)) return;
+  const dur = el.duration;
+  const remain = dur - el.currentTime;
+  const crossfadeSec = STANDARD_CROSSFADE_MS / 1000;
+  if (!Number.isFinite(dur) || dur <= 0 || remain > crossfadeSec || remain <= 0.05) return;
+  scheduleStandardTransition();
+}
+
+function onKampfTrackEnded(e) {
+  const el = /** @type {HTMLAudioElement | undefined} */ (e?.target);
+  if (el && el !== getActiveKampfEl()) return;
+  if (!state.kampfModus || standardTransitionTimer || standardCrossfadeScheduled) return;
+  scheduleStandardTransition();
 }
 
 /** Grösse des Schatten-Angreifers aus gewähltem Monster (Fallback: klein). */
@@ -649,19 +765,22 @@ function updatePlayBtnUI() {
 }
 
 export function syncCombatMusic() {
-  const el = getKampfAudio();
+  const el = getActiveKampfEl();
   if (!el) return;
   updatePlayBtnUI();
   if (!state.kampfModus) {
-    el.pause();
+    getKampfElA()?.pause();
+    getKampfElB()?.pause();
     currentSrcKey = '';
     clearStandardPoolState();
     return;
   }
   const file = resolveCombatMusicFilename();
   if (!file) {
-    el.pause();
-    el.removeAttribute('src');
+    getKampfElA()?.pause();
+    getKampfElB()?.pause();
+    getKampfElA()?.removeAttribute('src');
+    getKampfElB()?.removeAttribute('src');
     currentSrcKey = '';
     return;
   }
@@ -669,10 +788,11 @@ export function syncCombatMusic() {
   if (key !== currentSrcKey) {
     const bg = /** @type {HTMLAudioElement | null} */ (document.getElementById('bgAudio'));
     if (bg) bg.pause();
-    if (isStandardPoolTrack(file) && isStandardTrackInPlaylistMode(file)) {
-      startStandardTrackWithFadeIn(el, file);
+    if (isStandardPoolTrack(file)) {
+      startStandardTrackWithFadeIn(file);
     } else {
       cancelStandardTransition();
+      pauseInactiveKampfEl();
       currentSrcKey = key;
       el.src = fullUrl(file);
       el.loop = true;
@@ -684,10 +804,10 @@ export function syncCombatMusic() {
     applyVolumeRamp();
   } else {
     if (isStandardPoolTrack(file)) {
-      el.loop = !isStandardTrackInPlaylistMode(file);
+      getActiveKampfEl().loop = false;
     }
     applyVolumeRamp();
-    if (el.paused) el.play().catch(() => {});
+    if (getActiveKampfEl()?.paused) getActiveKampfEl().play().catch(() => {});
   }
 }
 
@@ -733,11 +853,12 @@ export function persistSchattenKategorie() {
 export function initCombatMusic() {
   loadKampfModusFromStorage();
 
-  const kampfEl = getKampfAudio();
-  if (kampfEl && kampfEl.dataset.standardEndedBound !== '1') {
+  [getKampfElA(), getKampfElB()].forEach((kampfEl) => {
+    if (!kampfEl || kampfEl.dataset.standardEndedBound === '1') return;
     kampfEl.dataset.standardEndedBound = '1';
     kampfEl.addEventListener('ended', onKampfTrackEnded);
-  }
+    kampfEl.addEventListener('timeupdate', onKampfTimeUpdate);
+  });
 
   $('#bgToggleBtn')?.addEventListener('click', () => {
     initKampfGainChain();
@@ -774,7 +895,7 @@ export function initCombatMusic() {
   });
 
   document.addEventListener('visibilitychange', () => {
-    const el = getKampfAudio();
+    const el = getActiveKampfEl();
     if (!el) return;
     if (document.visibilityState === 'hidden') {
       el.pause();
