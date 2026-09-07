@@ -34,6 +34,8 @@ DEFAULT_STUDIO_PROFILES = (
     / "voice_profiles.json"
 )
 PARTIAL_SUFFIX = ".partial.mp3"
+PINNED_TRANSFORMERS = "4.57.3"
+UNSUPPORTED_TRANSFORMERS_EXIT = 2
 _TRANSFORMERS_COMPAT_APPLIED = False
 _ROPE_COMPAT_APPLIED = False
 
@@ -48,16 +50,37 @@ def main() -> int:
     parser = argparse.ArgumentParser(
         description="Vertont Krit-Jobs lokal mit Qwen3-TTS (Full reference, Studio-Setting)."
     )
-    parser.add_argument("--jobs", required=True, type=Path)
+    parser.add_argument("--jobs", type=Path)
     parser.add_argument("--voice", default=settings.get("voice", "bud2"))
     parser.add_argument("--local-tts", type=Path, default=DEFAULT_LOCAL_TTS)
     parser.add_argument("--studio-profiles", type=Path, default=DEFAULT_STUDIO_PROFILES)
-    parser.add_argument("--manifest", type=Path, required=True)
+    parser.add_argument("--manifest", type=Path)
     parser.add_argument("--limit", type=int, default=0)
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--backend", choices=("auto", "mlx", "torch"), default=settings.get("backend", "torch"))
     parser.add_argument("--language", default=settings.get("language", "German"))
+    parser.add_argument(
+        "--check-transformers",
+        action="store_true",
+        help="Nur prüfen, ob das venv transformers 4.57.x hat — Modell nicht laden.",
+    )
+    parser.add_argument(
+        "--allow-transformers5",
+        action="store_true",
+        help="Nicht empfohlen: Torch-Generate trotz transformers 5 versuchen.",
+    )
     args = parser.parse_args()
+
+    if not args.dry_run or args.check_transformers:
+        blocked = require_supported_transformers(
+            allow_v5=args.allow_transformers5,
+            backend=args.backend,
+        )
+        if args.check_transformers or blocked:
+            return blocked
+
+    if args.jobs is None or args.manifest is None:
+        parser.error("--jobs und --manifest sind nötig (ausser --check-transformers).")
 
     faulthandler.enable()
     apply_qwen_transformers_compat()
@@ -198,6 +221,74 @@ def load_local_tts(root: Path) -> types.ModuleType:
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
+
+
+def transformers_version() -> str | None:
+    try:
+        import transformers
+
+        return str(getattr(transformers, "__version__", "") or "") or None
+    except Exception:
+        return None
+
+
+def require_supported_transformers(*, allow_v5: bool, backend: str) -> int:
+    """qwen_tts 0.1.1 ist für transformers 4.57.3 gebaut. 5.x ist ein anderes Generate-API."""
+    version = transformers_version()
+    chosen = (backend or "torch").lower()
+    if version is None:
+        print(
+            "[STOP] transformers ist in diesem Python nicht importierbar.\n"
+            f"  {DEFAULT_LOCAL_TTS / '.venv' / 'bin' / 'pip'} install "
+            f"'transformers=={PINNED_TRANSFORMERS}'",
+            file=sys.stderr,
+        )
+        return UNSUPPORTED_TRANSFORMERS_EXIT
+    major = version.split(".", 1)[0]
+    if chosen == "mlx":
+        if major == "5":
+            print(
+                f"Hinweis: transformers {version}. MLX umgeht den Torch-Generate-Pfad; "
+                "Sampler weicht von Studio ab."
+            )
+        return 0
+    if major != "5":
+        return 0
+    if allow_v5:
+        print(
+            f"Warnung: transformers {version} ist nicht unterstützt "
+            "(--allow-transformers5). Generate kann weiter scheitern.",
+            file=sys.stderr,
+        )
+        return 0
+    print_unsupported_transformers(version)
+    return UNSUPPORTED_TRANSFORMERS_EXIT
+
+
+def print_unsupported_transformers(version: str) -> None:
+    pip = DEFAULT_LOCAL_TTS / ".venv" / "bin" / "pip"
+    print(
+        f"""
+[STOP] Falsche transformers-Version im CLI-venv: {version}
+       qwen_tts braucht transformers=={PINNED_TRANSFORMERS}.
+
+Studio funktioniert, weil es ein anderes Python nutzt — nicht ~/local-tts/.venv.
+Sweep, Bud2 und der Krit-Text sind in Ordnung. Generate scheitert, weil qwen_tts
+APIs aus transformers 4.57 aufruft, die in 5.x umbenannt oder entfernt sind
+(zuletzt: create_causal_mask(..., input_embeds=...)).
+
+Weitere Worker-Patches bringen nichts. Die Studio-App nicht anfassen.
+
+Nur dieses venv (Studio geschlossen):
+
+  {pip} install 'transformers=={PINNED_TRANSFORMERS}'
+
+Danach:
+
+  npm run generate-audio-qwen-sweep -- --preset quick
+""".strip(),
+        file=sys.stderr,
+    )
 
 
 def load_studio_engine(tts, backend: str, settings: dict):
@@ -366,6 +457,9 @@ class TorchStudioEngine:
         self.inner = None
         self.model = None
         os.environ["HF_DEACTIVATE_ASYNC_LOAD"] = "1"
+        if self._transformers_is_v5() and hasattr(torch.backends, "mps"):
+            torch.backends.mps.is_available = lambda: False
+            print("transformers 5: MPS für diesen Prozess aus (Placeholder-Bug bei Generate).")
         apply_qwen_rope_compat()
         self._log_transformers()
         try:

@@ -25,6 +25,16 @@ Existierende Dateien im jeweiligen Ordner werden übersprungen. Ctrl+C ist siche
 
 **Local TTS Studio wird nicht benötigt** (besser schliessen, sonst teilen sich zwei Prozesse die GPU). Der Batch spricht nur `~/local-tts`.
 
+Studio und der Batch nutzen **verschiedene Pythons**. Studio kann klingen, während `npm run generate-audio-qwen-sweep` scheitert — das ist kein Sweep-Bug. `qwen_tts` 0.1.1 ist für **transformers 4.57.3** gebaut. Steht in `~/local-tts/.venv` transformers **5.x**, reisst Generate an wechselnden HuggingFace-APIs ab (`check_model_inputs`, RoPE `default`, MPS-Placeholder, zuletzt `create_causal_mask(..., input_embeds=...)`). Worker-Patches dafür sind Sackgasse.
+
+Studio-App **nicht** anfassen. Nur das CLI-venv, Studio geschlossen:
+
+```bash
+~/local-tts/.venv/bin/pip install 'transformers==4.57.3'
+```
+
+Der Batch bricht auf transformers 5 sofort ab, statt das Modell zu laden und Clip für Clip zu crashen.
+
 Setting (Sampler, Speed, Loudness, Modell-Revision) liegt in [`tools/audio/qwen_tts_settings.json`](../tools/audio/qwen_tts_settings.json) — das ist dasselbe Set, das in Studio getestet wurde (Full Reference, German, Seed 1024, Speed 1.11×, Temperature 0.81, …).
 
 Voraussetzung: **auf dem Mac** (nicht in der Cloud-Agent-Konsole) im Projektordner:
@@ -131,8 +141,4 @@ ElevenLabs ist **kostenpflichtig pro Zeichen**. Das Skript überspringt vorhande
 
 Qwen lokal kostet kein API-Guthaben, braucht aber Zeit (Modell bleibt im RAM).
 
-Stirbt der Worker mit SIGSEGV beim «Loading weights», ist das der transformers-5-Async-Load auf MPS. Der Worker setzt `HF_DEACTIVATE_ASYNC_LOAD=1` und lädt erst auf die CPU. Alternativ:
-
-```bash
-~/local-tts/.venv/bin/pip install 'transformers==4.57.3'
-```
+Wenn Generate mit `create_causal_mask() got an unexpected keyword argument 'input_embeds'` (oder RoPE / MPS-Placeholder / SIGSEGV) stirbt: dasselbe transformers-5-venv. Pin wie oben auf 4.57.3, nicht weiter den Worker patchen.

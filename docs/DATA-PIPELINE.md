@@ -136,7 +136,7 @@ CSV-Dateinamen (z.B. `beissen.csv`, `pieksen.csv`) werden auf Waffen-Keys gemapp
 | `englisch-mp3-archive` | `tools/audio/englisch_krit_audio_tool.js archive` | `assets/audio/krit/` (Englisch-Reste) | verschiebt non-canonical MP3s in `_archive_englisch_non_canonical/<Datum>/` |
 | `englisch-mp3-report` | dasselbe Tool, Modus `report` | `tables_processed.json` + `assets/audio/krit/` | Report über fehlende/überflüssige MP3s |
 
-> **Qwen:** schreibt nach `assets/audio/qwen/`, überschreibt ElevenLabs nicht. Studio nicht nötig. Ctrl+C ist sicher. Sampler-Vergleich: `npm run generate-audio-qwen-sweep`. Details: [HOWTO-NEW-AUDIO.md](HOWTO-NEW-AUDIO.md).
+> **Qwen:** schreibt nach `assets/audio/qwen/`, überschreibt ElevenLabs nicht. Studio nicht nötig. `~/local-tts/.venv` braucht **transformers 4.57.3** (nicht 5.x). Ctrl+C ist sicher. Sampler-Vergleich: `npm run generate-audio-qwen-sweep`. Details: [HOWTO-NEW-AUDIO.md](HOWTO-NEW-AUDIO.md).
 >
 > **ElevenLabs** ist **kostenpflichtig**. Skript generiert nur Fehlendes.
 

@@ -47,12 +47,14 @@ function parseArgs(argv, settings) {
         voice: process.env.QWEN_TTS_VOICE || settings.voice || 'bud2',
         backend: process.env.QWEN_TTS_BACKEND || settings.backend || 'torch',
         localTts: process.env.LOCAL_TTS_ROOT || path.join(os.homedir(), 'local-tts'),
+        allowTransformers5: false,
         help: false,
     };
     for (let i = 0; i < argv.length; i++) {
         const a = argv[i];
         if (a === '--help' || a === '-h') opts.help = true;
         else if (a === '--dry-run') opts.dryRun = true;
+        else if (a === '--allow-transformers5') opts.allowTransformers5 = true;
         else if (a === '--html-only') opts.htmlOnly = true;
         else if (a === '--force') opts.force = true;
         else if (a === '--preset') opts.preset = String(argv[++i] || '').trim() || 'night';
@@ -104,6 +106,9 @@ Optionen:
   --voice NAME           Default: bud2.
   --backend torch|mlx    Default: torch.
   --local-tts PFAD       Default ~/local-tts.
+
+Voraussetzung: ~/local-tts/.venv braucht transformers==4.57.3 (nicht 5.x).
+  ~/local-tts/.venv/bin/pip install 'transformers==4.57.3'
 
 Nachtlauf:
   caffeinate -i npm run generate-audio-qwen-sweep
@@ -267,8 +272,8 @@ function runWorker(python, args) {
         child.on('exit', (code, signal) => {
             if (signal) {
                 console.error(`\nQwen-Worker vom System beendet (${signal}).`);
-                console.error('Das ist kein Sampler-Fehler — Absturz beim Laden der Gewichte auf MPS.');
-                console.error('Neuer Stand deaktiviert Async-Load (HF_DEACTIVATE_ASYNC_LOAD=1) und lädt über CPU.');
+                console.error('Das ist kein Sampler-Fehler. Typisch: transformers 5 + MPS.');
+                console.error("Fix: ~/local-tts/.venv/bin/pip install 'transformers==4.57.3'");
                 resolve(130);
             } else resolve(code ?? 1);
         });
@@ -333,6 +338,11 @@ async function main() {
         process.exit(1);
     }
 
+    const preflightArgs = [WORKER, '--check-transformers', '--backend', opts.backend];
+    if (opts.allowTransformers5) preflightArgs.push('--allow-transformers5');
+    const preflight = await runWorker(python, preflightArgs);
+    if (preflight !== 0) process.exit(preflight);
+
     const jobsFile = path.join(os.tmpdir(), `merp-qwen-sweep-${process.pid}.json`);
     fs.writeFileSync(jobsFile, JSON.stringify(built.jobs), 'utf8');
     const workerArgs = [
@@ -344,6 +354,7 @@ async function main() {
         '--backend', opts.backend,
     ];
     if (opts.limit) workerArgs.push('--limit', String(opts.limit));
+    if (opts.allowTransformers5) workerArgs.push('--allow-transformers5');
 
     let code = 1;
     try {

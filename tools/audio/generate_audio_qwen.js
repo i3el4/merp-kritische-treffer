@@ -47,12 +47,14 @@ function parseArgs(argv, settings) {
         voice: process.env.QWEN_TTS_VOICE || settings.voice || 'bud2',
         backend: process.env.QWEN_TTS_BACKEND || settings.backend || 'torch',
         localTts: process.env.LOCAL_TTS_ROOT || path.join(os.homedir(), 'local-tts'),
+        allowTransformers5: false,
         help: false,
     };
     for (let i = 0; i < argv.length; i++) {
         const a = argv[i];
         if (a === '--help' || a === '-h') opts.help = true;
         else if (a === '--dry-run') opts.dryRun = true;
+        else if (a === '--allow-transformers5') opts.allowTransformers5 = true;
         else if (a === '--limit') opts.limit = parseInt(argv[++i], 10) || 0;
         else if (a.startsWith('--limit=')) opts.limit = parseInt(a.slice(8), 10) || 0;
         else if (a === '--min-chars') opts.minChars = parseInt(argv[++i], 10) || 0;
@@ -86,6 +88,9 @@ Optionen:
   --voice NAME         Default: bud2.
   --backend torch|mlx  Default: torch (wie Studio Base). mlx ist schneller, klingt anders.
   --local-tts PFAD     Default ~/local-tts.
+
+Voraussetzung: ~/local-tts/.venv braucht transformers==4.57.3 (nicht 5.x).
+  ~/local-tts/.venv/bin/pip install 'transformers==4.57.3'
 
 Nachtlauf:
   caffeinate -i npm run generate-audio-qwen
@@ -148,6 +153,14 @@ async function main() {
         console.error('Dann im MERP-Projekt: npm install && npm run generate-audio-qwen -- --limit 3');
         process.exit(1);
     }
+
+    if (!opts.dryRun) {
+        const preflightArgs = [WORKER, '--check-transformers', '--backend', opts.backend];
+        if (opts.allowTransformers5) preflightArgs.push('--allow-transformers5');
+        const preflight = await runWorker(python, preflightArgs);
+        if (preflight !== 0) process.exit(preflight);
+    }
+
     if (!fs.existsSync(OUTPUT_DIR)) {
         fs.mkdirSync(OUTPUT_DIR, { recursive: true });
         console.log(`Ordner erstellt: ${OUTPUT_DIR}`);
@@ -177,6 +190,7 @@ async function main() {
     ];
     if (opts.dryRun) workerArgs.push('--dry-run');
     if (opts.limit) workerArgs.push('--limit', String(opts.limit));
+    if (opts.allowTransformers5) workerArgs.push('--allow-transformers5');
 
     let code = 1;
     try {

@@ -82,6 +82,8 @@ validate-audio-index
 
 (Service Worker `CACHE_NAME` in `sw.js` hochzählen, sonst lädt der Browser alte Dateien.)
 
+Qwen-Batch und Sweep brauchen in `~/local-tts/.venv` **transformers 4.57.3** (nicht 5.x). Studio nutzt ein anderes Python; die App nicht anfassen. Siehe [HOWTO-NEW-AUDIO.md](../docs/HOWTO-NEW-AUDIO.md).
+
 ---
 
 ## Schreibstil bei neuen Skripten
