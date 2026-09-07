@@ -27,7 +27,15 @@ Existierende Dateien im jeweiligen Ordner werden übersprungen. Ctrl+C ist siche
 
 Setting (Sampler, Speed, Loudness, Modell-Revision) liegt in [`tools/audio/qwen_tts_settings.json`](../tools/audio/qwen_tts_settings.json) — das ist dasselbe Set, das in Studio getestet wurde (Full Reference, German, Seed 1024, Temperature 0.81, …).
 
-Voraussetzung: `~/local-tts` (`./setup.sh`, `./tts setup`). Stimme **Bud2** wird beim ersten Lauf aus Studio nach `~/local-tts/data/voices/bud2/` kopiert, falls sie dort noch fehlt.
+Voraussetzung: **auf dem Mac** (nicht in der Cloud-Agent-Konsole) im Projektordner:
+
+```bash
+npm install
+```
+
+`~/local-tts` muss eingerichtet sein (`./setup.sh`, `./tts setup`). Stimme **Bud2** wird beim ersten Lauf aus Studio nach `~/local-tts/data/voices/bud2/` kopiert, falls sie dort noch fehlt.
+
+`caffeinate` gibt es nur unter macOS (verhindert Schlaf). Unter Linux einfach ohne `caffeinate` denselben `npm`-Befehl nutzen.
 
 ### Test
 

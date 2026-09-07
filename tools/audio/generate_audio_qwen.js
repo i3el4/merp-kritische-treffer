@@ -4,19 +4,24 @@
  * Lokale Krit-MP3s via Qwen3-TTS (~/local-tts), Setting in qwen_tts_settings.json.
  * Schreibt NIE nach assets/audio/krit/ — Ziel: assets/audio/qwen/<slug>/<KAT>_<RANGE>.mp3
  *
+ *   npm install
  *   npm run generate-audio-qwen -- --limit 3
- *   caffeinate -i npm run generate-audio-qwen
+ *   caffeinate -i npm run generate-audio-qwen   # nur macOS
  *
  * Local TTS Studio wird NICHT benötigt (besser schliessen, GPU freihalten).
  */
-
-require('dotenv').config({ path: require('path').join(__dirname, '../../private/.env') });
-require('dotenv').config();
 
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
 const { spawn } = require('child_process');
+
+try {
+    require('dotenv').config({ path: path.join(__dirname, '../../private/.env') });
+    require('dotenv').config();
+} catch (_) {
+    // dotenv ist optional; Qwen braucht keine API-Keys.
+}
 
 const ROOT = path.join(__dirname, '../..');
 const DATA_PATH = path.join(ROOT, 'assets/data/tables_processed.json');
@@ -138,7 +143,9 @@ async function main() {
     const python = path.join(localTts, '.venv/bin/python');
     if (!fs.existsSync(python)) {
         console.error(`local-tts venv fehlt: ${python}`);
-        console.error('In ~/local-tts einmal ./setup.sh ausführen.');
+        console.error('Diesen Batch auf dem Mac ausführen (nicht in der Cloud-Agent-Konsole).');
+        console.error('Einmal: cd ~/local-tts && ./setup.sh');
+        console.error('Dann im MERP-Projekt: npm install && npm run generate-audio-qwen -- --limit 3');
         process.exit(1);
     }
     if (!fs.existsSync(OUTPUT_DIR)) {
