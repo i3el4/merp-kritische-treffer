@@ -435,7 +435,7 @@ class TorchStudioEngine:
         if revision:
             print(f"Revision: {revision}")
         print(f"Quelle:   {source}")
-        print(f"Gerät:    {device}  (Load: CPU vollständig, danach {device})")
+        print(f"Gerät:    {device}  (Load: CPU; Inference: {'CPU (transformers 5)' if self._transformers_is_v5() else device})")
         kwargs = {
             "dtype": torch.float32,
             "attn_implementation": "sdpa",
@@ -459,7 +459,7 @@ class TorchStudioEngine:
                 self.model = Qwen3TTSModel.from_pretrained(source, **kwargs)
             else:
                 raise
-        if device != "cpu":
+        if device != "cpu" and not self._transformers_is_v5():
             print(f"Verschiebe Modell nach {device} …")
             _move_torch_modules(self.model, device)
             leftover = _meta_param_count(self.model)
@@ -471,6 +471,8 @@ class TorchStudioEngine:
                 _move_torch_modules(self.model, "cpu")
             else:
                 print(f"Modell auf {device}, keine Meta-Tensoren.")
+        elif device == "mps":
+            print("transformers 5: Inference bleibt auf CPU (MPS Placeholder-Bug in 5.16).")
 
     def create_prompt(self, ref_audio: str, ref_text: str):
         if self.model is not None and hasattr(self.model, "create_voice_clone_prompt"):
@@ -484,6 +486,19 @@ class TorchStudioEngine:
         raise RuntimeError("Keine Prompt-API am Torch-Engine.")
 
     def generate_chunk(self, text: str, language: str, prompt, ref_audio: str, ref_text: str, sampling=None):
+        try:
+            return self._generate_chunk_once(text, language, prompt, ref_audio, ref_text, sampling)
+        except RuntimeError as exc:
+            if "Placeholder storage" not in str(exc):
+                raise
+            print("MPS-Placeholder bei Generate — wechsle auf CPU und versuche den Clip erneut.")
+            if self.model is not None:
+                _move_torch_modules(self.model, "cpu")
+            if self.inner is not None:
+                _move_torch_modules(self.inner, "cpu")
+            return self._generate_chunk_once(text, language, prompt, ref_audio, ref_text, sampling)
+
+    def _generate_chunk_once(self, text, language, prompt, ref_audio, ref_text, sampling=None):
         sampling = sampling if sampling is not None else (self.settings.get("sampling") or {})
         seed = self.settings.get("seed")
         if seed is not None:
