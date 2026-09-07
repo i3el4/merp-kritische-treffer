@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Qwen3-TTS worker: Bud2 + Studio sampling. Writes only to assets/audio/qwen/."""
+"""Qwen3-TTS worker: Bud2 + Studio sampling. Production → assets/audio/qwen/; Sweep → _pipeline/qwen-sweep/."""
 
 from __future__ import annotations
 
@@ -75,11 +75,15 @@ def main() -> int:
         if args.limit and len(planned) >= args.limit:
             break
 
+    per_job_sampling = any(isinstance(job, dict) and job.get("sampling") for job in jobs)
     print(f"Stimme:     {voice_name}  (Full reference / ICL)")
     print(f"Modell:     {settings.get('model_id')}  rev={settings.get('revision')}")
     print(f"Backend:    {args.backend}  lang={args.language}  seed={settings.get('seed')}")
-    print(f"Sampling:   T={sampling.get('temperature')} top_k={sampling.get('top_k')} "
-          f"subT={sampling.get('subtalker_temperature')} subK={sampling.get('subtalker_top_k')}")
+    if per_job_sampling:
+        print("Sampling:   pro Job (Sweep)")
+    else:
+        print(f"Sampling:   T={sampling.get('temperature')} top_k={sampling.get('top_k')} "
+              f"subT={sampling.get('subtalker_temperature')} subK={sampling.get('subtalker_top_k')}")
     print(f"Speed:      {settings.get('speed')}×  loudnorm={settings.get('target_loudness_lufs')} LUFS")
     print(f"Einträge:   {len(jobs)}")
     print(f"Vorhanden:  {skipped}  (Resume, Qwen-Ordner)")
@@ -116,7 +120,11 @@ def main() -> int:
             preview = text.replace("\n", " ")
             if len(preview) > 80:
                 preview = preview[:77] + "…"
+            job_sampling = merge_sampling(settings, job)
+            variant = job.get("variant") or ""
             print(f"[{index}/{len(planned)}] {rel}")
+            if variant:
+                print(f"  variant {variant}  {format_sampling(job_sampling)}")
             print(f"  {preview}")
 
             started = time.perf_counter()
@@ -125,12 +133,14 @@ def main() -> int:
                     tts=tts,
                     engine=engine,
                     settings=settings,
+                    sampling=job_sampling,
                     text=text,
                     language=args.language,
                     prompt=prompt,
                     ref_audio=ref_audio,
                     ref_text=ref_text,
                     out=out,
+                    sweep=bool(job.get("sweep")),
                 )
             except KeyboardInterrupt:
                 raise
@@ -217,8 +227,8 @@ class TorchStudioEngine:
             x_vector_only_mode=False,
         )
 
-    def generate_chunk(self, text: str, language: str, prompt, ref_audio: str, ref_text: str):
-        sampling = self.settings.get("sampling") or {}
+    def generate_chunk(self, text: str, language: str, prompt, ref_audio: str, ref_text: str, sampling=None):
+        sampling = sampling if sampling is not None else (self.settings.get("sampling") or {})
         seed = self.settings.get("seed")
         if seed is not None:
             self.torch.manual_seed(int(seed))
@@ -253,8 +263,8 @@ class MlxCompatEngine:
     def create_prompt(self, ref_audio: str, ref_text: str):
         return self.inner.create_prompt(ref_audio=ref_audio, ref_text=ref_text, x_vector_only=False)
 
-    def generate_chunk(self, text: str, language: str, prompt, ref_audio: str, ref_text: str):
-        sampling = self.settings.get("sampling") or {}
+    def generate_chunk(self, text: str, language: str, prompt, ref_audio: str, ref_text: str, sampling=None):
+        sampling = sampling if sampling is not None else (self.settings.get("sampling") or {})
         tokens = int(sampling.get("max_new_tokens", 2048))
         return self.inner.generate(
             text=text,
@@ -321,8 +331,24 @@ def split_paragraphs(text: str, enabled: bool) -> list[str]:
     return [p for p in parts if p]
 
 
-def generate_one(*, tts, engine, settings, text, language, prompt, ref_audio, ref_text, out: Path) -> None:
-    assert_qwen_output_path(out)
+def merge_sampling(settings: dict, job: dict) -> dict:
+    merged = dict(settings.get("sampling") or {})
+    extra = job.get("sampling")
+    if isinstance(extra, dict):
+        merged.update(extra)
+    return merged
+
+
+def format_sampling(sampling: dict) -> str:
+    return (
+        f"T={sampling.get('temperature')} P={sampling.get('top_p')} K={sampling.get('top_k')} "
+        f"subT={sampling.get('subtalker_temperature')} subP={sampling.get('subtalker_top_p')} "
+        f"subK={sampling.get('subtalker_top_k')}"
+    )
+
+
+def generate_one(*, tts, engine, settings, text, language, prompt, ref_audio, ref_text, out: Path, sampling=None, sweep=False) -> None:
+    assert_qwen_output_path(out, sweep=sweep)
     partial = out.with_name(out.stem + PARTIAL_SUFFIX)
     if partial.exists():
         partial.unlink()
@@ -341,6 +367,7 @@ def generate_one(*, tts, engine, settings, text, language, prompt, ref_audio, re
             prompt=prompt,
             ref_audio=ref_audio,
             ref_text=ref_text,
+            sampling=sampling if sampling is not None else (settings.get("sampling") or {}),
         )
         wavs.append(tts.to_mono(piece))
 
@@ -350,12 +377,17 @@ def generate_one(*, tts, engine, settings, text, language, prompt, ref_audio, re
     os.replace(partial, out)
 
 
-def assert_qwen_output_path(out: Path) -> None:
-    parts = Path(out).resolve().parts
+def assert_qwen_output_path(out: Path, sweep: bool = False) -> None:
+    resolved = Path(out).resolve()
+    parts = resolved.parts
     if "audio" in parts:
         i = parts.index("audio")
         if i + 1 < len(parts) and parts[i + 1] == "krit":
             raise RuntimeError(f"Qwen darf nicht nach assets/audio/krit/ schreiben: {out}")
+        if sweep and i + 1 < len(parts) and parts[i + 1] == "qwen":
+            raise RuntimeError(f"Sweep darf nicht nach assets/audio/qwen/ schreiben: {out}")
+    if sweep and "qwen-sweep" not in parts:
+        raise RuntimeError(f"Sweep-Output muss unter qwen-sweep liegen: {out}")
 
 
 def finalize_mp3(tts, wav, sample_rate: int, dest: Path, settings: dict) -> None:

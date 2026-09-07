@@ -17,3 +17,4 @@ node_modules/
 # Lokaler Qwen-TTS-Fortschritt (nicht committen)
 assets/data/_pipeline/qwen_audio_done.json
 assets/data/_pipeline/qwen_audio_done.json.tmp
+assets/data/_pipeline/qwen-sweep/

@@ -37,6 +37,7 @@ flowchart LR
     subgraph PipelineAudio["Audio-Pipeline"]
         GenAudio[generate-audio]
         GenAudioQwen[generate-audio-qwen]
+        GenAudioQwenSweep[generate-audio-qwen-sweep]
         AudioReport[englisch-mp3-report]
     end
 
@@ -54,6 +55,7 @@ flowchart LR
 
     tablesProcessed --> GenAudio --> AudioFiles["assets/audio/krit/<tableSlug>/<KAT>_<RANGE>.mp3"]
     tablesProcessed --> GenAudioQwen --> AudioQwen["assets/audio/qwen/<tableSlug>/<KAT>_<RANGE>.mp3"]
+    tablesProcessed --> GenAudioQwenSweep --> AudioSweep["_pipeline/qwen-sweep/"]
     tablesProcessed --> AudioReport
 ```
 
@@ -127,13 +129,14 @@ CSV-Dateinamen (z.B. `beissen.csv`, `pieksen.csv`) werden auf Waffen-Keys gemapp
 | npm-Skript | Datei | Input | Output |
 |---|---|---|---|
 | `generate-audio-qwen` | `tools/audio/generate_audio_qwen.js` + `qwen_tts_worker.py` | `tables_processed.json` | `assets/audio/qwen/<tableSlug>/<KAT>_<RANGE>.mp3` (Bud2, Setting in `qwen_tts_settings.json`) |
+| `generate-audio-qwen-sweep` | `tools/audio/generate_audio_qwen_sweep.js` + `qwen_tts_worker.py` | `tables_processed.json` + `qwen_tts_sweep.json` | `assets/data/_pipeline/qwen-sweep/` (Hörseite + Test-MP3s, gitignored) |
 | `generate-audio` | `tools/audio/generate_audio_elevenlabs.js` | `tables_processed.json` | `assets/audio/krit/…` (ElevenLabs) |
 | `migrate-audio-layout-dry` / `migrate-audio-layout` | `tools/audio/migrate_audio_layout.js` | bestehende `assets/audio/krit/*.mp3` (legacy flat) | kanonisches Subfolder-Layout |
 | `validate-audio-index` | `tools/audio/validate_audio_index.js` | `tables_processed.json` + `assets/audio/krit/` | Fehlermeldung bei fehlenden MP3s |
 | `englisch-mp3-archive` | `tools/audio/englisch_krit_audio_tool.js archive` | `assets/audio/krit/` (Englisch-Reste) | verschiebt non-canonical MP3s in `_archive_englisch_non_canonical/<Datum>/` |
 | `englisch-mp3-report` | dasselbe Tool, Modus `report` | `tables_processed.json` + `assets/audio/krit/` | Report über fehlende/überflüssige MP3s |
 
-> **Qwen:** schreibt nach `assets/audio/qwen/`, überschreibt ElevenLabs nicht. Studio nicht nötig. Ctrl+C ist sicher. Details: [HOWTO-NEW-AUDIO.md](HOWTO-NEW-AUDIO.md).
+> **Qwen:** schreibt nach `assets/audio/qwen/`, überschreibt ElevenLabs nicht. Studio nicht nötig. Ctrl+C ist sicher. Sampler-Vergleich: `npm run generate-audio-qwen-sweep`. Details: [HOWTO-NEW-AUDIO.md](HOWTO-NEW-AUDIO.md).
 >
 > **ElevenLabs** ist **kostenpflichtig**. Skript generiert nur Fehlendes.
 

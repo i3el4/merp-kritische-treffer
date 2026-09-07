@@ -1,0 +1,216 @@
+{
+  "notes": "Sampler-Sweep um das aktuelle Bud2-Setting. Leere sampling-Objekte erben alle Werte aus qwen_tts_settings.json. Preset night = alles; quick = drei Clips, sieben Varianten.",
+  "clips": [
+    {
+      "id": "question-taunt",
+      "label": "Frage / Spott",
+      "table": "Stoss",
+      "kategorie": "C",
+      "range": "01-05",
+      "why": "Fragezeichen — Satzmelodie am Ende"
+    },
+    {
+      "id": "question-short",
+      "label": "Kurze Frage",
+      "table": "Stoss",
+      "kategorie": "D",
+      "range": "01-05",
+      "why": "Kurz, „oder?“"
+    },
+    {
+      "id": "boom-face",
+      "label": "Ausruf / Onomatopoesie",
+      "table": "Stoss",
+      "kategorie": "C",
+      "range": "46-50",
+      "why": "Boom! plus Handlung"
+    },
+    {
+      "id": "cold-armor",
+      "label": "Mittellang, sachlich",
+      "table": "Kälte",
+      "kategorie": "C",
+      "range": "67-70",
+      "why": "Typischer Krit-Satz, Zahlen und Alternativen"
+    },
+    {
+      "id": "ear-hit",
+      "label": "Lang, Regeln + Ausruf",
+      "table": "Stich (Held)",
+      "kategorie": "A",
+      "range": "98-98",
+      "why": "Langer Regeltext, erstes Ausrufezeichen"
+    },
+    {
+      "id": "leg-lie",
+      "label": "Lang, erzählend",
+      "table": "Stich",
+      "kategorie": "E",
+      "range": "75-75",
+      "why": "Längster narrativer Clip, Humor"
+    }
+  ],
+  "variants": [
+    {
+      "id": "baseline",
+      "label": "Aktuelles Setting",
+      "sampling": {}
+    },
+    {
+      "id": "T0.65",
+      "label": "Talker T 0.65 (ruhiger)",
+      "sampling": { "temperature": 0.65 }
+    },
+    {
+      "id": "T0.73",
+      "label": "Talker T 0.73",
+      "sampling": { "temperature": 0.73 }
+    },
+    {
+      "id": "T0.90",
+      "label": "Talker T 0.90",
+      "sampling": { "temperature": 0.9 }
+    },
+    {
+      "id": "T1.00",
+      "label": "Talker T 1.00 (freier)",
+      "sampling": { "temperature": 1.0 }
+    },
+    {
+      "id": "K20",
+      "label": "Talker Top-K 20",
+      "sampling": { "top_k": 20 }
+    },
+    {
+      "id": "K40",
+      "label": "Talker Top-K 40",
+      "sampling": { "top_k": 40 }
+    },
+    {
+      "id": "K80",
+      "label": "Talker Top-K 80",
+      "sampling": { "top_k": 80 }
+    },
+    {
+      "id": "K100",
+      "label": "Talker Top-K 100",
+      "sampling": { "top_k": 100 }
+    },
+    {
+      "id": "P0.90",
+      "label": "Talker Top-P 0.90",
+      "sampling": { "top_p": 0.9 }
+    },
+    {
+      "id": "P0.95",
+      "label": "Talker Top-P 0.95",
+      "sampling": { "top_p": 0.95 }
+    },
+    {
+      "id": "subT0.70",
+      "label": "Subtalker T 0.70",
+      "sampling": { "subtalker_temperature": 0.7 }
+    },
+    {
+      "id": "subT0.85",
+      "label": "Subtalker T 0.85",
+      "sampling": { "subtalker_temperature": 0.85 }
+    },
+    {
+      "id": "subT1.05",
+      "label": "Subtalker T 1.05",
+      "sampling": { "subtalker_temperature": 1.05 }
+    },
+    {
+      "id": "subT1.20",
+      "label": "Subtalker T 1.20 (lebendiger)",
+      "sampling": { "subtalker_temperature": 1.2 }
+    },
+    {
+      "id": "subK20",
+      "label": "Subtalker Top-K 20",
+      "sampling": { "subtalker_top_k": 20 }
+    },
+    {
+      "id": "subK40",
+      "label": "Subtalker Top-K 40",
+      "sampling": { "subtalker_top_k": 40 }
+    },
+    {
+      "id": "subK80",
+      "label": "Subtalker Top-K 80",
+      "sampling": { "subtalker_top_k": 80 }
+    },
+    {
+      "id": "subP0.90",
+      "label": "Subtalker Top-P 0.90",
+      "sampling": { "subtalker_top_p": 0.9 }
+    },
+    {
+      "id": "subP0.95",
+      "label": "Subtalker Top-P 0.95",
+      "sampling": { "subtalker_top_p": 0.95 }
+    },
+    {
+      "id": "recipe-stable",
+      "label": "Rezept: stabil",
+      "sampling": {
+        "temperature": 0.7,
+        "top_k": 40,
+        "subtalker_temperature": 0.8,
+        "subtalker_top_k": 40
+      }
+    },
+    {
+      "id": "recipe-crisp",
+      "label": "Rezept: klar",
+      "sampling": {
+        "temperature": 0.75,
+        "top_k": 50,
+        "subtalker_temperature": 0.9,
+        "subtalker_top_k": 50
+      }
+    },
+    {
+      "id": "recipe-lively",
+      "label": "Rezept: lebendig",
+      "sampling": {
+        "temperature": 0.9,
+        "top_k": 80,
+        "subtalker_temperature": 1.1,
+        "subtalker_top_k": 80
+      }
+    },
+    {
+      "id": "recipe-expressive",
+      "label": "Rezept: Satzmelodie",
+      "sampling": {
+        "subtalker_temperature": 1.15,
+        "subtalker_top_k": 40,
+        "subtalker_top_p": 0.95
+      }
+    },
+    {
+      "id": "recipe-tight",
+      "label": "Rezept: eng (nucleus)",
+      "sampling": {
+        "temperature": 0.78,
+        "top_p": 0.95,
+        "top_k": 40,
+        "subtalker_temperature": 0.9,
+        "subtalker_top_p": 0.95,
+        "subtalker_top_k": 40
+      }
+    }
+  ],
+  "presets": {
+    "quick": {
+      "clipIds": ["question-taunt", "boom-face", "cold-armor"],
+      "variantIds": ["baseline", "T0.73", "T0.90", "subT0.85", "subT1.20", "recipe-stable", "recipe-lively"]
+    },
+    "night": {
+      "clipIds": "all",
+      "variantIds": "all"
+    }
+  }
+}

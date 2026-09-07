@@ -6,6 +6,7 @@
     "serve": "npx serve -l 3333",
     "generate-audio": "node tools/audio/generate_audio_elevenlabs.js",
     "generate-audio-qwen": "node tools/audio/generate_audio_qwen.js",
+    "generate-audio-qwen-sweep": "node tools/audio/generate_audio_qwen_sweep.js",
     "migrate-audio-layout": "node tools/audio/migrate_audio_layout.js",
     "migrate-audio-layout-dry": "node tools/audio/migrate_audio_layout.js --dry-run",
     "validate-audio-index": "node tools/audio/validate_audio_index.js",

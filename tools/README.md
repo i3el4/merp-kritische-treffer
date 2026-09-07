@@ -48,6 +48,7 @@ ELEVENLABS_VOICE_ID=...
 | `clean-tables` / `-all` | Cleanup-Pass über `tables_processed.json` | `tables/clean_tables_with_gemini.js` |
 | `import-tables` | CSV → `treffer_tabellen_strukturiert.json` | `tables/import_and_fix_tables.js` |
 | `generate-audio-qwen` | TTS-MP3s lokal mit Qwen3-TTS nach `assets/audio/qwen/` (Bud2) | `audio/generate_audio_qwen.js` |
+| `generate-audio-qwen-sweep` | Sampler-Raster (wenige Texte × Varianten) nach `_pipeline/qwen-sweep/` | `audio/generate_audio_qwen_sweep.js` |
 | `generate-audio` | TTS-MP3s via ElevenLabs | `audio/generate_audio_elevenlabs.js` |
 | `migrate-audio-layout-dry` / `migrate-audio-layout` | Flat-Audio → kanonisches Unterordner-Layout | `audio/migrate_audio_layout.js` |
 | `validate-audio-index` | Prüft erwartete vs vorhandene kanonische MP3-Dateien | `audio/validate_audio_index.js` |

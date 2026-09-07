@@ -38,6 +38,7 @@ Diese Dateien werden **nicht** vom Browser geladen, nur von Pipeline-Skripten ge
 | `patzer_tables.json` | Pipeline-Intermediate (behalten) | `tools/pdf-extract/extract_patzer_pdf.js` | `tools/tables/minify_patzer_visual.js`, `merge_patzer_into_tables_processed.js`, `apply_patzer_range_labels.js` |
 | `tables_final.json` | Optionales Pipeline-Output | `tools/tables/minify_visual_text.js` (ohne `MINIFY_ENGLISH_ZUSATZ_ONLY`) | – (Inspektion) |
 | `tables_with_severity.json` | Archiviertes Experiment | `tools/_archive/classify_crit_severity_with_gemini.js` | – (archiviert) |
+| `qwen-sweep/` | Gitignored Sampler-Hörraster (MP3s + `index.html`) | `generate-audio-qwen-sweep` | Mensch im Browser, nicht die App |
 
 ---
 
@@ -80,6 +81,7 @@ CSV-Format: siehe `TABLE_CONFIG` in `tools/tables/import_and_fix_tables.js`. Tre
 | Datei | Zweck |
 |---|---|
 | `tools/tables/.english_zusatz_table_keys.json` | Wird von `merge-english-tables` geschrieben, von `minify-visual-english` gelesen. Enthält die Liste der Zusatz-Tabellen für gezielte Minify. |
+| `assets/data/_pipeline/qwen_audio_done.json` | Gitignored Resume-Manifest für den Qwen-Produktionsbatch. |
 
 ---
 
