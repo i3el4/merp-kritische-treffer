@@ -435,36 +435,42 @@ class TorchStudioEngine:
         if revision:
             print(f"Revision: {revision}")
         print(f"Quelle:   {source}")
-        print(f"Gerät:    {device}  (Load: CPU, danach {device})")
+        print(f"Gerät:    {device}  (Load: CPU vollständig, danach {device})")
         kwargs = {
-            "device_map": "cpu",
             "dtype": torch.float32,
             "attn_implementation": "sdpa",
             "local_files_only": local_source,
+            "low_cpu_mem_usage": False,
         }
         if revision and not local_source:
             kwargs["revision"] = revision
         try:
             self.model = Qwen3TTSModel.from_pretrained(source, **kwargs)
         except TypeError as exc:
-            if "revision" in kwargs and "revision" in str(exc):
+            msg = str(exc)
+            if "revision" in kwargs and "revision" in msg:
                 kwargs.pop("revision", None)
                 self.model = Qwen3TTSModel.from_pretrained(source, **kwargs)
-            elif "local_files_only" in str(exc):
+            elif "local_files_only" in msg:
                 kwargs.pop("local_files_only", None)
+                self.model = Qwen3TTSModel.from_pretrained(source, **kwargs)
+            elif "low_cpu_mem_usage" in msg:
+                kwargs.pop("low_cpu_mem_usage", None)
                 self.model = Qwen3TTSModel.from_pretrained(source, **kwargs)
             else:
                 raise
         if device != "cpu":
             print(f"Verschiebe Modell nach {device} …")
-            moved = False
-            for target in (self.model, getattr(self.model, "model", None)):
-                if target is not None and hasattr(target, "to"):
-                    target.to(device)
-                    moved = True
-                    break
-            if not moved:
-                print("Hinweis: kein .to(device) am Wrapper — Modell bleibt auf CPU.")
+            _move_torch_modules(self.model, device)
+            leftover = _meta_param_count(self.model)
+            if leftover:
+                print(
+                    f"Hinweis: {leftover} Meta-Tensoren nach .to({device}) — "
+                    "bleibe auf CPU, sonst MPS-Placeholder-Fehler."
+                )
+                _move_torch_modules(self.model, "cpu")
+            else:
+                print(f"Modell auf {device}, keine Meta-Tensoren.")
 
     def create_prompt(self, ref_audio: str, ref_text: str):
         if self.model is not None and hasattr(self.model, "create_voice_clone_prompt"):
@@ -523,6 +529,49 @@ class TorchStudioEngine:
             "max_new_tokens": int(sampling.get("max_new_tokens", 2048)),
         }
         return self.inner.generate(**_filter_kwargs(self.inner.generate, wanted))
+
+
+def _move_torch_modules(root, device: str) -> None:
+    import torch.nn as nn
+
+    for module in _iter_nn_modules(root):
+        module.to(device)
+
+
+def _iter_nn_modules(root):
+    import torch.nn as nn
+
+    seen = set()
+    stack = [root]
+    while stack:
+        obj = stack.pop()
+        ident = id(obj)
+        if ident in seen:
+            continue
+        seen.add(ident)
+        if isinstance(obj, nn.Module):
+            yield obj
+            stack.extend(list(obj.children()))
+        data = getattr(obj, "__dict__", None)
+        if isinstance(data, dict):
+            for value in data.values():
+                if isinstance(value, nn.Module):
+                    stack.append(value)
+
+
+def _meta_param_count(root) -> int:
+    count = 0
+    for module in _iter_nn_modules(root):
+        for tensor in list(module.parameters()) + list(module.buffers()):
+            if tensor.device.type == "meta":
+                count += 1
+                continue
+            try:
+                if tensor.numel() > 0 and tensor.untyped_storage().size() == 0:
+                    count += 1
+            except Exception:
+                continue
+    return count
 
 
 def _filter_kwargs(fn, wanted: dict) -> dict:
