@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import faulthandler
+import functools
 import importlib.util
 import inspect
 import json
@@ -188,6 +189,8 @@ def main() -> int:
             except Exception as exc:
                 failed += 1
                 print(f"  Fehler: {exc}", file=sys.stderr)
+                if failed == 1:
+                    traceback.print_exc()
                 continue
 
             done.add(rel)
@@ -323,7 +326,7 @@ def apply_qwen_config_compat() -> None:
             lambda self: getattr(self, "codec_pad_id", None),
             lambda self, value: _config_set(self, "codec_pad_id", value),
         )
-        print("Hinweis: Qwen-Talker pad_token_id → codec_pad_id (transformers 5).")
+        print("Hinweis: Qwen-Talker pad_token_id → codec_pad_id.")
     if predictor is not None:
         predictor.pad_token_id = property(
             lambda self: getattr(self, "_pad_token_id", None),
@@ -365,7 +368,7 @@ def resolve_pretrained_source(settings: dict) -> str:
 
 
 def apply_qwen_transformers_compat() -> None:
-    """qwen_tts nutzt @check_model_inputs(); manche transformers-Versionen verlangen @check_model_inputs."""
+    """qwen_tts setzt @check_model_inputs(); der 4.57.3-Decorator verwirft inputs_embeds."""
     global _TRANSFORMERS_COMPAT_APPLIED
     if _TRANSFORMERS_COMPAT_APPLIED:
         return
@@ -373,27 +376,60 @@ def apply_qwen_transformers_compat() -> None:
         import transformers.utils.generic as generic
     except Exception:
         return
-    original = getattr(generic, "check_model_inputs", None)
 
     def check_model_inputs(func=None, *args, **kwargs):
+        def decorate(fn):
+            if not callable(fn):
+                return fn
+
+            @functools.wraps(fn)
+            def wrapped(*call_args, **call_kwargs):
+                return fn(*call_args, **_alias_embed_kwargs(fn, call_kwargs))
+
+            return wrapped
+
         if func is None:
-            def decorator(fn):
-                return _bind_check_model_inputs(original, fn)
-            return decorator
-        return _bind_check_model_inputs(original, func)
+            return decorate
+        return decorate(func)
 
     generic.check_model_inputs = check_model_inputs
     for name in ("transformers.utils", "transformers"):
         mod = sys.modules.get(name)
         if mod is not None and hasattr(mod, "check_model_inputs"):
             setattr(mod, "check_model_inputs", check_model_inputs)
-    apply_qwen_rope_compat()
     _TRANSFORMERS_COMPAT_APPLIED = True
+    print("Hinweis: check_model_inputs durchlässig (inputs_embeds / input_embeds).")
+
+
+def _alias_embed_kwargs(fn, kwargs: dict) -> dict:
+    """transformers generate übergibt inputs_embeds; mancher Qwen-forward heisst input_embeds."""
+    if not kwargs:
+        return kwargs
+    remapped = dict(kwargs)
+    try:
+        params = inspect.signature(fn).parameters
+    except (TypeError, ValueError):
+        return remapped
+    names = set(params)
+    has_var = any(p.kind == inspect.Parameter.VAR_KEYWORD for p in params.values())
+    has_singular = "input_embeds" in names
+    has_plural = "inputs_embeds" in names
+    if has_singular and not has_plural and "inputs_embeds" in remapped:
+        remapped["input_embeds"] = remapped.pop("inputs_embeds")
+    elif has_plural and not has_singular and "input_embeds" in remapped:
+        remapped["inputs_embeds"] = remapped.pop("input_embeds")
+    elif not has_singular and not has_plural and not has_var:
+        remapped.pop("inputs_embeds", None)
+        remapped.pop("input_embeds", None)
+    return remapped
 
 
 def apply_qwen_rope_compat() -> None:
     """transformers 5: 'default' RoPE fehlt, rope_config_validation ist tot — beides lokal ersetzen."""
     global _ROPE_COMPAT_APPLIED
+    version = transformers_version() or ""
+    if not version.startswith("5"):
+        return
     try:
         import transformers.modeling_rope_utils as rope
     except Exception:
@@ -427,24 +463,6 @@ def _vanilla_default_rope_parameters(config, device=None, **kwargs):
         base ** (torch.arange(0, dim, 2, dtype=torch.float32, device=device) / dim)
     )
     return inv_freq, 1.0
-
-
-def _bind_check_model_inputs(original, fn):
-    if original is None:
-        return fn
-    try:
-        result = original(fn)
-        return result if callable(result) else fn
-    except TypeError:
-        pass
-    try:
-        result = original()
-        if callable(result):
-            wrapped = result(fn)
-            return wrapped if callable(wrapped) else fn
-    except TypeError:
-        pass
-    return fn
 
 
 class TorchStudioEngine:

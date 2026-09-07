@@ -25,7 +25,9 @@ Existierende Dateien im jeweiligen Ordner werden übersprungen. Ctrl+C ist siche
 
 **Local TTS Studio wird nicht benötigt** (besser schliessen, sonst teilen sich zwei Prozesse die GPU). Der Batch spricht nur `~/local-tts`.
 
-Studio und der Batch nutzen **verschiedene Pythons**. Studio kann klingen, während `npm run generate-audio-qwen-sweep` scheitert — das ist kein Sweep-Bug. `qwen_tts` 0.1.1 ist für **transformers 4.57.3** gebaut. Steht in `~/local-tts/.venv` transformers **5.x**, reisst Generate an wechselnden HuggingFace-APIs ab (`check_model_inputs`, RoPE `default`, MPS-Placeholder, zuletzt `create_causal_mask(..., input_embeds=...)`). Worker-Patches dafür sind Sackgasse.
+Studio und der Batch nutzen **verschiedene Pythons**. Studio kann klingen, während `npm run generate-audio-qwen-sweep` scheitert — das ist kein Sweep-Bug. `qwen_tts` 0.1.1 ist für **transformers 4.57.3** gebaut. Steht in `~/local-tts/.venv` transformers **5.x**, reisst Generate an HuggingFace-APIs ab (`create_causal_mask(..., input_embeds=...)` und verwandtes). Nicht auf 5.x patchen.
+
+Auf 4.57.3 ist der HuggingFace-Decorator `check_model_inputs` zu streng (`unexpected keyword argument 'inputs_embeds'`). Der Worker macht ihn durchlässig; Studio-App nicht anfassen.
 
 Studio-App **nicht** anfassen. Nur das CLI-venv, Studio geschlossen:
 
@@ -141,4 +143,4 @@ ElevenLabs ist **kostenpflichtig pro Zeichen**. Das Skript überspringt vorhande
 
 Qwen lokal kostet kein API-Guthaben, braucht aber Zeit (Modell bleibt im RAM).
 
-Wenn Generate mit `create_causal_mask() got an unexpected keyword argument 'input_embeds'` (oder RoPE / MPS-Placeholder / SIGSEGV) stirbt: dasselbe transformers-5-venv. Pin wie oben auf 4.57.3, nicht weiter den Worker patchen.
+Wenn Generate mit `create_causal_mask() got an unexpected keyword argument 'input_embeds'` stirbt: transformers **5.x** im CLI-venv — zurück auf 4.57.3. Wenn Generate mit `check_model_inputs ... unexpected keyword argument 'inputs_embeds'` stirbt: 4.57.3 ist richtig, aber der HuggingFace-Decorator ist zu streng; `git pull` holt den durchlässigen Worker.
