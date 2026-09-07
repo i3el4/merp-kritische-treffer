@@ -131,4 +131,4 @@ ElevenLabs ist **kostenpflichtig pro Zeichen**. Das Skript überspringt vorhande
 
 Qwen lokal kostet kein API-Guthaben, braucht aber Zeit (Modell bleibt im RAM).
 
-Die Warnung `flash-attn is not installed` ist harmlos. `check_model_inputs() missing … 'func'` war ein transformers/qwen_tts-Konflikt; der Worker patched das. Nach `git pull` denselben Sweep-Befehl nochmal.
+Die Warnung `flash-attn is not installed` ist harmlos. `check_model_inputs` und fehlendes `pad_token_id` sind transformers-5/qwen_tts-Konflikte; der Worker patched beides. Nach `git pull` denselben Sweep-Befehl nochmal. Das Modell liegt danach im Cache unter `~/local-tts/models/hf` (erster Lauf kann mehrere GB laden).

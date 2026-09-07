@@ -194,6 +194,70 @@ def load_studio_engine(tts, backend: str, settings: dict):
     return TorchStudioEngine(tts, settings)
 
 
+def apply_qwen_config_compat() -> None:
+    """transformers 5: Talker-Config hat codec_pad_id, der Modellcode liest pad_token_id."""
+    cfg = None
+    for name in (
+        "qwen_tts.core.models.configuration_qwen3_tts",
+        "qwen_tts.configuration_qwen3_tts",
+    ):
+        try:
+            cfg = importlib.import_module(name)
+            break
+        except Exception:
+            continue
+    if cfg is None:
+        print("Hinweis: Qwen-Config-Patch übersprungen (configuration_qwen3_tts nicht gefunden).")
+        return
+
+    talker = getattr(cfg, "Qwen3TTSTalkerConfig", None)
+    predictor = getattr(cfg, "Qwen3TTSTalkerCodePredictorConfig", None)
+    if talker is not None:
+        talker.pad_token_id = property(
+            lambda self: getattr(self, "codec_pad_id", None),
+            lambda self, value: _config_set(self, "codec_pad_id", value),
+        )
+        print("Hinweis: Qwen-Talker pad_token_id → codec_pad_id (transformers 5).")
+    if predictor is not None:
+        predictor.pad_token_id = property(
+            lambda self: getattr(self, "_pad_token_id", None),
+            lambda self, value: _config_set(self, "_pad_token_id", value),
+        )
+
+
+def _config_set(self, key: str, value) -> None:
+    try:
+        object.__setattr__(self, key, value)
+    except Exception:
+        self.__dict__[key] = value
+
+
+def resolve_pretrained_source(settings: dict) -> str:
+    model_id = settings["model_id"]
+    revision = settings.get("revision")
+    hf_home = Path(os.environ.get("HF_HOME") or "").expanduser()
+    if not hf_home:
+        return model_id
+    hub_roots = []
+    if hf_home:
+        hub_roots.extend([hf_home / "hub", hf_home])
+    org_name = f"models--{model_id.replace('/', '--')}"
+    for base in hub_roots:
+        hub = base / org_name
+        if revision:
+            pinned = hub / "snapshots" / str(revision)
+            if (pinned / "config.json").is_file():
+                return str(pinned)
+        snaps = hub / "snapshots"
+        if not snaps.is_dir():
+            continue
+        found = [p for p in snaps.iterdir() if p.is_dir() and (p / "config.json").is_file()]
+        if found:
+            found.sort(key=lambda p: p.stat().st_mtime, reverse=True)
+            return str(found[0])
+    return model_id
+
+
 def apply_qwen_transformers_compat() -> None:
     """qwen_tts nutzt @check_model_inputs(); manche transformers-Versionen verlangen @check_model_inputs."""
     global _TRANSFORMERS_COMPAT_APPLIED
@@ -245,27 +309,31 @@ class TorchStudioEngine:
 
         from qwen_tts import Qwen3TTSModel
 
+        apply_qwen_config_compat()
         device = tts.pick_device()
         dtype = torch.float32 if device in {"mps", "cpu"} else torch.bfloat16
         model_id = settings["model_id"]
         revision = settings.get("revision")
+        source = resolve_pretrained_source(settings)
         print(f"Backend: PyTorch  Modell: {model_id}")
         if revision:
             print(f"Revision: {revision}")
+        print(f"Quelle:   {source}")
         print(f"Gerät:  {device}  ({dtype})")
         kwargs = {
             "device_map": device,
             "dtype": dtype,
             "attn_implementation": "sdpa",
         }
-        if revision:
+        local_source = source != model_id
+        if revision and not local_source:
             kwargs["revision"] = revision
         try:
-            self.model = Qwen3TTSModel.from_pretrained(model_id, **kwargs)
+            self.model = Qwen3TTSModel.from_pretrained(source, **kwargs)
         except TypeError as exc:
-            if revision and "revision" in str(exc):
+            if "revision" in kwargs and "revision" in str(exc):
                 kwargs.pop("revision", None)
-                self.model = Qwen3TTSModel.from_pretrained(model_id, **kwargs)
+                self.model = Qwen3TTSModel.from_pretrained(source, **kwargs)
             else:
                 raise
         self.settings = settings
