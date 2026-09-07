@@ -109,6 +109,12 @@ def main() -> int:
     os.environ.setdefault("HF_HOME", str(local_tts / "models" / "hf"))
     os.environ.setdefault("HF_HUB_DISABLE_TELEMETRY", "1")
 
+    print()
+    print("Lade das vorhandene Qwen-Modell einmal in den Speicher.")
+    print("Das ist kein neuer Download für den Sweep — ohne geladenes Modell gibt es keine Samples.")
+    print("Danach kommen die Varianten (T, Top-K, Subtalker) nacheinander.")
+    print()
+
     engine = load_studio_engine(tts, args.backend, settings)
     ref_audio = str(tts.reference_wav(profile).resolve())
     prompt = engine.create_prompt(ref_audio=ref_audio, ref_text=ref_text)
@@ -281,7 +287,43 @@ def apply_qwen_transformers_compat() -> None:
         mod = sys.modules.get(name)
         if mod is not None and hasattr(mod, "check_model_inputs"):
             setattr(mod, "check_model_inputs", check_model_inputs)
+    apply_qwen_rope_compat()
     _TRANSFORMERS_COMPAT_APPLIED = True
+
+
+def apply_qwen_rope_compat() -> None:
+    """transformers 5 hat ROPE_INIT_FUNCTIONS ohne Schlüssel 'default'; qwen_tts erwartet ihn."""
+    try:
+        import transformers.modeling_rope_utils as rope
+    except Exception:
+        return
+    table = getattr(rope, "ROPE_INIT_FUNCTIONS", None)
+    if not isinstance(table, dict) or "default" in table:
+        return
+    fn = getattr(rope, "_compute_default_rope_parameters", None)
+    if fn is None:
+        fn = getattr(rope, "compute_default_rope_parameters", None)
+    if fn is None:
+        fn = _vanilla_default_rope_parameters
+    table["default"] = fn
+    print("Hinweis: transformers RoPE-Typ 'default' ergänzt (transformers 5).")
+
+
+def _vanilla_default_rope_parameters(config, device=None, **kwargs):
+    import torch
+
+    base = float(getattr(config, "rope_theta", 10000.0) or 10000.0)
+    partial = float(getattr(config, "partial_rotary_factor", 1.0) or 1.0)
+    head_dim = getattr(config, "head_dim", None)
+    if not head_dim:
+        hidden = int(getattr(config, "hidden_size", 0) or 0)
+        heads = int(getattr(config, "num_attention_heads", 1) or 1)
+        head_dim = hidden // max(heads, 1)
+    dim = max(int(head_dim * partial), 2)
+    inv_freq = 1.0 / (
+        base ** (torch.arange(0, dim, 2, dtype=torch.float32, device=device) / dim)
+    )
+    return inv_freq, 1.0
 
 
 def _bind_check_model_inputs(original, fn):
@@ -310,6 +352,7 @@ class TorchStudioEngine:
         from qwen_tts import Qwen3TTSModel
 
         apply_qwen_config_compat()
+        apply_qwen_rope_compat()
         device = tts.pick_device()
         dtype = torch.float32 if device in {"mps", "cpu"} else torch.bfloat16
         model_id = settings["model_id"]
