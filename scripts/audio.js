@@ -15,7 +15,7 @@ import { combatMusicNotifySpeechOrSfxStart, combatMusicNotifySpeechOrSfxEnd, sca
 const TTS_UTTER_RATE = 1.22;
 /** Tempo für ElevenLabs-Krit-MP3s (HTMLAudioElement.playbackRate) */
 const CRIT_MP3_PLAYBACK_RATE = 1.12;
-/** Qwen-MP3s sind bereits mit Studio-Speed 1.10× gerendert. */
+/** Qwen-MP3s sind bereits mit Studio-Speed 1.11× gerendert. */
 const QWEN_MP3_PLAYBACK_RATE = 1.0;
 
 const LS_CRIT_VOICE = 'mers_crit_voice_pack';

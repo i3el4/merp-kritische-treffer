@@ -6,7 +6,7 @@
   "voice_fidelity": "full_reference",
   "seed": 1024,
   "language": "German",
-  "speed": 1.1,
+  "speed": 1.11,
   "paragraph_generation": true,
   "paragraph_pause_ms": 300,
   "normalize": true,

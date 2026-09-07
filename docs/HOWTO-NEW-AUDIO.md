@@ -25,7 +25,7 @@ Existierende Dateien im jeweiligen Ordner werden übersprungen. Ctrl+C ist siche
 
 **Local TTS Studio wird nicht benötigt** (besser schliessen, sonst teilen sich zwei Prozesse die GPU). Der Batch spricht nur `~/local-tts`.
 
-Setting (Sampler, Speed, Loudness, Modell-Revision) liegt in [`tools/audio/qwen_tts_settings.json`](../tools/audio/qwen_tts_settings.json) — das ist dasselbe Set, das in Studio getestet wurde (Full Reference, German, Seed 1024, Temperature 0.81, …).
+Setting (Sampler, Speed, Loudness, Modell-Revision) liegt in [`tools/audio/qwen_tts_settings.json`](../tools/audio/qwen_tts_settings.json) — das ist dasselbe Set, das in Studio getestet wurde (Full Reference, German, Seed 1024, Speed 1.11×, Temperature 0.81, …).
 
 Voraussetzung: **auf dem Mac** (nicht in der Cloud-Agent-Konsole) im Projektordner:
 
