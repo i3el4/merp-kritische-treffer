@@ -13,6 +13,7 @@ import subprocess
 import sys
 import tempfile
 import time
+import traceback
 import types
 from datetime import datetime
 from pathlib import Path
@@ -27,6 +28,7 @@ DEFAULT_STUDIO_PROFILES = (
     / "voice_profiles.json"
 )
 PARTIAL_SUFFIX = ".partial.mp3"
+_TRANSFORMERS_COMPAT_APPLIED = False
 
 
 def load_settings() -> dict:
@@ -50,6 +52,7 @@ def main() -> int:
     parser.add_argument("--language", default=settings.get("language", "German"))
     args = parser.parse_args()
 
+    apply_qwen_transformers_compat()
     local_tts = args.local_tts.expanduser().resolve()
     tts = load_local_tts(local_tts)
     voice_name = tts.sanitize_name(args.voice)
@@ -187,7 +190,52 @@ def load_studio_engine(tts, backend: str, settings: dict):
     if chosen == "mlx":
         print("Hinweis: MLX übernimmt nicht alle Studio-Sampler (kein Subtalker/Top-K). Für Bud2-Setting: --backend torch")
         return MlxCompatEngine(tts, settings)
+    apply_qwen_transformers_compat()
     return TorchStudioEngine(tts, settings)
+
+
+def apply_qwen_transformers_compat() -> None:
+    """qwen_tts nutzt @check_model_inputs(); manche transformers-Versionen verlangen @check_model_inputs."""
+    global _TRANSFORMERS_COMPAT_APPLIED
+    if _TRANSFORMERS_COMPAT_APPLIED:
+        return
+    try:
+        import transformers.utils.generic as generic
+    except Exception:
+        return
+    original = getattr(generic, "check_model_inputs", None)
+
+    def check_model_inputs(func=None, *args, **kwargs):
+        if func is None:
+            def decorator(fn):
+                return _bind_check_model_inputs(original, fn)
+            return decorator
+        return _bind_check_model_inputs(original, func)
+
+    generic.check_model_inputs = check_model_inputs
+    for name in ("transformers.utils", "transformers"):
+        mod = sys.modules.get(name)
+        if mod is not None and hasattr(mod, "check_model_inputs"):
+            setattr(mod, "check_model_inputs", check_model_inputs)
+    _TRANSFORMERS_COMPAT_APPLIED = True
+
+
+def _bind_check_model_inputs(original, fn):
+    if original is None:
+        return fn
+    try:
+        result = original(fn)
+        return result if callable(result) else fn
+    except TypeError:
+        pass
+    try:
+        result = original()
+        if callable(result):
+            wrapped = result(fn)
+            return wrapped if callable(wrapped) else fn
+    except TypeError:
+        pass
+    return fn
 
 
 class TorchStudioEngine:
@@ -214,9 +262,12 @@ class TorchStudioEngine:
             kwargs["revision"] = revision
         try:
             self.model = Qwen3TTSModel.from_pretrained(model_id, **kwargs)
-        except TypeError:
-            kwargs.pop("revision", None)
-            self.model = Qwen3TTSModel.from_pretrained(model_id, **kwargs)
+        except TypeError as exc:
+            if revision and "revision" in str(exc):
+                kwargs.pop("revision", None)
+                self.model = Qwen3TTSModel.from_pretrained(model_id, **kwargs)
+            else:
+                raise
         self.settings = settings
         self.torch = torch
 
@@ -484,4 +535,5 @@ if __name__ == "__main__":
         raise SystemExit(130)
     except Exception as exc:
         print(f"Fehler: {exc}", file=sys.stderr)
+        traceback.print_exc()
         raise SystemExit(1)

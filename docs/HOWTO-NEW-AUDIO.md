@@ -130,3 +130,5 @@ Skript: [`tools/audio/englisch_krit_audio_tool.js`](../tools/audio/englisch_krit
 ElevenLabs ist **kostenpflichtig pro Zeichen**. Das Skript überspringt vorhandene Dateien.
 
 Qwen lokal kostet kein API-Guthaben, braucht aber Zeit (Modell bleibt im RAM).
+
+Die Warnung `flash-attn is not installed` ist harmlos. `check_model_inputs() missing … 'func'` war ein transformers/qwen_tts-Konflikt; der Worker patched das. Nach `git pull` denselben Sweep-Befehl nochmal.
