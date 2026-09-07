@@ -4,7 +4,9 @@
 from __future__ import annotations
 
 import argparse
+import faulthandler
 import importlib.util
+import inspect
 import json
 import os
 import re
@@ -29,6 +31,7 @@ DEFAULT_STUDIO_PROFILES = (
 )
 PARTIAL_SUFFIX = ".partial.mp3"
 _TRANSFORMERS_COMPAT_APPLIED = False
+_ROPE_COMPAT_APPLIED = False
 
 
 def load_settings() -> dict:
@@ -52,7 +55,9 @@ def main() -> int:
     parser.add_argument("--language", default=settings.get("language", "German"))
     args = parser.parse_args()
 
+    faulthandler.enable()
     apply_qwen_transformers_compat()
+    apply_qwen_rope_compat()
     local_tts = args.local_tts.expanduser().resolve()
     tts = load_local_tts(local_tts)
     voice_name = tts.sanitize_name(args.voice)
@@ -292,21 +297,24 @@ def apply_qwen_transformers_compat() -> None:
 
 
 def apply_qwen_rope_compat() -> None:
-    """transformers 5 hat ROPE_INIT_FUNCTIONS ohne Schlüssel 'default'; qwen_tts erwartet ihn."""
+    """transformers 5: 'default' RoPE fehlt, rope_config_validation ist tot — beides lokal ersetzen."""
+    global _ROPE_COMPAT_APPLIED
     try:
         import transformers.modeling_rope_utils as rope
     except Exception:
         return
+
+    def _noop(*_args, **_kwargs):
+        return None
+
+    if hasattr(rope, "rope_config_validation"):
+        rope.rope_config_validation = _noop
     table = getattr(rope, "ROPE_INIT_FUNCTIONS", None)
-    if not isinstance(table, dict) or "default" in table:
-        return
-    fn = getattr(rope, "_compute_default_rope_parameters", None)
-    if fn is None:
-        fn = getattr(rope, "compute_default_rope_parameters", None)
-    if fn is None:
-        fn = _vanilla_default_rope_parameters
-    table["default"] = fn
-    print("Hinweis: transformers RoPE-Typ 'default' ergänzt (transformers 5).")
+    if isinstance(table, dict):
+        table["default"] = _vanilla_default_rope_parameters
+    if not _ROPE_COMPAT_APPLIED:
+        print("Hinweis: transformers RoPE 'default' + rope_config_validation angepasst.")
+        _ROPE_COMPAT_APPLIED = True
 
 
 def _vanilla_default_rope_parameters(config, device=None, **kwargs):
@@ -349,12 +357,65 @@ class TorchStudioEngine:
         tts.quiet_library_noise()
         import torch
 
+        self.settings = settings
+        self.torch = torch
+        self.inner = None
+        self.model = None
+        apply_qwen_rope_compat()
+        self._log_transformers()
+        if not self._try_load_engine(tts):
+            self._load_pretrained(tts, settings, torch)
+
+    def _log_transformers(self) -> None:
+        try:
+            import transformers
+            version = getattr(transformers, "__version__", "?")
+            print(f"transformers {version}")
+            if str(version).startswith("5"):
+                print("Hinweis: transformers 5 ist mit Qwen-TTS oft instabil (Studio nutzt meist 4.57).")
+                print("Falls der Prozess ohne Traceback stirbt, einmal:")
+                print("  ~/local-tts/.venv/bin/pip install 'transformers==4.57.3'")
+        except Exception:
+            pass
+
+    def _try_load_engine(self, tts) -> bool:
+        if not hasattr(tts, "load_engine"):
+            return False
+        try:
+            args = SimpleNamespace(model="1.7B", backend="torch", fast=False, quality=True)
+            print("Lade über local-tts load_engine (wie ./tts --quality) …")
+            self.inner = tts.load_engine(args)
+        except Exception as exc:
+            print(f"load_engine nicht nutzbar: {exc}")
+            self.inner = None
+            return False
+        model = getattr(self.inner, "model", None)
+        if model is not None and hasattr(model, "generate_voice_clone"):
+            self.model = model
+            print("Engine: local-tts torch (generate_voice_clone)")
+            return True
+        if hasattr(self.inner, "generate"):
+            print("Engine: local-tts torch (generate)")
+            return True
+        print("load_engine ohne generate-API — fallback from_pretrained")
+        self.inner = None
+        return False
+
+    def _load_pretrained(self, tts, settings: dict, torch) -> None:
         from qwen_tts import Qwen3TTSModel
 
         apply_qwen_config_compat()
         apply_qwen_rope_compat()
         device = tts.pick_device()
-        dtype = torch.float32 if device in {"mps", "cpu"} else torch.bfloat16
+        if device == "mps":
+            dtype = torch.float16
+        elif device == "cpu":
+            dtype = torch.float32
+        else:
+            dtype = torch.bfloat16
+        env_dtype = os.environ.get("QWEN_TTS_DTYPE")
+        if env_dtype:
+            dtype = getattr(torch, env_dtype)
         model_id = settings["model_id"]
         revision = settings.get("revision")
         source = resolve_pretrained_source(settings)
@@ -379,15 +440,17 @@ class TorchStudioEngine:
                 self.model = Qwen3TTSModel.from_pretrained(source, **kwargs)
             else:
                 raise
-        self.settings = settings
-        self.torch = torch
 
     def create_prompt(self, ref_audio: str, ref_text: str):
-        return self.model.create_voice_clone_prompt(
-            ref_audio=ref_audio,
-            ref_text=ref_text,
-            x_vector_only_mode=False,
-        )
+        if self.model is not None and hasattr(self.model, "create_voice_clone_prompt"):
+            return self.model.create_voice_clone_prompt(
+                ref_audio=ref_audio,
+                ref_text=ref_text,
+                x_vector_only_mode=False,
+            )
+        if self.inner is not None and hasattr(self.inner, "create_prompt"):
+            return self.inner.create_prompt(ref_audio=ref_audio, ref_text=ref_text, x_vector_only=False)
+        raise RuntimeError("Keine Prompt-API am Torch-Engine.")
 
     def generate_chunk(self, text: str, language: str, prompt, ref_audio: str, ref_text: str, sampling=None):
         sampling = sampling if sampling is not None else (self.settings.get("sampling") or {})
@@ -396,23 +459,55 @@ class TorchStudioEngine:
             self.torch.manual_seed(int(seed))
             if self.torch.cuda.is_available():
                 self.torch.cuda.manual_seed_all(int(seed))
-        wavs, sr = self.model.generate_voice_clone(
-            text=text,
-            language=language,
-            voice_clone_prompt=prompt,
-            non_streaming_mode=True,
-            do_sample=True,
-            temperature=float(sampling.get("temperature", 0.81)),
-            top_p=float(sampling.get("top_p", 1.0)),
-            top_k=int(sampling.get("top_k", 62)),
-            repetition_penalty=float(sampling.get("repetition_penalty", 1.04)),
-            subtalker_dosample=True,
-            subtalker_temperature=float(sampling.get("subtalker_temperature", 0.96)),
-            subtalker_top_p=float(sampling.get("subtalker_top_p", 1.0)),
-            subtalker_top_k=int(sampling.get("subtalker_top_k", 62)),
-            max_new_tokens=int(sampling.get("max_new_tokens", 2048)),
-        )
-        return wavs[0], sr
+        if self.model is not None and hasattr(self.model, "generate_voice_clone"):
+            wavs, sr = self.model.generate_voice_clone(
+                text=text,
+                language=language,
+                voice_clone_prompt=prompt,
+                non_streaming_mode=True,
+                do_sample=True,
+                temperature=float(sampling.get("temperature", 0.81)),
+                top_p=float(sampling.get("top_p", 1.0)),
+                top_k=int(sampling.get("top_k", 62)),
+                repetition_penalty=float(sampling.get("repetition_penalty", 1.04)),
+                subtalker_dosample=True,
+                subtalker_temperature=float(sampling.get("subtalker_temperature", 0.96)),
+                subtalker_top_p=float(sampling.get("subtalker_top_p", 1.0)),
+                subtalker_top_k=int(sampling.get("subtalker_top_k", 62)),
+                max_new_tokens=int(sampling.get("max_new_tokens", 2048)),
+            )
+            return wavs[0], sr
+        if self.inner is None or not hasattr(self.inner, "generate"):
+            raise RuntimeError("Kein generate_voice_clone / generate am Torch-Engine.")
+        wanted = {
+            "text": text,
+            "language": language,
+            "voice_clone_prompt": prompt,
+            "ref_audio": ref_audio,
+            "ref_text": ref_text,
+            "x_vector_only": False,
+            "do_sample": True,
+            "temperature": float(sampling.get("temperature", 0.81)),
+            "top_p": float(sampling.get("top_p", 1.0)),
+            "top_k": int(sampling.get("top_k", 62)),
+            "repetition_penalty": float(sampling.get("repetition_penalty", 1.04)),
+            "subtalker_dosample": True,
+            "subtalker_temperature": float(sampling.get("subtalker_temperature", 0.96)),
+            "subtalker_top_p": float(sampling.get("subtalker_top_p", 1.0)),
+            "subtalker_top_k": int(sampling.get("subtalker_top_k", 62)),
+            "max_new_tokens": int(sampling.get("max_new_tokens", 2048)),
+        }
+        return self.inner.generate(**_filter_kwargs(self.inner.generate, wanted))
+
+
+def _filter_kwargs(fn, wanted: dict) -> dict:
+    try:
+        params = inspect.signature(fn).parameters
+    except (TypeError, ValueError):
+        return wanted
+    if any(p.kind == inspect.Parameter.VAR_KEYWORD for p in params.values()):
+        return wanted
+    return {key: value for key, value in wanted.items() if key in params}
 
 
 class MlxCompatEngine:

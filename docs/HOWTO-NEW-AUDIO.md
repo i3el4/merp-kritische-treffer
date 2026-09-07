@@ -131,4 +131,10 @@ ElevenLabs ist **kostenpflichtig pro Zeichen**. Das Skript überspringt vorhande
 
 Qwen lokal kostet kein API-Guthaben, braucht aber Zeit (Modell bleibt im RAM).
 
-Die Warnung `flash-attn is not installed` ist harmlos. `~/local-tts/.venv` hat oft transformers 5, Qwen-TTS ist für 4.57 gebaut; der Worker patched `check_model_inputs`, `pad_token_id` und RoPE `default`. Das Modell wird **einmal in den Speicher** geladen (lokal aus `~/local-tts/models/hf`), danach entstehen die Sampler-Varianten — das ist kein neuer Download pro Sample.
+Die Warnung `flash-attn is not installed` ist harmlos. Stirbt der Worker ohne Traceback (`leaked semaphore` / SIGKILL), ist transformers 5 in `~/local-tts/.venv` der übliche Grund. Studio hat oft ein eigenes Python. Einmal:
+
+```bash
+~/local-tts/.venv/bin/pip install 'transformers==4.57.3'
+```
+
+Studio schliessen, danach denselben Sweep. Das Modell wird **einmal in den Speicher** geladen (Cache unter `~/local-tts/models/hf`), danach entstehen die Sampler-Varianten.
