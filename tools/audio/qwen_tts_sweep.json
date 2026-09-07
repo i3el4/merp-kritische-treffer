@@ -1,53 +1,14 @@
 {
-  "notes": "Sampler-Sweep um das aktuelle Bud2-Setting. Leere sampling-Objekte erben alle Werte aus qwen_tts_settings.json. Preset night = alles; quick = drei Clips, sieben Varianten.",
+  "notes": "Sampler-Sweep immer über denselben Text: Streich (Held) D 67–70. Leere sampling-Objekte erben qwen_tts_settings.json. Preset night = alle Varianten; quick = sieben Varianten.",
   "clips": [
     {
-      "id": "question-taunt",
-      "label": "Frage / Spott",
-      "table": "Stoss",
-      "kategorie": "C",
-      "range": "01-05",
-      "why": "Fragezeichen — Satzmelodie am Ende"
-    },
-    {
-      "id": "question-short",
-      "label": "Kurze Frage",
-      "table": "Stoss",
+      "id": "streich-held-d-67-70",
+      "label": "Streich (Held) D 67–70",
+      "table": "Streich (Held)",
       "kategorie": "D",
-      "range": "01-05",
-      "why": "Kurz, „oder?“"
-    },
-    {
-      "id": "boom-face",
-      "label": "Ausruf / Onomatopoesie",
-      "table": "Stoss",
-      "kategorie": "C",
-      "range": "46-50",
-      "why": "Boom! plus Handlung"
-    },
-    {
-      "id": "cold-armor",
-      "label": "Mittellang, sachlich",
-      "table": "Kälte",
-      "kategorie": "C",
       "range": "67-70",
-      "why": "Typischer Krit-Satz, Zahlen und Alternativen"
-    },
-    {
-      "id": "ear-hit",
-      "label": "Lang, Regeln + Ausruf",
-      "table": "Stich (Held)",
-      "kategorie": "A",
-      "range": "98-98",
-      "why": "Langer Regeltext, erstes Ausrufezeichen"
-    },
-    {
-      "id": "leg-lie",
-      "label": "Lang, erzählend",
-      "table": "Stich",
-      "kategorie": "E",
-      "range": "75-75",
-      "why": "Längster narrativer Clip, Humor"
+      "why": "Fester Vergleichstext für alle Sampler",
+      "text": "Schwerer Treffer am oberen Rücken. Eine offene Wunde bereitet dem Gegner sichtbar Schmerzen. Erstaunlich, dass er seine Verteidigung trotzdem aufrechterhalten kann. Der Gegner erleidet fünf Treffer und muss eine Runde lang parieren. Zusätzlich erleidet er drei Treffer pro Runde und erhält einen Malus von minus fünfzehn auf alle Aktionen."
     }
   ],
   "variants": [
@@ -205,7 +166,7 @@
   ],
   "presets": {
     "quick": {
-      "clipIds": ["question-taunt", "boom-face", "cold-armor"],
+      "clipIds": ["streich-held-d-67-70"],
       "variantIds": ["baseline", "T0.73", "T0.90", "subT0.85", "subT1.20", "recipe-stable", "recipe-lively"]
     },
     "night": {

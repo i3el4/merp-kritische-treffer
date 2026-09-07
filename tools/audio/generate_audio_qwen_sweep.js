@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * generate_audio_qwen_sweep.js
- * Sampler-Raster über wenige Krit-Texte. Schreibt NIE nach assets/audio/qwen/ oder krit/.
+ * Sampler-Raster über Streich (Held) D 67–70. Schreibt NIE nach assets/audio/qwen/ oder krit/.
  *
  *   npm run generate-audio-qwen-sweep -- --preset quick
  *   caffeinate -i npm run generate-audio-qwen-sweep
@@ -94,7 +94,7 @@ Usage:
   npm run generate-audio-qwen-sweep -- [Optionen]
 
 Optionen:
-  --preset quick|night   Default: night (6 Clips × 25 Varianten).
+  --preset quick|night   Default: night (1 Text × 25 Varianten).
   --clips id,id          Nur diese Clips (siehe qwen_tts_sweep.json).
   --variants id,id       Nur diese Varianten.
   --limit N              Höchstens N neue MP3s.
@@ -129,6 +129,16 @@ function lookupTts(data, clip) {
     return text;
 }
 
+function resolveClipText(data, clip) {
+    const fromTable = lookupTts(data, clip);
+    const pinned = String(clip.text || '').trim();
+    if (!pinned) return fromTable;
+    if (pinned !== fromTable) {
+        console.warn(`Clip ${clip.id}: gepinnter Text weicht von tables_processed.json ab. Sweep nutzt den gepinnten Text.`);
+    }
+    return pinned;
+}
+
 function pickByIds(items, ids, kind) {
     if (!ids || ids === 'all') return items;
     const list = Array.isArray(ids) ? ids : [];
@@ -158,7 +168,7 @@ function buildJobs({ settings, sweep, data, opts }) {
     const variantIds = opts.variantIds || preset.variantIds;
     const clips = pickByIds(sweep.clips, clipIds, 'Clip').map((clip) => {
         assertSafeId(clip.id, 'Clip');
-        return { ...clip, text: lookupTts(data, clip) };
+        return { ...clip, text: resolveClipText(data, clip) };
     });
     const variants = pickByIds(sweep.variants, variantIds, 'Variante').map((variant) => {
         assertSafeId(variant.id, 'Variante');

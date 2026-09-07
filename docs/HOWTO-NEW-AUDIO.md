@@ -63,17 +63,17 @@ In der App: Profil → **Krit-Stimme** → „Bud2 (Qwen)“. Fehlt eine Qwen-Da
 
 ## Sampler-Sweep (Einstellungen vergleichen)
 
-Nicht die App und nicht Studio: ein Raster aus wenigen echten Krit-Texten × Sampler-Varianten. Output nur unter `assets/data/_pipeline/qwen-sweep/` (gitignored). `assets/audio/qwen/` bleibt unangetastet.
+Nicht die App und nicht Studio: ein Raster aus **einem festen Krit-Text** × Sampler-Varianten. Output nur unter `assets/data/_pipeline/qwen-sweep/` (gitignored). `assets/audio/qwen/` bleibt unangetastet.
 
-Raster und Clips: [`tools/audio/qwen_tts_sweep.json`](../tools/audio/qwen_tts_sweep.json). Speed, Seed, Loudnorm, Modell bleiben das Studio-Setting; es ändert sich nur Temperature / Top-P / Top-K plus Subtalker.
+Text und Raster: [`tools/audio/qwen_tts_sweep.json`](../tools/audio/qwen_tts_sweep.json) — aktuell immer **Streich (Held) D 67–70**. Speed, Seed, Loudnorm, Modell bleiben das Studio-Setting; es ändert sich nur Temperature / Top-P / Top-K plus Subtalker.
 
 Studio **beenden**, dann:
 
 ```bash
-# Kurztest (~21 Dateien)
+# Kurztest (7 Varianten, gleicher Text)
 npm run generate-audio-qwen-sweep -- --preset quick
 
-# Nachtlauf (6 Texte × 25 Varianten, Resume per Ctrl+C)
+# Nachtlauf (25 Varianten, Resume per Ctrl+C)
 caffeinate -i npm run generate-audio-qwen-sweep
 ```
 
