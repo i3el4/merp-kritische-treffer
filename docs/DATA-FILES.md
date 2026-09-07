@@ -20,7 +20,8 @@ Welche Datei wird wo gelesen oder geschrieben? Diese Übersicht hilft, vor dem E
 
 | Pfad | Inhalt |
 |---|---|
-| `assets/audio/krit/<tableSlug>/<KAT>_<RANGE>.mp3` | TTS-Aufnahmen pro Krit-Eintrag (ElevenLabs-generiert). Beispiel: `assets/audio/krit/hieb/E_76-80.mp3`. |
+| `assets/audio/krit/<tableSlug>/<KAT>_<RANGE>.mp3` | Original-TTS (ElevenLabs). Beispiel: `assets/audio/krit/hieb/E_76-80.mp3`. |
+| `assets/audio/qwen/<tableSlug>/<KAT>_<RANGE>.mp3` | Zweite Stimme (Qwen/Bud2). In der App: Profil → Krit-Stimme. |
 | `assets/audio/krit/_archive_englisch_non_canonical/<Datum>/` | Archivordner für nicht mehr passende Englisch-MP3s (siehe `englisch-mp3-archive`). |
 | `assets/audio/musik/` | Hintergrundmusik (manuell beigetragen). |
 
@@ -69,7 +70,7 @@ CSV-Format: siehe `TABLE_CONFIG` in `tools/tables/import_and_fix_tables.js`. Tre
 | `private/firebase-config.js` | **Lokal** vorhandene Firebase-Web-Config (überschreibt das Repo-Default) |
 | `scripts/firebase-config.js` | **Im Repo eingecheckt** für GitHub-Pages-Deployment |
 | `scripts/firebase-config.example.js` | Vorlage zum Kopieren nach `private/firebase-config.js` |
-| `private/.env` | API-Keys für Pipeline (`GEMINI_API_KEY`, `ELEVENLABS_API_KEY`, `ELEVENLABS_VOICE_ID`) |
+| `private/.env` | API-Keys für Pipeline (`GEMINI_API_KEY`, `ELEVENLABS_*`; optional `LOCAL_TTS_ROOT` / `QWEN_TTS_VOICE`) |
 | `firebase-database.rules.json` | Firebase-Realtime-Database-Regeln (manuell in Firebase Console einsetzen) |
 
 ---

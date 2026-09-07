@@ -62,12 +62,21 @@ export function normalizeRange(rangeKey) {
   return Number.isNaN(n) ? s : String(n);
 }
 
-export function buildCritAudioRelativePath(tableKey, category, rangeKey) {
+/** Original-ElevenLabs unter assets/audio/krit/ */
+export const CRIT_AUDIO_PACK_KRIT = 'krit';
+/** Lokales Qwen (Bud2) unter assets/audio/qwen/ */
+export const CRIT_AUDIO_PACK_QWEN = 'qwen';
+
+/**
+ * @param {string} [pack='krit']  'krit' (Default) oder 'qwen'
+ */
+export function buildCritAudioRelativePath(tableKey, category, rangeKey, pack = CRIT_AUDIO_PACK_KRIT) {
   const slug = tableKeyToSlug(tableKey);
   const cat = normalizeCategory(category);
   const range = normalizeRange(rangeKey);
   if (!slug || !cat || !range) return null;
-  return `krit/${slug}/${cat}_${range}.mp3`;
+  const root = pack === CRIT_AUDIO_PACK_QWEN ? CRIT_AUDIO_PACK_QWEN : CRIT_AUDIO_PACK_KRIT;
+  return `${root}/${slug}/${cat}_${range}.mp3`;
 }
 
 export function buildLegacyCritAudioFilename(tableKey, category, rangeKey) {

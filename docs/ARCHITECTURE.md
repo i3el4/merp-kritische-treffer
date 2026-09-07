@@ -98,7 +98,7 @@ flowchart TD
 Beobachtungen:
 - **`state.js` und `dom.js` sind Blätter** – sie haben keine eigenen Imports und werden von praktisch allen Modulen genutzt.
 - **`firebase-storage.js` ist der einzige Berührungspunkt mit Firebase.** Wenn keine `firebase-config.js` da ist oder die Init scheitert, fallen `campaigns`, `kampftracker` und `critCorrections` automatisch auf localStorage zurück.
-- **Audio liegt zweistufig vor:** `audio.js` (Wiedergabe) und `logic.js` / `events.js` (Auslöser). Audio-Dateien folgen dem kanonischen Layout `assets/audio/krit/<tableSlug>/<KAT>_<RANGE>.mp3` (Builder in `scripts/audioNaming.mjs`).
+- **Audio liegt zweistufig vor:** `audio.js` (Wiedergabe) und `logic.js` / `events.js` (Auslöser). Original: `assets/audio/krit/…`. Qwen: `assets/audio/qwen/…` (Pack in `scripts/audioNaming.mjs`). Umschalten: Profil → Krit-Stimme.
 
 ---
 

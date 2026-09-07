@@ -49,7 +49,7 @@ Progressive Web App (PWA) für das Mittelerde-Rollenspiel (MERP/MERS). Schnelles
 ├── tools/                         # DATEN-PIPELINE (Node-CLI)
 │   ├── pdf-extract/               # PDF → JSON (Gemini)
 │   ├── tables/                    # JSON-Transforms
-│   ├── audio/                     # MP3-Generierung (ElevenLabs)
+│   ├── audio/                     # MP3-Generierung (Qwen lokal / ElevenLabs)
 │   └── _archive/                  # Legacy/Experimente
 ├── assets/
 │   ├── data/                      # Runtime-JSON (gelesen von der App)

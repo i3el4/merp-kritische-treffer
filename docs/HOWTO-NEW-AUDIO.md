@@ -8,13 +8,54 @@ Du hast eine neue oder geänderte Krit-Tabelle in `assets/data/tables_processed.
 
 ## Was passiert?
 
-Das Skript [`tools/audio/generate_audio_elevenlabs.js`](../tools/audio/generate_audio_elevenlabs.js) liest `tables_processed.json`, geht alle Krit-Einträge durch und ruft für jeden `tts_text` die **ElevenLabs Text-to-Speech API** auf. Existierende MP3s werden übersprungen, also kostet ein Re-Run nur die wirklich fehlenden Dateien.
+Die Audio-Skripte lesen `tables_processed.json`, Feld **`tts`**, und erzeugen MP3s. **Zwei Stimmen, zwei Ordner:**
 
-Dateinamen-Schema: `assets/audio/krit/<tableSlug>/<KAT>_<RANGE>.mp3`, z.B. `assets/audio/krit/hieb/E_76-80.mp3`. Format-Logik in `scripts/audioNaming.mjs`.
+| npm-Skript | Engine | Output |
+|---|---|---|
+| `generate-audio` | ElevenLabs API | `assets/audio/krit/<tableSlug>/<KAT>_<RANGE>.mp3` |
+| `generate-audio-qwen` | lokales Qwen3-TTS (`~/local-tts`) | `assets/audio/qwen/<tableSlug>/<KAT>_<RANGE>.mp3` |
+
+Gleiche Dateinamen-Logik in `scripts/audioNaming.mjs`. In der App: **Profil → Krit-Stimme**.
+
+Existierende Dateien im jeweiligen Ordner werden übersprungen. Ctrl+C ist sicher; der nächste Lauf macht nur Fehlendes.
 
 ---
 
-## Setup einmalig
+## Lokal mit Qwen (Stimme Bud2)
+
+**Local TTS Studio wird nicht benötigt** (besser schliessen, sonst teilen sich zwei Prozesse die GPU). Der Batch spricht nur `~/local-tts`.
+
+Setting (Sampler, Speed, Loudness, Modell-Revision) liegt in [`tools/audio/qwen_tts_settings.json`](../tools/audio/qwen_tts_settings.json) — das ist dasselbe Set, das in Studio getestet wurde (Full Reference, German, Seed 1024, Temperature 0.81, …).
+
+Voraussetzung: `~/local-tts` (`./setup.sh`, `./tts setup`). Stimme **Bud2** wird beim ersten Lauf aus Studio nach `~/local-tts/data/voices/bud2/` kopiert, falls sie dort noch fehlt.
+
+### Test
+
+```bash
+npm run generate-audio-qwen -- --limit 3
+npm run generate-audio-qwen -- --min-chars 350 --limit 4
+```
+
+### Nachtlauf
+
+Studio **beenden**, dann:
+
+```bash
+caffeinate -i npm run generate-audio-qwen
+```
+
+- **Morgens:** Ctrl+C. Unfertige Dateien bleiben `*.partial.mp3`.
+- **Nächste Nacht:** denselben Befehl.
+
+Default-Backend ist **torch** (Qwen3-TTS-12Hz-1.7B-Base, wie Studio). `--backend mlx` ist schneller, klingt aber nicht identisch.
+
+In der App: Profil → **Krit-Stimme** → „Bud2 (Qwen)“. Fehlt eine Qwen-Datei, fällt die App auf ElevenLabs zurück.
+
+---
+
+## ElevenLabs (Cloud)
+
+### Setup einmalig
 
 1. **ElevenLabs-Account** anlegen, Voice trainieren oder vorhandene Voice-ID notieren.
 2. **`private/.env`** erweitern (siehe [`private/README.md`](../private/README.md)):
@@ -25,35 +66,20 @@ Dateinamen-Schema: `assets/audio/krit/<tableSlug>/<KAT>_<RANGE>.mp3`, z.B. `asse
    ELEVENLABS_SPEECH_SPEED=1.1
    ```
 
----
-
-## Generieren
+### Generieren
 
 ```bash
 npm run generate-audio
 ```
 
-Das Skript zeigt für jeden Eintrag entweder „skip (existiert)" oder „write …". Bei Rate-Limits (429) wird mit Backoff wiederholt.
-
-Output: `assets/audio/krit/<tableSlug>/<KAT>_<RANGE>.mp3`.
-
----
-
-## Sprache der Stimme prüfen
-
-ElevenLabs `eleven_multilingual_v2` ist in `generate_audio_elevenlabs.js` hartkodiert. Wenn du eine andere Sprache willst, dort anpassen.
+Skript: [`tools/audio/generate_audio_elevenlabs.js`](../tools/audio/generate_audio_elevenlabs.js).
 
 ---
 
 ## Aufräumen nicht mehr passender englischer MP3s
 
-Wenn die englischen Krit-Tabellen aktualisiert wurden, kann es Reste geben, deren Dateinamen nicht mehr in `tables_processed.json` vorkommen.
-
 ```bash
-# Listet, was fehlt / überflüssig ist
 npm run englisch-mp3-report
-
-# Verschiebt überflüssige MP3s nach assets/audio/krit/_archive_englisch_non_canonical/<Datum>/
 npm run englisch-mp3-archive
 ```
 
@@ -63,15 +89,14 @@ Skript: [`tools/audio/englisch_krit_audio_tool.js`](../tools/audio/englisch_krit
 
 ## Smoke-Test
 
-1. **Service-Worker Cache bumpen** in [`sw.js`](../sw.js) (`CACHE_NAME` hochzählen) – sonst lädt der Browser die alten Dateien aus dem Cache.
+1. **Service-Worker Cache bumpen** in [`sw.js`](../sw.js) (`CACHE_NAME` hochzählen).
 2. App starten (`npm run serve`), Hard-Reload.
-3. Im Simulator den frisch vertonten Krit auswählen, „Krit auslösen". Erwartung: MP3 wird gespielt; falls nicht, fällt die App auf Browser-TTS zurück (siehe `audio.js` / `logic.js`).
+3. Im Simulator einen vertonten Krit auslösen. Erwartung: MP3; sonst Browser-TTS.
 
 ---
 
-## Kostenwarnung
+## Kostenwarnung (nur ElevenLabs)
 
-ElevenLabs ist **kostenpflichtig pro Zeichen**. Eine grosse Tabelle (mehrere hundert Einträge × ~50 Wörter `tts_text`) kann schnell ein paar Euro kosten. Vor dem Lauf:
+ElevenLabs ist **kostenpflichtig pro Zeichen**. Das Skript überspringt vorhandene Dateien.
 
-- `tables_processed.json` lokal sichten, ob die Texte tatsächlich „final" sind.
-- Mit `--dry-run` arbeiten? Aktuell gibt es keinen, aber das Skript macht `fs.existsSync(filePath)` vor jedem API-Call und überspringt – also keine doppelte Abrechnung.
+Qwen lokal kostet kein API-Guthaben, braucht aber Zeit (Modell bleibt im RAM).

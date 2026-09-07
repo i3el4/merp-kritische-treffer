@@ -1,0 +1,25 @@
+{
+  "voice": "bud2",
+  "model_id": "Qwen/Qwen3-TTS-12Hz-1.7B-Base",
+  "revision": "fd4b254389122332181a7c3db7f27e918eec64e3",
+  "backend": "torch",
+  "voice_fidelity": "full_reference",
+  "seed": 1024,
+  "language": "German",
+  "speed": 1.1,
+  "paragraph_generation": true,
+  "paragraph_pause_ms": 300,
+  "normalize": true,
+  "target_loudness_lufs": -16.0,
+  "true_peak_limit_dbtp": -1.0,
+  "sampling": {
+    "temperature": 0.81,
+    "top_p": 1.0,
+    "top_k": 62,
+    "repetition_penalty": 1.04,
+    "subtalker_temperature": 0.96,
+    "subtalker_top_p": 1.0,
+    "subtalker_top_k": 62,
+    "max_new_tokens": 2048
+  }
+}

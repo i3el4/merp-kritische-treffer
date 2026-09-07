@@ -9,7 +9,8 @@ Projektweite Konventionen fuer Dateinamen, Ordner und Daten-Keys.
 - **Daten-Ordner-Slugs**: `lowercase_snake_case`.
   - Beispiel: `assets/audio/krit/allgemeine_patzer/`
 - **Audio-Dateien (krit)**:
-  - Kanonisch: `assets/audio/krit/<tableSlug>/<CATEGORY>_<RANGE>.mp3`
+  - Original: `assets/audio/krit/<tableSlug>/<CATEGORY>_<RANGE>.mp3`
+  - Qwen: `assets/audio/qwen/<tableSlug>/<CATEGORY>_<RANGE>.mp3`
   - Beispiele: `hieb/E_76-80.mp3`, `allgemeine_patzer/FERNKAMPF_97-99.mp3`
 
 ## 2) JSON-Keys

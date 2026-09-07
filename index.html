@@ -321,6 +321,14 @@
                 <span class="badge" id="standardKampfMusikBadge">Licht</span>
               </div>
               <div class="audio-controls">
+                <label for="critVoicePackSelect">Krit-Stimme</label>
+                <select id="critVoicePackSelect" class="kampf-musik-override-select"
+                  title="Welche vertonte MP3 abgespielt wird">
+                  <option value="krit">Original (ElevenLabs)</option>
+                  <option value="qwen">Bud2 (Qwen)</option>
+                </select>
+              </div>
+              <div class="audio-controls">
                 <label for="ttsVol">Lautstärke</label>
                 <div class="volume-stepper">
                   <button type="button" class="btn volume-step-btn" data-action="down" data-target="ttsVol" aria-label="Sprache leiser">−</button>

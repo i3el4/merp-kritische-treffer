@@ -15,6 +15,9 @@ Dieser Ordner enthält Konfigurationsdateien mit API-Keys und Zugangsdaten.
    GEMINI_API_KEY=dein_key
    ELEVENLABS_API_KEY=dein_key
    ELEVENLABS_VOICE_ID=deine_voice_id
+   # Optional für generate-audio-qwen (Default: ~/local-tts, Stimme bud2)
+   # LOCAL_TTS_ROOT=/Users/…/local-tts
+   # QWEN_TTS_VOICE=bud2
    ```
 
 3. **Firebase Admin SDK** (optional, nur für Server/Cloud Functions):

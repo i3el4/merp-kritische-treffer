@@ -115,7 +115,8 @@ Wenn der `visual`-Text fehlt oder leer ist, kannst du anschliessend einmal `npm 
 Sobald deine Krit-Tabelle in `tables_processed.json` ist, generiere die Sprach-MP3s, sonst nutzt die App nur Browser-TTS:
 
 ```bash
-npm run generate-audio
+npm run generate-audio-qwen
+# Cloud-Alternative: npm run generate-audio
 ```
 
 Details und API-Key-Setup siehe [HOWTO-NEW-AUDIO.md](HOWTO-NEW-AUDIO.md).

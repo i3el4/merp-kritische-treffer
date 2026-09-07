@@ -12,6 +12,7 @@ import { initCritCorrections } from './critCorrections.js';
 import { adjustWeaponFontSizes } from './logic.js';
 import { state } from './state.js';
 import { initCombatMusic, loadAngreiferModusFromStorage } from './combatMusic.js';
+import { initCritVoicePackSelect } from './audio.js';
 import { $, $$ } from './dom.js';
 
 let appInitialized = false;
@@ -160,6 +161,7 @@ function initUserProfile() {
 
 async function initApp() {
   initCombatMusic();
+  initCritVoicePackSelect();
   await initCritCorrections();
   loadData().catch(err => {
     console.error(err);

@@ -4,16 +4,39 @@
 import { URLS } from './constants.js';
 import { state } from './state.js';
 import { $ } from './dom.js';
-import { buildCritAudioRelativePath } from './audioNaming.mjs';
+import {
+    buildCritAudioRelativePath,
+    CRIT_AUDIO_PACK_KRIT,
+    CRIT_AUDIO_PACK_QWEN,
+} from './audioNaming.mjs';
 import { combatMusicNotifySpeechOrSfxStart, combatMusicNotifySpeechOrSfxEnd, scaleMusicVolume, readMusicVolumeNorm, readTtsVolumeNorm } from './combatMusic.js';
 
 /** Vorlese-Tempo (Web Speech API, 0.1–10; ~1 = normal) */
 const TTS_UTTER_RATE = 1.22;
-/** Tempo für vorproduzierte Krit-MP3s (HTMLAudioElement.playbackRate) */
+/** Tempo für ElevenLabs-Krit-MP3s (HTMLAudioElement.playbackRate) */
 const CRIT_MP3_PLAYBACK_RATE = 1.12;
+/** Qwen-MP3s sind bereits mit Studio-Speed 1.10× gerendert. */
+const QWEN_MP3_PLAYBACK_RATE = 1.0;
+
+const LS_CRIT_VOICE = 'mers_crit_voice_pack';
 
 const bgAudio = $('#bgAudio');
 const sfxAudio = $('#sfxAudio');
+
+export function getCritVoicePack() {
+    const v = localStorage.getItem(LS_CRIT_VOICE);
+    return v === CRIT_AUDIO_PACK_QWEN ? CRIT_AUDIO_PACK_QWEN : CRIT_AUDIO_PACK_KRIT;
+}
+
+export function initCritVoicePackSelect() {
+    const sel = /** @type {HTMLSelectElement | null} */ ($('#critVoicePackSelect'));
+    if (!sel) return;
+    sel.value = getCritVoicePack();
+    sel.addEventListener('change', () => {
+        const pack = sel.value === CRIT_AUDIO_PACK_QWEN ? CRIT_AUDIO_PACK_QWEN : CRIT_AUDIO_PACK_KRIT;
+        localStorage.setItem(LS_CRIT_VOICE, pack);
+    });
+}
 
 /**
  * Versucht, Hintergrundmusik zu starten, basierend auf dem Krit-Typ.
@@ -35,6 +58,27 @@ export function tryStartBgAudio(tableKey) {
     bgAudio.play().catch(() => {});
 }
 
+function packOrderForPlayback() {
+    const preferred = getCritVoicePack();
+    if (preferred === CRIT_AUDIO_PACK_QWEN) {
+        return [CRIT_AUDIO_PACK_QWEN, CRIT_AUDIO_PACK_KRIT];
+    }
+    return [CRIT_AUDIO_PACK_KRIT];
+}
+
+function tryPlaySrc(src, playbackRate) {
+    sfxAudio.pause();
+    sfxAudio.src = src;
+    sfxAudio.volume = readTtsVolumeNorm();
+    sfxAudio.playbackRate = playbackRate;
+    return sfxAudio.play().then(() => new Promise((resolve, reject) => {
+        const done = () => resolve(undefined);
+        const fail = () => reject(new Error('audio error'));
+        sfxAudio.addEventListener('ended', done, { once: true });
+        sfxAudio.addEventListener('error', fail, { once: true });
+    }));
+}
+
 /**
  * Spielt den Krit-Audio-Effekt ab oder verwendet TTS als Fallback.
  * @param {string} typ Krit-Typ.
@@ -43,30 +87,21 @@ export function tryStartBgAudio(tableKey) {
  * @param {string} fallbackText Text für TTS.
  */
 export async function playCritAudio(typ, kat, rangeKey, fallbackText) {
-    const relativePath = buildCritAudioRelativePath(typ, kat, rangeKey);
-    if (!relativePath) {
-        speak(fallbackText);
-        return;
-    }
-
-    sfxAudio.src = URLS.AUDIO_BASE_PATH + relativePath;
-    sfxAudio.volume = readTtsVolumeNorm();
-    sfxAudio.playbackRate = CRIT_MP3_PLAYBACK_RATE;
-
     combatMusicNotifySpeechOrSfxStart();
-    try {
-        await sfxAudio.play();
-        await new Promise((resolve) => {
-            const done = () => resolve(undefined);
-            sfxAudio.addEventListener('ended', done, { once: true });
-            sfxAudio.addEventListener('error', done, { once: true });
-        });
-    } catch (err) {
-        combatMusicNotifySpeechOrSfxEnd();
-        speak(fallbackText);
-        return;
+    for (const pack of packOrderForPlayback()) {
+        const relativePath = buildCritAudioRelativePath(typ, kat, rangeKey, pack);
+        if (!relativePath) continue;
+        const rate = pack === CRIT_AUDIO_PACK_QWEN ? QWEN_MP3_PLAYBACK_RATE : CRIT_MP3_PLAYBACK_RATE;
+        try {
+            await tryPlaySrc(URLS.AUDIO_BASE_PATH + relativePath, rate);
+            combatMusicNotifySpeechOrSfxEnd();
+            return;
+        } catch (_) {
+            /* nächstes Pack oder Browser-TTS */
+        }
     }
     combatMusicNotifySpeechOrSfxEnd();
+    speak(fallbackText);
 }
 
 /**

@@ -36,6 +36,7 @@ flowchart LR
 
     subgraph PipelineAudio["Audio-Pipeline"]
         GenAudio[generate-audio]
+        GenAudioQwen[generate-audio-qwen]
         AudioReport[englisch-mp3-report]
     end
 
@@ -52,6 +53,7 @@ flowchart LR
     Csv --> ImportTables
 
     tablesProcessed --> GenAudio --> AudioFiles["assets/audio/krit/<tableSlug>/<KAT>_<RANGE>.mp3"]
+    tablesProcessed --> GenAudioQwen --> AudioQwen["assets/audio/qwen/<tableSlug>/<KAT>_<RANGE>.mp3"]
     tablesProcessed --> AudioReport
 ```
 
@@ -68,7 +70,8 @@ Legende:
 1. `node_modules/` installiert: `npm install`
 2. `private/.env` mit den nötigen API-Keys, siehe [`private/README.md`](../private/README.md):
    - `GEMINI_API_KEY` für PDF-Extraktion und Visual-Minify
-   - `ELEVENLABS_API_KEY` und `ELEVENLABS_VOICE_ID` für Audio-Generierung
+   - `ELEVENLABS_API_KEY` und `ELEVENLABS_VOICE_ID` für Cloud-Audio (`generate-audio`)
+   - Qwen lokal (`generate-audio-qwen`) braucht keinen API-Key, sondern `~/local-tts`
 
 ---
 
@@ -119,17 +122,20 @@ Reihenfolge: `extract-english` → `merge-english-tables` → `minify-visual-eng
 
 CSV-Dateinamen (z.B. `beissen.csv`, `pieksen.csv`) werden auf Waffen-Keys gemappt – siehe `TABLE_CONFIG` im Skript.
 
-### Audio (ElevenLabs)
+### Audio
 
 | npm-Skript | Datei | Input | Output |
 |---|---|---|---|
-| `generate-audio` | `tools/audio/generate_audio_elevenlabs.js` | `tables_processed.json` | `assets/audio/krit/<tableSlug>/<KAT>_<RANGE>.mp3` |
+| `generate-audio-qwen` | `tools/audio/generate_audio_qwen.js` + `qwen_tts_worker.py` | `tables_processed.json` | `assets/audio/qwen/<tableSlug>/<KAT>_<RANGE>.mp3` (Bud2, Setting in `qwen_tts_settings.json`) |
+| `generate-audio` | `tools/audio/generate_audio_elevenlabs.js` | `tables_processed.json` | `assets/audio/krit/…` (ElevenLabs) |
 | `migrate-audio-layout-dry` / `migrate-audio-layout` | `tools/audio/migrate_audio_layout.js` | bestehende `assets/audio/krit/*.mp3` (legacy flat) | kanonisches Subfolder-Layout |
 | `validate-audio-index` | `tools/audio/validate_audio_index.js` | `tables_processed.json` + `assets/audio/krit/` | Fehlermeldung bei fehlenden MP3s |
 | `englisch-mp3-archive` | `tools/audio/englisch_krit_audio_tool.js archive` | `assets/audio/krit/` (Englisch-Reste) | verschiebt non-canonical MP3s in `_archive_englisch_non_canonical/<Datum>/` |
 | `englisch-mp3-report` | dasselbe Tool, Modus `report` | `tables_processed.json` + `assets/audio/krit/` | Report über fehlende/überflüssige MP3s |
 
-> ElevenLabs ist **kostenpflichtig**. Skript prüft, was schon existiert, und generiert nur Fehlendes neu.
+> **Qwen:** schreibt nach `assets/audio/qwen/`, überschreibt ElevenLabs nicht. Studio nicht nötig. Ctrl+C ist sicher. Details: [HOWTO-NEW-AUDIO.md](HOWTO-NEW-AUDIO.md).
+>
+> **ElevenLabs** ist **kostenpflichtig**. Skript generiert nur Fehlendes.
 
 ---
 

@@ -4,8 +4,9 @@ Kanonische Konvention fuer Krit-Audio-Dateien.
 
 ## Zielpfad
 
-- Format: `assets/audio/krit/<tableSlug>/<category>_<range>.mp3`
-- Beispiel: `assets/audio/krit/hieb/E_76-80.mp3`
+- Format Original: `assets/audio/krit/<tableSlug>/<category>_<range>.mp3`
+- Format Qwen: `assets/audio/qwen/<tableSlug>/<category>_<range>.mp3`
+- Beispiel: `assets/audio/krit/hieb/E_76-80.mp3` und `assets/audio/qwen/hieb/E_76-80.mp3`
 
 ## Normalisierung
 
@@ -33,7 +34,7 @@ Die Regeln werden zentral in `scripts/audioNaming.mjs` gepflegt:
 - `tableKeyToSlug()`
 - `normalizeCategory()`
 - `normalizeRange()`
-- `buildCritAudioRelativePath()`
+- `buildCritAudioRelativePath(tableKey, category, rangeKey, pack?)` — `pack` ist `'krit'` (Default) oder `'qwen'`
 - `buildLegacyCritAudioFilename()`
 
 Runtime (`scripts/audio.js`) und Tooling (`tools/audio/*.js`) muessen diese Funktionen verwenden.
