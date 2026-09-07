@@ -75,21 +75,21 @@ In der App: Profil → **Krit-Stimme** → „Bud2 (Qwen)“. Fehlt eine Qwen-Da
 
 ## Sampler-Sweep (Einstellungen vergleichen)
 
-Nicht die App und nicht Studio: ein Raster aus **einem festen Krit-Text** × Sampler-Varianten. Output nur unter `assets/data/_pipeline/qwen-sweep/` (gitignored). `assets/audio/qwen/` bleibt unangetastet.
+Nicht die App und nicht Studio: ein Raster aus **sechs Krit-Texten** × Sampler-Varianten (Fragen, Ausruf, sachlich, lang). Output nur unter `assets/data/_pipeline/qwen-sweep/` (gitignored). `assets/audio/qwen/` bleibt unangetastet.
 
-Text und Raster: [`tools/audio/qwen_tts_sweep.json`](../tools/audio/qwen_tts_sweep.json) — aktuell immer **Streich (Held) D 67–70**. Speed, Seed, Loudnorm, Modell bleiben das Studio-Setting; es ändert sich nur Temperature / Top-P / Top-K plus Subtalker.
+Text und Raster: [`tools/audio/qwen_tts_sweep.json`](../tools/audio/qwen_tts_sweep.json). Speed, Seed, Loudnorm, Modell bleiben das Studio-Setting; es ändert sich nur Temperature / Top-P / Top-K plus Subtalker.
 
 Studio **beenden**, dann:
 
 ```bash
-# Kurztest (7 Varianten, gleicher Text)
+# Kurztest (1 Text × 7 Varianten)
 npm run generate-audio-qwen-sweep -- --preset quick
 
-# Nachtlauf (25 Varianten, Resume per Ctrl+C)
+# Nachtlauf (6 Texte × 25 Varianten = 150, Resume per Ctrl+C)
 caffeinate -i npm run generate-audio-qwen-sweep
 ```
 
-Morgens `assets/data/_pipeline/qwen-sweep/index.html` öffnen (oder `npm run serve` und die Datei im Browser). Gleicher Text, nacheinander die Varianten. Sterne und Notizen bleiben im Browser. Den Gewinner als JSON kopieren und ins Chat stellen — dann wandert er nach `qwen_tts_settings.json`.
+Morgens `assets/data/_pipeline/qwen-sweep/index.html` öffnen (oder `npm run serve` und die Datei im Browser). Links die Texte, darunter die Varianten. Sterne und Notizen bleiben im Browser. Den Gewinner als JSON kopieren und ins Chat stellen — dann wandert er nach `qwen_tts_settings.json`.
 
 Eigene Kombinationen: Varianten in `qwen_tts_sweep.json` ergänzen und denselben Befehl nochmal (nur neue IDs werden generiert). `--force` erzeugt vorhandene Sweep-MP3s neu.
 
