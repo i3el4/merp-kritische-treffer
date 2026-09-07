@@ -267,10 +267,8 @@ function runWorker(python, args) {
         child.on('exit', (code, signal) => {
             if (signal) {
                 console.error(`\nQwen-Worker vom System beendet (${signal}).`);
-                console.error('Das ist kein Sampler-Fehler — der Prozess ist beim Laden des Modells abgestürzt.');
-                console.error("Häufige Ursache: transformers 5 in ~/local-tts. Einmal:");
-                console.error("  ~/local-tts/.venv/bin/pip install 'transformers==4.57.3'");
-                console.error('Studio schliessen, danach denselben Sweep-Befehl nochmal.');
+                console.error('Das ist kein Sampler-Fehler — Absturz beim Laden der Gewichte auf MPS.');
+                console.error('Neuer Stand deaktiviert Async-Load (HF_DEACTIVATE_ASYNC_LOAD=1) und lädt über CPU.');
                 resolve(130);
             } else resolve(code ?? 1);
         });

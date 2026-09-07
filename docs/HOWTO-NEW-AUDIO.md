@@ -131,10 +131,8 @@ ElevenLabs ist **kostenpflichtig pro Zeichen**. Das Skript überspringt vorhande
 
 Qwen lokal kostet kein API-Guthaben, braucht aber Zeit (Modell bleibt im RAM).
 
-Die Warnung `flash-attn is not installed` ist harmlos. Stirbt der Worker ohne Traceback (`leaked semaphore` / SIGKILL), ist transformers 5 in `~/local-tts/.venv` der übliche Grund. Studio hat oft ein eigenes Python. Einmal:
+Stirbt der Worker mit SIGSEGV beim «Loading weights», ist das der transformers-5-Async-Load auf MPS. Der Worker setzt `HF_DEACTIVATE_ASYNC_LOAD=1` und lädt erst auf die CPU. Alternativ:
 
 ```bash
 ~/local-tts/.venv/bin/pip install 'transformers==4.57.3'
 ```
-
-Studio schliessen, danach denselben Sweep. Das Modell wird **einmal in den Speicher** geladen (Cache unter `~/local-tts/models/hf`), danach entstehen die Sampler-Varianten.

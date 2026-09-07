@@ -21,6 +21,10 @@ from datetime import datetime
 from pathlib import Path
 from types import SimpleNamespace
 
+# transformers 5 + MPS: paralleles Weight-Loading → SIGSEGV (_materialize_copy).
+os.environ.setdefault("HF_DEACTIVATE_ASYNC_LOAD", "1")
+os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
+
 SETTINGS_PATH = Path(__file__).resolve().parent / "qwen_tts_settings.json"
 DEFAULT_LOCAL_TTS = Path.home() / "local-tts"
 DEFAULT_STUDIO_PROFILES = (
@@ -361,10 +365,28 @@ class TorchStudioEngine:
         self.torch = torch
         self.inner = None
         self.model = None
+        os.environ["HF_DEACTIVATE_ASYNC_LOAD"] = "1"
         apply_qwen_rope_compat()
         self._log_transformers()
+        try:
+            import qwen_tts  # noqa: F401
+            apply_qwen_config_compat()
+        except Exception as exc:
+            print(f"Config-Patch vorab nicht möglich: {exc}")
+        # transformers 5 lädt auf MPS async und crasht — nicht über load_engine gehen.
+        if self._transformers_is_v5():
+            print("transformers 5: lade synchron über CPU, danach MPS (kein Async-Load).")
+            self._load_pretrained(tts, settings, torch)
+            return
         if not self._try_load_engine(tts):
             self._load_pretrained(tts, settings, torch)
+
+    def _transformers_is_v5(self) -> bool:
+        try:
+            import transformers
+            return str(getattr(transformers, "__version__", "")).startswith("5")
+        except Exception:
+            return False
 
     def _log_transformers(self) -> None:
         try:
@@ -372,9 +394,7 @@ class TorchStudioEngine:
             version = getattr(transformers, "__version__", "?")
             print(f"transformers {version}")
             if str(version).startswith("5"):
-                print("Hinweis: transformers 5 ist mit Qwen-TTS oft instabil (Studio nutzt meist 4.57).")
-                print("Falls der Prozess ohne Traceback stirbt, einmal:")
-                print("  ~/local-tts/.venv/bin/pip install 'transformers==4.57.3'")
+                print("Hinweis: transformers 5 + MPS braucht HF_DEACTIVATE_ASYNC_LOAD=1 (ist gesetzt).")
         except Exception:
             pass
 
@@ -407,29 +427,21 @@ class TorchStudioEngine:
         apply_qwen_config_compat()
         apply_qwen_rope_compat()
         device = tts.pick_device()
-        if device == "mps":
-            dtype = torch.float16
-        elif device == "cpu":
-            dtype = torch.float32
-        else:
-            dtype = torch.bfloat16
-        env_dtype = os.environ.get("QWEN_TTS_DTYPE")
-        if env_dtype:
-            dtype = getattr(torch, env_dtype)
         model_id = settings["model_id"]
         revision = settings.get("revision")
         source = resolve_pretrained_source(settings)
+        local_source = os.path.isdir(source)
         print(f"Backend: PyTorch  Modell: {model_id}")
         if revision:
             print(f"Revision: {revision}")
         print(f"Quelle:   {source}")
-        print(f"Gerät:  {device}  ({dtype})")
+        print(f"Gerät:    {device}  (Load: CPU, danach {device})")
         kwargs = {
-            "device_map": device,
-            "dtype": dtype,
+            "device_map": "cpu",
+            "dtype": torch.float32,
             "attn_implementation": "sdpa",
+            "local_files_only": local_source,
         }
-        local_source = source != model_id
         if revision and not local_source:
             kwargs["revision"] = revision
         try:
@@ -438,8 +450,21 @@ class TorchStudioEngine:
             if "revision" in kwargs and "revision" in str(exc):
                 kwargs.pop("revision", None)
                 self.model = Qwen3TTSModel.from_pretrained(source, **kwargs)
+            elif "local_files_only" in str(exc):
+                kwargs.pop("local_files_only", None)
+                self.model = Qwen3TTSModel.from_pretrained(source, **kwargs)
             else:
                 raise
+        if device != "cpu":
+            print(f"Verschiebe Modell nach {device} …")
+            moved = False
+            for target in (self.model, getattr(self.model, "model", None)):
+                if target is not None and hasattr(target, "to"):
+                    target.to(device)
+                    moved = True
+                    break
+            if not moved:
+                print("Hinweis: kein .to(device) am Wrapper — Modell bleibt auf CPU.")
 
     def create_prompt(self, ref_audio: str, ref_text: str):
         if self.model is not None and hasattr(self.model, "create_voice_clone_prompt"):
