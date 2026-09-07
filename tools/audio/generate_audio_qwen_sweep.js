@@ -265,15 +265,18 @@ function formatEta(seconds) {
     return `${s}s`;
 }
 
+function pythonEnv() {
+    return { ...process.env, PYTHONUNBUFFERED: '1' };
+}
+
 function runWorker(python, args) {
     return new Promise((resolve, reject) => {
-        const child = spawn(python, args, { stdio: 'inherit' });
+        const child = spawn(python, ['-u', ...args], { stdio: 'inherit', env: pythonEnv() });
         child.on('error', reject);
         child.on('exit', (code, signal) => {
             if (signal) {
                 console.error(`\nQwen-Worker vom System beendet (${signal}).`);
-                console.error('Das ist kein Sampler-Fehler. Typisch: transformers 5 + MPS.');
-                console.error("Fix: ~/local-tts/.venv/bin/pip install 'transformers==4.57.3'");
+                console.error('Ctrl+C oder Absturz. Fertige Sweep-MP3s bleiben; denselben Befehl nochmal ausführen.');
                 resolve(130);
             } else resolve(code ?? 1);
         });

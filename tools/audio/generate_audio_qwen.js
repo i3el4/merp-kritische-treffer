@@ -125,9 +125,13 @@ async function collectJobs() {
     return jobs;
 }
 
+function pythonEnv() {
+    return { ...process.env, PYTHONUNBUFFERED: '1' };
+}
+
 function runWorker(python, args) {
     return new Promise((resolve, reject) => {
-        const child = spawn(python, args, { stdio: 'inherit' });
+        const child = spawn(python, ['-u', ...args], { stdio: 'inherit', env: pythonEnv() });
         child.on('error', reject);
         child.on('exit', (code, signal) => {
             if (signal) resolve(130);

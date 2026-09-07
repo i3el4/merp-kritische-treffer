@@ -6,15 +6,18 @@ from __future__ import annotations
 import argparse
 import faulthandler
 import functools
+import gc
 import importlib.util
 import inspect
 import json
 import os
 import re
 import shutil
+import signal
 import subprocess
 import sys
 import tempfile
+import threading
 import time
 import traceback
 import types
@@ -37,6 +40,8 @@ DEFAULT_STUDIO_PROFILES = (
 PARTIAL_SUFFIX = ".partial.mp3"
 PINNED_TRANSFORMERS = "4.57.3"
 UNSUPPORTED_TRANSFORMERS_EXIT = 2
+GENERATE_TIMEOUT_S = 8 * 60
+GENERATE_HEARTBEAT_S = 20.0
 _TRANSFORMERS_COMPAT_APPLIED = False
 _ROPE_COMPAT_APPLIED = False
 
@@ -71,6 +76,12 @@ def main() -> int:
         help="Nicht empfohlen: Torch-Generate trotz transformers 5 versuchen.",
     )
     args = parser.parse_args()
+
+    try:
+        sys.stdout.reconfigure(line_buffering=True)
+        sys.stderr.reconfigure(line_buffering=True)
+    except Exception:
+        pass
 
     if not args.dry_run or args.check_transformers:
         blocked = require_supported_transformers(
@@ -164,34 +175,44 @@ def main() -> int:
                 preview = preview[:77] + "…"
             job_sampling = merge_sampling(settings, job)
             variant = job.get("variant") or ""
-            print(f"[{index}/{len(planned)}] {rel}")
+            print(f"[{index}/{len(planned)}] {rel}", flush=True)
             if variant:
-                print(f"  variant {variant}  {format_sampling(job_sampling)}")
-            print(f"  {preview}")
+                print(f"  variant {variant}  {format_sampling(job_sampling)}", flush=True)
+            print(f"  {preview}", flush=True)
+            print("  generate …", flush=True)
 
             started = time.perf_counter()
             try:
-                generate_one(
-                    tts=tts,
-                    engine=engine,
-                    settings=settings,
-                    sampling=job_sampling,
-                    text=text,
-                    language=args.language,
-                    prompt=prompt,
-                    ref_audio=ref_audio,
-                    ref_text=ref_text,
-                    out=out,
-                    sweep=bool(job.get("sweep")),
-                )
+                with GenerateHeartbeat(rel):
+                    run_with_timeout(
+                        GENERATE_TIMEOUT_S,
+                        generate_one,
+                        tts=tts,
+                        engine=engine,
+                        settings=settings,
+                        sampling=job_sampling,
+                        text=text,
+                        language=args.language,
+                        prompt=prompt,
+                        ref_audio=ref_audio,
+                        ref_text=ref_text,
+                        out=out,
+                        sweep=bool(job.get("sweep")),
+                    )
             except KeyboardInterrupt:
                 raise
+            except TimeoutError as exc:
+                failed += 1
+                print(f"  Fehler: {exc}", file=sys.stderr, flush=True)
+                continue
             except Exception as exc:
                 failed += 1
-                print(f"  Fehler: {exc}", file=sys.stderr)
+                print(f"  Fehler: {exc}", file=sys.stderr, flush=True)
                 if failed == 1:
                     traceback.print_exc()
                 continue
+            finally:
+                release_inference_memory()
 
             done.add(rel)
             manifest["voice"] = voice_name
@@ -201,7 +222,7 @@ def main() -> int:
             manifest["files"] = sorted(done)
             save_manifest(args.manifest, manifest)
             generated += 1
-            print(f"  write {out}  ({time.perf_counter() - started:.1f}s)")
+            print(f"  write {out}  ({time.perf_counter() - started:.1f}s)", flush=True)
     except KeyboardInterrupt:
         print(
             f"\nAbgebrochen. Generiert: {generated}, Fehler: {failed}. "
@@ -803,6 +824,65 @@ def format_sampling(sampling: dict) -> str:
         f"subT={sampling.get('subtalker_temperature')} subP={sampling.get('subtalker_top_p')} "
         f"subK={sampling.get('subtalker_top_k')}"
     )
+
+
+class GenerateHeartbeat:
+    def __init__(self, label: str, interval: float = GENERATE_HEARTBEAT_S):
+        self.label = label
+        self.interval = interval
+        self._stop = threading.Event()
+        self._thread: threading.Thread | None = None
+        self._started = time.perf_counter()
+
+    def __enter__(self):
+        def run():
+            while not self._stop.wait(self.interval):
+                elapsed = time.perf_counter() - self._started
+                print(f"  … generate läuft noch ({elapsed:.0f}s)  {self.label}", flush=True)
+
+        self._thread = threading.Thread(target=run, name="qwen-heartbeat", daemon=True)
+        self._thread.start()
+        return self
+
+    def __exit__(self, *_exc):
+        self._stop.set()
+        return False
+
+
+def run_with_timeout(seconds: float, fn, *args, **kwargs):
+    if seconds <= 0 or not hasattr(signal, "SIGALRM") or not hasattr(signal, "setitimer"):
+        return fn(*args, **kwargs)
+
+    def _on_alarm(_signum, _frame):
+        raise TimeoutError(
+            f"Generate-Timeout nach {int(seconds)}s — Clip übersprungen."
+        )
+
+    previous = signal.signal(signal.SIGALRM, _on_alarm)
+    signal.setitimer(signal.ITIMER_REAL, float(seconds))
+    try:
+        return fn(*args, **kwargs)
+    finally:
+        signal.setitimer(signal.ITIMER_REAL, 0)
+        signal.signal(signal.SIGALRM, previous)
+
+
+def release_inference_memory() -> None:
+    gc.collect()
+    try:
+        import torch
+
+        if hasattr(torch, "mps"):
+            sync = getattr(torch.mps, "synchronize", None)
+            if callable(sync):
+                sync()
+            empty = getattr(torch.mps, "empty_cache", None)
+            if callable(empty):
+                empty()
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+    except Exception:
+        pass
 
 
 def generate_one(*, tts, engine, settings, text, language, prompt, ref_audio, ref_text, out: Path, sampling=None, sweep=False) -> None:

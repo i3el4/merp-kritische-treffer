@@ -89,6 +89,8 @@ npm run generate-audio-qwen-sweep -- --preset quick
 caffeinate -i npm run generate-audio-qwen-sweep
 ```
 
+Pro Clip erscheint `generate …` und alle 20s `… generate läuft noch`. Nach 8 Minuten ohne Ende wird der Clip übersprungen. Steht die Zeile `[n/150]` minutenlang ohne Heartbeat: Ctrl+C, denselben Befehl nochmal (fertige MP3s bleiben).
+
 Morgens `assets/data/_pipeline/qwen-sweep/index.html` öffnen (oder `npm run serve` und die Datei im Browser). Links die Texte, darunter die Varianten. Sterne und Notizen bleiben im Browser. Den Gewinner als JSON kopieren und ins Chat stellen — dann wandert er nach `qwen_tts_settings.json`.
 
 Eigene Kombinationen: Varianten in `qwen_tts_sweep.json` ergänzen und denselben Befehl nochmal (nur neue IDs werden generiert). `--force` erzeugt vorhandene Sweep-MP3s neu.
