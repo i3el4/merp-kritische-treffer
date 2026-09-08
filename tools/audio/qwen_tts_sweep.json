@@ -210,6 +210,44 @@
         "subtalker_top_p": 0.95,
         "subtalker_top_k": 40
       }
+    },
+    {
+      "id": "mix-t1-crisp",
+      "label": "Mix: T1.00 + crisp",
+      "sampling": {
+        "temperature": 1.0,
+        "top_k": 50,
+        "subtalker_temperature": 0.9,
+        "subtalker_top_k": 50
+      }
+    },
+    {
+      "id": "mix-t1-subk20",
+      "label": "Mix: T1.00 + subK20",
+      "sampling": {
+        "temperature": 1.0,
+        "subtalker_top_k": 20
+      }
+    },
+    {
+      "id": "mix-crisp-subk20",
+      "label": "Mix: crisp + subK20",
+      "sampling": {
+        "temperature": 0.75,
+        "top_k": 50,
+        "subtalker_temperature": 0.9,
+        "subtalker_top_k": 20
+      }
+    },
+    {
+      "id": "mix-all",
+      "label": "Mix: T1.00 + crisp + subK20",
+      "sampling": {
+        "temperature": 1.0,
+        "top_k": 50,
+        "subtalker_temperature": 0.9,
+        "subtalker_top_k": 20
+      }
     }
   ],
   "presets": {
@@ -227,6 +265,26 @@
         "leg-lie"
       ],
       "variantIds": "all"
+    },
+    "mix": {
+      "clipIds": [
+        "question-taunt",
+        "question-short",
+        "boom-face",
+        "cold-armor",
+        "ear-hit",
+        "leg-lie"
+      ],
+      "variantIds": [
+        "baseline",
+        "recipe-crisp",
+        "T1.00",
+        "subK20",
+        "mix-t1-crisp",
+        "mix-t1-subk20",
+        "mix-crisp-subk20",
+        "mix-all"
+      ]
     }
   }
 }

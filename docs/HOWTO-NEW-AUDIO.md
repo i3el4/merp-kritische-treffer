@@ -85,8 +85,8 @@ Studio **beenden**, dann:
 # Kurztest (1 Text × 7 Varianten)
 npm run generate-audio-qwen-sweep -- --preset quick
 
-# Nachtlauf (6 Texte × 25 Varianten = 150, Resume per Ctrl+C)
-caffeinate -i npm run generate-audio-qwen-sweep
+# Mix aus den Favoriten (baseline, crisp, T1.00, subK20 + 4 Mischungen)
+npm run generate-audio-qwen-sweep -- --preset mix
 ```
 
 Pro Clip erscheint `generate …` und alle 20s `… generate läuft noch`. Nach 8 Minuten ohne Ende wird der Clip übersprungen. Steht die Zeile `[n/150]` minutenlang ohne Heartbeat: Ctrl+C, denselben Befehl nochmal (fertige MP3s bleiben).

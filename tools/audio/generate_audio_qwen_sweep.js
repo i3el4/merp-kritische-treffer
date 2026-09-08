@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /**
  * generate_audio_qwen_sweep.js
- * Sampler-Raster: Night = 6 Krit-Texte × 25 Varianten. Schreibt NIE nach assets/audio/qwen/ oder krit/.
+ * Sampler-Raster: Night = 6 Krit-Texte × alle Varianten. Mix = Favoriten-Kombinationen.
+ * Schreibt NIE nach assets/audio/qwen/ oder krit/.
  *
  *   npm run generate-audio-qwen-sweep -- --preset quick
  *   caffeinate -i npm run generate-audio-qwen-sweep
@@ -96,7 +97,7 @@ Usage:
   npm run generate-audio-qwen-sweep -- [Optionen]
 
 Optionen:
-  --preset quick|night   Default: night (6 Texte × 25 Varianten = 150).
+  --preset quick|night|mix   Default: night (6 Texte × alle Varianten).
   --clips id,id          Nur diese Clips (siehe qwen_tts_sweep.json).
   --variants id,id       Nur diese Varianten.
   --limit N              Höchstens N neue MP3s.
