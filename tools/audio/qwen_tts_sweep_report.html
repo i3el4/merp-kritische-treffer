@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Qwen Sampler-Sweep — Bud2</title>
+  <title>Qwen Sampler-Sweep</title>
   <style>
     :root {
       --bg: #16141a;
@@ -106,7 +106,7 @@
 </head>
 <body>
   <header>
-    <h1>Qwen Sampler-Sweep (Bud2)</h1>
+    <h1 id="pageTitle">Qwen Sampler-Sweep</h1>
     <p>Gleicher Text, verschiedene Sampler. Sterne und Notizen bleiben in diesem Browser. <kbd>↑</kbd><kbd>↓</kbd> Clip, <kbd>←</kbd><kbd>→</kbd> Variante, Leertaste play/pause.</p>
   </header>
   <div class="layout">
@@ -146,7 +146,11 @@
     function saveRatings() {
       localStorage.setItem(LS, JSON.stringify(ratings));
     }
-    function key(clipId, variantId) { return clipId + "::" + variantId; }
+    function key(clipId, variantId) {
+      const voice = DATA.voice || "bud2";
+      if (voice === "bud2") return clipId + "::" + variantId;
+      return voice + "::" + clipId + "::" + variantId;
+    }
     function getRating(clipId, variantId) {
       return ratings[key(clipId, variantId)] || { stars: 0, note: "" };
     }
@@ -178,10 +182,15 @@
       const clip = DATA.clips[clipIndex];
       const baselineVariant = DATA.variants.find((v) => v.id === "baseline") || DATA.variants[0];
       const baseline = baselineVariant?.sampling || {};
-      document.getElementById("clipWhy").textContent = (clip.table || "") + " / " + (clip.kategorie || "") + " / " + (clip.range || "") + " — " + (clip.why || "");
+      const loc = [clip.table, clip.kategorie, clip.range].filter(Boolean).join(" / ");
+      const why = loc ? loc + " — " + (clip.why || "") : (clip.why || "");
+      document.getElementById("clipWhy").textContent = why + (DATA.voice ? " · Stimme " + DATA.voice : "");
       document.getElementById("clipText").textContent = clip.text;
       document.getElementById("progress").textContent =
-        DATA.ready + "/" + DATA.total + " MP3s" + (DATA.preset ? " · Preset " + DATA.preset : "");
+        DATA.ready + "/" + DATA.total + " MP3s" + (DATA.preset ? " · Preset " + DATA.preset : "") + (DATA.voice ? " · " + DATA.voice : "");
+      const title = document.getElementById("pageTitle");
+      if (title) title.textContent = "Qwen Sampler-Sweep (" + (DATA.voice || "bud2") + ")";
+      document.title = title ? title.textContent : document.title;
       renderNav();
       const box = document.getElementById("variants");
       box.innerHTML = DATA.variants.map((variant, i) => {
@@ -269,6 +278,7 @@
     document.getElementById("copyRatings").onclick = async () => {
       const payload = {
         preset: DATA.preset,
+        voice: DATA.voice,
         ratings,
         samplingByVariant: Object.fromEntries(DATA.variants.map((v) => [v.id, v.sampling])),
       };

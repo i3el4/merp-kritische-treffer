@@ -4,8 +4,8 @@
  * Sampler-Raster: Night = 6 Krit-Texte × alle Varianten. Mix = Favoriten-Kombinationen.
  * Schreibt NIE nach assets/audio/qwen/ oder krit/.
  *
- *   npm run generate-audio-qwen-sweep -- --preset quick
- *   caffeinate -i npm run generate-audio-qwen-sweep
+ *   npm run generate-audio-qwen-sweep -- --preset mix sal "Hallo, ich heisse Stefan."
+ *   npm run generate-audio-qwen-sweep -- --preset mix --voice sal --text "Hallo, ich heisse Stefan."
  *
  * Danach: assets/data/_pipeline/qwen-sweep/index.html öffnen.
  */
@@ -46,10 +46,13 @@ function parseArgs(argv, settings) {
         htmlOnly: false,
         force: false,
         voice: process.env.QWEN_TTS_VOICE || settings.voice || 'bud2',
+        voiceFromFlag: false,
+        text: '',
         backend: process.env.QWEN_TTS_BACKEND || settings.backend || 'torch',
         localTts: process.env.LOCAL_TTS_ROOT || path.join(os.homedir(), 'local-tts'),
         allowTransformers5: false,
         help: false,
+        positionals: [],
     };
     for (let i = 0; i < argv.length; i++) {
         const a = argv[i];
@@ -66,18 +69,76 @@ function parseArgs(argv, settings) {
         else if (a.startsWith('--variants=')) opts.variantIds = splitList(a.slice(11));
         else if (a === '--limit') opts.limit = parseInt(argv[++i], 10) || 0;
         else if (a.startsWith('--limit=')) opts.limit = parseInt(a.slice(8), 10) || 0;
-        else if (a === '--voice') opts.voice = argv[++i];
-        else if (a.startsWith('--voice=')) opts.voice = a.slice(8);
+        else if (a === '--voice') {
+            opts.voice = argv[++i];
+            opts.voiceFromFlag = true;
+        } else if (a.startsWith('--voice=')) {
+            opts.voice = a.slice(8);
+            opts.voiceFromFlag = true;
+        } else if (a === '--text') opts.text = String(argv[++i] || '');
+        else if (a.startsWith('--text=')) opts.text = a.slice(7);
         else if (a === '--backend') opts.backend = argv[++i];
         else if (a.startsWith('--backend=')) opts.backend = a.slice(10);
         else if (a === '--local-tts') opts.localTts = argv[++i];
         else if (a.startsWith('--local-tts=')) opts.localTts = a.slice(12);
+        else if (!a.startsWith('-')) opts.positionals.push(a);
         else {
             console.error(`Unbekanntes Argument: ${a}`);
             opts.help = true;
         }
     }
+    applyPositionals(opts);
+    opts.voice = sanitizeVoice(opts.voice);
+    opts.text = String(opts.text || '').trim();
     return opts;
+}
+
+function looksLikeVoiceId(value) {
+    return ID_RE.test(String(value || '')) && !/\s/.test(String(value || ''));
+}
+
+function applyPositionals(opts) {
+    const pos = opts.positionals || [];
+    if (!pos.length) return;
+    if (pos.length === 1) {
+        if (looksLikeVoiceId(pos[0]) && !opts.voiceFromFlag) opts.voice = pos[0];
+        else if (!opts.text) opts.text = pos[0];
+        return;
+    }
+    if (!opts.voiceFromFlag && looksLikeVoiceId(pos[0])) {
+        opts.voice = pos[0];
+        if (!opts.text) opts.text = pos.slice(1).join(' ');
+        return;
+    }
+    if (!opts.text) opts.text = pos.join(' ');
+}
+
+function sanitizeVoice(name) {
+    const voice = String(name || 'bud2').trim().toLowerCase();
+    if (!ID_RE.test(voice)) throw new Error(`Stimme ungültig: ${name}`);
+    return voice;
+}
+
+function slugText(text) {
+    const mapped = String(text)
+        .trim()
+        .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue')
+        .replace(/Ä/g, 'ae').replace(/Ö/g, 'oe').replace(/Ü/g, 'ue')
+        .replace(/ß/g, 'ss');
+    const slug = mapped
+        .normalize('NFKD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '')
+        .slice(0, 48)
+        .replace(/-+$/g, '');
+    return slug || 'custom';
+}
+
+function jobRel(voice, clipId, variantId, nestVoice) {
+    if (nestVoice) return ['audio', voice, clipId, `${variantId}.mp3`].join('/');
+    return ['audio', clipId, `${variantId}.mp3`].join('/');
 }
 
 function splitList(value) {
@@ -88,28 +149,36 @@ function splitList(value) {
 }
 
 function printHelp() {
-    console.log(`Qwen Sampler-Sweep (Bud2). Gleiche Texte, verschiedene Sampler.
+    console.log(`Qwen Sampler-Sweep. Gleiche Texte, verschiedene Sampler.
 
 Schreibt nach assets/data/_pipeline/qwen-sweep/ — nicht nach assets/audio/qwen/.
 Hörseite: assets/data/_pipeline/qwen-sweep/index.html
 
 Usage:
-  npm run generate-audio-qwen-sweep -- [Optionen]
+  npm run generate-audio-qwen-sweep -- [Optionen] [stimme] ["Text"]
+
+Beispiele:
+  npm run generate-audio-qwen-sweep -- --preset mix
+  npm run generate-audio-qwen-sweep -- --preset mix sal "Hallo, ich heisse Stefan. Wie geht es dir?"
+  npm run generate-audio-qwen-sweep -- --preset mix --voice sal --text "Hallo, ich heisse Stefan."
 
 Optionen:
-  --preset quick|night|mix   Default: night (6 Texte × alle Varianten).
+  --preset quick|night|mix   Default: night (6 Krit-Texte × alle Varianten).
+  --voice NAME           Default: bud2. Oder als erstes Positionsargument.
+  --text "…"             Eigener Satz statt der Krit-Clips. Oder als letztes Positionsargument.
   --clips id,id          Nur diese Clips (siehe qwen_tts_sweep.json).
   --variants id,id       Nur diese Varianten.
   --limit N              Höchstens N neue MP3s.
   --force                Vorhandene Sweep-MP3s dieser Jobs neu erzeugen.
   --html-only            Nur index.html neu schreiben.
   --dry-run              Plan zeigen, nichts generieren.
-  --voice NAME           Default: bud2.
   --backend torch|mlx    Default: torch.
   --local-tts PFAD       Default ~/local-tts.
 
+Stimme muss in ~/local-tts/data/voices/<name>/ liegen (wie bud2, sal).
+Eigene Stimme oder eigener Text schreibt nach audio/<stimme>/… — Bud2-Krit-Samples bleiben.
+
 Voraussetzung: ~/local-tts/.venv braucht transformers==4.57.3 (nicht 5.x).
-  ~/local-tts/.venv/bin/pip install 'transformers==4.57.3'
 
 Nachtlauf:
   caffeinate -i npm run generate-audio-qwen-sweep
@@ -164,18 +233,36 @@ function assertSafeId(id, kind) {
     if (!ID_RE.test(id)) throw new Error(`${kind}-id ungültig: ${id}`);
 }
 
+function customClip(text) {
+    const trimmed = String(text || '').trim();
+    if (!trimmed) throw new Error('Text ist leer.');
+    return {
+        id: slugText(trimmed),
+        label: 'Eigener Text',
+        table: '',
+        kategorie: '',
+        range: '',
+        why: 'CLI',
+        text: trimmed,
+    };
+}
+
 function buildJobs({ settings, sweep, data, opts }) {
     const baseSampling = settings.sampling || {};
     const preset = (sweep.presets || {})[opts.preset];
     if (!preset) {
         throw new Error(`Unbekanntes Preset: ${opts.preset}. Vorhanden: ${Object.keys(sweep.presets || {}).join(', ')}`);
     }
+    const voice = opts.voice;
+    const nestVoice = Boolean(opts.text) || voice !== 'bud2';
     const clipIds = opts.clipIds || preset.clipIds;
     const variantIds = opts.variantIds || preset.variantIds;
-    const clips = pickByIds(sweep.clips, clipIds, 'Clip').map((clip) => {
-        assertSafeId(clip.id, 'Clip');
-        return { ...clip, text: resolveClipText(data, clip) };
-    });
+    const clips = opts.text
+        ? [customClip(opts.text)]
+        : pickByIds(sweep.clips, clipIds, 'Clip').map((clip) => {
+            assertSafeId(clip.id, 'Clip');
+            return { ...clip, text: resolveClipText(data, clip) };
+        });
     const variants = pickByIds(sweep.variants, variantIds, 'Variante').map((variant) => {
         assertSafeId(variant.id, 'Variante');
         return {
@@ -186,30 +273,32 @@ function buildJobs({ settings, sweep, data, opts }) {
 
     const jobs = [];
     for (const clip of clips) {
+        assertSafeId(clip.id, 'Clip');
         for (const variant of variants) {
-            const rel = path.join('audio', clip.id, `${variant.id}.mp3`);
-                jobs.push({
-                    text: clip.text,
-                    out: path.join(OUTPUT_DIR, rel),
-                    rel,
-                    variant: variant.id,
-                    clip: clip.id,
-                    sampling: variant.sampling,
-                    sweep: true,
-                });
+            const rel = jobRel(voice, clip.id, variant.id, nestVoice);
+            jobs.push({
+                text: clip.text,
+                out: path.join(OUTPUT_DIR, rel),
+                rel,
+                variant: variant.id,
+                clip: clip.id,
+                sampling: variant.sampling,
+                sweep: true,
+            });
         }
     }
-    return { clips, variants, jobs, presetName: opts.preset };
+    return { clips, variants, jobs, presetName: opts.preset, voice, nestVoice };
 }
 
-function writeReport({ clips, variants, jobs, presetName, settings }) {
+function writeReport({ clips, variants, jobs, presetName, settings, voice, nestVoice }) {
     fs.mkdirSync(path.join(OUTPUT_DIR, 'audio'), { recursive: true });
     const readyByRel = new Set(
         jobs.filter((job) => fs.existsSync(job.out)).map((job) => job.rel)
     );
+    const voiceName = voice || settings.voice || 'bud2';
     const payload = {
         preset: presetName,
-        voice: settings.voice || 'bud2',
+        voice: voiceName,
         seed: settings.seed,
         speed: settings.speed,
         model_id: settings.model_id,
@@ -230,7 +319,7 @@ function writeReport({ clips, variants, jobs, presetName, settings }) {
             const files = {};
             const ready = {};
             for (const clip of clips) {
-                const rel = `audio/${clip.id}/${variant.id}.mp3`;
+                const rel = jobRel(voiceName, clip.id, variant.id, nestVoice);
                 files[clip.id] = rel;
                 ready[clip.id] = readyByRel.has(rel);
             }
@@ -313,6 +402,8 @@ async function main() {
     const htmlPath = path.join(OUTPUT_DIR, 'index.html');
 
     console.log(`Preset:    ${built.presetName}`);
+    console.log(`Stimme:    ${built.voice}`);
+    if (opts.text) console.log(`Text:      ${opts.text}`);
     console.log(`Clips:     ${built.clips.map((c) => c.id).join(', ')}`);
     console.log(`Varianten: ${built.variants.map((v) => v.id).join(', ')}`);
     console.log(`Jobs:      ${built.jobs.length}  davon fertig ${report.ready}, offen ${pending.length}`);
