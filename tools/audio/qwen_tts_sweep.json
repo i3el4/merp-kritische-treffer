@@ -1,0 +1,299 @@
+{
+  "notes": "Night = 6 Krit-Texte × 25 Sampler (ohne Mix-Rezepte). Mix = festes Favoriten-Set. --combine id,id baut Paare+Gesamtmix aus beliebigen Night-Gewinnern. Leere sampling-Objekte erben qwen_tts_settings.json.",
+  "clips": [
+    {
+      "id": "question-taunt",
+      "label": "Frage / Spott",
+      "table": "Stoss",
+      "kategorie": "C",
+      "range": "01-05",
+      "why": "Fragezeichen — Satzmelodie am Ende"
+    },
+    {
+      "id": "question-short",
+      "label": "Kurze Frage",
+      "table": "Stoss",
+      "kategorie": "D",
+      "range": "01-05",
+      "why": "Kurz, „oder?“"
+    },
+    {
+      "id": "boom-face",
+      "label": "Ausruf / Onomatopoesie",
+      "table": "Stoss",
+      "kategorie": "C",
+      "range": "46-50",
+      "why": "Boom! plus Handlung"
+    },
+    {
+      "id": "cold-armor",
+      "label": "Mittellang, sachlich",
+      "table": "Kälte",
+      "kategorie": "C",
+      "range": "67-70",
+      "why": "Typischer Krit-Satz, Zahlen und Alternativen"
+    },
+    {
+      "id": "ear-hit",
+      "label": "Lang, Regeln + Ausruf",
+      "table": "Stich (Held)",
+      "kategorie": "A",
+      "range": "98-98",
+      "why": "Langer Regeltext, erstes Ausrufezeichen"
+    },
+    {
+      "id": "leg-lie",
+      "label": "Lang, erzählend",
+      "table": "Stich",
+      "kategorie": "E",
+      "range": "75-75",
+      "why": "Längster narrativer Clip, Humor"
+    },
+    {
+      "id": "streich-held-d-67-70",
+      "label": "Streich (Held) D 67–70",
+      "table": "Streich (Held)",
+      "kategorie": "D",
+      "range": "67-70",
+      "why": "Quick-Preset-Vergleichstext",
+      "text": "Schwerer Treffer am oberen Rücken. Eine offene Wunde bereitet dem Gegner sichtbar Schmerzen. Erstaunlich, dass er seine Verteidigung trotzdem aufrechterhalten kann. Der Gegner erleidet fünf Treffer und muss eine Runde lang parieren. Zusätzlich erleidet er drei Treffer pro Runde und erhält einen Malus von minus fünfzehn auf alle Aktionen."
+    }
+  ],
+  "variants": [
+    {
+      "id": "baseline",
+      "label": "Aktuelles Setting",
+      "sampling": {}
+    },
+    {
+      "id": "T0.65",
+      "label": "Talker T 0.65 (ruhiger)",
+      "sampling": { "temperature": 0.65 }
+    },
+    {
+      "id": "T0.73",
+      "label": "Talker T 0.73",
+      "sampling": { "temperature": 0.73 }
+    },
+    {
+      "id": "T0.90",
+      "label": "Talker T 0.90",
+      "sampling": { "temperature": 0.9 }
+    },
+    {
+      "id": "T1.00",
+      "label": "Talker T 1.00 (freier)",
+      "sampling": { "temperature": 1.0 }
+    },
+    {
+      "id": "K20",
+      "label": "Talker Top-K 20",
+      "sampling": { "top_k": 20 }
+    },
+    {
+      "id": "K40",
+      "label": "Talker Top-K 40",
+      "sampling": { "top_k": 40 }
+    },
+    {
+      "id": "K80",
+      "label": "Talker Top-K 80",
+      "sampling": { "top_k": 80 }
+    },
+    {
+      "id": "K100",
+      "label": "Talker Top-K 100",
+      "sampling": { "top_k": 100 }
+    },
+    {
+      "id": "P0.90",
+      "label": "Talker Top-P 0.90",
+      "sampling": { "top_p": 0.9 }
+    },
+    {
+      "id": "P0.95",
+      "label": "Talker Top-P 0.95",
+      "sampling": { "top_p": 0.95 }
+    },
+    {
+      "id": "subT0.70",
+      "label": "Subtalker T 0.70",
+      "sampling": { "subtalker_temperature": 0.7 }
+    },
+    {
+      "id": "subT0.85",
+      "label": "Subtalker T 0.85",
+      "sampling": { "subtalker_temperature": 0.85 }
+    },
+    {
+      "id": "subT1.05",
+      "label": "Subtalker T 1.05",
+      "sampling": { "subtalker_temperature": 1.05 }
+    },
+    {
+      "id": "subT1.20",
+      "label": "Subtalker T 1.20 (lebendiger)",
+      "sampling": { "subtalker_temperature": 1.2 }
+    },
+    {
+      "id": "subK20",
+      "label": "Subtalker Top-K 20",
+      "sampling": { "subtalker_top_k": 20 }
+    },
+    {
+      "id": "subK40",
+      "label": "Subtalker Top-K 40",
+      "sampling": { "subtalker_top_k": 40 }
+    },
+    {
+      "id": "subK80",
+      "label": "Subtalker Top-K 80",
+      "sampling": { "subtalker_top_k": 80 }
+    },
+    {
+      "id": "subP0.90",
+      "label": "Subtalker Top-P 0.90",
+      "sampling": { "subtalker_top_p": 0.9 }
+    },
+    {
+      "id": "subP0.95",
+      "label": "Subtalker Top-P 0.95",
+      "sampling": { "subtalker_top_p": 0.95 }
+    },
+    {
+      "id": "recipe-stable",
+      "label": "Rezept: stabil",
+      "sampling": {
+        "temperature": 0.7,
+        "top_k": 40,
+        "subtalker_temperature": 0.8,
+        "subtalker_top_k": 40
+      }
+    },
+    {
+      "id": "recipe-crisp",
+      "label": "Rezept: klar",
+      "sampling": {
+        "temperature": 0.75,
+        "top_k": 50,
+        "subtalker_temperature": 0.9,
+        "subtalker_top_k": 50
+      }
+    },
+    {
+      "id": "recipe-lively",
+      "label": "Rezept: lebendig",
+      "sampling": {
+        "temperature": 0.9,
+        "top_k": 80,
+        "subtalker_temperature": 1.1,
+        "subtalker_top_k": 80
+      }
+    },
+    {
+      "id": "recipe-expressive",
+      "label": "Rezept: Satzmelodie",
+      "sampling": {
+        "subtalker_temperature": 1.15,
+        "subtalker_top_k": 40,
+        "subtalker_top_p": 0.95
+      }
+    },
+    {
+      "id": "recipe-tight",
+      "label": "Rezept: eng (nucleus)",
+      "sampling": {
+        "temperature": 0.78,
+        "top_p": 0.95,
+        "top_k": 40,
+        "subtalker_temperature": 0.9,
+        "subtalker_top_p": 0.95,
+        "subtalker_top_k": 40
+      }
+    },
+    {
+      "id": "mix-t1-crisp",
+      "label": "Mix: T1.00 + crisp",
+      "sampling": {
+        "temperature": 1.0,
+        "top_k": 50,
+        "subtalker_temperature": 0.9,
+        "subtalker_top_k": 50
+      }
+    },
+    {
+      "id": "mix-t1-subk20",
+      "label": "Mix: T1.00 + subK20",
+      "sampling": {
+        "temperature": 1.0,
+        "subtalker_top_k": 20
+      }
+    },
+    {
+      "id": "mix-crisp-subk20",
+      "label": "Mix: crisp + subK20",
+      "sampling": {
+        "temperature": 0.75,
+        "top_k": 50,
+        "subtalker_temperature": 0.9,
+        "subtalker_top_k": 20
+      }
+    },
+    {
+      "id": "mix-all",
+      "label": "Mix: T1.00 + crisp + subK20",
+      "sampling": {
+        "temperature": 1.0,
+        "top_k": 50,
+        "subtalker_temperature": 0.9,
+        "subtalker_top_k": 20
+      }
+    }
+  ],
+  "presets": {
+    "quick": {
+      "clipIds": ["streich-held-d-67-70"],
+      "variantIds": ["baseline", "T0.73", "T0.90", "subT0.85", "subT1.20", "recipe-stable", "recipe-lively"]
+    },
+    "night": {
+      "clipIds": [
+        "question-taunt",
+        "question-short",
+        "boom-face",
+        "cold-armor",
+        "ear-hit",
+        "leg-lie"
+      ],
+      "variantIds": [
+        "baseline",
+        "T0.65", "T0.73", "T0.90", "T1.00",
+        "K20", "K40", "K80", "K100",
+        "P0.90", "P0.95",
+        "subT0.70", "subT0.85", "subT1.05", "subT1.20",
+        "subK20", "subK40", "subK80",
+        "subP0.90", "subP0.95",
+        "recipe-stable", "recipe-crisp", "recipe-lively", "recipe-expressive", "recipe-tight"
+      ]
+    },
+    "mix": {
+      "clipIds": [
+        "question-taunt",
+        "question-short",
+        "boom-face",
+        "cold-armor",
+        "ear-hit",
+        "leg-lie"
+      ],
+      "variantIds": [
+        "baseline",
+        "recipe-crisp",
+        "T1.00",
+        "subK20",
+        "mix-t1-crisp",
+        "mix-t1-subk20",
+        "mix-crisp-subk20",
+        "mix-all"
+      ]
+    }
+  }
+}

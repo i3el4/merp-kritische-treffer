@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qwen Sampler-Sweep</title>
+  <style>
+    :root {
+      --bg: #16141a;
+      --panel: #221f28;
+      --line: #3a3542;
+      --text: #f3efe8;
+      --muted: #a39a8c;
+      --accent: #e0b15a;
+      --good: #7dba7a;
+      --wait: #8a8378;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font: 15px/1.45 "Iowan Old Style", Palatino, Georgia, serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    header {
+      padding: 1.1rem 1.4rem 0.8rem;
+      border-bottom: 1px solid var(--line);
+      background: #1c1921;
+    }
+    header h1 { margin: 0 0 0.25rem; font-size: 1.25rem; font-weight: 600; }
+    header p { margin: 0; color: var(--muted); font-size: 0.92rem; }
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(12rem, 18rem) 1fr;
+      min-height: calc(100vh - 5.2rem);
+    }
+    nav {
+      border-right: 1px solid var(--line);
+      padding: 0.8rem;
+      background: #1a171e;
+    }
+    nav button {
+      display: block;
+      width: 100%;
+      text-align: left;
+      margin: 0 0 0.4rem;
+      padding: 0.55rem 0.7rem;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      color: var(--text);
+      cursor: pointer;
+      font: inherit;
+    }
+    nav button.active { border-color: var(--accent); color: var(--accent); }
+    nav .why { display: block; color: var(--muted); font-size: 0.78rem; margin-top: 0.15rem; }
+    main { padding: 1rem 1.25rem 3rem; max-width: 52rem; }
+    .text-box {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 0.9rem 1rem;
+      margin: 0 0 1rem;
+      white-space: pre-wrap;
+    }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.9rem; }
+    .toolbar button, .copy-json {
+      font: 13px/1.2 ui-sans-serif, system-ui, sans-serif;
+      padding: 0.4rem 0.65rem;
+      border-radius: 6px;
+      border: 1px solid var(--line);
+      background: #2b2731;
+      color: var(--text);
+      cursor: pointer;
+    }
+    .row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.35rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .row.baseline { background: rgba(224, 177, 90, 0.06); margin: 0 -0.5rem; padding-left: 0.5rem; padding-right: 0.5rem; border-radius: 8px; }
+    .meta { font: 13px/1.35 ui-sans-serif, system-ui, sans-serif; color: var(--muted); }
+    .meta strong { color: var(--text); font-weight: 650; }
+    .diff { color: var(--accent); }
+    .stars button {
+      background: none; border: 0; color: var(--wait); font-size: 1.15rem; cursor: pointer; padding: 0 0.05rem;
+    }
+    .stars button.on { color: var(--accent); }
+    .status { font: 12px/1 ui-sans-serif, system-ui, sans-serif; color: var(--wait); }
+    .status.ready { color: var(--good); }
+    audio { width: 100%; margin-top: 0.25rem; }
+    textarea {
+      width: 100%; min-height: 2.4rem; resize: vertical;
+      background: #1a171e; color: var(--text); border: 1px solid var(--line);
+      border-radius: 6px; padding: 0.35rem 0.5rem; font: 13px/1.35 ui-sans-serif, system-ui, sans-serif;
+    }
+    kbd { font: 12px ui-monospace, monospace; border: 1px solid var(--line); border-radius: 4px; padding: 0 0.3rem; }
+    @media (max-width: 800px) {
+      .layout { grid-template-columns: 1fr; }
+      nav { display: flex; gap: 0.4rem; overflow-x: auto; border-right: 0; border-bottom: 1px solid var(--line); }
+      nav button { min-width: 11rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1 id="pageTitle">Qwen Sampler-Sweep</h1>
+    <p>Gleicher Text, verschiedene Sampler. Sterne und Notizen bleiben in diesem Browser. <kbd>↑</kbd><kbd>↓</kbd> Clip, <kbd>←</kbd><kbd>→</kbd> Variante, Leertaste play/pause.</p>
+  </header>
+  <div class="layout">
+    <nav id="clipNav"></nav>
+    <main>
+      <div class="toolbar">
+        <button type="button" id="copyRatings">Bewertungen als JSON kopieren</button>
+        <button type="button" id="copyWinner" hidden>Gewinnersetting kopieren</button>
+        <span id="progress" class="meta"></span>
+      </div>
+      <p class="meta" id="clipWhy"></p>
+      <div class="text-box" id="clipText"></div>
+      <div id="variants"></div>
+    </main>
+  </div>
+  <script>
+    const DATA = __SWEEP_DATA__;
+    const LS = "mers_qwen_sweep_ratings_v1";
+    const PARAMS = [
+      ["temperature", "T"],
+      ["top_p", "P"],
+      ["top_k", "K"],
+      ["subtalker_temperature", "subT"],
+      ["subtalker_top_p", "subP"],
+      ["subtalker_top_k", "subK"]
+    ];
+
+    const ratings = loadRatings();
+    let clipIndex = 0;
+    let variantIndex = 0;
+    let currentAudio = null;
+
+    function loadRatings() {
+      try { return JSON.parse(localStorage.getItem(LS) || "{}") || {}; }
+      catch { return {}; }
+    }
+    function saveRatings() {
+      localStorage.setItem(LS, JSON.stringify(ratings));
+    }
+    function key(clipId, variantId) {
+      const voice = DATA.voice || "bud2";
+      if (voice === "bud2") return clipId + "::" + variantId;
+      return voice + "::" + clipId + "::" + variantId;
+    }
+    function getRating(clipId, variantId) {
+      return ratings[key(clipId, variantId)] || { stars: 0, note: "" };
+    }
+
+    function paramLine(sampling, baseline) {
+      return PARAMS.map(([id, label]) => {
+        const value = sampling[id];
+        const changed = baseline && String(value) !== String(baseline[id]);
+        const body = label + "=" + value;
+        return changed ? '<span class="diff">' + body + "</span>" : body;
+      }).join(" · ");
+    }
+
+    function renderNav() {
+      const nav = document.getElementById("clipNav");
+      nav.innerHTML = DATA.clips.map((clip, i) => {
+        const done = DATA.variants.filter((v) => ratings[key(clip.id, v.id)]?.stars).length;
+        return `<button type="button" data-i="${i}" class="${i === clipIndex ? "active" : ""}">
+          ${escapeHtml(clip.label)}
+          <span class="why">${escapeHtml(clip.why || "")} · ${done}/${DATA.variants.length} bewertet</span>
+        </button>`;
+      }).join("");
+      nav.querySelectorAll("button").forEach((btn) => {
+        btn.onclick = () => { clipIndex = Number(btn.dataset.i); variantIndex = 0; render(); };
+      });
+    }
+
+    function render() {
+      const clip = DATA.clips[clipIndex];
+      const baselineVariant = DATA.variants.find((v) => v.id === "baseline") || DATA.variants[0];
+      const baseline = baselineVariant?.sampling || {};
+      const loc = [clip.table, clip.kategorie, clip.range].filter(Boolean).join(" / ");
+      const why = loc ? loc + " — " + (clip.why || "") : (clip.why || "");
+      document.getElementById("clipWhy").textContent = why + (DATA.voice ? " · Stimme " + DATA.voice : "");
+      document.getElementById("clipText").textContent = clip.text;
+      document.getElementById("progress").textContent =
+        DATA.ready + "/" + DATA.total + " MP3s" + (DATA.preset ? " · Preset " + DATA.preset : "") + (DATA.voice ? " · " + DATA.voice : "");
+      const title = document.getElementById("pageTitle");
+      if (title) title.textContent = "Qwen Sampler-Sweep (" + (DATA.voice || "bud2") + ")";
+      document.title = title ? title.textContent : document.title;
+      renderNav();
+      const box = document.getElementById("variants");
+      box.innerHTML = DATA.variants.map((variant, i) => {
+        const rating = getRating(clip.id, variant.id);
+        const src = variant.files[clip.id];
+        const stars = [1, 2, 3, 4, 5].map((n) =>
+          `<button type="button" data-star="${n}" class="${n <= rating.stars ? "on" : ""}">★</button>`
+        ).join("");
+        return `<div class="row ${variant.id === "baseline" ? "baseline" : ""}" data-variant="${i}">
+          <div><strong>${escapeHtml(variant.label)}</strong>
+            <span class="status ${variant.ready[clip.id] ? "ready" : ""}">${variant.ready[clip.id] ? "fertig" : "noch nicht generiert"}</span>
+          </div>
+          <div class="meta">${paramLine(variant.sampling, baseline)}</div>
+          <div class="stars" data-clip="${escapeAttr(clip.id)}" data-id="${escapeAttr(variant.id)}">${stars}</div>
+          <audio controls preload="none" src="${escapeAttr(src)}"></audio>
+          <textarea placeholder="Notiz (optional)" data-clip="${escapeAttr(clip.id)}" data-id="${escapeAttr(variant.id)}">${escapeHtml(rating.note)}</textarea>
+        </div>`;
+      }).join("");
+
+      box.querySelectorAll(".stars button").forEach((btn) => {
+        btn.onclick = () => {
+          const wrap = btn.parentElement;
+          const rec = getRating(wrap.dataset.clip, wrap.dataset.id);
+          rec.stars = Number(btn.dataset.star);
+          ratings[key(wrap.dataset.clip, wrap.dataset.id)] = rec;
+          saveRatings();
+          render();
+        };
+      });
+      box.querySelectorAll("textarea").forEach((el) => {
+        el.onchange = () => {
+          const rec = getRating(el.dataset.clip, el.dataset.id);
+          rec.note = el.value;
+          ratings[key(el.dataset.clip, el.dataset.id)] = rec;
+          saveRatings();
+        };
+      });
+      box.querySelectorAll("audio").forEach((audio, i) => {
+        audio.addEventListener("play", () => {
+          if (currentAudio && currentAudio !== audio) currentAudio.pause();
+          currentAudio = audio;
+          variantIndex = i;
+          highlightVariant();
+        });
+        audio.addEventListener("error", () => {
+          const status = audio.parentElement.querySelector(".status");
+          if (status) { status.textContent = "Datei fehlt"; status.classList.remove("ready"); }
+        });
+      });
+      highlightVariant();
+      updateWinnerButton();
+    }
+
+    function highlightVariant() {
+      document.querySelectorAll(".row").forEach((row, i) => {
+        row.style.outline = i === variantIndex ? "1px solid var(--accent)" : "";
+      });
+    }
+
+    function playVariant(i) {
+      const nodes = document.querySelectorAll("audio");
+      if (!nodes[i]) return;
+      variantIndex = i;
+      highlightVariant();
+      nodes[i].currentTime = 0;
+      nodes[i].play().catch(() => {});
+    }
+
+    function updateWinnerButton() {
+      const btn = document.getElementById("copyWinner");
+      const tallies = {};
+      DATA.variants.forEach((v) => { tallies[v.id] = 0; });
+      DATA.clips.forEach((clip) => {
+        DATA.variants.forEach((v) => {
+          tallies[v.id] += Number(getRating(clip.id, v.id).stars || 0);
+        });
+      });
+      const winner = Object.entries(tallies).sort((a, b) => b[1] - a[1])[0];
+      if (!winner || winner[1] <= 0) { btn.hidden = true; return; }
+      btn.hidden = false;
+      btn.dataset.winner = winner[0];
+      btn.textContent = "Gewinnersetting kopieren (" + winner[0] + ", " + winner[1] + " Sterne)";
+    }
+
+    document.getElementById("copyRatings").onclick = async () => {
+      const payload = {
+        preset: DATA.preset,
+        voice: DATA.voice,
+        ratings,
+        samplingByVariant: Object.fromEntries(DATA.variants.map((v) => [v.id, v.sampling])),
+      };
+      await navigator.clipboard.writeText(JSON.stringify(payload, null, 2));
+      document.getElementById("copyRatings").textContent = "Kopiert";
+      setTimeout(() => { document.getElementById("copyRatings").textContent = "Bewertungen als JSON kopieren"; }, 1500);
+    };
+    document.getElementById("copyWinner").onclick = async (ev) => {
+      const id = ev.currentTarget.dataset.winner;
+      const variant = DATA.variants.find((v) => v.id === id);
+      if (!variant) return;
+      await navigator.clipboard.writeText(JSON.stringify(variant.sampling, null, 2));
+      ev.currentTarget.textContent = "Sampling kopiert";
+    };
+
+    document.addEventListener("keydown", (ev) => {
+      const tag = (ev.target && ev.target.tagName) || "";
+      if (tag === "TEXTAREA" || tag === "INPUT") return;
+      if (ev.key === "ArrowDown") { ev.preventDefault(); clipIndex = Math.min(DATA.clips.length - 1, clipIndex + 1); variantIndex = 0; render(); }
+      if (ev.key === "ArrowUp") { ev.preventDefault(); clipIndex = Math.max(0, clipIndex - 1); variantIndex = 0; render(); }
+      if (ev.key === "ArrowRight") { ev.preventDefault(); playVariant(Math.min(DATA.variants.length - 1, variantIndex + 1)); }
+      if (ev.key === "ArrowLeft") { ev.preventDefault(); playVariant(Math.max(0, variantIndex - 1)); }
+      if (ev.key === " ") {
+        ev.preventDefault();
+        const nodes = document.querySelectorAll("audio");
+        const audio = nodes[variantIndex];
+        if (!audio) return;
+        if (audio.paused) audio.play().catch(() => {});
+        else audio.pause();
+      }
+    });
+
+    function escapeHtml(s) {
+      return String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+    }
+    function escapeAttr(s) { return escapeHtml(s); }
+
+    render();
+  </script>
+</body>
+</html>

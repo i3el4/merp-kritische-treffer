@@ -1,0 +1,1026 @@
+#!/usr/bin/env python3
+"""Qwen3-TTS worker: Bud2 + Studio sampling. Production → assets/audio/qwen/; Sweep → _pipeline/qwen-sweep/."""
+
+from __future__ import annotations
+
+import argparse
+import faulthandler
+import functools
+import gc
+import importlib.util
+import inspect
+import json
+import os
+import re
+import shutil
+import signal
+import subprocess
+import sys
+import tempfile
+import threading
+import time
+import traceback
+import types
+from datetime import datetime
+from pathlib import Path
+from types import SimpleNamespace
+
+# transformers 5 + MPS: paralleles Weight-Loading → SIGSEGV (_materialize_copy).
+os.environ.setdefault("HF_DEACTIVATE_ASYNC_LOAD", "1")
+os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
+
+SETTINGS_PATH = Path(__file__).resolve().parent / "qwen_tts_settings.json"
+DEFAULT_LOCAL_TTS = Path.home() / "local-tts"
+DEFAULT_STUDIO_PROFILES = (
+    Path("/Applications/Local TTS Studio.app/Contents/Resources/app")
+    / "output"
+    / "user_data"
+    / "voice_profiles.json"
+)
+PARTIAL_SUFFIX = ".partial.mp3"
+PINNED_TRANSFORMERS = "4.57.3"
+UNSUPPORTED_TRANSFORMERS_EXIT = 2
+GENERATE_TIMEOUT_S = 8 * 60
+GENERATE_HEARTBEAT_S = 20.0
+_TRANSFORMERS_COMPAT_APPLIED = False
+_ROPE_COMPAT_APPLIED = False
+
+
+def load_settings() -> dict:
+    return json.loads(SETTINGS_PATH.read_text(encoding="utf-8"))
+
+
+def main() -> int:
+    settings = load_settings()
+    sampling = settings.get("sampling") or {}
+    parser = argparse.ArgumentParser(
+        description="Vertont Krit-Jobs lokal mit Qwen3-TTS (Full reference, Studio-Setting)."
+    )
+    parser.add_argument("--jobs", type=Path)
+    parser.add_argument("--voice", default=settings.get("voice", "bud2"))
+    parser.add_argument("--local-tts", type=Path, default=DEFAULT_LOCAL_TTS)
+    parser.add_argument("--studio-profiles", type=Path, default=DEFAULT_STUDIO_PROFILES)
+    parser.add_argument("--manifest", type=Path)
+    parser.add_argument("--limit", type=int, default=0)
+    parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--backend", choices=("auto", "mlx", "torch"), default=settings.get("backend", "torch"))
+    parser.add_argument("--language", default=settings.get("language", "German"))
+    parser.add_argument(
+        "--check-transformers",
+        action="store_true",
+        help="Nur prüfen, ob das venv transformers 4.57.x hat — Modell nicht laden.",
+    )
+    parser.add_argument(
+        "--allow-transformers5",
+        action="store_true",
+        help="Nicht empfohlen: Torch-Generate trotz transformers 5 versuchen.",
+    )
+    args = parser.parse_args()
+
+    try:
+        sys.stdout.reconfigure(line_buffering=True)
+        sys.stderr.reconfigure(line_buffering=True)
+    except Exception:
+        pass
+
+    if not args.dry_run or args.check_transformers:
+        blocked = require_supported_transformers(
+            allow_v5=args.allow_transformers5,
+            backend=args.backend,
+        )
+        if args.check_transformers or blocked:
+            return blocked
+
+    if args.jobs is None or args.manifest is None:
+        parser.error("--jobs und --manifest sind nötig (ausser --check-transformers).")
+
+    faulthandler.enable()
+    apply_qwen_transformers_compat()
+    apply_qwen_rope_compat()
+    local_tts = args.local_tts.expanduser().resolve()
+    tts = load_local_tts(local_tts)
+    voice_name = tts.sanitize_name(args.voice)
+    ensure_voice(tts, voice_name, args.studio_profiles.expanduser())
+
+    jobs = json.loads(args.jobs.expanduser().read_text(encoding="utf-8"))
+    if not isinstance(jobs, list):
+        raise ValueError("Jobs-Datei muss ein JSON-Array sein.")
+
+    manifest = load_manifest(args.manifest)
+    done = set(manifest.get("files") or [])
+
+    planned: list[dict] = []
+    skipped = 0
+    for job in jobs:
+        rel = job["rel"]
+        out = Path(job["out"])
+        if out.is_file():
+            skipped += 1
+            done.add(rel)
+            continue
+        planned.append(job)
+        if args.limit and len(planned) >= args.limit:
+            break
+
+    per_job_sampling = any(isinstance(job, dict) and job.get("sampling") for job in jobs)
+    print(f"Stimme:     {voice_name}  (Full reference / ICL)")
+    print(f"Modell:     {settings.get('model_id')}  rev={settings.get('revision')}")
+    print(f"Backend:    {args.backend}  lang={args.language}  seed={settings.get('seed')}")
+    if per_job_sampling:
+        print("Sampling:   pro Job (Sweep)")
+    else:
+        print(f"Sampling:   T={sampling.get('temperature')} top_k={sampling.get('top_k')} "
+              f"subT={sampling.get('subtalker_temperature')} subK={sampling.get('subtalker_top_k')}")
+    print(f"Speed:      {settings.get('speed')}×  loudnorm={settings.get('target_loudness_lufs')} LUFS")
+    print(f"Einträge:   {len(jobs)}")
+    print(f"Vorhanden:  {skipped}  (Resume, Qwen-Ordner)")
+    print(f"Dieses Lauf:{len(planned)}  (limit={args.limit or 'off'})")
+    if not planned:
+        print("Nichts zu tun.")
+        return 0
+
+    if args.dry_run:
+        for index, job in enumerate(planned, start=1):
+            n = len(str(job.get("text") or ""))
+            print(f"[dry-run {index}/{len(planned)}] write {job['rel']}  ({n} Zeichen)")
+        return 0
+
+    profile = tts.load_voice(voice_name)
+    ref_text = (profile.get("ref_text") or "").strip()
+    if not ref_text:
+        raise ValueError(f"Stimme '{voice_name}' hat kein Transkript — Full reference nicht möglich.")
+
+    os.environ.setdefault("HF_HOME", str(local_tts / "models" / "hf"))
+    os.environ.setdefault("HF_HUB_DISABLE_TELEMETRY", "1")
+
+    print()
+    print("Lade das vorhandene Qwen-Modell einmal in den Speicher.")
+    print("Das ist kein neuer Download für den Sweep — ohne geladenes Modell gibt es keine Samples.")
+    print("Danach kommen die Varianten (T, Top-K, Subtalker) nacheinander.")
+    print()
+
+    engine = load_studio_engine(tts, args.backend, settings)
+    ref_audio = str(tts.reference_wav(profile).resolve())
+    prompt = engine.create_prompt(ref_audio=ref_audio, ref_text=ref_text)
+
+    generated = 0
+    failed = 0
+    try:
+        for index, job in enumerate(planned, start=1):
+            rel = job["rel"]
+            text = str(job["text"]).strip()
+            out = Path(job["out"])
+            preview = text.replace("\n", " ")
+            if len(preview) > 80:
+                preview = preview[:77] + "…"
+            job_sampling = merge_sampling(settings, job)
+            variant = job.get("variant") or ""
+            print(f"[{index}/{len(planned)}] {rel}", flush=True)
+            if variant:
+                print(f"  variant {variant}  {format_sampling(job_sampling)}", flush=True)
+            print(f"  {preview}", flush=True)
+            print("  generate …", flush=True)
+
+            started = time.perf_counter()
+            try:
+                with GenerateHeartbeat(rel):
+                    run_with_timeout(
+                        GENERATE_TIMEOUT_S,
+                        generate_one,
+                        tts=tts,
+                        engine=engine,
+                        settings=settings,
+                        sampling=job_sampling,
+                        text=text,
+                        language=args.language,
+                        prompt=prompt,
+                        ref_audio=ref_audio,
+                        ref_text=ref_text,
+                        out=out,
+                        sweep=bool(job.get("sweep")),
+                    )
+            except KeyboardInterrupt:
+                raise
+            except TimeoutError as exc:
+                failed += 1
+                print(f"  Fehler: {exc}", file=sys.stderr, flush=True)
+                continue
+            except Exception as exc:
+                failed += 1
+                print(f"  Fehler: {exc}", file=sys.stderr, flush=True)
+                if failed == 1:
+                    traceback.print_exc()
+                continue
+            finally:
+                release_inference_memory()
+
+            done.add(rel)
+            manifest["voice"] = voice_name
+            manifest["engine"] = "qwen3-tts-local"
+            manifest["settings"] = "tools/audio/qwen_tts_settings.json"
+            manifest["updated"] = datetime.now().isoformat(timespec="seconds")
+            manifest["files"] = sorted(done)
+            save_manifest(args.manifest, manifest)
+            generated += 1
+            print(f"  write {out}  ({time.perf_counter() - started:.1f}s)", flush=True)
+    except KeyboardInterrupt:
+        print(
+            f"\nAbgebrochen. Generiert: {generated}, Fehler: {failed}. "
+            "Nächster Lauf setzt an den fertigen Dateien fort.",
+            file=sys.stderr,
+        )
+        return 130
+
+    print(f"\nFertig. Generiert: {generated}, übersprungen: {skipped}, Fehler: {failed}")
+    return 1 if failed else 0
+
+
+def load_local_tts(root: Path) -> types.ModuleType:
+    tts_py = root / "tts.py"
+    if not tts_py.is_file():
+        raise FileNotFoundError(f"local-tts nicht gefunden: {tts_py}")
+    spec = importlib.util.spec_from_file_location("local_tts_cli", tts_py)
+    if spec is None or spec.loader is None:
+        raise ImportError(f"Kann {tts_py} nicht laden.")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def transformers_version() -> str | None:
+    try:
+        import transformers
+
+        return str(getattr(transformers, "__version__", "") or "") or None
+    except Exception:
+        return None
+
+
+def require_supported_transformers(*, allow_v5: bool, backend: str) -> int:
+    """qwen_tts 0.1.1 ist für transformers 4.57.3 gebaut. 5.x ist ein anderes Generate-API."""
+    version = transformers_version()
+    chosen = (backend or "torch").lower()
+    if version is None:
+        print(
+            "[STOP] transformers ist in diesem Python nicht importierbar.\n"
+            f"  {DEFAULT_LOCAL_TTS / '.venv' / 'bin' / 'pip'} install "
+            f"'transformers=={PINNED_TRANSFORMERS}'",
+            file=sys.stderr,
+        )
+        return UNSUPPORTED_TRANSFORMERS_EXIT
+    major = version.split(".", 1)[0]
+    if chosen == "mlx":
+        if major == "5":
+            print(
+                f"Hinweis: transformers {version}. MLX umgeht den Torch-Generate-Pfad; "
+                "Sampler weicht von Studio ab."
+            )
+        return 0
+    if major != "5":
+        return 0
+    if allow_v5:
+        print(
+            f"Warnung: transformers {version} ist nicht unterstützt "
+            "(--allow-transformers5). Generate kann weiter scheitern.",
+            file=sys.stderr,
+        )
+        return 0
+    print_unsupported_transformers(version)
+    return UNSUPPORTED_TRANSFORMERS_EXIT
+
+
+def print_unsupported_transformers(version: str) -> None:
+    pip = DEFAULT_LOCAL_TTS / ".venv" / "bin" / "pip"
+    print(
+        f"""
+[STOP] Falsche transformers-Version im CLI-venv: {version}
+       qwen_tts braucht transformers=={PINNED_TRANSFORMERS}.
+
+Studio funktioniert, weil es ein anderes Python nutzt — nicht ~/local-tts/.venv.
+Sweep, Bud2 und der Krit-Text sind in Ordnung. Generate scheitert, weil qwen_tts
+APIs aus transformers 4.57 aufruft, die in 5.x umbenannt oder entfernt sind
+(zuletzt: create_causal_mask(..., input_embeds=...)).
+
+Weitere Worker-Patches bringen nichts. Die Studio-App nicht anfassen.
+
+Nur dieses venv (Studio geschlossen):
+
+  {pip} install 'transformers=={PINNED_TRANSFORMERS}'
+
+Danach:
+
+  npm run generate-audio-qwen-sweep -- --preset quick
+""".strip(),
+        file=sys.stderr,
+    )
+
+
+def load_studio_engine(tts, backend: str, settings: dict):
+    chosen = tts.choose_backend(backend)
+    if chosen == "mlx":
+        print("Hinweis: MLX übernimmt nicht alle Studio-Sampler (kein Subtalker/Top-K). Für Bud2-Setting: --backend torch")
+        return MlxCompatEngine(tts, settings)
+    apply_qwen_transformers_compat()
+    return TorchStudioEngine(tts, settings)
+
+
+def apply_qwen_config_compat() -> None:
+    """transformers 5: Talker-Config hat codec_pad_id, der Modellcode liest pad_token_id."""
+    cfg = None
+    for name in (
+        "qwen_tts.core.models.configuration_qwen3_tts",
+        "qwen_tts.configuration_qwen3_tts",
+    ):
+        try:
+            cfg = importlib.import_module(name)
+            break
+        except Exception:
+            continue
+    if cfg is None:
+        print("Hinweis: Qwen-Config-Patch übersprungen (configuration_qwen3_tts nicht gefunden).")
+        return
+
+    talker = getattr(cfg, "Qwen3TTSTalkerConfig", None)
+    predictor = getattr(cfg, "Qwen3TTSTalkerCodePredictorConfig", None)
+    if talker is not None:
+        talker.pad_token_id = property(
+            lambda self: getattr(self, "codec_pad_id", None),
+            lambda self, value: _config_set(self, "codec_pad_id", value),
+        )
+        print("Hinweis: Qwen-Talker pad_token_id → codec_pad_id.")
+    if predictor is not None:
+        predictor.pad_token_id = property(
+            lambda self: getattr(self, "_pad_token_id", None),
+            lambda self, value: _config_set(self, "_pad_token_id", value),
+        )
+
+
+def _config_set(self, key: str, value) -> None:
+    try:
+        object.__setattr__(self, key, value)
+    except Exception:
+        self.__dict__[key] = value
+
+
+def resolve_pretrained_source(settings: dict) -> str:
+    model_id = settings["model_id"]
+    revision = settings.get("revision")
+    hf_home = Path(os.environ.get("HF_HOME") or "").expanduser()
+    if not hf_home:
+        return model_id
+    hub_roots = []
+    if hf_home:
+        hub_roots.extend([hf_home / "hub", hf_home])
+    org_name = f"models--{model_id.replace('/', '--')}"
+    for base in hub_roots:
+        hub = base / org_name
+        if revision:
+            pinned = hub / "snapshots" / str(revision)
+            if (pinned / "config.json").is_file():
+                return str(pinned)
+        snaps = hub / "snapshots"
+        if not snaps.is_dir():
+            continue
+        found = [p for p in snaps.iterdir() if p.is_dir() and (p / "config.json").is_file()]
+        if found:
+            found.sort(key=lambda p: p.stat().st_mtime, reverse=True)
+            return str(found[0])
+    return model_id
+
+
+def apply_qwen_transformers_compat() -> None:
+    """qwen_tts setzt @check_model_inputs(); der 4.57.3-Decorator verwirft inputs_embeds."""
+    global _TRANSFORMERS_COMPAT_APPLIED
+    if _TRANSFORMERS_COMPAT_APPLIED:
+        return
+    try:
+        import transformers.utils.generic as generic
+    except Exception:
+        return
+
+    def check_model_inputs(func=None, *args, **kwargs):
+        def decorate(fn):
+            if not callable(fn):
+                return fn
+
+            @functools.wraps(fn)
+            def wrapped(*call_args, **call_kwargs):
+                return fn(*call_args, **_alias_embed_kwargs(fn, call_kwargs))
+
+            return wrapped
+
+        if func is None:
+            return decorate
+        return decorate(func)
+
+    generic.check_model_inputs = check_model_inputs
+    for name in ("transformers.utils", "transformers"):
+        mod = sys.modules.get(name)
+        if mod is not None and hasattr(mod, "check_model_inputs"):
+            setattr(mod, "check_model_inputs", check_model_inputs)
+    _TRANSFORMERS_COMPAT_APPLIED = True
+    print("Hinweis: check_model_inputs durchlässig (inputs_embeds / input_embeds).")
+
+
+def _alias_embed_kwargs(fn, kwargs: dict) -> dict:
+    """transformers generate übergibt inputs_embeds; mancher Qwen-forward heisst input_embeds."""
+    if not kwargs:
+        return kwargs
+    remapped = dict(kwargs)
+    try:
+        params = inspect.signature(fn).parameters
+    except (TypeError, ValueError):
+        return remapped
+    names = set(params)
+    has_var = any(p.kind == inspect.Parameter.VAR_KEYWORD for p in params.values())
+    has_singular = "input_embeds" in names
+    has_plural = "inputs_embeds" in names
+    if has_singular and not has_plural and "inputs_embeds" in remapped:
+        remapped["input_embeds"] = remapped.pop("inputs_embeds")
+    elif has_plural and not has_singular and "input_embeds" in remapped:
+        remapped["inputs_embeds"] = remapped.pop("input_embeds")
+    elif not has_singular and not has_plural and not has_var:
+        remapped.pop("inputs_embeds", None)
+        remapped.pop("input_embeds", None)
+    return remapped
+
+
+def apply_qwen_rope_compat() -> None:
+    """transformers 5: 'default' RoPE fehlt, rope_config_validation ist tot — beides lokal ersetzen."""
+    global _ROPE_COMPAT_APPLIED
+    version = transformers_version() or ""
+    if not version.startswith("5"):
+        return
+    try:
+        import transformers.modeling_rope_utils as rope
+    except Exception:
+        return
+
+    def _noop(*_args, **_kwargs):
+        return None
+
+    if hasattr(rope, "rope_config_validation"):
+        rope.rope_config_validation = _noop
+    table = getattr(rope, "ROPE_INIT_FUNCTIONS", None)
+    if isinstance(table, dict):
+        table["default"] = _vanilla_default_rope_parameters
+    if not _ROPE_COMPAT_APPLIED:
+        print("Hinweis: transformers RoPE 'default' + rope_config_validation angepasst.")
+        _ROPE_COMPAT_APPLIED = True
+
+
+def _vanilla_default_rope_parameters(config, device=None, **kwargs):
+    import torch
+
+    base = float(getattr(config, "rope_theta", 10000.0) or 10000.0)
+    partial = float(getattr(config, "partial_rotary_factor", 1.0) or 1.0)
+    head_dim = getattr(config, "head_dim", None)
+    if not head_dim:
+        hidden = int(getattr(config, "hidden_size", 0) or 0)
+        heads = int(getattr(config, "num_attention_heads", 1) or 1)
+        head_dim = hidden // max(heads, 1)
+    dim = max(int(head_dim * partial), 2)
+    inv_freq = 1.0 / (
+        base ** (torch.arange(0, dim, 2, dtype=torch.float32, device=device) / dim)
+    )
+    return inv_freq, 1.0
+
+
+class TorchStudioEngine:
+    def __init__(self, tts, settings: dict):
+        tts.quiet_library_noise()
+        import torch
+
+        self.settings = settings
+        self.torch = torch
+        self.inner = None
+        self.model = None
+        os.environ["HF_DEACTIVATE_ASYNC_LOAD"] = "1"
+        if self._transformers_is_v5() and hasattr(torch.backends, "mps"):
+            torch.backends.mps.is_available = lambda: False
+            print("transformers 5: MPS für diesen Prozess aus (Placeholder-Bug bei Generate).")
+        apply_qwen_rope_compat()
+        self._log_transformers()
+        try:
+            import qwen_tts  # noqa: F401
+            apply_qwen_config_compat()
+        except Exception as exc:
+            print(f"Config-Patch vorab nicht möglich: {exc}")
+        # transformers 5 lädt auf MPS async und crasht — nicht über load_engine gehen.
+        if self._transformers_is_v5():
+            print("transformers 5: lade synchron über CPU, danach MPS (kein Async-Load).")
+            self._load_pretrained(tts, settings, torch)
+            return
+        if not self._try_load_engine(tts):
+            self._load_pretrained(tts, settings, torch)
+
+    def _transformers_is_v5(self) -> bool:
+        try:
+            import transformers
+            return str(getattr(transformers, "__version__", "")).startswith("5")
+        except Exception:
+            return False
+
+    def _log_transformers(self) -> None:
+        try:
+            import transformers
+            version = getattr(transformers, "__version__", "?")
+            print(f"transformers {version}")
+            if str(version).startswith("5"):
+                print("Hinweis: transformers 5 + MPS braucht HF_DEACTIVATE_ASYNC_LOAD=1 (ist gesetzt).")
+        except Exception:
+            pass
+
+    def _try_load_engine(self, tts) -> bool:
+        if not hasattr(tts, "load_engine"):
+            return False
+        try:
+            args = SimpleNamespace(model="1.7B", backend="torch", fast=False, quality=True)
+            print("Lade über local-tts load_engine (wie ./tts --quality) …")
+            self.inner = tts.load_engine(args)
+        except Exception as exc:
+            print(f"load_engine nicht nutzbar: {exc}")
+            self.inner = None
+            return False
+        model = getattr(self.inner, "model", None)
+        if model is not None and hasattr(model, "generate_voice_clone"):
+            self.model = model
+            print("Engine: local-tts torch (generate_voice_clone)")
+            return True
+        if hasattr(self.inner, "generate"):
+            print("Engine: local-tts torch (generate)")
+            return True
+        print("load_engine ohne generate-API — fallback from_pretrained")
+        self.inner = None
+        return False
+
+    def _load_pretrained(self, tts, settings: dict, torch) -> None:
+        from qwen_tts import Qwen3TTSModel
+
+        apply_qwen_config_compat()
+        apply_qwen_rope_compat()
+        device = tts.pick_device()
+        model_id = settings["model_id"]
+        revision = settings.get("revision")
+        source = resolve_pretrained_source(settings)
+        local_source = os.path.isdir(source)
+        print(f"Backend: PyTorch  Modell: {model_id}")
+        if revision:
+            print(f"Revision: {revision}")
+        print(f"Quelle:   {source}")
+        print(f"Gerät:    {device}  (Load: CPU; Inference: {'CPU (transformers 5)' if self._transformers_is_v5() else device})")
+        kwargs = {
+            "dtype": torch.float32,
+            "attn_implementation": "sdpa",
+            "local_files_only": local_source,
+            "low_cpu_mem_usage": False,
+        }
+        if revision and not local_source:
+            kwargs["revision"] = revision
+        try:
+            self.model = Qwen3TTSModel.from_pretrained(source, **kwargs)
+        except TypeError as exc:
+            msg = str(exc)
+            if "revision" in kwargs and "revision" in msg:
+                kwargs.pop("revision", None)
+                self.model = Qwen3TTSModel.from_pretrained(source, **kwargs)
+            elif "local_files_only" in msg:
+                kwargs.pop("local_files_only", None)
+                self.model = Qwen3TTSModel.from_pretrained(source, **kwargs)
+            elif "low_cpu_mem_usage" in msg:
+                kwargs.pop("low_cpu_mem_usage", None)
+                self.model = Qwen3TTSModel.from_pretrained(source, **kwargs)
+            else:
+                raise
+        if device != "cpu" and not self._transformers_is_v5():
+            print(f"Verschiebe Modell nach {device} …")
+            _move_torch_modules(self.model, device)
+            leftover = _meta_param_count(self.model)
+            if leftover:
+                print(
+                    f"Hinweis: {leftover} Meta-Tensoren nach .to({device}) — "
+                    "bleibe auf CPU, sonst MPS-Placeholder-Fehler."
+                )
+                _move_torch_modules(self.model, "cpu")
+            else:
+                print(f"Modell auf {device}, keine Meta-Tensoren.")
+        elif device == "mps":
+            print("transformers 5: Inference bleibt auf CPU (MPS Placeholder-Bug in 5.16).")
+
+    def create_prompt(self, ref_audio: str, ref_text: str):
+        if self.model is not None and hasattr(self.model, "create_voice_clone_prompt"):
+            return self.model.create_voice_clone_prompt(
+                ref_audio=ref_audio,
+                ref_text=ref_text,
+                x_vector_only_mode=False,
+            )
+        if self.inner is not None and hasattr(self.inner, "create_prompt"):
+            return self.inner.create_prompt(ref_audio=ref_audio, ref_text=ref_text, x_vector_only=False)
+        raise RuntimeError("Keine Prompt-API am Torch-Engine.")
+
+    def generate_chunk(self, text: str, language: str, prompt, ref_audio: str, ref_text: str, sampling=None):
+        try:
+            return self._generate_chunk_once(text, language, prompt, ref_audio, ref_text, sampling)
+        except RuntimeError as exc:
+            if "Placeholder storage" not in str(exc):
+                raise
+            print("MPS-Placeholder bei Generate — wechsle auf CPU und versuche den Clip erneut.")
+            if self.model is not None:
+                _move_torch_modules(self.model, "cpu")
+            if self.inner is not None:
+                _move_torch_modules(self.inner, "cpu")
+            return self._generate_chunk_once(text, language, prompt, ref_audio, ref_text, sampling)
+
+    def _generate_chunk_once(self, text, language, prompt, ref_audio, ref_text, sampling=None):
+        sampling = sampling if sampling is not None else (self.settings.get("sampling") or {})
+        seed = self.settings.get("seed")
+        if seed is not None:
+            self.torch.manual_seed(int(seed))
+            if self.torch.cuda.is_available():
+                self.torch.cuda.manual_seed_all(int(seed))
+        if self.model is not None and hasattr(self.model, "generate_voice_clone"):
+            wavs, sr = self.model.generate_voice_clone(
+                text=text,
+                language=language,
+                voice_clone_prompt=prompt,
+                non_streaming_mode=True,
+                do_sample=True,
+                temperature=float(sampling.get("temperature", 0.81)),
+                top_p=float(sampling.get("top_p", 1.0)),
+                top_k=int(sampling.get("top_k", 62)),
+                repetition_penalty=float(sampling.get("repetition_penalty", 1.04)),
+                subtalker_dosample=True,
+                subtalker_temperature=float(sampling.get("subtalker_temperature", 0.96)),
+                subtalker_top_p=float(sampling.get("subtalker_top_p", 1.0)),
+                subtalker_top_k=int(sampling.get("subtalker_top_k", 62)),
+                max_new_tokens=int(sampling.get("max_new_tokens", 2048)),
+            )
+            return wavs[0], sr
+        if self.inner is None or not hasattr(self.inner, "generate"):
+            raise RuntimeError("Kein generate_voice_clone / generate am Torch-Engine.")
+        wanted = {
+            "text": text,
+            "language": language,
+            "voice_clone_prompt": prompt,
+            "ref_audio": ref_audio,
+            "ref_text": ref_text,
+            "x_vector_only": False,
+            "do_sample": True,
+            "temperature": float(sampling.get("temperature", 0.81)),
+            "top_p": float(sampling.get("top_p", 1.0)),
+            "top_k": int(sampling.get("top_k", 62)),
+            "repetition_penalty": float(sampling.get("repetition_penalty", 1.04)),
+            "subtalker_dosample": True,
+            "subtalker_temperature": float(sampling.get("subtalker_temperature", 0.96)),
+            "subtalker_top_p": float(sampling.get("subtalker_top_p", 1.0)),
+            "subtalker_top_k": int(sampling.get("subtalker_top_k", 62)),
+            "max_new_tokens": int(sampling.get("max_new_tokens", 2048)),
+        }
+        return self.inner.generate(**_filter_kwargs(self.inner.generate, wanted))
+
+
+def _move_torch_modules(root, device: str) -> None:
+    import torch.nn as nn
+
+    for module in _iter_nn_modules(root):
+        module.to(device)
+
+
+def _iter_nn_modules(root):
+    import torch.nn as nn
+
+    seen = set()
+    stack = [root]
+    while stack:
+        obj = stack.pop()
+        ident = id(obj)
+        if ident in seen:
+            continue
+        seen.add(ident)
+        if isinstance(obj, nn.Module):
+            yield obj
+            stack.extend(list(obj.children()))
+        data = getattr(obj, "__dict__", None)
+        if isinstance(data, dict):
+            for value in data.values():
+                if isinstance(value, nn.Module):
+                    stack.append(value)
+
+
+def _meta_param_count(root) -> int:
+    count = 0
+    for module in _iter_nn_modules(root):
+        for tensor in list(module.parameters()) + list(module.buffers()):
+            if tensor.device.type == "meta":
+                count += 1
+                continue
+            try:
+                if tensor.numel() > 0 and tensor.untyped_storage().size() == 0:
+                    count += 1
+            except Exception:
+                continue
+    return count
+
+
+def _filter_kwargs(fn, wanted: dict) -> dict:
+    try:
+        params = inspect.signature(fn).parameters
+    except (TypeError, ValueError):
+        return wanted
+    if any(p.kind == inspect.Parameter.VAR_KEYWORD for p in params.values()):
+        return wanted
+    return {key: value for key, value in wanted.items() if key in params}
+
+
+class MlxCompatEngine:
+    def __init__(self, tts, settings: dict):
+        args = SimpleNamespace(model="1.7B", backend="mlx", fast=False, quality=False)
+        self.inner = tts.load_engine(args)
+        self.settings = settings
+        self.tts = tts
+
+    def create_prompt(self, ref_audio: str, ref_text: str):
+        return self.inner.create_prompt(ref_audio=ref_audio, ref_text=ref_text, x_vector_only=False)
+
+    def generate_chunk(self, text: str, language: str, prompt, ref_audio: str, ref_text: str, sampling=None):
+        sampling = sampling if sampling is not None else (self.settings.get("sampling") or {})
+        tokens = int(sampling.get("max_new_tokens", 2048))
+        return self.inner.generate(
+            text=text,
+            language=language,
+            voice_clone_prompt=prompt,
+            ref_audio=ref_audio,
+            ref_text=ref_text,
+            x_vector_only=False,
+            max_new_tokens=tokens,
+            temperature=float(sampling.get("temperature", 0.81)),
+        )
+
+
+def ensure_voice(tts: types.ModuleType, name: str, studio_profiles: Path) -> None:
+    voice_dir = tts.VOICES / name
+    if (voice_dir / "profile.json").is_file():
+        profile = tts.load_voice(name)
+        if not (profile.get("ref_text") or "").strip():
+            raise ValueError(f"Stimme '{name}' ohne Transkript.")
+        print(f"Stimme vorhanden: {voice_dir}")
+        return
+
+    audio, ref_text, language = studio_voice(studio_profiles, name)
+    ns = SimpleNamespace(
+        name=name,
+        audio=audio,
+        text=ref_text,
+        text_file=None,
+        language=language or "German",
+        speak_language="German",
+        no_transcript=False,
+    )
+    print(f"Importiere Studio-Stimme '{name}' nach {voice_dir} …")
+    tts.cmd_clone(ns)
+
+
+def studio_voice(profiles_path: Path, name: str) -> tuple[Path, str, str]:
+    if not profiles_path.is_file():
+        raise FileNotFoundError(
+            f"Stimme '{name}' fehlt in local-tts und Studio-Profile nicht gefunden: {profiles_path}"
+        )
+    data = json.loads(profiles_path.read_text(encoding="utf-8"))
+    wanted = name.strip().lower()
+    for item in data.get("profiles") or []:
+        if str(item.get("name") or "").strip().lower() != wanted:
+            continue
+        audio = Path(str(item.get("ref_audio") or "")).expanduser()
+        ref_text = str(item.get("ref_text") or "").strip()
+        language = str(item.get("language") or "German")
+        if not audio.is_file():
+            raise FileNotFoundError(f"Studio-Referenz fehlt: {audio}")
+        if not ref_text:
+            raise ValueError(f"Studio-Stimme '{name}' hat kein Transkript.")
+        return audio, ref_text, language
+    known = ", ".join(str(p.get("name") or "") for p in (data.get("profiles") or []))
+    raise FileNotFoundError(f"Studio-Stimme '{name}' nicht gefunden. Vorhanden: {known}")
+
+
+def split_paragraphs(text: str, enabled: bool) -> list[str]:
+    text = text.replace("\r\n", "\n").strip()
+    if not enabled or not text:
+        return [text] if text else []
+    parts = [re.sub(r"[ \t]+", " ", p).strip() for p in re.split(r"\n\s*\n", text)]
+    return [p for p in parts if p]
+
+
+def merge_sampling(settings: dict, job: dict) -> dict:
+    merged = dict(settings.get("sampling") or {})
+    extra = job.get("sampling")
+    if isinstance(extra, dict):
+        merged.update(extra)
+    return merged
+
+
+def format_sampling(sampling: dict) -> str:
+    return (
+        f"T={sampling.get('temperature')} P={sampling.get('top_p')} K={sampling.get('top_k')} "
+        f"subT={sampling.get('subtalker_temperature')} subP={sampling.get('subtalker_top_p')} "
+        f"subK={sampling.get('subtalker_top_k')}"
+    )
+
+
+class GenerateHeartbeat:
+    def __init__(self, label: str, interval: float = GENERATE_HEARTBEAT_S):
+        self.label = label
+        self.interval = interval
+        self._stop = threading.Event()
+        self._thread: threading.Thread | None = None
+        self._started = time.perf_counter()
+
+    def __enter__(self):
+        def run():
+            while not self._stop.wait(self.interval):
+                elapsed = time.perf_counter() - self._started
+                print(f"  … generate läuft noch ({elapsed:.0f}s)  {self.label}", flush=True)
+
+        self._thread = threading.Thread(target=run, name="qwen-heartbeat", daemon=True)
+        self._thread.start()
+        return self
+
+    def __exit__(self, *_exc):
+        self._stop.set()
+        return False
+
+
+def run_with_timeout(seconds: float, fn, *args, **kwargs):
+    if seconds <= 0 or not hasattr(signal, "SIGALRM") or not hasattr(signal, "setitimer"):
+        return fn(*args, **kwargs)
+
+    def _on_alarm(_signum, _frame):
+        raise TimeoutError(
+            f"Generate-Timeout nach {int(seconds)}s — Clip übersprungen."
+        )
+
+    previous = signal.signal(signal.SIGALRM, _on_alarm)
+    signal.setitimer(signal.ITIMER_REAL, float(seconds))
+    try:
+        return fn(*args, **kwargs)
+    finally:
+        signal.setitimer(signal.ITIMER_REAL, 0)
+        signal.signal(signal.SIGALRM, previous)
+
+
+def release_inference_memory() -> None:
+    gc.collect()
+    try:
+        import torch
+
+        if hasattr(torch, "mps"):
+            sync = getattr(torch.mps, "synchronize", None)
+            if callable(sync):
+                sync()
+            empty = getattr(torch.mps, "empty_cache", None)
+            if callable(empty):
+                empty()
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+    except Exception:
+        pass
+
+
+def generate_one(*, tts, engine, settings, text, language, prompt, ref_audio, ref_text, out: Path, sampling=None, sweep=False) -> None:
+    assert_qwen_output_path(out, sweep=sweep)
+    partial = out.with_name(out.stem + PARTIAL_SUFFIX)
+    if partial.exists():
+        partial.unlink()
+    out.parent.mkdir(parents=True, exist_ok=True)
+
+    chunks = split_paragraphs(text, bool(settings.get("paragraph_generation", True)))
+    if not chunks:
+        raise ValueError("Kein Text.")
+
+    wavs = []
+    sample_rate = None
+    for chunk in chunks:
+        piece, sample_rate = engine.generate_chunk(
+            text=chunk,
+            language=language,
+            prompt=prompt,
+            ref_audio=ref_audio,
+            ref_text=ref_text,
+            sampling=sampling if sampling is not None else (settings.get("sampling") or {}),
+        )
+        wavs.append(tts.to_mono(piece))
+
+    pause_s = float(settings.get("paragraph_pause_ms") or 0) / 1000.0
+    combined = tts.concat_wavs(wavs, sample_rate, pause_s=pause_s if len(wavs) > 1 else 0.0)
+    finalize_mp3(tts, combined, sample_rate, partial, settings)
+    os.replace(partial, out)
+
+
+def assert_qwen_output_path(out: Path, sweep: bool = False) -> None:
+    resolved = Path(out).resolve()
+    parts = resolved.parts
+    if "audio" in parts:
+        i = parts.index("audio")
+        if i + 1 < len(parts) and parts[i + 1] == "krit":
+            raise RuntimeError(f"Qwen darf nicht nach assets/audio/krit/ schreiben: {out}")
+        if sweep and i + 1 < len(parts) and parts[i + 1] == "qwen":
+            raise RuntimeError(f"Sweep darf nicht nach assets/audio/qwen/ schreiben: {out}")
+    if sweep and "qwen-sweep" not in parts:
+        raise RuntimeError(f"Sweep-Output muss unter qwen-sweep liegen: {out}")
+
+
+def finalize_mp3(tts, wav, sample_rate: int, dest: Path, settings: dict) -> None:
+    import soundfile as sf
+
+    ffmpeg = shutil.which("ffmpeg")
+    if not ffmpeg:
+        raise RuntimeError("ffmpeg fehlt (brew install ffmpeg).")
+
+    with tempfile.TemporaryDirectory() as tmp:
+        raw = Path(tmp) / "raw.wav"
+        sf.write(raw, wav, sample_rate)
+        current = raw
+        speed = float(settings.get("speed") or 1.0)
+        if abs(speed - 1.0) > 0.001:
+            sped = Path(tmp) / "speed.wav"
+            run_ffmpeg([ffmpeg, "-y", "-i", str(current), "-filter:a", f"atempo={speed}", str(sped)])
+            current = sped
+        if settings.get("normalize"):
+            lufs = float(settings.get("target_loudness_lufs", -16.0))
+            tp = float(settings.get("true_peak_limit_dbtp", -1.0))
+            current = loudnorm_wav(ffmpeg, current, Path(tmp) / "norm.wav", lufs, tp)
+        run_ffmpeg(
+            [ffmpeg, "-y", "-i", str(current), "-codec:a", "libmp3lame", "-q:a", "2", str(dest)]
+        )
+
+
+def loudnorm_wav(ffmpeg: str, src: Path, dest: Path, lufs: float, tp: float) -> Path:
+    measure = subprocess.run(
+        [
+            ffmpeg, "-i", str(src),
+            "-af", f"loudnorm=I={lufs}:TP={tp}:LRA=11:print_format=json",
+            "-f", "null", "-",
+        ],
+        capture_output=True,
+        text=True,
+    )
+    measured = parse_loudnorm_json(measure.stderr or "")
+    if measured:
+        filt = (
+            f"loudnorm=I={lufs}:TP={tp}:LRA=11:"
+            f"measured_I={measured['input_i']}:"
+            f"measured_TP={measured['input_tp']}:"
+            f"measured_LRA={measured['input_lra']}:"
+            f"measured_thresh={measured['input_thresh']}:"
+            f"offset={measured['target_offset']}:"
+            f"linear=true"
+        )
+    else:
+        filt = f"loudnorm=I={lufs}:TP={tp}:LRA=11"
+    run_ffmpeg([ffmpeg, "-y", "-i", str(src), "-af", filt, str(dest)])
+    return dest
+
+
+def parse_loudnorm_json(stderr: str) -> dict | None:
+    start = stderr.rfind("{")
+    end = stderr.rfind("}")
+    if start < 0 or end <= start:
+        return None
+    try:
+        data = json.loads(stderr[start : end + 1])
+    except json.JSONDecodeError:
+        return None
+    keys = ("input_i", "input_tp", "input_lra", "input_thresh", "target_offset")
+    if not all(k in data for k in keys):
+        return None
+    return data
+
+
+def run_ffmpeg(cmd: list[str]) -> None:
+    result = subprocess.run(cmd, capture_output=True, text=True)
+    if result.returncode != 0:
+        raise RuntimeError(result.stderr.strip() or "ffmpeg fehlgeschlagen")
+
+
+def load_manifest(path: Path) -> dict:
+    if not path.is_file():
+        return {"engine": "qwen3-tts-local", "files": []}
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def save_manifest(path: Path, manifest: dict) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    tmp.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    os.replace(tmp, path)
+
+
+if __name__ == "__main__":
+    try:
+        raise SystemExit(main())
+    except KeyboardInterrupt:
+        print("\nAbgebrochen.", file=sys.stderr)
+        raise SystemExit(130)
+    except Exception as exc:
+        print(f"Fehler: {exc}", file=sys.stderr)
+        traceback.print_exc()
+        raise SystemExit(1)

@@ -1,0 +1,24 @@
+# Sensible Dateien (API-Keys, Credentials)
+private/*
+!private/README.md
+
+# Umgebungsvariablen (Fallback, falls nicht in private/)
+.env
+
+# Node
+node_modules/
+
+# Python
+**/__pycache__/
+*.pyc
+
+# macOS
+.DS_Store
+
+# IDE
+.cursor/
+
+# Lokaler Qwen-TTS-Fortschritt (nicht committen)
+assets/data/_pipeline/qwen_audio_done.json
+assets/data/_pipeline/qwen_audio_done.json.tmp
+assets/data/_pipeline/qwen-sweep/

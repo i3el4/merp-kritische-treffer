@@ -1,0 +1,36 @@
+{
+  "name": "merp-kritische-treffer",
+  "version": "1.0.0",
+  "description": "MERS/MERP Angriffs- & Krit-Treffer App",
+  "scripts": {
+    "serve": "npx serve -l 3333",
+    "generate-audio": "node tools/audio/generate_audio_elevenlabs.js",
+    "generate-audio-qwen": "node tools/audio/generate_audio_qwen.js",
+    "generate-audio-qwen-sweep": "node tools/audio/generate_audio_qwen_sweep.js",
+    "migrate-audio-layout": "node tools/audio/migrate_audio_layout.js",
+    "migrate-audio-layout-dry": "node tools/audio/migrate_audio_layout.js --dry-run",
+    "validate-audio-index": "node tools/audio/validate_audio_index.js",
+    "clean-tables": "node tools/tables/clean_tables_with_gemini.js",
+    "clean-tables-all": "node tools/tables/clean_tables_with_gemini.js --all",
+    "extract-patzer": "node tools/pdf-extract/extract_patzer_pdf.js",
+    "extract-english": "node tools/pdf-extract/extract_english_pdf.js",
+    "minify-patzer": "node tools/tables/minify_patzer_visual.js",
+    "merge-patzer": "node tools/tables/merge_patzer_into_tables_processed.js",
+    "sync-patzer-ranges": "node tools/tables/apply_patzer_range_labels.js",
+    "minify-visual": "node tools/tables/minify_visual_text.js",
+    "merge-english-tables": "node tools/tables/merge_english_german_into_tables.js",
+    "englisch-mp3-archive": "node tools/audio/englisch_krit_audio_tool.js archive",
+    "englisch-mp3-report": "node tools/audio/englisch_krit_audio_tool.js report",
+    "minify-visual-english": "MINIFY_ENGLISH_ZUSATZ_ONLY=1 node tools/tables/minify_visual_text.js",
+    "import-tables": "node tools/tables/import_and_fix_tables.js",
+    "import-gegner-tables": "node tools/tables/import_gegner_tables.js"
+  },
+  "dependencies": {
+    "@google/genai": "^1.44.0",
+    "axios": "^1.6.0",
+    "dotenv": "^16.6.1"
+  },
+  "devDependencies": {
+    "xlsx": "^0.18.5"
+  }
+}
