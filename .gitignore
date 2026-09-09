@@ -16,7 +16,8 @@ node_modules/
 .DS_Store
 
 # IDE
-.cursor/
+.cursor/*
+!.cursor/environment.json
 
 # Lokaler Qwen-TTS-Fortschritt (nicht committen)
 assets/data/_pipeline/qwen_audio_done.json

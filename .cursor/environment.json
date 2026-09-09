@@ -1,0 +1,17 @@
+{
+  "name": "MERS Kritische Treffer (static PWA)",
+  "install": "npm install",
+  "terminals": [
+    {
+      "name": "serve",
+      "command": "npx --yes serve -l 3333 .",
+      "description": "Statischer Dev-Server der PWA auf http://localhost:3333"
+    }
+  ],
+  "ports": [
+    {
+      "name": "web",
+      "port": 3333
+    }
+  ]
+}
