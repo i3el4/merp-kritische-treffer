@@ -85,13 +85,16 @@ Studio **beenden**, dann:
 # Kurztest (1 Text × 7 Varianten)
 npm run generate-audio-qwen-sweep -- --preset quick
 
-# Mix aus den Favoriten (baseline, crisp, T1.00, subK20 + 4 Mischungen)
+# 1. Andere Stimme + eigener Text: 25 Sampler (Default-Preset night)
+npm run generate-audio-qwen-sweep -- sal "Hallo, ich heisse Stefan. Wie geht es dir?"
+
+# 2. Danach Kombinationen aus den Gewinnern der 25
+npm run generate-audio-qwen-sweep -- --combine T1.00,recipe-crisp,subK20 sal "Hallo, ich heisse Stefan. Wie geht es dir?"
+
+# Festes Mix-Set (crisp / T1.00 / subK20) auf den sechs Krit-Texten
 npm run generate-audio-qwen-sweep -- --preset mix
 
-# Andere Stimme + eigener Text (Stimme muss in ~/local-tts/data/voices/sal/ liegen)
-npm run generate-audio-qwen-sweep -- --preset mix sal "Hallo, ich heisse Stefan. Wie geht es dir?"
-
-# Nachtlauf (6 Texte × alle Varianten, Resume per Ctrl+C)
+# Nachtlauf Bud2, sechs Krit-Texte × 25 Sampler
 caffeinate -i npm run generate-audio-qwen-sweep
 ```
 
@@ -99,7 +102,7 @@ Pro Clip erscheint `generate …` und alle 20s `… generate läuft noch`. Nach 
 
 Morgens `assets/data/_pipeline/qwen-sweep/index.html` öffnen (oder `npm run serve` und die Datei im Browser). Links die Texte, darunter die Varianten. Sterne und Notizen bleiben im Browser. Den Gewinner als JSON kopieren und ins Chat stellen — dann wandert er nach `qwen_tts_settings.json`.
 
-Eigene Stimme oder eigener Text: Output unter `audio/<stimme>/…`. Die Bud2-Krit-Samples bleiben. Ohne Text, nur Stimme (`--preset mix sal`) werden die sechs Krit-Sätze mit dieser Stimme erzeugt.
+Eigene Stimme oder eigener Text: Output unter `audio/<stimme>/…`. Die Bud2-Krit-Samples bleiben. Ohne `--preset` sind das **25 Sampler**. `--combine A,B,C` danach mischt die genannten IDs (Paare plus alles zusammen); vorhandene Dateien werden übersprungen. Ohne Text, nur Stimme (`sal` ohne Satz) werden die sechs Krit-Sätze mit dieser Stimme erzeugt.
 
 ---
 

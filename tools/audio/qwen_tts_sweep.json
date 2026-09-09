@@ -1,5 +1,5 @@
 {
-  "notes": "Night = 6 Krit-Texte × alle Sampler. Quick = nur Streich (Held) D 67–70 × sieben Varianten. Leere sampling-Objekte erben qwen_tts_settings.json.",
+  "notes": "Night = 6 Krit-Texte × 25 Sampler (ohne Mix-Rezepte). Mix = festes Favoriten-Set. --combine id,id baut Paare+Gesamtmix aus beliebigen Night-Gewinnern. Leere sampling-Objekte erben qwen_tts_settings.json.",
   "clips": [
     {
       "id": "question-taunt",
@@ -264,7 +264,16 @@
         "ear-hit",
         "leg-lie"
       ],
-      "variantIds": "all"
+      "variantIds": [
+        "baseline",
+        "T0.65", "T0.73", "T0.90", "T1.00",
+        "K20", "K40", "K80", "K100",
+        "P0.90", "P0.95",
+        "subT0.70", "subT0.85", "subT1.05", "subT1.20",
+        "subK20", "subK40", "subK80",
+        "subP0.90", "subP0.95",
+        "recipe-stable", "recipe-crisp", "recipe-lively", "recipe-expressive", "recipe-tight"
+      ]
     },
     "mix": {
       "clipIds": [

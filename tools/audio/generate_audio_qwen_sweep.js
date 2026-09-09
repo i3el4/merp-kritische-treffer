@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 /**
  * generate_audio_qwen_sweep.js
- * Sampler-Raster: Night = 6 Krit-Texte × alle Varianten. Mix = Favoriten-Kombinationen.
+ * Sampler-Raster: Night = 25 Sampler. Mix/--combine = Favoriten-Kombinationen.
  * Schreibt NIE nach assets/audio/qwen/ oder krit/.
  *
- *   npm run generate-audio-qwen-sweep -- --preset mix sal "Hallo, ich heisse Stefan."
- *   npm run generate-audio-qwen-sweep -- --preset mix --voice sal --text "Hallo, ich heisse Stefan."
+ *   npm run generate-audio-qwen-sweep -- sal "Hallo, ich heisse Stefan. Wie geht es dir?"
+ *   npm run generate-audio-qwen-sweep -- --combine T1.00,recipe-crisp,subK20 sal "Hallo, ich heisse Stefan."
  *
  * Danach: assets/data/_pipeline/qwen-sweep/index.html öffnen.
  */
@@ -48,6 +48,7 @@ function parseArgs(argv, settings) {
         voice: process.env.QWEN_TTS_VOICE || settings.voice || 'bud2',
         voiceFromFlag: false,
         text: '',
+        combine: null,
         backend: process.env.QWEN_TTS_BACKEND || settings.backend || 'torch',
         localTts: process.env.LOCAL_TTS_ROOT || path.join(os.homedir(), 'local-tts'),
         allowTransformers5: false,
@@ -77,6 +78,8 @@ function parseArgs(argv, settings) {
             opts.voiceFromFlag = true;
         } else if (a === '--text') opts.text = String(argv[++i] || '');
         else if (a.startsWith('--text=')) opts.text = a.slice(7);
+        else if (a === '--combine') opts.combine = splitList(argv[++i]);
+        else if (a.startsWith('--combine=')) opts.combine = splitList(a.slice(11));
         else if (a === '--backend') opts.backend = argv[++i];
         else if (a.startsWith('--backend=')) opts.backend = a.slice(10);
         else if (a === '--local-tts') opts.localTts = argv[++i];
@@ -158,14 +161,15 @@ Usage:
   npm run generate-audio-qwen-sweep -- [Optionen] [stimme] ["Text"]
 
 Beispiele:
-  npm run generate-audio-qwen-sweep -- --preset mix
-  npm run generate-audio-qwen-sweep -- --preset mix sal "Hallo, ich heisse Stefan. Wie geht es dir?"
-  npm run generate-audio-qwen-sweep -- --preset mix --voice sal --text "Hallo, ich heisse Stefan."
+  npm run generate-audio-qwen-sweep -- --preset quick
+  npm run generate-audio-qwen-sweep -- sal "Hallo, ich heisse Stefan. Wie geht es dir?"
+  npm run generate-audio-qwen-sweep -- --combine T1.00,recipe-crisp,subK20 sal "Hallo, ich heisse Stefan."
 
 Optionen:
-  --preset quick|night|mix   Default: night (6 Krit-Texte × alle Varianten).
+  --preset quick|night|mix   Default: night (25 Sampler; mit Stimme+Text: 1 Satz × 25).
   --voice NAME           Default: bud2. Oder als erstes Positionsargument.
   --text "…"             Eigener Satz statt der Krit-Clips. Oder als letztes Positionsargument.
+  --combine id,id        Nach dem 25er-Lauf: Paare + Gesamtmix aus Gewinner-IDs.
   --clips id,id          Nur diese Clips (siehe qwen_tts_sweep.json).
   --variants id,id       Nur diese Varianten.
   --limit N              Höchstens N neue MP3s.
@@ -229,6 +233,68 @@ function mergeSampling(base, extra) {
     return { ...base, ...(extra || {}) };
 }
 
+function patchWidth(variant) {
+    return Object.keys(variant.sampling || {}).length;
+}
+
+function mergeChosenSampling(chosen) {
+    const ranked = chosen.map((variant, index) => ({
+        variant,
+        index,
+        width: patchWidth(variant),
+    }));
+    ranked.sort((a, b) => b.width - a.width || a.index - b.index);
+    return ranked.reduce((acc, item) => mergeSampling(acc, item.variant.sampling), {});
+}
+
+function mixVariantId(ids) {
+    const id = `mix-${ids.join('-')}`;
+    if (!ID_RE.test(id)) throw new Error(`Mix-id ungültig: ${id}`);
+    return id;
+}
+
+function expandCombinedVariants(allVariants, combineIds) {
+    const byId = new Map(allVariants.map((item) => [item.id, item]));
+    const chosen = combineIds.map((id) => {
+        const item = byId.get(id);
+        if (!item) throw new Error(`Unbekannte Variante für --combine: ${id}`);
+        return item;
+    });
+    if (chosen.length < 2) {
+        throw new Error('--combine braucht mindestens zwei Varianten-IDs (z.B. T1.00,recipe-crisp,subK20).');
+    }
+    const out = [];
+    const seen = new Set();
+    const add = (variant) => {
+        if (seen.has(variant.id)) return;
+        seen.add(variant.id);
+        out.push(variant);
+    };
+    const baseline = byId.get('baseline');
+    if (baseline) add(baseline);
+    chosen.forEach(add);
+    for (let i = 0; i < chosen.length; i++) {
+        for (let j = i + 1; j < chosen.length; j++) {
+            const pair = [chosen[i], chosen[j]];
+            const ids = pair.map((variant) => variant.id);
+            add({
+                id: mixVariantId(ids),
+                label: `Mix: ${ids.join(' + ')}`,
+                sampling: mergeChosenSampling(pair),
+            });
+        }
+    }
+    if (chosen.length >= 3) {
+        const ids = chosen.map((variant) => variant.id);
+        add({
+            id: mixVariantId(ids),
+            label: `Mix: ${ids.join(' + ')}`,
+            sampling: mergeChosenSampling(chosen),
+        });
+    }
+    return out;
+}
+
 function assertSafeId(id, kind) {
     if (!ID_RE.test(id)) throw new Error(`${kind}-id ungültig: ${id}`);
 }
@@ -263,7 +329,10 @@ function buildJobs({ settings, sweep, data, opts }) {
             assertSafeId(clip.id, 'Clip');
             return { ...clip, text: resolveClipText(data, clip) };
         });
-    const variants = pickByIds(sweep.variants, variantIds, 'Variante').map((variant) => {
+    const rawVariants = (opts.combine && opts.combine.length)
+        ? expandCombinedVariants(sweep.variants, opts.combine)
+        : pickByIds(sweep.variants, variantIds, 'Variante');
+    const variants = rawVariants.map((variant) => {
         assertSafeId(variant.id, 'Variante');
         return {
             ...variant,
@@ -287,7 +356,7 @@ function buildJobs({ settings, sweep, data, opts }) {
             });
         }
     }
-    return { clips, variants, jobs, presetName: opts.preset, voice, nestVoice };
+    return { clips, variants, jobs, presetName: opts.combine?.length ? 'combine' : opts.preset, voice, nestVoice };
 }
 
 function writeReport({ clips, variants, jobs, presetName, settings, voice, nestVoice }) {
