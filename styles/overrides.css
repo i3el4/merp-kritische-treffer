@@ -1451,17 +1451,22 @@ header > div:first-child {
   align-items: flex-start;
 }
 
-/* Ziel-Auswahl: Runde Icons mit überlappendem Text */
+/* Ziel-Auswahl: Runde Icons, Name als Ring darum */
 .ziel-select-btn-round {
   display: inline-flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  flex: 0 0 80px;
+  width: 80px;
+  height: 80px;
   padding: 0;
   border: none;
   cursor: pointer;
   position: relative;
   overflow: visible;
-  transition: all 0.2s ease;
+  color: var(--text);
+  transition: transform 0.2s ease;
   background: transparent;
 }
 
@@ -1501,7 +1506,7 @@ body[data-angriffsmodus="monster"] .ziel-group[data-group-type="gegner"] .ziel-s
     inset 0 0 12px rgba(255, 248, 220, 0.12);
 }
 
-.ziel-select-btn-round:hover:not(.tot):not(:disabled) .ziel-icon-wrap {
+.ziel-select-btn-round:hover:not(.tot):not(:disabled) {
   transform: translateY(-2px);
 }
 
@@ -1554,26 +1559,30 @@ body[data-angriffsmodus="monster"] .ziel-group[data-group-type="gegner"] .ziel-s
   object-fit: contain;
 }
 
-.ziel-select-btn-round .ziel-name {
-  font-family: 'Aniron', Georgia, serif;
-  font-size: 10px;
-  line-height: 1.2;
-  text-align: center;
-  white-space: nowrap;
-  color: var(--text);
-  position: relative;
-  margin-top: -10px;
-  z-index: 2;
-  text-shadow: 0 0 4px var(--chip), 0 1px 3px var(--bg);
-  max-width: none;
+.ziel-select-btn-round .ziel-name-ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 80px;
+  height: 80px;
+  transform: translate(-50%, -50%);
   overflow: visible;
   pointer-events: none;
-  min-height: 14px;
+  z-index: 2;
 }
 
-.ziel-select-btn-round.active .ziel-name {
+.ziel-select-btn-round .ziel-name-text {
+  font-family: 'Aniron', Georgia, serif;
+  fill: currentColor;
+  stroke: var(--bg);
+  stroke-width: 2.6px;
+  paint-order: stroke fill;
+  stroke-linejoin: round;
+  letter-spacing: 0.04em;
+}
+
+.ziel-select-btn-round.active {
   color: var(--accent-2);
-  text-shadow: 0 0 4px var(--chip), 0 1px 3px var(--bg), 1px 1px 4px var(--bg);
 }
 
 .ziel-select-btn-round.tot,

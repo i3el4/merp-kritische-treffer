@@ -734,6 +734,69 @@ function escapeHtml(s) {
   return div.innerHTML;
 }
 
+const SVG_NS = 'http://www.w3.org/2000/svg';
+
+function sanitizeDomId(value) {
+  return String(value || 'x').replace(/[^a-zA-Z0-9_-]/g, '_');
+}
+
+/** Name als Ring um das runde Icon, unabhängig von Namenslänge. */
+function createCircularNameSvg(label, uniqueId) {
+  const name = String(label || '').trim() || '—';
+  const svg = document.createElementNS(SVG_NS, 'svg');
+  svg.setAttribute('class', 'ziel-name-ring');
+  svg.setAttribute('viewBox', '0 0 80 80');
+  svg.setAttribute('aria-hidden', 'true');
+
+  const pathId = `ziel-name-path-${sanitizeDomId(uniqueId)}`;
+  const defs = document.createElementNS(SVG_NS, 'defs');
+  const path = document.createElementNS(SVG_NS, 'path');
+  path.setAttribute('id', pathId);
+  const cx = 40;
+  const cy = 40;
+  const r = 33;
+  /* Gegen den Uhrzeigersinn, Start oben: unterer Bogen läuft links→rechts. */
+  path.setAttribute('d', `M ${cx},${cy - r} a ${r},${r} 0 1,0 0,${2 * r} a ${r},${r} 0 1,0 0,${-2 * r}`);
+  path.setAttribute('fill', 'none');
+  defs.appendChild(path);
+  svg.appendChild(defs);
+
+  const circ = 2 * Math.PI * r;
+  const chars = Math.max(name.length, 1);
+  const fontSize = Math.max(6.8, Math.min(10.2, (circ * 0.64) / (chars * 0.8)));
+  const natural = chars * fontSize * 0.72;
+  const textLen = Math.min(circ * 0.82, Math.max(natural, Math.min(circ * 0.2, natural * 1.35)));
+
+  const text = document.createElementNS(SVG_NS, 'text');
+  text.setAttribute('class', 'ziel-name-text');
+  text.setAttribute('dominant-baseline', 'central');
+  text.style.fontSize = `${fontSize.toFixed(2)}px`;
+
+  const textPath = document.createElementNS(SVG_NS, 'textPath');
+  textPath.setAttribute('href', `#${pathId}`);
+  textPath.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', `#${pathId}`);
+  textPath.setAttribute('startOffset', '50%');
+  textPath.setAttribute('text-anchor', 'middle');
+  textPath.setAttribute('textLength', String(Math.round(textLen * 10) / 10));
+  textPath.setAttribute('lengthAdjust', 'spacing');
+  textPath.textContent = name;
+  text.appendChild(textPath);
+  svg.appendChild(text);
+  return svg;
+}
+
+function appendRoundZielVisual(btn, { iconUrl, alt, label, uniqueId }) {
+  const iconWrap = document.createElement('div');
+  iconWrap.className = 'ziel-icon-wrap';
+  const iconImg = document.createElement('img');
+  iconImg.className = 'ziel-icon';
+  iconImg.src = iconUrl;
+  iconImg.alt = alt || '';
+  iconWrap.appendChild(iconImg);
+  btn.appendChild(iconWrap);
+  btn.appendChild(createCircularNameSvg(label, uniqueId));
+}
+
 function renderZielAnzeige() {
   const imKampfGegner = getGegnerFuerKampf();
   const charaktere = getCharaktereFuerKampf();
@@ -755,19 +818,15 @@ function renderZielAnzeige() {
       btn.dataset.id = z.id;
       btn.dataset.zielTyp = z.zielTyp;
       btn.disabled = false;
-      const iconWrap = document.createElement('div');
-      iconWrap.className = 'ziel-icon-wrap';
-      const iconImg = document.createElement('img');
-      iconImg.className = 'ziel-icon';
-      iconImg.src = getIconUrl(z.icon);
-      iconImg.alt = z.name;
-      iconWrap.appendChild(iconImg);
-      const nameSpan = document.createElement('span');
-      nameSpan.className = 'ziel-name';
-      nameSpan.textContent = (isTot ? '† ' : '') + z.name + (isTot ? ' (tot)' : '');
+      const displayName = (isTot ? '† ' : '') + z.name + (isTot ? ' (tot)' : '');
       btn.title = z.name;
-      btn.appendChild(iconWrap);
-      btn.appendChild(nameSpan);
+      btn.setAttribute('aria-label', displayName);
+      appendRoundZielVisual(btn, {
+        iconUrl: getIconUrl(z.icon),
+        alt: z.name,
+        label: displayName,
+        uniqueId: `ziel-${z.id}`
+      });
       btn.addEventListener('click', () => {
         let ids = [...(state.selectedGegnerIds || [])];
         if (ids.includes(z.id)) ids = ids.filter(id => id !== z.id);
@@ -811,23 +870,7 @@ function renderZielAnzeige() {
 function syncRkFallbackSichtbarkeit() {}
 
 function adjustZielNameFontSizes() {
-  const btns = $$('.ziel-select-btn-round');
-  btns.forEach(btn => {
-    const nameSpan = btn.querySelector('.ziel-name');
-    if (!nameSpan) return;
-    nameSpan.style.fontSize = '';
-    nameSpan.style.lineHeight = '';
-    const baseSize = 10;
-    const maxWidth = 70;
-    if (nameSpan.scrollWidth > maxWidth) {
-      let fs = baseSize;
-      while (nameSpan.scrollWidth > maxWidth && fs > 6) {
-        fs -= 1;
-        nameSpan.style.fontSize = `${fs}px`;
-        nameSpan.style.lineHeight = `${fs * 1.1}px`;
-      }
-    }
-  });
+  /* Namen liegen als Kreis-Text im SVG; keine Breiten-Anpassung mehr. */
 }
 
 function renderRunde() {
@@ -933,19 +976,15 @@ function renderAngreiferAnzeige() {
     btn.type = 'button';
     btn.className = 'ziel-select-btn ziel-select-btn-round' + (isSelected ? ' active' : '');
     btn.dataset.id = entity.id;
-    btn.title = entity.displayName || entity.name;
-    const iconWrap = document.createElement('div');
-    iconWrap.className = 'ziel-icon-wrap';
-    const iconImg = document.createElement('img');
-    iconImg.className = 'ziel-icon';
-    iconImg.src = getIconUrl(entity.icon);
-    iconImg.alt = entity.name;
-    iconWrap.appendChild(iconImg);
-    const nameSpan = document.createElement('span');
-    nameSpan.className = 'ziel-name';
-    nameSpan.textContent = entity.displayName || entity.name;
-    btn.appendChild(iconWrap);
-    btn.appendChild(nameSpan);
+    const displayName = entity.displayName || entity.name;
+    btn.title = displayName;
+    btn.setAttribute('aria-label', displayName);
+    appendRoundZielVisual(btn, {
+      iconUrl: getIconUrl(entity.icon),
+      alt: entity.name,
+      label: displayName,
+      uniqueId: `angreifer-${entity.id}`
+    });
     btn.addEventListener('click', () => {
       if (isMonsterModus) {
         selectAngreiferMonster(entity.id);
