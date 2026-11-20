@@ -1,0 +1,1082 @@
+[
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "A",
+    "wuerfelwurf": "01-25",
+    "tts_text": "Sie verlieren Ihren Griff und die Gelegenheit, einen offenen Schlag zu erzielen. Vielleicht verbessern Sie sich noch."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "A",
+    "wuerfelwurf": "26-30",
+    "tts_text": "Sie lassen Ihre Waffe fallen. Es dauert eine Runde, eine neue zu ziehen, oder zwei Runden, um die alte wieder aufzunehmen."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "A",
+    "wuerfelwurf": "31-40",
+    "tts_text": "Sie rutschen anmutig aus und verlieren die Gelegenheit, den entscheidenden Schlag zu landen."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "A",
+    "wuerfelwurf": "41-50",
+    "tts_text": "Schlechter Nachschwung. Sie verlieren Ihre Gelegenheit und erhalten einen Treffer. Sehr schwach."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "A",
+    "wuerfelwurf": "51-60",
+    "tts_text": "Sie rutschen unanmutig aus und verlieren Gelegenheiten im Wert von zwei Runden. Viel Glück, Kumpel."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "A",
+    "wuerfelwurf": "61-70",
+    "tts_text": "Sie verlieren Ihren Griff und jonglieren Ihre Waffe für zwei Runden. Sie können immer noch parieren."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "A",
+    "wuerfelwurf": "71-80",
+    "tts_text": "Sie verlieren Ihren Griff und jonglieren Ihre Waffe für zwei Runden. Leider können Sie nicht parieren."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "A",
+    "wuerfelwurf": "81-85",
+    "tts_text": "Sie verlieren Ihren \"Wind\" und erkennen, dass Sie sich entspannen und nicht für zwei Runden schwingen sollten."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "A",
+    "wuerfelwurf": "86-90",
+    "tts_text": "Die geschmeidigen Bewegungen des Gegners lassen Sie für zwei Runden benommen zurück. Hoffentlich lernen Sie daraus."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "A",
+    "wuerfelwurf": "91-95",
+    "tts_text": "Sie stolpern. Die niveaulose Darbietung lässt Sie für drei Runden benommen zurück. Sie könnten noch überleben."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "A",
+    "wuerfelwurf": "96-99",
+    "tts_text": "Die Zunge verschluckt sich vor Aufregung. Sie sind benommen und können für drei Runden nicht parieren."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "A",
+    "wuerfelwurf": "100",
+    "tts_text": "Schlechter Geschmack und schlechte Ausführung. Sie versuchen, sich selbst zu verstümmeln. Würfeln Sie auf der \"D\" kritischen Treffer-Tabelle (Hiebe)."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "01-25",
+    "tts_text": "Sie verlieren Ihren Griff. Sie verlieren die Gelegenheit für einen offenen Schwung."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "26-30",
+    "tts_text": "Sie lassen Ihre Waffe fallen. Es dauert zwei Runden, eine neue Waffe zu ziehen oder vier Runden, die alte wiederzugewinnen."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "31-40",
+    "tts_text": "Sie geraten in geistige Verwirrung. Sie verlieren eine Runde, um Ihre Gedanken zu sammeln."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "41-50",
+    "tts_text": "Sie stolpern über eine unsichtbare, imaginäre, tote Schildkröte. Sie verlieren zwei Runden Offensiv-Aktion, können aber parieren."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "51-60",
+    "tts_text": "Schlechter Zug. Sie verlieren zwei Runden offener Schwünge. Glücklicherweise können Sie noch parieren."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "61-70",
+    "tts_text": "Sie verlieren Ihren Griff und jonglieren Ihre Waffe für zwei Runden. Sie können immer noch parieren."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "71-80",
+    "tts_text": "Sehr schlechter Zug. Sie sind benommen und können für zwei Runden nicht parieren. Nicht gut."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "81-85",
+    "tts_text": "Sie verlieren Ihren Griff und jonglieren Ihre Waffe für drei Runden. Sie können immer noch parieren."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "86-90",
+    "tts_text": "Unglaublich schlechter Zug. Sie sind benommen und können für drei Runden nicht parieren."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "91-95",
+    "tts_text": "Sie stolpern und fallen beinahe in einem offensichtlichen Versuch, Selbstmord zu begehen. Sie sind vier Runden benommen."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "96-99",
+    "tts_text": "Sie stolpern und fallen. Es dauert vier Runden, bis Sie sich erholen. Sie können für drei Runden nicht parieren."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "B",
+    "wuerfelwurf": "100",
+    "tts_text": "Schlechtester Zug seit Langem. Fünfzig Prozent Chance, dass Sie zwei Tage mit einer Leistenzerrung ausfallen. Fünfzig Prozent Chance, dass der Gegner drei Runden lang lacht."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "C",
+    "wuerfelwurf": "01-25",
+    "tts_text": "Du verlierst den Griff. Du verlierst die Gelegenheit, einen offenen Schlag auszuführen."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "C",
+    "wuerfelwurf": "26-30",
+    "tts_text": "Dein Hieb misslingt. Du verlierst die Option anzugreifen, kannst aber immer noch parieren."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "C",
+    "wuerfelwurf": "31-40",
+    "tts_text": "Du rutschst aus und bist eine Runde lang benommen. Nun gut, du siehst nur ungeschickt aus. Versuch es noch einmal."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "C",
+    "wuerfelwurf": "41-50",
+    "tts_text": "Du verlierst den Griff und jonglierst deine Waffe zwei Runden lang. Du kannst immer noch parieren. Dein nächster Schwung ist bei Minus zehn."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "C",
+    "wuerfelwurf": "51-60",
+    "tts_text": "Du rutschst aus und fällst beinahe hin. Du bist benommen und kannst zwei Runden lang nicht parieren."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "C",
+    "wuerfelwurf": "61-70",
+    "tts_text": "Du verlierst den Griff und jonglierst deine Waffe drei Runden lang. Dein nächster Schwung ist bei Minus zehn."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "C",
+    "wuerfelwurf": "71-80",
+    "tts_text": "Dein Nachsetzen misslingt. Du verlierst drei Runden. Du bist benommen für zwei Runden."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "C",
+    "wuerfelwurf": "81-85",
+    "tts_text": "Ungeschickter Zug. Du bist benommen und kannst drei Runden lang nicht parieren."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "C",
+    "wuerfelwurf": "86-90",
+    "tts_text": "Du lässt deine Waffe fallen. Es dauert zwei Runden, eine neue zu ziehen, oder sechs Runden, um die alte wieder aufzunehmen."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "C",
+    "wuerfelwurf": "91-95",
+    "tts_text": "Du stolperst und fällst hin. Es dauert vier Runden, bis du dich erholt hast. Du kannst drei Runden lang nicht parieren."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "C",
+    "wuerfelwurf": "96-99",
+    "tts_text": "Du verletzt deine Schulter. Du bist benommen und kannst drei Runden lang nicht parieren und kämpfst bei Minus fünfundzwanzig."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "C",
+    "wuerfelwurf": "100",
+    "tts_text": "Du zerbrichst deine Waffe und bist benommen und kannst sechs Runden lang nicht parieren."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "D",
+    "wuerfelwurf": "01-25",
+    "tts_text": "Du verlierst deinen Griff. Du verlierst die Gelegenheit für einen offenen Schlag."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "D",
+    "wuerfelwurf": "26-30",
+    "tts_text": "Du verpatzt deine Ausführung. Du verlierst zwei Runden, kannst aber immer noch parieren."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "D",
+    "wuerfelwurf": "31-40",
+    "tts_text": "Du rutschst aus und verlierst deine Sattelposition. Du verlierst zwei Runden, kannst aber immer noch parieren."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "D",
+    "wuerfelwurf": "41-50",
+    "tts_text": "Dein Reittier bäumt sich auf und du bist für zwei Runden während der Erholung völlig benommen."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "D",
+    "wuerfelwurf": "51-60",
+    "tts_text": "Du verlierst deinen Griff und verpatzt deine Waffe. Du bist für drei Runden benommen."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "D",
+    "wuerfelwurf": "61-70",
+    "tts_text": "Dein schlechtes Reittier stolpert und du bist für zwei Runden benommen und kannst nicht parieren."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "D",
+    "wuerfelwurf": "71-80",
+    "tts_text": "Du zerbrichst deine Waffe und verlierst zwei Runden, während du eine neue ziehst."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "D",
+    "wuerfelwurf": "81-85",
+    "tts_text": "Du lässt deine Waffe in einem deiner leichteren Momente fallen. Verliere zwei Runden, um eine neue zu ziehen."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "D",
+    "wuerfelwurf": "86-90",
+    "tts_text": "Du zerbrichst deine Waffe und verlierst zwei Runden, während du eine neue ziehst. Du erleidest zehn Treffer."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "D",
+    "wuerfelwurf": "91-95",
+    "tts_text": "Deine Sitzhaltung ist unkorrekt und du bist für drei Runden benommen und kannst nicht parieren."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "D",
+    "wuerfelwurf": "96-99",
+    "tts_text": "Dein Körper fängt den Aufprall ab. Du erleidest zwanzig Treffer. Benommen und kann nicht parieren für sechs Runden."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "D",
+    "wuerfelwurf": "100",
+    "tts_text": "Du fällst von deinem Reittier. Wirf auf der kritischen Treffer-Tabelle \"D\" (Quetschungen)."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "01-25",
+    "tts_text": "Der Griff geht verloren. Du entscheidest dich, wegen Kontrollverlust nicht anzugreifen. Gute Wahl."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "26-30",
+    "tts_text": "Man hat zehn Daumen beim Laden. Die Runden gehen verloren."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "31-40",
+    "tts_text": "Du patzt mit deiner Munition. Du verlierst zwei Runden beim Versuch, sie wiederzufinden. Wirklich schwach, Kind."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "41-50",
+    "tts_text": "Pfeilbruch. Du verlierst deinen Pfeil und deine Ruhe. Du verlierst zwei Runden an Aktion."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "51-60",
+    "tts_text": "Pfeil fallen gelassen. Du verlierst zwei Runden Nachladen. Versuche das nächste Mal die Handwaffen."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "61-70",
+    "tts_text": "Du lässt deinen Bogen fallen. Du verlierst zwei Runden, während du ihn holst und nachlädst."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "71-80",
+    "tts_text": "Die Bogensehne bricht. Du verlierst sechs Runden beim Neubesaiten des Bogens oder zwei Runden beim Ziehen einer neuen Waffe."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "81-85",
+    "tts_text": "Du patzt mit deiner Waffe. Du bist benommen und völlig unfähig, die nächsten drei Runden zu parieren."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "86-90",
+    "tts_text": "Du lässt deinen Pfeil viel zu früh fliegen. Dein Schuss landet zwanzig Fuß vor dem Ziel. Du bist zwei Runden lang außer Gefecht."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "91-95",
+    "tts_text": "Du rutschst und fällst. Du bist benommen für sechs Runden und unfähig, zwei Runden lang zu parieren. Dein Schuss geht daneben."
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "96-99",
+    "tts_text": "Dein Bogen bricht. Du bist benommen und unfähig, für vier Runden der Aktion zu parieren. Viel Glück, Kumpel!"
+  },
+  {
+    "tabelle": "Waffen-Patzer-Tabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "100",
+    "tts_text": "Schlechtes Urteilsvermögen. Du lässt den Pfeil fliegen und verlierst ein Ohr. Plus fünf Treffer. Du erleidest zwei Treffer pro Runde."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "A",
+    "wuerfelwurf": "-201",
+    "tts_text": "Fällt hin. Plus zwei Treffer. Sie sind für drei Runden außer Gefecht."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "A",
+    "wuerfelwurf": "-200 - -151",
+    "tts_text": "Handlungsunfähig."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "A",
+    "wuerfelwurf": "-150 - -101",
+    "tts_text": "Handlungsunfähig."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "A",
+    "wuerfelwurf": "-100 - -51",
+    "tts_text": "Handlungsunfähig."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "A",
+    "wuerfelwurf": "-50 - -26",
+    "tts_text": "Handlungsunfähig."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "A",
+    "wuerfelwurf": "-25 - 0",
+    "tts_text": "Handlungsunfähig."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "A",
+    "wuerfelwurf": "01-20",
+    "tts_text": "Handlungsunfähig."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "A",
+    "wuerfelwurf": "21-40",
+    "tts_text": "Handlungsunfähig."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "A",
+    "wuerfelwurf": "41-55",
+    "tts_text": "Handlungsunfähig."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "A",
+    "wuerfelwurf": "56-65",
+    "tts_text": "Handlungsunfähig."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "A",
+    "wuerfelwurf": "66-75",
+    "tts_text": "Einhundert."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "A",
+    "wuerfelwurf": "76-85",
+    "tts_text": "Einhundert."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "A",
+    "wuerfelwurf": "86-95",
+    "tts_text": "Einhundert."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "A",
+    "wuerfelwurf": "96-105",
+    "tts_text": "Einhundertzehn."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "A",
+    "wuerfelwurf": "106-115",
+    "tts_text": "Einhundertzehn."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "A",
+    "wuerfelwurf": "116-125",
+    "tts_text": "Einhundertzwanzig."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "A",
+    "wuerfelwurf": "126-135",
+    "tts_text": "Einhundertzwanzig."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "A",
+    "wuerfelwurf": "136-145",
+    "tts_text": "Einhundertdreißig."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "A",
+    "wuerfelwurf": "146-155",
+    "tts_text": "Einhundertdreißig."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "A",
+    "wuerfelwurf": "156-165",
+    "tts_text": "Einhundertvierzig."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "A",
+    "wuerfelwurf": "166-185",
+    "tts_text": "Einhundertvierzig."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "A",
+    "wuerfelwurf": "186-225",
+    "tts_text": "Einhundertfünfzig."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "A",
+    "wuerfelwurf": "226-275",
+    "tts_text": "Unglaublicher Zug. Sie fühlen sich großartig. Ziehen Sie drei von Ihrer aktuellen Trefferzahl ab."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "A",
+    "wuerfelwurf": "276+",
+    "tts_text": "Unglaublicher Zug. Sie fühlen sich großartig. Ziehen Sie drei von Ihrer aktuellen Trefferzahl ab. Ihre Verbündeten erhalten für zwei Runden plus zehn."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "B",
+    "wuerfelwurf": "-201",
+    "tts_text": "Fall, schlägt sich selbst k.o. Du bist für zwölf Runden außer Gefecht. Plus neun Treffer."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "B",
+    "wuerfelwurf": "-200 - -151",
+    "tts_text": "Fällt hin. Verliert zwei Runden. Plus zwei Treffer."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "B",
+    "wuerfelwurf": "-150 - -101",
+    "tts_text": "Schlägt fehl zu handeln."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "B",
+    "wuerfelwurf": "-100 - -51",
+    "tts_text": "Dreißig."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "B",
+    "wuerfelwurf": "-50 - -26",
+    "tts_text": "Dreißig."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "B",
+    "wuerfelwurf": "-25 - 0",
+    "tts_text": "Fünfzig."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "B",
+    "wuerfelwurf": "01-20",
+    "tts_text": "Sechzig."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "B",
+    "wuerfelwurf": "21-40",
+    "tts_text": "Siebzig."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "B",
+    "wuerfelwurf": "41-55",
+    "tts_text": "Achtzig."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "B",
+    "wuerfelwurf": "56-65",
+    "tts_text": "Neunzig."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "B",
+    "wuerfelwurf": "66-75",
+    "tts_text": "Einhundert."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "B",
+    "wuerfelwurf": "76-85",
+    "tts_text": "Einhundert."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "B",
+    "wuerfelwurf": "86-95",
+    "tts_text": "Einhundert."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "B",
+    "wuerfelwurf": "96-105",
+    "tts_text": "Einhundert."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "B",
+    "wuerfelwurf": "106-115",
+    "tts_text": "Einhundertzehn."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "B",
+    "wuerfelwurf": "116-125",
+    "tts_text": "Einhundertzehn."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "B",
+    "wuerfelwurf": "126-135",
+    "tts_text": "Einhundertzwanzig."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "B",
+    "wuerfelwurf": "136-145",
+    "tts_text": "Einhundertzwanzig."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "B",
+    "wuerfelwurf": "146-155",
+    "tts_text": "Einhundertdreißig."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "B",
+    "wuerfelwurf": "156-165",
+    "tts_text": "Einhundertdreißig."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "B",
+    "wuerfelwurf": "166-185",
+    "tts_text": "Einhundertvierzig."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "B",
+    "wuerfelwurf": "186-225",
+    "tts_text": "Großartige Bewegung. Du fühlst dich besser. Ziehe vier Treffer von deiner aktuellen Trefferzahl ab."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "B",
+    "wuerfelwurf": "226-275",
+    "tts_text": "Bewegung inspiriert alle. Du bist nicht benommen. Verbündete erhalten Plus zehn für zwei Runden."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "B",
+    "wuerfelwurf": "276+",
+    "tts_text": "Brillante Bewegung. Inspiriert alle. Verbündete erhalten Plus zehn für zwei Runden."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "C",
+    "wuerfelwurf": "-201",
+    "tts_text": "Fall. Plus fünfzehn Treffer. Armbruch. Sie sind für fünf Runden außer Gefecht."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "C",
+    "wuerfelwurf": "-200 - -151",
+    "tts_text": "Fall. Handgelenkbruch. Plus zehn Treffer. Sie sind für sechs Runden außer Gefecht."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "C",
+    "wuerfelwurf": "-150 - -101",
+    "tts_text": "Fall. Knöchel verstaucht. Sie haben Minus fünfundzwanzig. Plus sechs Treffer."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "C",
+    "wuerfelwurf": "-100 - -51",
+    "tts_text": "Fall. Zwei Runden verloren. Plus drei Treffer."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "C",
+    "wuerfelwurf": "-50 - -26",
+    "tts_text": "Aktion fehlgeschlagen."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "C",
+    "wuerfelwurf": "-25 - 0",
+    "tts_text": "Dreißig"
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "C",
+    "wuerfelwurf": "01-20",
+    "tts_text": "Fünfzig"
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "C",
+    "wuerfelwurf": "21-40",
+    "tts_text": "Sechzig"
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "C",
+    "wuerfelwurf": "41-55",
+    "tts_text": "Siebzig"
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "C",
+    "wuerfelwurf": "56-65",
+    "tts_text": "Achtzig"
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "C",
+    "wuerfelwurf": "66-75",
+    "tts_text": "Neunzig"
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "C",
+    "wuerfelwurf": "76-85",
+    "tts_text": "Einhundert"
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "C",
+    "wuerfelwurf": "86-95",
+    "tts_text": "Einhundert"
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "C",
+    "wuerfelwurf": "96-105",
+    "tts_text": "Einhundert"
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "C",
+    "wuerfelwurf": "106-115",
+    "tts_text": "Einhundert"
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "C",
+    "wuerfelwurf": "116-125",
+    "tts_text": "Einhundertzehn"
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "C",
+    "wuerfelwurf": "126-135",
+    "tts_text": "Einhundertzehn"
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "C",
+    "wuerfelwurf": "136-145",
+    "tts_text": "Einhundertzwanzig"
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "C",
+    "wuerfelwurf": "146-155",
+    "tts_text": "Einhundertzwanzig"
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "C",
+    "wuerfelwurf": "156-165",
+    "tts_text": "Einhundertzwanzig"
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "C",
+    "wuerfelwurf": "166-185",
+    "tts_text": "Super Zug. Sie fühlen sich großartig. Minus eins Treffer von Ihrer aktuellen Trefferzahl."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "C",
+    "wuerfelwurf": "186-225",
+    "tts_text": "Zug inspiriert alle. Sie sind nicht benommen. Verbündete haben Plus zehn für zwei Runden."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "C",
+    "wuerfelwurf": "226-275",
+    "tts_text": "Zug inspiriert Ihre Verbündeten. Plus zwanzig auf freundliche Würfel für drei Runden."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "C",
+    "wuerfelwurf": "276+",
+    "tts_text": "Zug inspiriert Ihre Verbündeten. Plus fünfundzwanzig auf freundliche Würfel für drei Runden."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "D",
+    "wuerfelwurf": "-201",
+    "tts_text": "Sturz, bricht die Arme. Plus zwanzig Treffer. Du bist achtzehn Runden lang außer Gefecht. Arme nutzlos."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "D",
+    "wuerfelwurf": "-200 - -151",
+    "tts_text": "Sturz, bricht das Bein. Plus fünfzehn Treffer. Du bist neun Runden lang außer Gefecht."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "D",
+    "wuerfelwurf": "-150 - -101",
+    "tts_text": "Sturz, bricht den Arm. Plus zehn Treffer. Du bist sechs Runden lang außer Gefecht, drei Runden benommen."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "D",
+    "wuerfelwurf": "-100 - -51",
+    "tts_text": "Sturz, verstaucht den Knöchel. Du bist bei Minus fünfundzwanzig. Plus fünf Treffer."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "D",
+    "wuerfelwurf": "-50 - -26",
+    "tts_text": "Sturz, Plus fünf Treffer. Du bist drei Runden lang außer Gefecht."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "D",
+    "wuerfelwurf": "-25 - 0",
+    "tts_text": "Sturz, Plus fünf Treffer. Du bist drei Runden lang außer Gefecht."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "D",
+    "wuerfelwurf": "01-20",
+    "tts_text": "Fehlschlag."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "D",
+    "wuerfelwurf": "21 - 40",
+    "tts_text": "Fehlschlag."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "D",
+    "wuerfelwurf": "41 - 55",
+    "tts_text": "Sturz, Plus fünf Treffer."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "D",
+    "wuerfelwurf": "56 - 65",
+    "tts_text": "Fehlschlag."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "D",
+    "wuerfelwurf": "66-75",
+    "tts_text": "Dreißig."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "D",
+    "wuerfelwurf": "76-85",
+    "tts_text": "Vierzig."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "D",
+    "wuerfelwurf": "86-95",
+    "tts_text": "Fünfzig."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "D",
+    "wuerfelwurf": "96-105",
+    "tts_text": "Fünfzig."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "D",
+    "wuerfelwurf": "106-115",
+    "tts_text": "Siebzig."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "D",
+    "wuerfelwurf": "116-125",
+    "tts_text": "Achtzig."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "D",
+    "wuerfelwurf": "126-135",
+    "tts_text": "Neunzig."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "D",
+    "wuerfelwurf": "136-145",
+    "tts_text": "Einhundert."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "D",
+    "wuerfelwurf": "146-155",
+    "tts_text": "Einhundert."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "D",
+    "wuerfelwurf": "156-165",
+    "tts_text": "Einhundertzehn."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "D",
+    "wuerfelwurf": "166-185",
+    "tts_text": "Einhundertzwanzig."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "D",
+    "wuerfelwurf": "186-225",
+    "tts_text": "Der Zug inspiriert deine Verbündeten. Plus dreißig auf freundliche Würfel für zwei Runden."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "D",
+    "wuerfelwurf": "226-275",
+    "tts_text": "Der Zug inspiriert deine Verbündeten. Plus dreißig auf freundliche Würfel für drei Runden."
+  },
+  {
+    "tabelle": "Manöver/Bewegung",
+    "kategorie": "D",
+    "wuerfelwurf": "276+",
+    "tts_text": "Der Zug inspiriert deine Verbündeten. Plus dreißig auf freundliche Würfel für vier Runden."
+  },
+  {
+    "tabelle": "Manöver/Bewegungstabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "-201",
+    "tts_text": "Sturz zerschmettert den Schädel."
+  },
+  {
+    "tabelle": "Manöver/Bewegungstabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "-200 - (-151)",
+    "tts_text": "Sturz lähmt dich vom Nacken abwärts."
+  },
+  {
+    "tabelle": "Manöver/Bewegungstabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "-150 - (-101)",
+    "tts_text": "Sturz. Du zerschmetterst dein Rückgrat und liegst ein Jahr lang im Koma."
+  },
+  {
+    "tabelle": "Manöver/Bewegungstabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "-100 - (-51)",
+    "tts_text": "Sturz. Rückgrat und Beine gebrochen. Plus fünfundzwanzig Treffer. Lähmung des Unterkörpers."
+  },
+  {
+    "tabelle": "Manöver/Bewegungstabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "-50 - (-26)",
+    "tts_text": "Sturz. Du bist achtzehn Runden lang außer Gefecht. Beide Arme gebrochen. Plus fünfundzwanzig Treffer."
+  },
+  {
+    "tabelle": "Manöver/Bewegungstabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "-25 - 0",
+    "tts_text": "Sturz. Zehn Treffer. Dein Bein ist gebrochen. Du bist bei Minus fünfundsiebzig. Sechs Runden außer Gefecht."
+  },
+  {
+    "tabelle": "Manöver/Bewegungstabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "01-20",
+    "tts_text": "Sturz. Plus fünfzehn Treffer. Dein Arm ist gebrochen. Du bist sechs Runden außer Gefecht."
+  },
+  {
+    "tabelle": "Manöver/Bewegungstabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "21 - 40",
+    "tts_text": "Sturz. Schlage dich selbst bewusstlos. Du bist dreißig Runden lang außer Gefecht. Plus zehn Treffer."
+  },
+  {
+    "tabelle": "Manöver/Bewegungstabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "41 - 55",
+    "tts_text": "Sturz. Verstauchter Knöchel. Du bist bei Minus dreißig. Plus fünfzehn Treffer."
+  },
+  {
+    "tabelle": "Manöver/Bewegungstabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "56 - 65",
+    "tts_text": "Sturz. Plus sieben Treffer. Drei Treffer pro Runde. Zwei Runden außer Gefecht."
+  },
+  {
+    "tabelle": "Manöver/Bewegungstabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "66 - 75",
+    "tts_text": "Zwei Runden eingefroren."
+  },
+  {
+    "tabelle": "Manöver/Bewegungstabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "76 - 85",
+    "tts_text": "Aktion fehlgeschlagen."
+  },
+  {
+    "tabelle": "Manöver/Bewegungstabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "86 - 95",
+    "tts_text": "Fünf"
+  },
+  {
+    "tabelle": "Manöver/Bewegungstabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "96 - 105",
+    "tts_text": "Zehn"
+  },
+  {
+    "tabelle": "Manöver/Bewegungstabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "106 - 115",
+    "tts_text": "Zwanzig"
+  },
+  {
+    "tabelle": "Manöver/Bewegungstabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "116 - 125",
+    "tts_text": "Dreißig"
+  },
+  {
+    "tabelle": "Manöver/Bewegungstabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "126 - 135",
+    "tts_text": "Vierzig"
+  },
+  {
+    "tabelle": "Manöver/Bewegungstabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "136 - 145",
+    "tts_text": "Fünfzig"
+  },
+  {
+    "tabelle": "Manöver/Bewegungstabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "146 - 155",
+    "tts_text": "Sechzig"
+  },
+  {
+    "tabelle": "Manöver/Bewegungstabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "156 - 165",
+    "tts_text": "Siebzig"
+  },
+  {
+    "tabelle": "Manöver/Bewegungstabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "166 - 185",
+    "tts_text": "Achtzig"
+  },
+  {
+    "tabelle": "Manöver/Bewegungstabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "186 - 225",
+    "tts_text": "Neunzig"
+  },
+  {
+    "tabelle": "Manöver/Bewegungstabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "226 - 275",
+    "tts_text": "Bewegung betäubt alle Feinde im Umkreis von dreißig Fuß. Du hast immer noch eine halbe Runde Zeit, um zu handeln."
+  },
+  {
+    "tabelle": "Manöver/Bewegungstabelle",
+    "kategorie": "E",
+    "wuerfelwurf": "276+",
+    "tts_text": "Bewegung betäubt alle Feinde im Umkreis von fünfzig Fuß."
+  }
+]

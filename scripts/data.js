@@ -1,20 +1,37 @@
 // data.js
 // Dieses Modul lädt die JSON-Daten und initialisiert die UI.
 
-import { URLS, DEFAULT_RK } from './constants.js';
+import {
+    URLS,
+    WEAPON_LABELS,
+    WEAPON_ICONS,
+    WEAPON_GROUPS,
+    WEAPON_VARIANT_KEY_SET,
+    WEAPON_SIZE_VARIANTS,
+    WEAPON_SIZE_ORDER,
+    WEAPON_SIZE_LABELS,
+    formatCritTableLabel,
+    resolveEnglishSupplementTableKeys
+} from './constants.js';
 import { state } from './state.js';
 import { $, $$ } from './dom.js';
-import { mapCritName, adjustWeaponFontSizes } from './logic.js';
+import { mapCritName, adjustWeaponFontSizes, clearAttackTableMergeCache } from './logic.js';
+import { syncCombatMusic } from './combatMusic.js';
 
 // Funktion zum Laden der JSON-Daten und Initialisieren der Benutzeroberfläche.
 export async function loadData() {
     // Lädt die beiden JSON-Dateien parallel.
     const [t1, t2] = await Promise.all([fetch(URLS.TREFFER_URL), fetch(URLS.TABLES_URL)]);
     state.treffer = await t1.json();
+    clearAttackTableMergeCache();
     state.tables = await t2.json();
+    try {
+        const t3 = await fetch(URLS.PATZER_URL);
+        state.patzerTables = t3.ok ? await t3.json() : {};
+    } catch { state.patzerTables = {}; }
 
-    populateWeapons();
-    populateRkButtons();
+    populateWeapons({ selectFirstIfEmpty: true });
+    initWeaponSizeClassListener();
     populateCritDropdowns($('#critType'), true);
     populateCritDropdowns($('#sideType'), false);
 
@@ -37,62 +54,222 @@ export async function loadData() {
         sideSel.value = sideSel.options[1].value;
         sideSel.dispatchEvent(new Event('change'));
     }
+
 }
 
-// Erzeugt die Buttons für die Waffen.
-function populateWeapons() {
+function hideWeaponSizePopover() {
+    const wrap = $('#weaponSizeWrap');
+    if (wrap) {
+        wrap.hidden = true;
+        delete wrap.dataset.anchorWeapon;
+    }
+}
+
+function positionWeaponSizePopover(anchorBtn) {
+    const wrap = $('#weaponSizeWrap');
+    if (!wrap || !anchorBtn || wrap.hidden) return;
+    const r = anchorBtn.getBoundingClientRect();
+    const left = r.left + r.width / 2;
+    const top = r.top - 6;
+    wrap.style.left = `${Math.round(left)}px`;
+    wrap.style.top = `${Math.round(top)}px`;
+    wrap.style.transform = 'translate(-50%, -100%)';
+    wrap.dataset.anchorWeapon = anchorBtn.dataset.weapon || '';
+}
+
+let weaponPopoverResizeBound = false;
+function bindWeaponPopoverResizeOnce() {
+    if (weaponPopoverResizeBound) return;
+    weaponPopoverResizeBound = true;
+    window.addEventListener('resize', () => {
+        const wrap = $('#weaponSizeWrap');
+        if (!wrap || wrap.hidden || !wrap.dataset.anchorWeapon) return;
+        const btn = document.querySelector(`#weaponWrap button[data-weapon="${wrap.dataset.anchorWeapon}"]`);
+        if (btn) positionWeaponSizePopover(btn);
+    });
+}
+
+let weaponPopoverOutsideBound = false;
+function bindWeaponPopoverOutsideDismissOnce() {
+    if (weaponPopoverOutsideBound) return;
+    weaponPopoverOutsideBound = true;
+    document.addEventListener(
+        'pointerdown',
+        (ev) => {
+            const wrap = $('#weaponSizeWrap');
+            if (!wrap || wrap.hidden) return;
+            if (wrap.contains(ev.target)) return;
+            if (ev.target.closest?.('#weaponWrap')) return;
+            hideWeaponSizePopover();
+        },
+        true
+    );
+}
+
+function showWeaponSizePopover(weaponKey, anchorBtn) {
+    const wrap = $('#weaponSizeWrap');
+    const sel = $('#weaponSizeClass');
+    if (!wrap || !sel || !anchorBtn) return;
+
+    bindWeaponPopoverResizeOnce();
+    bindWeaponPopoverOutsideDismissOnce();
+
+    sel.innerHTML = '';
+    WEAPON_SIZE_ORDER.forEach((key) => {
+        const opt = document.createElement('option');
+        opt.value = key;
+        opt.textContent = WEAPON_SIZE_LABELS[key];
+        sel.appendChild(opt);
+    });
+
+    const previous = state.selectedSizeClass;
+    const valid = previous && WEAPON_SIZE_ORDER.includes(previous);
+    sel.value = valid ? previous : 'klein';
+    state.selectedSizeClass = sel.value;
+
+    wrap.hidden = false;
+    positionWeaponSizePopover(anchorBtn);
+    requestAnimationFrame(() => positionWeaponSizePopover(anchorBtn));
+    try {
+        sel.focus({ preventScroll: true });
+    } catch (_) {
+        sel.focus();
+    }
+}
+
+/**
+ * Naturangriffe: Popover nur beim Klick über dem Button (anchorBtn), danach ausblenden.
+ */
+function syncWeaponSizeUI(weaponKey, anchorBtn = null) {
+    if (!WEAPON_SIZE_VARIANTS[weaponKey]) {
+        hideWeaponSizePopover();
+        state.selectedSizeClass = null;
+        return;
+    }
+    if (anchorBtn) {
+        showWeaponSizePopover(weaponKey, anchorBtn);
+    } else {
+        hideWeaponSizePopover();
+    }
+}
+
+export function initWeaponSizeClassListener() {
+    const sel = $('#weaponSizeClass');
+    if (!sel || sel.dataset.bound === '1') return;
+    sel.dataset.bound = '1';
+    sel.addEventListener('change', () => {
+        state.selectedSizeClass = sel.value;
+        hideWeaponSizePopover();
+        syncCombatMusic();
+    });
+}
+
+// Erzeugt die Buttons für die Waffen (gruppiert).
+/** @param {{ selectFirstIfEmpty?: boolean }} [opts] — nur beim ersten Laden erste Waffe vorauswählen */
+export function populateWeapons({ selectFirstIfEmpty = false } = {}) {
     const wSelWrap = $('#weaponWrap');
-    const waffen = Object.keys(state.treffer?.Angriffstabellen || {}).sort();
+    if (!wSelWrap) return;
+
+    const angriffstabellen = state.treffer?.Angriffstabellen || {};
+    const verfuegbareWaffen = new Set(Object.keys(angriffstabellen));
+    const prevWeapon = state.selectedWeapon;
     wSelWrap.innerHTML = '';
 
-    waffen.forEach(k => {
+    const labelMap = WEAPON_LABELS;
+    const iconMap = WEAPON_ICONS;
+    const groups = WEAPON_GROUPS;
+    const variantKeySet = WEAPON_VARIANT_KEY_SET;
+
+    const weaponSectionLabel = document.querySelector('.weapon-section > label');
+    if (weaponSectionLabel) {
+        weaponSectionLabel.textContent = 'Waffenart';
+    }
+    document.body.classList.remove('schatten-waffenauswahl');
+
+    const createWeaponBtn = (k) => {
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.className = 'weapon-button';
         btn.dataset.weapon = k;
 
+        const displayName = labelMap[k] || k.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
         const label = document.createElement('span');
-        label.textContent = k.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+        label.textContent = displayName;
         btn.appendChild(label);
+
+        const icon = iconMap[k];
+        if (icon) {
+            const iconPath = URLS.ICONS_BASE_PATH + icon.replace(/ /g, '%20');
+            btn.style.backgroundImage = `url(${iconPath})`;
+        }
 
         btn.addEventListener('click', () => {
             $$('#weaponWrap button').forEach(x => x.classList.remove('active'));
             btn.classList.add('active');
             state.selectedWeapon = k;
+            syncWeaponSizeUI(k, btn);
+            syncCombatMusic();
         });
 
-        wSelWrap.appendChild(btn);
-    });
+        return btn;
+    };
 
-    if (waffen.length) {
-        const defaultWeaponBtn = $(`#weaponWrap button[data-weapon="${waffen[0]}"]`);
+    const verwendeteKeys = new Set();
+
+    const noVariantKey = (k) => !variantKeySet.has(k);
+
+    for (const group of groups) {
+        const keysInGruppe = group.keys.filter(k => verfuegbareWaffen.has(k) && noVariantKey(k));
+        keysInGruppe.forEach(k => {
+            verwendeteKeys.add(k);
+            wSelWrap.appendChild(createWeaponBtn(k));
+        });
+    }
+
+    const fehlende = [...verfuegbareWaffen].filter(k => !verwendeteKeys.has(k) && noVariantKey(k)).sort();
+    fehlende.forEach(k => wSelWrap.appendChild(createWeaponBtn(k)));
+
+    if (prevWeapon && verfuegbareWaffen.has(prevWeapon) && noVariantKey(prevWeapon)) {
+        const defaultWeaponBtn = $(`#weaponWrap button[data-weapon="${prevWeapon}"]`);
         if (defaultWeaponBtn) {
             defaultWeaponBtn.classList.add('active');
-            state.selectedWeapon = waffen[0];
+            state.selectedWeapon = prevWeapon;
+            syncWeaponSizeUI(prevWeapon);
         }
+    } else if (selectFirstIfEmpty) {
+        const ersteWaffe = (() => {
+            for (const group of groups) {
+                const k = group.keys.find(key => verfuegbareWaffen.has(key));
+                if (k) return k;
+            }
+            return fehlende[0] || null;
+        })();
+        if (ersteWaffe) {
+            const defaultWeaponBtn = $(`#weaponWrap button[data-weapon="${ersteWaffe}"]`);
+            if (defaultWeaponBtn) {
+                defaultWeaponBtn.classList.add('active');
+                state.selectedWeapon = ersteWaffe;
+                syncWeaponSizeUI(ersteWaffe);
+            }
+        }
+    } else {
+        state.selectedWeapon = null;
+        state.selectedSizeClass = null;
+        hideWeaponSizePopover();
     }
+    syncCombatMusic();
+    // Sofort messen (gleicher Task wie DOM) — sonst ein Frame mit CSS-Fallback (14px) → sichtbarer Sprung nach unten.
+    void wSelWrap.offsetHeight;
     adjustWeaponFontSizes();
-}
-
-// Erzeugt die Buttons für die Rüstungsklassen (RK).
-function populateRkButtons() {
-    const rkWrap = $('#rk');
-    for (let i = 1; i <= 20; i++) {
-        const b = document.createElement('button');
-        b.type = 'button';
-        b.dataset.rk = i;
-
-        const span = document.createElement('span');
-        span.textContent = i;
-        b.appendChild(span);
-
-        b.addEventListener('click', () => {
-            $$('#rk button').forEach(x => x.classList.toggle('active', x === b));
+    requestAnimationFrame(() => adjustWeaponFontSizes());
+    if (document.fonts?.ready) {
+        document.fonts.ready.then(() => {
+            if ($('#simulatorPanel')?.classList.contains('hidden')) return;
+            adjustWeaponFontSizes();
         });
-        if (i === DEFAULT_RK) b.classList.add('active');
-        rkWrap.appendChild(b);
     }
 }
+
 
 // Befüllt die Krit-Typ-Dropdown-Menüs.
 function populateCritDropdowns(dropdown, isMainCrit = true) {
@@ -115,7 +292,7 @@ function populateCritDropdowns(dropdown, isMainCrit = true) {
         'Magisch': ['Elektro', 'Hitze', 'Kälte', 'Schlag'],
         'Gross & Gewaltig': ['Grosse Wesen', 'Gewaltige Wesen'],
         'Helden': ['Hieb (Held)', 'Stich (Held)', 'Stoss (Held)', 'Streich (Held)'],
-        'Patzer': ['Allgemeine Patzer', "Waffenpatzer"]
+        'Patzer': ['Allgemeine Patzer']
     };
 
     if (!isMainCrit) {
@@ -123,13 +300,23 @@ function populateCritDropdowns(dropdown, isMainCrit = true) {
         delete critCategories['Patzer'];
     }
 
+    const englishSupplementKeys = resolveEnglishSupplementTableKeys(state.tables);
+    if (englishSupplementKeys.length) {
+        critCategories['Naturangriffe'] = englishSupplementKeys;
+    }
+
     for (const [groupName, keys] of Object.entries(critCategories)) {
         const optgroup = document.createElement('optgroup');
         optgroup.label = groupName;
+        const seenLabels = new Set();
 
         keys.forEach(key => {
             if (state.tables[key]) {
-                optgroup.appendChild(createOption(key, key.replace(/_/g, ' ')));
+                const label = formatCritTableLabel(key);
+                const dedupeKey = `${groupName}|${label}`;
+                if (seenLabels.has(dedupeKey)) return;
+                seenLabels.add(dedupeKey);
+                optgroup.appendChild(createOption(key, label));
             }
         });
 

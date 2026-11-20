@@ -1,0 +1,458 @@
+[
+  {
+    "tabelle": "Nahkampfwaffen",
+    "wuerfelwurf": "-100-5",
+    "tts_text": "Sie haben sich nicht ganz in der Gewalt und können in dieser Runde keine weiteren Handlungen mehr unternehmen.",
+    "visual": "Keine weiteren Handlungen diese Rd."
+  },
+  {
+    "tabelle": "Fernkampfwaffen",
+    "wuerfelwurf": "-100-5",
+    "tts_text": "Sie haben sich nicht ganz in der Gewalt. Sie können in dieser Runde keine weiteren Handlungen unternehmen.",
+    "visual": "Keine weiteren Handlungen diese Rd."
+  },
+  {
+    "tabelle": "Zauberfehler",
+    "wuerfelwurf": "-100-5",
+    "tts_text": "Überanstrengung stört Ihre Konzentration. Sie können zwar nicht zaubern, verlieren aber auch keine Magiepunkte.",
+    "visual": "Nicht zaubern. Keine MP-Verlust."
+  },
+  {
+    "tabelle": "Manöver",
+    "wuerfelwurf": "-100-5",
+    "tts_text": "Sie zögern zu lange und lassen die Gelegenheit ungenutzt verstreichen.",
+    "visual": "Manöver verpasst."
+  },
+  {
+    "tabelle": "Nahkampfwaffen",
+    "wuerfelwurf": "6-20",
+    "tts_text": "Sie rutschen aus. Falls Sie eine nicht magische Handwaffe führen, zerbricht diese.",
+    "visual": "Rutscht aus. Nicht-magische Handwaffe zerbricht."
+  },
+  {
+    "tabelle": "Fernkampfwaffen",
+    "wuerfelwurf": "6-20",
+    "tts_text": "Sie sind zu nervös zum Laden. Sie können diese Runde nichts mehr tun.",
+    "visual": "Keine Handlungen diese Rd."
+  },
+  {
+    "tabelle": "Zauberfehler",
+    "wuerfelwurf": "6-20",
+    "tts_text": "Sie haben Zweifel. Sie können in der nächsten Runde keinen Zauberspruch vorbereiten oder aussprechen.",
+    "visual": "Nächste Rd kein Zauber vorbereiten/aussprechen."
+  },
+  {
+    "tabelle": "Manöver",
+    "wuerfelwurf": "6-20",
+    "tts_text": "Sie haben Zweifel und entscheiden sich, lieber noch eine Runde zu warten.",
+    "visual": "Manöver aufgeschoben."
+  },
+  {
+    "tabelle": "Nahkampfwaffen",
+    "wuerfelwurf": "21-35",
+    "tts_text": "Schlechte Ausführung. Sie verpassen die Gelegenheit und müssen zwei Treffer einstecken.",
+    "visual": "+2T."
+  },
+  {
+    "tabelle": "Fernkampfwaffen",
+    "wuerfelwurf": "21-35",
+    "tts_text": "Sie lassen Ihr Geschoss fallen. Sie können diese Runde nichts mehr tun und erhalten in der nächsten eine Modifikation von minus dreißig auf alle Handlungen.",
+    "visual": "Geschoss fallengelassen. Keine Handlungen diese Rd. Nächste Rd -30 auf alle Handlungen."
+  },
+  {
+    "tabelle": "Zauberfehler",
+    "wuerfelwurf": "21-35",
+    "tts_text": "Bei der Zaubervorbereitung unterläuft Ihnen ein kleiner Fehler. Der Zauberspruch wird um eine Runde verzögert.",
+    "visual": "Zauberspruch 1 Rd verzögert."
+  },
+  {
+    "tabelle": "Manöver",
+    "wuerfelwurf": "21-35",
+    "tts_text": "Sie rutschen aus und stürzen mit einer Wahrscheinlichkeit von dreißig Prozent zu Boden. Alle Ihre Manöver in den nächsten beiden Runden werden um minus zwanzig modifiziert.",
+    "visual": "30% zu Boden. Nächste 2 Rd -20 auf alle Manöver."
+  },
+  {
+    "tabelle": "Nahkampfwaffen",
+    "wuerfelwurf": "36-50",
+    "tts_text": "Die Waffe rutscht Ihnen aus der Hand. Es dauert eine Runde, eine neue zu ziehen, beziehungsweise zwei Runden, die alte Waffe aufzuheben.",
+    "visual": "Waffe fallengelassen. 1 Rd neue Waffe ziehen. ODER 2 Rd alte Waffe aufheben."
+  },
+  {
+    "tabelle": "Fernkampfwaffen",
+    "wuerfelwurf": "36-50",
+    "tts_text": "Sie zerbrechen Ihr Geschoss und verlieren die Fassung. In den nächsten drei Runden erhalten Sie eine Modifikation von minus dreißig auf alle Handlungen.",
+    "visual": "Geschoss zerbrochen. Nächste 3 Rd -30 auf alle Handlungen."
+  },
+  {
+    "tabelle": "Zauberfehler",
+    "wuerfelwurf": "36-50",
+    "tts_text": "Sie begehen einen Fehler und können in dieser Runde nicht mehr zaubern, verlieren aber keine Magiepunkte. Sie erhalten in den nächsten drei Runden minus dreißig auf alle Handlungen.",
+    "visual": "Diese Rd nicht zaubern. Keine MP-Verlust. Nächste 3 Rd -30 auf alle Handlungen."
+  },
+  {
+    "tabelle": "Manöver",
+    "wuerfelwurf": "36-50",
+    "tts_text": "Sie stolpern und stürzen mit einer Wahrscheinlichkeit von fünfundvierzig Prozent zu Boden. Sie erhalten eine Modifikation von minus dreißig auf alle Handlungen.",
+    "visual": "45% zu Boden fallen. -30 auf alle Aktionen."
+  },
+  {
+    "tabelle": "Nahkampfwaffen",
+    "wuerfelwurf": "51-65",
+    "tts_text": "Sie sind außer Atem und müssen kürzer treten. In den nächsten beiden Runden erhalten Sie minus vierzig auf alle Handlungen.",
+    "visual": "2 Rd -40 auf alle Aktionen."
+  },
+  {
+    "tabelle": "Fernkampfwaffen",
+    "wuerfelwurf": "51-65",
+    "tts_text": "Sie lassen Ihr Geschoss fallen. Sie sind diese und die nächste Runde benommen und versuchen sich darüber klar zu werden, ob Sie es aufheben sollen.",
+    "visual": "Geschoss fallengelassen. 2 Rd ben."
+  },
+  {
+    "tabelle": "Zauberfehler",
+    "wuerfelwurf": "51-65",
+    "tts_text": "Sie sind überlastet. Der Zauberspruch verpufft wirkungslos; die eingesetzten Magiepunkte sind verloren. Sie sind eine Runde lang benommen.",
+    "visual": "Zauberspruch wirkungslos. Magiepunkte verloren. 1 Rd ben."
+  },
+  {
+    "tabelle": "Manöver",
+    "wuerfelwurf": "51-65",
+    "tts_text": "Sie stoßen sich den Zeh und fallen mit einer Wahrscheinlichkeit von sechzig Prozent hin. Pluss drei Treffer.Sie erhalten eine Modifikation von minus zehn auf alle Handlungen.",
+    "visual": "60% zu Boden fallen. +3T. -10 auf alle Aktionen."
+  },
+  {
+    "tabelle": "Nahkampfwaffen",
+    "wuerfelwurf": "66-79",
+    "tts_text": "Sie stolpern ungeschickt und sind zwei Runden lang benommen.",
+    "visual": "2 Rd ben."
+  },
+  {
+    "tabelle": "Fernkampfwaffen",
+    "wuerfelwurf": "66-79",
+    "tts_text": "Sie misshandeln Ihre Waffe im wahrsten Sinne des Wortes. Sie sind zwei Runden lang benommen.",
+    "visual": "2 Rd ben."
+  },
+  {
+    "tabelle": "Zauberfehler",
+    "wuerfelwurf": "66-79",
+    "tts_text": "Unbewusste Angst hebt die Wirkung des Zauberspruches auf, die eingesetzten Magiepunkte sind verloren. Sie sind zwei Runden lang benommen.",
+    "visual": "Zauberspruch wirkungslos. Magiepunkte verloren. 2 Rd ben."
+  },
+  {
+    "tabelle": "Manöver",
+    "wuerfelwurf": "66-79",
+    "tts_text": "Sie rutschen aus und stürzen mit einer Wahrscheinlichkeit von fünfundsiebzig Prozent zu Boden. Sie sind zwei Runden lang benommen.",
+    "visual": "75% zu Boden fallen. 2 Rd ben."
+  },
+  {
+    "tabelle": "Nahkampfwaffen",
+    "wuerfelwurf": "80",
+    "tts_text": "Durch Ungeschick fügen Sie sich einen Kritischen Hieb Klasse B zu. Hat der Gegner eine Klingenwaffe benutzt, zerbricht Ihre.",
+    "visual": "Kritischer Hieb Klasse B. Gegner Klingenwaffe, eigene Waffe zerbricht."
+  },
+  {
+    "tabelle": "Fernkampfwaffen",
+    "wuerfelwurf": "80",
+    "tts_text": "Sie zielen daneben und fügen sich selbst fünf Treffer zu. Außer bei der Armbrust fliegt der Pfeil zwar los, reißt Ihnen dabei aber fast das Ohr ab; zwei Treffer pro Runde.",
+    "visual": "+5T (sich selbst). Außer Armbrust: +2 T/Rd."
+  },
+  {
+    "tabelle": "Zauberfehler",
+    "wuerfelwurf": "80",
+    "tts_text": "Der Zauberspruch richtet sich gegen Sie selbst. Sie erhalten plus fünfzehn Treffer. Sie werden zu Boden geworfen und sind eine Stunde lang benommen.",
+    "visual": "Zauberspruch gegen sich selbst. +15T. Zu Boden geworfen. 1 Std ben."
+  },
+  {
+    "tabelle": "Manöver",
+    "wuerfelwurf": "80",
+    "tts_text": "Sie verstauchen sich den Knöchel. Sie erhalten plus fünf Treffer. Sie erhalten eine Modifikation von minus zehn auf alle Handlungen.",
+    "visual": "Knöchel verstaucht. +5T. -10 auf alle Aktionen."
+  },
+  {
+    "tabelle": "Nahkampfwaffen",
+    "wuerfelwurf": "81-86",
+    "tts_text": "Sie beißen sich vor Aufregung auf die Zunge und sind zwei Runden lang benommen.",
+    "visual": "2 Rd ben."
+  },
+  {
+    "tabelle": "Fernkampfwaffen",
+    "wuerfelwurf": "81-86",
+    "tts_text": "Die Sehne Ihres Bogens reißt. Es dauert zwei Runden, eine andere Waffe zu ziehen. Die gerissene Sehne können Sie innerhalb von sechs Runden wieder herstellen.",
+    "visual": "Bogensehne reißt. 2 Rd andere Waffe ziehen. Sehne in 6 Rd herstellbar."
+  },
+  {
+    "tabelle": "Zauberfehler",
+    "wuerfelwurf": "81-86",
+    "tts_text": "Sie sind ernstlich überlastet. Sie können in dieser Runde nicht mehr zaubern, verlieren aber keine Magiepunkte. Sie sind drei Runden lang benommen.",
+    "visual": "nicht mehr zaubern diese Rd. 3 Rd ben."
+  },
+  {
+    "tabelle": "Manöver",
+    "wuerfelwurf": "81-86",
+    "tts_text": "Sie stürzen zu Boden. Sie erhalten plus drei Treffer. Sie erhalten drei Runden lang auf alle Handlungen eine Modifikation von minus zwanzig.",
+    "visual": "+3T. 3 Rd -20 auf alle Handlungen."
+  },
+  {
+    "tabelle": "Nahkampfwaffen",
+    "wuerfelwurf": "87-89",
+    "tts_text": "Sie verlieren Ihre Waffe aus der Hand und ebenso den Draht zur Realität; Sie sind drei Runden lang benommen.",
+    "visual": "Waffe verloren. 3 Rd ben."
+  },
+  {
+    "tabelle": "Fernkampfwaffen",
+    "wuerfelwurf": "87-89",
+    "tts_text": "Sie zittern zu stark beim Nachladen. Dabei verstreuen sie all Ihre Geschosse in einem Umkreis von drei Metern.",
+    "visual": "Geschosse verstreut 3m Umkreis."
+  },
+  {
+    "tabelle": "Zauberfehler",
+    "wuerfelwurf": "87-89",
+    "tts_text": "Der Spruch entlädt sich gegen Sie und überlastet Ihre Sinne. Sie erhalten plus zwanzig Treffer. Sie sind zehn Minuten lang taub und blind.",
+    "visual": "+20T. 10 Min taub/blind."
+  },
+  {
+    "tabelle": "Manöver",
+    "wuerfelwurf": "87-89",
+    "tts_text": "Sie verstauchen sich den Knöchel: Sehnenzerrung. Sie erhalten plus sieben Treffer. Sie erhalten eine Modifikation von minus zwanzig auf alte Handlungen und sind eine Runde lang benommen.",
+    "visual": "+7T. -20 auf alle Handlungen. 1 Rd ben."
+  },
+  {
+    "tabelle": "Nahkampfwaffen",
+    "wuerfelwurf": "90",
+    "tts_text": "Falsch gedacht und schlecht gemacht: Ihre Waffe zerbricht und trifft Sie selbst; das entspricht einem Kritischen Hieb Klasse C.",
+    "visual": "Waffe zerbricht. Krit Hieb Kl C."
+  },
+  {
+    "tabelle": "Fernkampfwaffen",
+    "wuerfelwurf": "90",
+    "tts_text": "Ihre Waffe zersplittert. Sie sind vier Runden lang benommen.",
+    "visual": "Waffe zersplittert. 4 Rd ben."
+  },
+  {
+    "tabelle": "Zauberfehler",
+    "wuerfelwurf": "90",
+    "tts_text": "Die Überlastung ruft einen leichten Schlaganfall hervor. Sie erhalten plus zwanzig Treffer. Sie sind zwölf Stunden lang ohnmächtig.",
+    "visual": "+20T. 12 Std ohnmächtig."
+  },
+  {
+    "tabelle": "Manöver",
+    "wuerfelwurf": "90",
+    "tts_text": "Sie stürzen und brechen sich dabei ein Bein. Sie erhalten plus acht Treffer. Sie erhalten eine Modifikation von minus dreißig auf alte Handlungen und sind drei Runden lang benommen.",
+    "visual": "Bein gebrochen. +8T. -30 auf alle Handlungen. 3 Rd ben."
+  },
+  {
+    "tabelle": "Nahkampfwaffen",
+    "wuerfelwurf": "91-96",
+    "tts_text": "Sie sind besonders ungeschickt mit Ihrer Waffe: Kritischer Hieb der Klasse B für jeden befreundeten Charakter in Ihrer Umgebung.",
+    "visual": "Krit Hieb Kl B für jeden befreundeten Char in Umgebung."
+  },
+  {
+    "tabelle": "Fernkampfwaffen",
+    "wuerfelwurf": "91-96",
+    "tts_text": "Sie lassen Ihren Pfeil zu früh fliegen, er verfehlt das Ziel um über fünf Meter. Sie erhalten die nächsten drei Runden lang eine Modifikation von minus dreißig auf alle Handlungen.",
+    "visual": "-30 auf alle Handlungen 3 Rd."
+  },
+  {
+    "tabelle": "Zauberfehler",
+    "wuerfelwurf": "91-96",
+    "tts_text": "Der Zauberspruch geht vollkommen daneben. Sie erhalten plus fünf Treffer. Sie sind drei Runden lang benommen.",
+    "visual": "+5T. 3 Rd ben."
+  },
+  {
+    "tabelle": "Manöver",
+    "wuerfelwurf": "91-96",
+    "tts_text": "Sie stürzen und brechen sich dabei die Hüfte. Sie erhalten plus zwölf Treffer. Sie erhalten eine Modifikation von minus zwanzig auf alte Handlungen und sind drei Runden lang benommen.",
+    "visual": "Hüfte gebrochen. +12T. -20 auf alle Handlungen. 3 Rd ben."
+  },
+  {
+    "tabelle": "Nahkampfwaffen",
+    "wuerfelwurf": "97-99",
+    "tts_text": "Sie stolpern über eine tote, unsichtbare Schildkröte. Dies verwirrt Sie sehr und Sie sind drei Runden lang benommen.",
+    "visual": "3 Rd ben."
+  },
+  {
+    "tabelle": "Fernkampfwaffen",
+    "wuerfelwurf": "97-99",
+    "tts_text": "Sie halten Ihren Bogen für einen Knüppel. Er gleitet Ihnen aus den Fingern. Beim Versuch, ihn wieder aufzuheben, treten Sie ihn anderthalb Meter von sich weg.",
+    "visual": "Bogen fallengelassen."
+  },
+  {
+    "tabelle": "Zauberfehler",
+    "wuerfelwurf": "97-99",
+    "tts_text": "Die Essenz des Ziels wirft den Zauberspruch auf Sie zurück. Nun ist der Gegner der Angreifer und Sie selbst sind das Ziel.",
+    "visual": "Zauber reflektiert. Ziel/Angreifer vertauscht."
+  },
+  {
+    "tabelle": "Manöver",
+    "wuerfelwurf": "97-99",
+    "tts_text": "Sie fallen unglücklich und brechen sich den Arm. Sie erhalten plus vierzehn Treffer. Sie erhalten eine Modifikation von minus dreißig auf alle Handlungen und sind vier Runden lang benommen.",
+    "visual": "Arm gebrochen. +14T. -30 auf alle Handlungen. 4 Rd ben."
+  },
+  {
+    "tabelle": "Nahkampfwaffen",
+    "wuerfelwurf": "100",
+    "tts_text": "Sie prellen sich eine Rippe, deswegen erhalten Sie auf alle weiteren Handlungen minus sechzig. Ihr Gegner ist zwei Runden lang vor Lachen benommen.",
+    "visual": "Rippe geprellt. -60 auf alle weiteren Handlungen. Gegner 2 Rd ben."
+  },
+  {
+    "tabelle": "Fernkampfwaffen",
+    "wuerfelwurf": "100",
+    "tts_text": "Sie verreißen ihre Waffe und das Projektil streift Ihre Hand. Diese fällt erstmal aus. Sie müssen acht Treffer und zusätzlich zwei Treffer pro Runde hinnehmen.",
+    "visual": "Hand unbrauchbar. +8T. +2 T/Rd."
+  },
+  {
+    "tabelle": "Zauberfehler",
+    "wuerfelwurf": "100",
+    "tts_text": "Sie erleiden eine Identitätskrise. Als Folge können Sie zwei Wochen lang nicht mehr zaubern.",
+    "visual": "2 Wochen nicht zaubern."
+  },
+  {
+    "tabelle": "Manöver",
+    "wuerfelwurf": "100",
+    "tts_text": "Sie versuchen, Ihren Sturz aufzufangen, und brechen sich dabei beide Arme. Sie erhalten plus dreißig Treffer. Sie sind sechs Runden lang benommen.",
+    "visual": "Beide Arme gebrochen. +30T. 6 Rd ben."
+  },
+  {
+    "tabelle": "Nahkampfwaffen",
+    "wuerfelwurf": "101-106",
+    "tts_text": "Sie stolpern und spießen sich dabei fast selbst auf. Sie sind drei Runden lang benommen. Ist es eine Stangenwaffe, zerbricht der Schaft.",
+    "visual": "3 Rd ben. Stangenwaffe: Schaft zerbricht."
+  },
+  {
+    "tabelle": "Fernkampfwaffen",
+    "wuerfelwurf": "101-106",
+    "tts_text": "Sie rutschen aus und fallen hin, der Schuss geht völlig ins Blaue. Sie sind fünf Runden lang benommen.",
+    "visual": "5 Rd ben."
+  },
+  {
+    "tabelle": "Zauberfehler",
+    "wuerfelwurf": "101-106",
+    "tts_text": "Durch geistige Überbeanspruchung entlädt sich Ihr Zauberspruch unkontrolliert. Sie erhalten plus zehn Treffer. Sie werden zu Boden geworfen und sind sechs Runden lang benommen.",
+    "visual": "+10T. Zu Boden geworfen. 6 Rd ben."
+  },
+  {
+    "tabelle": "Manöver",
+    "wuerfelwurf": "101-106",
+    "tts_text": "Beim Fallen brechen Sie sich ein Bein. Sie erhalten plus fünfzehn Treffer. Sie erhalten eine Modifikation von minus fünfzig auf alle Handlungen und sind drei Runden lang benommen.",
+    "visual": "Bein gebrochen. +15T. -50 auf alle Handlungen. 3 Rd ben."
+  },
+  {
+    "tabelle": "Nahkampfwaffen",
+    "wuerfelwurf": "107-109",
+    "tts_text": "Sie zerbrechen Ihre Waffe durch vollkommene Unfähigkeit und sind daher vier Runden lang benommen.",
+    "visual": "Waffe zerbricht. 4 Rd ben."
+  },
+  {
+    "tabelle": "Fernkampfwaffen",
+    "wuerfelwurf": "107-109",
+    "tts_text": "Ein Teil des Projektils streift beim Abschuss Ihr Auge. Sie müssen fünf Treffer hinnehmen, erhalten minus zwanzig auf alle Handlungen und sind zwei Runden lang benommen.",
+    "visual": "+5T. -20 auf alle Handlungen. 2 Rd ben."
+  },
+  {
+    "tabelle": "Zauberfehler",
+    "wuerfelwurf": "107-109",
+    "tts_text": "Der Zauberspruch entlädt sich gegen Sie selbst. Sie können drei Wochen lang nicht mehr zaubern. Sie erhalten plus fünfundzwanzig Treffer. Sie sind drei Stunden lang bewusstlos.",
+    "visual": "3 Wochen nicht zaubern. +25T. 3 Std bewusstlos."
+  },
+  {
+    "tabelle": "Manöver",
+    "wuerfelwurf": "107-109",
+    "tts_text": "Ihre Kniescheibe splittert beim Sturz. Sie erhalten plus zehn Treffer. Sie erhalten eine Modifikation von minus fünfzig auf alle Handlungen und sind vier Runden lang benommen.",
+    "visual": "Kniescheibe splittert. +10T. -50 auf alle Handlungen. 4 Rd ben."
+  },
+  {
+    "tabelle": "Nahkampfwaffen",
+    "wuerfelwurf": "110",
+    "tts_text": "Sie stolpern und sind fünf Runden lang benommen. Reiten Sie gerade, fliegen Sie zehn Meter weit und erhalten bei der Landung einen Kritischen Hieb C.",
+    "visual": "5 Rd ben. Kritischer Hieb C."
+  },
+  {
+    "tabelle": "Fernkampfwaffen",
+    "wuerfelwurf": "110",
+    "tts_text": "Die Spitze der Waffe verhakt sich und bricht ab. Falls möglich, fügt dies dem Gegenstand einen Kritischen Stich-Schaden der Klasse A zu.",
+    "visual": "Gegenstand: Kritischer Stich-Schaden Kl. A."
+  },
+  {
+    "tabelle": "Zauberfehler",
+    "wuerfelwurf": "110",
+    "tts_text": "Die Überlastung ruft einen schweren Schlaganfall bei Ihnen hervor. Sie sind von der Hüfte an abwärts gelähmt.",
+    "visual": "Von Hüfte abwärts gelähmt."
+  },
+  {
+    "tabelle": "Manöver",
+    "wuerfelwurf": "110",
+    "tts_text": "Wo auch immer Sie gerade hin fliegen, Sie landen mit dem Kopf zuerst und verfallen in ein einjähriges Koma.",
+    "visual": "Einjähriges Koma."
+  },
+  {
+    "tabelle": "Nahkampfwaffen",
+    "wuerfelwurf": "111-116",
+    "tts_text": "Ihr (vielleicht nur imaginäres) Reittier bäumt sich urplötzlich auf. Sie sind drei Runden lang benommen. Fangen sich dann aber wieder.",
+    "visual": "3 Rd ben."
+  },
+  {
+    "tabelle": "Fernkampfwaffen",
+    "wuerfelwurf": "111-116",
+    "tts_text": "Während Sie noch zielen, geht Ihnen die Waffe los. Würfeln Sie einen unmodifizierten Angriff auf den Ihnen am nächsten stehenden Kämpfer aus.",
+    "visual": "Unmod. Angriff auf nächsten Kämpfer."
+  },
+  {
+    "tabelle": "Zauberfehler",
+    "wuerfelwurf": "111-116",
+    "tts_text": "Ihr Zauberspruch gerät außer Kontrolle und wirkt fünf Meter rechts vom Ziel. Jeder dazwischen wird unmodifiziert angegriffen. Sie sind drei Runden lang benommen.",
+    "visual": "Spruch 5m rechts vom Ziel. Dazwischen unmod. Angriff. 3 Rd ben."
+  },
+  {
+    "tabelle": "Manöver",
+    "wuerfelwurf": "111-116",
+    "tts_text": "Sie prallen unglücklich mit Ihrer Wirbelsäule auf dem Boden auf und sind von der Hüfte abwärts gelähmt. Sie erhalten plus dreißig Treffer.",
+    "visual": "Von Hüfte abwärts gelähmt. +30T."
+  },
+  {
+    "tabelle": "Nahkampfwaffen",
+    "wuerfelwurf": "117-119",
+    "tts_text": "Sie sind uneins mit Ihrem Reittier (oder wenn Sie zu Fuss unterwegs sind, mit Ihrem anderen Ich). Sie erhalten drei Runden lang eine Modifikation von minus neunzig auf alle Handlungen.",
+    "visual": "3 Rd -90 auf alle Handlungen."
+  },
+  {
+    "tabelle": "Fernkampfwaffen",
+    "wuerfelwurf": "117-119",
+    "tts_text": "Gedankenverloren legen Sie mitten im Kampf Ihren Finger direkt vor den Bolzen. Das kostet Sie Ihren Finger und vier Treffer sowie zwei Treffer pro Runde.",
+    "visual": "Finger verloren. +4T. +2 T/Rd."
+  },
+  {
+    "tabelle": "Zauberfehler",
+    "wuerfelwurf": "117-119",
+    "tts_text": "Ihr Zauberspruch gerät außer Kontrolle und wirkt fünf Meter links vom Ziel. Jeder dazwischen wird unmodifiziert angegriffen. Sie sind drei Runden lang benommen.",
+    "visual": "Spruch 5m links vom Ziel. Dazwischen unmod. Angriff. 3 Rd ben."
+  },
+  {
+    "tabelle": "Manöver",
+    "wuerfelwurf": "117-119",
+    "tts_text": "Der schwere Sturz hat eine Lähmung zur Folge, und zwar vom Kopf an abwärts. Sie erhalten plus zwanzig Treffer.",
+    "visual": "Von Kopf abwärts gelähmt. +20T."
+  },
+  {
+    "tabelle": "Nahkampfwaffen",
+    "wuerfelwurf": "120+",
+    "tts_text": "Sie fallen vom Rücken Ihres (vielleicht nur imaginären) Reittieres und müssen einen Kritischen Hieb der Klasse D hinnehmen.",
+    "visual": "Kritischer Hieb Kl. D."
+  },
+  {
+    "tabelle": "Fernkampfwaffen",
+    "wuerfelwurf": "120+",
+    "tts_text": "Sie rutschen aus und nageln Ihren Fuß mit einem Ihrer Bolzen am Boden fest. Sie erhalten zehn Treffer, zwei Treffer pro Runde, minus dreißig auf alles und sind drei Runden lang benommen.",
+    "visual": "+10T. +2 T/Rd. -30 auf alles. 3 Rd ben."
+  },
+  {
+    "tabelle": "Zauberfehler",
+    "wuerfelwurf": "120+",
+    "tts_text": "Nervenzusammenbruch: Ihr Zauberspruch entfaltet seine Wirkung genau in entgegengesetzter Richtung. Sie können dreizehn Monate lang nicht mehr zaubern.",
+    "visual": "13 Monate nicht mehr zaubern."
+  },
+  {
+    "tabelle": "Manöver",
+    "wuerfelwurf": "120+",
+    "tts_text": "Beim Fallen schlagen Sie mit dem Kopf hart auf und sterben an einem Schädelbasisbruch.",
+    "visual": "Stirbt."
+  }
+]

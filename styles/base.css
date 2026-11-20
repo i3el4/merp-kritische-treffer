@@ -23,7 +23,7 @@
 :root {
   /* Farbpalette */
   --bg: #302621;
-  --panel: rgba(74, 56, 45, 0.85);
+  --panel: rgba(74, 56, 45, 0.68);
   --muted: #a6a6a6;
   --text: #c2bdbb;
   --accent: #d4af37;
@@ -44,20 +44,60 @@
   box-sizing: border-box;
 }
 
+/* Nur für Screenreader sichtbar */
+.sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+html {
+  min-height: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background-color: var(--bg);
+}
+
 html,
 body {
   margin: 0;
   padding: 0;
-  background: var(--bg);
+  max-width: 100vw;
+  overflow-x: hidden;
   color: var(--text);
-  font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  font: 16px/1.5 'MonkeyIsland', Georgia, serif;
 }
 
 body {
+  position: relative;
+  min-height: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: transparent;
+}
+
+/*
+  Karten-Hintergrund immer nach Viewport skalieren (cover), nicht nach Dokumenthöhe.
+  Sonst wirkt das Bild auf langen Tabs (Kampf, Status, Charakter) stark gezoomt/verzerrt;
+  kurze Tabs (Kampagne) blieben „normal“.
+*/
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-color: var(--bg);
   background-image: url('../assets/img/map_bg.jpg');
   background-size: cover;
-  background-attachment: fixed;
   background-position: center;
+  background-repeat: no-repeat;
+  pointer-events: none;
 }
 
 /*
@@ -67,7 +107,8 @@ body {
 */
 
 .wrap {
-  max-width: 900px;
+  /* Breiter: z. B. 7 Waffenarten in einer Zeile, mehr Platz für Tab-Inhalte */
+  max-width: min(1320px, calc(100vw - 32px));
   margin: 0 auto;
   padding: 16px;
 }
@@ -87,12 +128,6 @@ header-title {
   display: grid;
   grid-template-columns: 1fr;
   gap: 12px;
-}
-
-@media (min-width: 960px) {
-  .grid {
-    grid-template-columns: 1.05fr .95fr;
-  }
 }
 
 .card {
@@ -117,8 +152,11 @@ header-title {
   ========================================
 */
 
+h1, h2, h3 {
+  font-family: 'Aniron', Georgia, serif;
+}
+
 h1 {
-  font-family: Aniron, Georgia, 'Times New Roman', serif;
   font-size: clamp(20px, 4.8vw, 28px);
   margin: 0;
   letter-spacing: .3px;
@@ -131,17 +169,17 @@ h1 {
 .card h2 {
   margin: 0 0 8px 0;
   font-size: 17px;
-  font-family: Aniron, Georgia, serif;
+  font-family: 'Aniron', Georgia, serif;
 }
 
 label {
-  font-family: Aniron, Georgia, serif;
+  font-family: 'MonkeyIsland', Georgia, serif;
   font-size: 12px;
   color: var(--accent);
 }
 
 details summary {
-  font-family: 'Aniron', serif;
+  font-family: 'Aniron', Georgia, serif;
   cursor: pointer;
   user-select: none;
 }
@@ -153,8 +191,9 @@ details summary {
 */
 
 select,
-input[type=number] {
-  font-family: MonkeyIsland, Georgia, serif;
+input[type=number],
+input[type=text] {
+  font-family: 'MonkeyIsland', Georgia, serif;
   appearance: none;
   background: #fff;
   border: 1px solid var(--border);
@@ -185,9 +224,14 @@ input[type=number] {
   width: 180px;
 }
 
+input[type=text] {
+  width: 180px;
+}
+
 @media (max-width: 500px) {
 
   input[type=number],
+  input[type=text],
   select {
     min-width: 100%;
   }
@@ -206,7 +250,7 @@ input[type=number] {
 }
 
 .btn {
-  font-family: MonkeyIsland, Georgia, serif;
+  font-family: 'MonkeyIsland', Georgia, serif;
   font-size: 10px;
   background: var(--chip);
   border: 1px solid var(--border);
@@ -236,7 +280,7 @@ input[type=number] {
 */
 
 .out {
-  font-family: MonkeyIsland, Georgia, serif;
+  font-family: 'MonkeyIsland', Georgia, serif;
   font-size: 12px;
   background: var(--chip);
   border: 1px dashed var(--border);
@@ -306,6 +350,9 @@ hr {
 
 .audio-controls input[type="range"] {
   max-width: 120px;
+  touch-action: pan-x;
+  cursor: pointer;
+  accent-color: var(--accent);
 }
 
 .badge {
@@ -315,10 +362,4 @@ hr {
   border-radius: 8px;
   padding: 4px 8px;
   color: var(--muted);
-}
-
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
 }

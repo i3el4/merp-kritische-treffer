@@ -24,6 +24,26 @@ export function initPWA() {
     });
 
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js', { scope: './' }).catch(() => {});
+        const isLocalDev =
+            location.hostname === 'localhost' ||
+            location.hostname === '127.0.0.1' ||
+            location.hostname === '[::1]';
+        if (isLocalDev) {
+            navigator.serviceWorker.getRegistrations().then((regs) => {
+                regs.forEach((reg) => reg.unregister());
+            });
+            // eslint-disable-next-line no-console
+            console.info('[MERS] Service Worker auf localhost deaktiviert — bei Bedarf einmal hart neu laden (Cache leeren).');
+        } else {
+            navigator.serviceWorker.register('sw.js', { scope: './' }).then((reg) => {
+                reg.update().catch(() => {});
+            }).catch(() => {});
+            let reloaded = false;
+            navigator.serviceWorker.addEventListener('controllerchange', () => {
+                if (reloaded) return;
+                reloaded = true;
+                window.location.reload();
+            });
+        }
     }
 }
